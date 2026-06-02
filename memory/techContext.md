@@ -1,10 +1,11 @@
 Tech Context
 Environment
 OS: Windows (primary) + Ubuntu 24.04 (secondary)
-Python: 3.11+
+Python: 3.12
 IDE: VS Code with Cline extension
 LLM backend: LM Studio running Qwen3-27B locally
 Version control: GitHub (github.com/babcoccl/liquidity-bot-v2)
+Package manager: pip 24.0
 
 Core Libraries
 decimal stdlib -- all LP math uses Decimal, not float
@@ -20,6 +21,19 @@ The Graph (Aerodrome subgraph on Base) -- poolDayDatas entity
 Fields used: date, volumeUSD, tvlUSD, token0Price, token1Price,
 feeGrowthGlobal0X128, feeGrowthGlobal1X128
 URL: confirm in EPIC-4 Step 4.1 audit
+
+CoinGecko OHLCV API -- fallback source 1
+Endpoint: /coins/{id}/market_chart
+Provides: price candles, volume
+Missing: fee growth globals (always None)
+Rate limit: 30 req/min free tier
+
+DeFiLlama -- fallback source 2
+TVL endpoint: https://api.llama.fi/protocol/{slug}
+Volume endpoint: https://api.llama.fi/summary/dexs/{protocol}
+Provides: TVL, volume
+Missing: fee growth globals (always None), price candles
+Rate limit: ~100 req/min (no published limit)
 
 Historical Data Format
 Directory: data/historical/

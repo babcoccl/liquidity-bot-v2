@@ -1,4 +1,5 @@
 """Single-pool backtest simulator for Uniswap V3-style concentrated liquidity."""
+# AUDIT NOTE: All financial params use float instead of Decimal. Hardcoded defaults (fee_rate 0.0005, initial_capital 10000.0, tick range ±10%) should come from config/default.yaml backtest section. Uses raw dict/float for price data instead of PoolDayData. Imports from core.il and core.fees are valid layer dependencies. No hardcoded addresses.
 
 from __future__ import annotations
 

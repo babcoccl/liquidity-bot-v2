@@ -1,25 +1,39 @@
-Progress
-Completed
-[PLANNING] Identified root causes of v1 bugs (fee synthesis, price entanglement)
+# Progress
 
-[PLANNING] Defined seven-layer v2 architecture
+## Completed
 
-[PLANNING] Defined memory file pattern for Cline token efficiency
+### Planning Phase
+- [x] Identified root causes of v1 bugs (fee synthesis, price entanglement)
+- [x] Defined seven-layer v2 architecture
+- [x] Defined memory file pattern for Cline token efficiency
+- [x] Wrote EPIC-4 implementation spec (fetch feeGrowthGlobal from Graph)
+- [x] Wrote EPIC-4 Step 4.1 audit spec
 
-[PLANNING] Wrote EPIC-4 implementation spec (fetch feeGrowthGlobal from Graph)
+### Sprint 1 — Foundation (COMPLETE)
+- [x] Create github.com/babcoccl/liquidity-bot-v2 repository
+- [x] Create directory scaffold
+- [x] Create five memory files in memory/
+- [x] core/models.py — PoolDayData frozen dataclass
+- [x] data/fetcher/base.py — AbstractFetcher, RateLimitError, FetchError
+- [x] Audit notes added to core/il.py, core/fees.py, core/metrics.py
+- [x] Audit notes added to strategy/scorer.py, strategy/signals.py, strategy/regime.py
+- [x] Audit notes added to backtest/simulator.py, backtest/multipool.py
+- [x] .gitkeep files in data/historical/, results/, logs/
+- [x] memory/techContext.md updated (Python 3.12, pip 24.0, CoinGecko, DeFiLlama)
+- [x] config/default.yaml verified complete
+- [x] Tests added to tests/test_scaffold.py (PoolDayData, AbstractFetcher, exceptions)
 
-[PLANNING] Wrote EPIC-4 Step 4.1 audit spec
+## In Progress
+_(none)_
 
-In Progress
-Create github.com/babcoccl/liquidity-bot-v2 repository
+## Next Action: Sprint 2 — Data Layer
+- [ ] data/fetcher/the_graph.py — TheGraphFetcher implementation
+- [ ] data/fetcher/coingecko.py — CoinGeckoFetcher implementation
+- [ ] data/fetcher/defillama.py — DeFiLlamaFetcher implementation
+- [ ] data/fetcher/router.py — FetchRouter with fallback chain
+- [ ] data/loader/pool_loader.py — PoolLoader with cache & pagination
 
-Create directory scaffold
-
-Create five memory files in memory/
-
-Interview user to confirm scope and first deliverable
-
-Pending (ordered)
+## Pending (ordered)
 Layer 1: registry/types.py -- PoolConfig, TokenConfig dataclasses
 
 Layer 1: registry/registry.py -- PoolRegistry class with dependency graph
@@ -54,7 +68,7 @@ Layer 6: tests/test_backtest_harness.py
 
 End-to-end verification: one pool, known dates, match manual Uniswap V3 math
 
-Deferred (not in v2 scope)
+## Deferred (not in v2 scope)
 Live trading / on-chain execution
 
 Email reporting
@@ -63,7 +77,7 @@ Dashboard UI
 
 Multi-pool rotation optimizer
 
-Known Risks
+## Known Risks
 feeGrowthGlobal may not be available on the Aerodrome subgraph (verify in EPIC-4 Step 4.1)
 
 v1 registry.json may need to be partially rebuilt for v2 price_reference

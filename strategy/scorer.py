@@ -1,4 +1,5 @@
 """Pool scoring engine — ranks pools by composite LP attractiveness."""
+# AUDIT NOTE: score() and rank_pools() accept raw dict instead of PoolDayData. Hardcoded default weights (0.50, -0.20, 0.20, -0.10) should come from config/default.yaml scoring section. classify_risk_tier has hardcoded tier thresholds that should come from config risk_tiers section. All financial params use float instead of Decimal.
 
 from __future__ import annotations
 

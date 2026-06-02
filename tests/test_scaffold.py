@@ -636,3 +636,55 @@ def test_format_position_line():
     line = format_position_line("pool-x", 1000.0, 50.0, -2.0)
     assert isinstance(line, str)
     assert "pool-x" in line
+
+
+# ── Sprint 1: PoolDayData tests ───────────────────────────────────────
+
+def test_pool_day_data_construction():
+    from decimal import Decimal
+    from core.models import PoolDayData
+    d = PoolDayData(
+        pool_address="0xabc",
+        date=1700000000,
+        price_token1_in_token0=Decimal("3200.00"),
+        price_token0_in_token1=Decimal("0.0003125"),
+        volume_usd=Decimal("500000"),
+        tvl_usd=Decimal("2000000"),
+        fee_growth_global_0=123456789,
+        fee_growth_global_1=None,
+        source="the_graph",
+    )
+    assert d.pool_address == "0xabc"
+    assert d.fee_growth_global_1 is None
+    assert isinstance(d.volume_usd, Decimal)
+
+
+def test_pool_day_data_is_frozen():
+    from decimal import Decimal
+    from core.models import PoolDayData
+    d = PoolDayData(
+        pool_address="0xabc",
+        date=1700000000,
+        price_token1_in_token0=Decimal("1"),
+        price_token0_in_token1=Decimal("1"),
+        volume_usd=Decimal("0"),
+        tvl_usd=Decimal("0"),
+        fee_growth_global_0=None,
+        fee_growth_global_1=None,
+        source="coingecko",
+    )
+    with pytest.raises(Exception):
+        d.pool_address = "0xchanged"
+
+
+def test_abstract_fetcher_cannot_instantiate():
+    from data.fetcher.base import AbstractFetcher
+    with pytest.raises(TypeError):
+        AbstractFetcher()
+
+
+def test_rate_limit_error_is_exception():
+    from data.fetcher.base import RateLimitError, FetchError
+    assert issubclass(RateLimitError, Exception)
+    assert issubclass(FetchError, Exception)
+    assert not issubclass(RateLimitError, FetchError)

@@ -1,3 +1,4 @@
+# config verified: all required top-level keys present
 backtest:
   days: 90
   initial_capital: 10000.0

@@ -1,4 +1,5 @@
 """Performance metrics: Sharpe ratio, max drawdown, etc."""
+# AUDIT NOTE: All financial parameters use float instead of Decimal (returns, equity_curve, total_value, initial_capital). portfolio_summary returns raw dict. No PoolDayData usage. No hardcoded addresses or config values. Duplicate function name: calculate_max_drawdown and max_drawdown both exist.
 
 from __future__ import annotations
 

@@ -1,4 +1,5 @@
 """Impermanent loss calculation utilities."""
+# AUDIT NOTE: All parameters use float instead of Decimal for financial math (prices, deposit_value, ratios). Returns raw dict instead of typed dataclass. tick_lower/tick_upper parameters accepted but compute_impermanent_loss ignores them for IL calculation (uses formula that only depends on price ratio).
 
 from __future__ import annotations
 

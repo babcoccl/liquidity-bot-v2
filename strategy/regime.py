@@ -1,4 +1,5 @@
 """Market regime classification for adaptive strategy parameters."""
+# AUDIT NOTE: Hardcoded default thresholds (vol_threshold_low 0.20, vol_threshold_high 0.60, trend_threshold 0.30, base_width 0.10) should come from config/default.yaml. All financial params use float instead of Decimal. No PoolDayData usage expected. No hardcoded addresses.
 
 from __future__ import annotations
 
