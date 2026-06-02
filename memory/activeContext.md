@@ -1,13 +1,21 @@
 # Active Context
 
-**Current focus:** Sprint 7 — PositionSimulator Implementation
+**Current focus:** Sprint 8 — Backtest Validation Run + feeGrowthGlobal Fee Attribution
 
 **In-progress:** none
 
 **Blockers:** none
 
-**Last completed:** Sprint 6 — Registry Population + Backtest Harness (backtest/harness.py, backtest/config.py, backtest/reporter.py, scripts/backtest.py, registry/registry.json populated with 15 pools)
+**Last completed:** Sprint 7 — API Keys, CoinGecko Datasource, Units Layer & Simulator
+(core/units.py TaggedDecimal, core/fees.py migrated, PositionSimulator.step() implemented,
+TheGraph API key support, CoinGecko fetch_pool_history via COIN_ID_MAP)
 
-**Note:** PositionSimulator.step() still raises NotImplementedError. BacktestHarness is wired and returns zero-results per pool until Sprint 7 implements step(). Running scripts/backtest.py now will produce a valid zero-result run report — useful for confirming the harness wiring is correct before step() is live.
+**Note:** PositionSimulator fee attribution uses proportional TVL model.
+feeGrowthGlobal-based exact fee computation is deferred to Sprint 8.
 
-**Note:** LRDS/WETH excluded from registry — token0 address in v1 registry appears malformed. Verify before adding.
+**Note:** metrics.py still uses float — intentional. Sharpe/drawdown
+operate on dimensionless return series. TaggedDecimal boundary crossing
+in BacktestSimulator.summary() is explicit and commented.
+
+**Note:** BASE_RPC_HTTP and BASE_RPC_WS are parked in config — not consumed until
+execution modules are built.

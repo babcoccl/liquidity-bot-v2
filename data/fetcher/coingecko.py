@@ -5,11 +5,13 @@ fee_growth_global fields always None (source cannot provide).
 tvl_usd always Decimal("0") (source cannot provide).
 """
 # AUDIT:status=complete
-# AUDIT:sprint=1
+# AUDIT:sprint=7
 
+import json
 import logging
 import time
 from decimal import Decimal
+from pathlib import Path
 from typing import Any
 
 import requests
@@ -27,20 +29,107 @@ class CoinGeckoFetcher(AbstractFetcher):
 
     BASE_URL = "https://api.coingecko.com/api/v3"
 
-    def __init__(self, api_key: str = "", rate_limit_per_min: int = 30):
+    COIN_ID_MAP: dict[str, str] = {
+        "WETH":    "weth",
+        "ETH":     "ethereum",
+        "USDC":    "usd-coin",
+        "USDT":    "tether",
+        "cbBTC":   "coinbase-wrapped-btc",
+        "cbETH":   "coinbase-wrapped-staked-eth",
+        "AERO":    "aerodrome-finance",
+        "BRETT":   "based-brett",
+        "VIRTUAL": "virtual-protocol",
+        "MORPHO":  "morpho",
+        "EURC":    "euro-coin",
+        "eUSD":    "electronic-usd",
+        "VVV":     "venice-token",
+        "FAI":     "frax-ai",
+        "KTA":     "kta",
+    }
+
+    def __init__(
+        self,
+        api_key: str = "",
+        rate_limit_per_min: int = 30,
+        registry_path: Path = Path("registry/registry.json"),
+    ):
         self.api_key = api_key
         self.rate_limit_per_min = rate_limit_per_min
+        self.registry_path = registry_path
         self._request_timestamps: list[float] = []
+        self._registry_cache: dict[str, dict] | None = None
 
     # ------------------------------------------------------------------
     # Public API
     # ------------------------------------------------------------------
 
     def fetch_pool_history(self, pool_address: str, days: int) -> list[PoolDayData]:
-        """CoinGecko does not support pool addresses."""
-        raise FetchError(
-            "CoinGecko requires token_id, not pool_address. Use fetch_token_history() instead."
-        )
+        """
+        Fetch pool day data using CoinGecko market_chart for the pool's token1.
+
+        Resolves pool_address → token symbols via registry.
+        Maps token1 symbol → CoinGecko coin_id via COIN_ID_MAP.
+        Falls back to token0 if token1 not in COIN_ID_MAP.
+        Re-stamps pool_address on all returned records.
+        Raises FetchError if pool not in registry or no coin_id mapping found.
+        """
+        pool = self._load_registry_pool(pool_address)
+        if pool is None:
+            raise FetchError(
+                f"CoinGeckoFetcher: pool {pool_address} not found in registry "
+                f"at {self.registry_path}"
+            )
+
+        token1_symbol: str = pool["token1"]["symbol"]
+        token0_symbol: str = pool["token0"]["symbol"]
+
+        coin_id = self.COIN_ID_MAP.get(token1_symbol) or self.COIN_ID_MAP.get(token0_symbol)
+        if coin_id is None:
+            raise FetchError(
+                f"CoinGeckoFetcher: no coin_id mapping for {token1_symbol} or "
+                f"{token0_symbol} (pool {pool_address}). Add to COIN_ID_MAP."
+            )
+
+        records = self.fetch_token_history(coin_id, days)
+
+        restamped: list[PoolDayData] = []
+        for r in records:
+            restamped.append(
+                PoolDayData(
+                    pool_address=pool_address.lower(),
+                    date=r.date,
+                    price_token1_in_token0=r.price_token1_in_token0,
+                    price_token0_in_token1=r.price_token0_in_token1,
+                    volume_usd=r.volume_usd,
+                    tvl_usd=r.tvl_usd,
+                    fee_growth_global_0=None,
+                    fee_growth_global_1=None,
+                    source="coingecko",
+                )
+            )
+        return restamped
+
+    def _load_registry_pool(self, pool_address: str) -> dict | None:
+        """
+        Load pool entry from registry JSON by pool_address.
+        Caches full registry on first call.
+        Returns matching pool dict or None if not found.
+        """
+        if self._registry_cache is None:
+            try:
+                with open(self.registry_path, "r") as f:
+                    pools: list[dict] = json.load(f)
+                self._registry_cache = {
+                    p["pool_address"].lower(): p for p in pools
+                }
+            except (FileNotFoundError, KeyError, json.JSONDecodeError) as e:
+                logger.warning(
+                    "CoinGeckoFetcher: could not load registry from %s: %s",
+                    self.registry_path, e
+                )
+                self._registry_cache = {}
+
+        return self._registry_cache.get(pool_address.lower())
 
     def fetch_token_history(self, token_id: str, days: int) -> list[PoolDayData]:
         """Fetch token market chart data and normalize to PoolDayData."""

@@ -168,10 +168,6 @@ class TestCoinGeckoFetcher:
         from data.fetcher.coingecko import CoinGeckoFetcher
         self.fetcher = CoinGeckoFetcher(api_key="test-key", rate_limit_per_min=30)
 
-    def test_coingecko_fetch_pool_raises_fetch_error(self):
-        with pytest.raises(FetchError, match="token_id"):
-            self.fetcher.fetch_pool_history("0xABC", days=7)
-
     def test_coingecko_token_history_constructs_pool_day_data(self):
         mock_resp = MagicMock()
         mock_resp.status_code = 200
@@ -221,6 +217,177 @@ class TestCoinGeckoFetcher:
         with patch("requests.get", return_value=mock_resp):
             with pytest.raises(RateLimitError):
                 self.fetcher.fetch_token_history("ethereum", days=7)
+
+    def test_coingecko_fetch_pool_history_returns_pool_day_data(self, tmp_path):
+        registry_file = tmp_path / "registry.json"
+        with open(registry_file, "w") as f:
+            json.dump([{
+                "pool_address": "0xpool",
+                "token0": {"symbol": "USDC"},
+                "token1": {"symbol": "WETH"},
+            }], f)
+
+        from data.fetcher.coingecko import CoinGeckoFetcher
+        fetcher = CoinGeckoFetcher(
+            api_key="test-key",
+            rate_limit_per_min=30,
+            registry_path=registry_file,
+        )
+
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {
+            "prices": [[1700000000000, 100.0], [1700086400000, 105.0]],
+            "total_volumes": [[1700000000000, 5000.0], [1700086400000, 6000.0]],
+        }
+
+        with patch("requests.get", return_value=mock_resp):
+            results = fetcher.fetch_pool_history("0xpool", days=7)
+
+        assert len(results) == 2
+        assert results[0].pool_address == "0xpool"
+        assert results[0].source == "coingecko"
+        assert isinstance(results[0].price_token1_in_token0, Decimal)
+
+    def test_coingecko_fetch_pool_history_raises_when_pool_not_in_registry(self, tmp_path):
+        registry_file = tmp_path / "registry.json"
+        with open(registry_file, "w") as f:
+            json.dump([], f)
+
+        from data.fetcher.coingecko import CoinGeckoFetcher
+        fetcher = CoinGeckoFetcher(
+            api_key="test-key",
+            rate_limit_per_min=30,
+            registry_path=registry_file,
+        )
+
+        with pytest.raises(FetchError, match="not found in registry"):
+            fetcher.fetch_pool_history("0xunknown", days=7)
+
+    def test_coingecko_fetch_pool_history_raises_when_no_coin_id_mapping(self, tmp_path):
+        registry_file = tmp_path / "registry.json"
+        with open(registry_file, "w") as f:
+            json.dump([{
+                "pool_address": "0xpool",
+                "token0": {"symbol": "UNKNOWN"},
+                "token1": {"symbol": "ALSO_UNKNOWN"},
+            }], f)
+
+        from data.fetcher.coingecko import CoinGeckoFetcher
+        fetcher = CoinGeckoFetcher(
+            api_key="test-key",
+            rate_limit_per_min=30,
+            registry_path=registry_file,
+        )
+
+        with pytest.raises(FetchError, match="no coin_id mapping"):
+            fetcher.fetch_pool_history("0xpool", days=7)
+
+    def test_coingecko_fetch_pool_history_restamps_pool_address(self, tmp_path):
+        registry_file = tmp_path / "registry.json"
+        with open(registry_file, "w") as f:
+            json.dump([{
+                "pool_address": "0xpool",
+                "token0": {"symbol": "USDC"},
+                "token1": {"symbol": "WETH"},
+            }], f)
+
+        from data.fetcher.coingecko import CoinGeckoFetcher
+        fetcher = CoinGeckoFetcher(
+            api_key="test-key",
+            rate_limit_per_min=30,
+            registry_path=registry_file,
+        )
+
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {
+            "prices": [[1700000000000, 100.0]],
+            "total_volumes": [[1700000000000, 5000.0]],
+        }
+
+        with patch("requests.get", return_value=mock_resp):
+            results = fetcher.fetch_pool_history("0xpool", days=7)
+
+        assert all(r.pool_address == "0xpool" for r in results)
+
+    def test_coingecko_fetch_pool_history_falls_back_to_token0_when_token1_unmapped(self, tmp_path):
+        registry_file = tmp_path / "registry.json"
+        with open(registry_file, "w") as f:
+            json.dump([{
+                "pool_address": "0xpool",
+                "token0": {"symbol": "WETH"},
+                "token1": {"symbol": "UNMAPPED"},
+            }], f)
+
+        from data.fetcher.coingecko import CoinGeckoFetcher
+        fetcher = CoinGeckoFetcher(
+            api_key="test-key",
+            rate_limit_per_min=30,
+            registry_path=registry_file,
+        )
+
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {
+            "prices": [[1700000000000, 100.0]],
+            "total_volumes": [[1700000000000, 5000.0]],
+        }
+
+        with patch("requests.get", return_value=mock_resp):
+            results = fetcher.fetch_pool_history("0xpool", days=7)
+
+        assert len(results) == 1
+
+    def test_the_graph_sends_auth_header_when_api_key_set(self):
+        from data.fetcher.the_graph import TheGraphFetcher
+        fetcher = TheGraphFetcher(url="https://example.com/graphql", api_key="mykey")
+
+        page = _sample_graph_response(1)
+        calls = iter([
+            MagicMock(status_code=200, json=lambda: {"data": {"poolDayDatas": page}}),
+            MagicMock(status_code=200, json=lambda: {"data": {"poolDayDatas": []}}),
+        ])
+
+        def side_effect(*a, **kw):
+            return next(calls)
+
+        with patch("requests.post", side_effect=side_effect) as mock_post:
+            fetcher.fetch_pool_history("0xABC", days=7)
+
+        headers = mock_post.call_args.kwargs.get("headers", {})
+        assert "Authorization" in headers
+        assert headers["Authorization"] == "Bearer mykey"
+
+    def test_the_graph_no_auth_header_when_api_key_empty(self):
+        from data.fetcher.the_graph import TheGraphFetcher
+        fetcher = TheGraphFetcher(url="https://example.com/graphql", api_key="")
+
+        page = _sample_graph_response(1)
+        calls = iter([
+            MagicMock(status_code=200, json=lambda: {"data": {"poolDayDatas": page}}),
+            MagicMock(status_code=200, json=lambda: {"data": {"poolDayDatas": []}}),
+        ])
+
+        def side_effect(*a, **kw):
+            return next(calls)
+
+        with patch("requests.post", side_effect=side_effect) as mock_post:
+            fetcher.fetch_pool_history("0xABC", days=7)
+
+        headers = mock_post.call_args.kwargs.get("headers", {})
+        assert "Authorization" not in headers
+
+    def test_the_graph_raises_fetch_error_on_401(self):
+        from data.fetcher.the_graph import TheGraphFetcher
+        fetcher = TheGraphFetcher(url="https://example.com/graphql", api_key="bad")
+
+        mock_resp = MagicMock()
+        mock_resp.status_code = 401
+
+        with patch("requests.post", return_value=mock_resp):
+            with pytest.raises(FetchError, match="401"):
+                fetcher.fetch_pool_history("0xABC", days=7)
 
 
 # ============================================================================

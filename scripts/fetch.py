@@ -34,6 +34,12 @@ logger = logging.getLogger(__name__)
 
 
 def main() -> int:
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass
+
     parser = argparse.ArgumentParser(
         description="Fetch historical pool data and save to disk."
     )
@@ -77,8 +83,10 @@ def main() -> int:
 
     # Build fetchers
     tg_cfg = ds.get("the_graph", {})
+    graph_api_key = os.environ.get("THEGRAPH_API_KEY", tg_cfg.get("api_key", ""))
     graph_fetcher = TheGraphFetcher(
         url=tg_cfg.get("url", ""),
+        api_key=graph_api_key,
         rate_limit_per_min=tg_cfg.get("rate_limit_per_min", 30),
     )
 
@@ -87,6 +95,7 @@ def main() -> int:
     coingecko_fetcher = CoinGeckoFetcher(
         api_key=coingecko_api_key,
         rate_limit_per_min=cg_cfg.get("rate_limit_per_min", 30),
+        registry_path=Path("registry/registry.json"),
     )
 
     dl_cfg = ds.get("defillama", {})

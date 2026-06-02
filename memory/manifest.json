@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": 6,
+  "last_updated_sprint": 7,
   "components": [
     {
       "id": "core.models",
@@ -24,13 +24,12 @@
     {
       "id": "core.fees",
       "file": "core/fees.py",
-      "status": "partial",
-      "sprint": 1,
+      "status": "complete",
+      "sprint": 7,
       "audit_notes": [
-        "All financial params use float instead of Decimal",
-        "Hardcoded default thresholds should come from config/default.yaml"
+        "fee_gas_ratio returns RATIO('0') not inf when gas_cost is zero — callers must handle"
       ],
-      "dependencies": [],
+      "dependencies": ["core.units"],
       "test_file": "tests/test_scaffold.py",
       "test_coverage": "full"
     },
@@ -89,14 +88,14 @@
     {
       "id": "backtest.simulator",
       "file": "backtest/simulator.py",
-      "status": "partial",
-      "sprint": 1,
+      "status": "complete",
+      "sprint": 7,
       "audit_notes": [
-        "All financial params use float instead of Decimal",
-        "Hardcoded defaults should come from config/default.yaml backtest section",
-        "PositionSimulator.step() raises NotImplementedError"
+        "PositionSimulator.step() implemented — accepts PoolDayData",
+        "fee attribution is proportional model — does not use feeGrowthGlobal yet",
+        "price range width is entry_price × multiplier — not config-driven yet"
       ],
-      "dependencies": ["core.il", "core.fees"],
+      "dependencies": ["core.il", "core.fees", "core.units"],
       "test_file": "tests/test_scaffold.py",
       "test_coverage": "full"
     },
@@ -149,8 +148,10 @@
       "id": "data.fetcher.the_graph",
       "file": "data/fetcher/the_graph.py",
       "status": "complete",
-      "sprint": 2,
-      "audit_notes": [],
+      "sprint": 7,
+      "audit_notes": [
+        "api_key read from THEGRAPH_API_KEY env var — silently uses empty string if not set, which will produce 401 on authenticated endpoints"
+      ],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
@@ -158,14 +159,17 @@
     {
       "id": "data.fetcher.coingecko",
       "file": "data/fetcher/coingecko.py",
-      "status": "partial",
-      "sprint": 2,
+      "status": "complete",
+      "sprint": 7,
       "audit_notes": [
-        "fetch_pool_history() always raises FetchError with token_id message - only fetch_token_history() is functional"
+        "TVL always Decimal('0') — source limitation",
+        "fee_growth_global always None — source limitation",
+        "price_token1_in_token0 is USD proxy for token1 not true intra-pool ratio",
+        "Requires COIN_ID_MAP update when new tokens added to registry"
       ],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
-      "test_coverage": "partial"
+      "test_coverage": "full"
     },
     {
       "id": "data.fetcher.defillama",
@@ -308,6 +312,31 @@
       "sprint": 6,
       "audit_notes": [],
       "dependencies": ["backtest.harness", "backtest.config", "registry.registry"],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "core.units",
+      "file": "core/units.py",
+      "status": "complete",
+      "sprint": 7,
+      "audit_notes": [
+        "MULTIPLY_RULES table must be extended when new denomination combinations are introduced",
+        "fee_gas_ratio returns RATIO('0') not inf — see core/fees.py note"
+      ],
+      "dependencies": [],
+      "test_file": "tests/test_units.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "config.default_yaml.rpc",
+      "file": "config/default.yaml",
+      "status": "complete",
+      "sprint": 7,
+      "audit_notes": [
+        "BASE_RPC_HTTP and BASE_RPC_WS parked for Sprint 8+ execution modules — not consumed yet"
+      ],
+      "dependencies": [],
       "test_file": null,
       "test_coverage": "none"
     },

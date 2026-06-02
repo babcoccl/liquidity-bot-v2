@@ -73,10 +73,24 @@
 - [x] memory/manifest.json — Sprint 6 components added, last_updated_sprint: 6
 - [x] tests/coverage_map.md — Sprint 6 rows added
 
+### Sprint 7 — API Keys, CoinGecko Datasource, Units Layer & Simulator (COMPLETE)
+- [x] config/default.yaml — THEGRAPH_API_KEY, COINGECKO_API_KEY, BASE_RPC_HTTP/WS added
+- [x] pyproject.toml — python-dotenv added to dependencies
+- [x] data/fetcher/the_graph.py — api_key param, Authorization Bearer header, 401 handler
+- [x] scripts/fetch.py — dotenv loader, THEGRAPH_API_KEY env var, registry_path to CoinGecko
+- [x] data/fetcher/coingecko.py — fetch_pool_history implemented via COIN_ID_MAP + registry lookup
+- [x] core/units.py — TaggedDecimal, DenominationError, MULTIPLY_RULES, convenience constructors
+- [x] core/fees.py — migrated float → TaggedDecimal throughout
+- [x] backtest/simulator.py — PositionSimulator.step() implemented, all float → TaggedDecimal
+- [x] tests/test_units.py — ~30 test cases for TaggedDecimal denomination enforcement
+- [x] tests/test_data_layer.py — CoinGecko pool tests added, TheGraph auth header tests added, old stub test removed
+- [x] memory/known_issues.md — coingecko, fees, simulator sections updated; last_updated Sprint 7
+- [x] memory/manifest.json — 5 components updated, 2 new components added, last_updated_sprint: 7
+
 ## In Progress
 _(none)_
 
-## Next Action: Sprint 7 — PositionSimulator Implementation
+## Next Action: Sprint 8 — Backtest Validation Run + feeGrowthGlobal Fee Attribution
 
 ## Deferred (not in v2 scope)
 

@@ -46,6 +46,7 @@ data_sources:
     # Aerodrome Finance subgraph on Base
     # Endpoint verified in Sprint 5 — feeGrowthGlobal0X128 and feeGrowthGlobal1X128 confirmed available
     url: "https://api.studio.thegraph.com/query/30563/aerodrome-cl-base/version/latest"
+    api_key: ""          # set via THEGRAPH_API_KEY env var at runtime
     rate_limit_per_min: 30
 
   coingecko:
@@ -55,4 +56,8 @@ data_sources:
   defillama:
     protocol_slug: "aerodrome-finance"
     rate_limit_per_min: 100
+
+rpc:
+  base_http: ""    # set via BASE_RPC_HTTP env var at runtime
+  base_ws: ""      # set via BASE_RPC_WS env var at runtime
 

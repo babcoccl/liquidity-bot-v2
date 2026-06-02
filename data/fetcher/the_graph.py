@@ -5,7 +5,7 @@ Paginates using date_gt cursor until no results remain.
 fee_growth_global fields parsed as int(), never float.
 """
 # AUDIT:status=complete
-# AUDIT:sprint=1
+# AUDIT:sprint=7
 
 import logging
 import time
@@ -25,8 +25,9 @@ class TheGraphFetcher(AbstractFetcher):
 
     name: str = "the_graph"
 
-    def __init__(self, url: str, rate_limit_per_min: int = 30):
+    def __init__(self, url: str, api_key: str = "", rate_limit_per_min: int = 30):
         self.url = url
+        self.api_key = api_key
         self.rate_limit_per_min = rate_limit_per_min
         self._request_timestamps: list[float] = []
 
@@ -139,11 +140,15 @@ class TheGraphFetcher(AbstractFetcher):
         """Execute a GraphQL POST with rate limiting."""
         self._enforce_rate_limit()
 
+        headers: dict[str, str] = {"Content-Type": "application/json"}
+        if self.api_key:
+            headers["Authorization"] = f"Bearer {self.api_key}"
+
         try:
             resp = requests.post(
                 self.url,
                 json={"query": query},
-                headers={"Content-Type": "application/json"},
+                headers=headers,
                 timeout=30,
             )
         except requests.Timeout:
@@ -153,6 +158,11 @@ class TheGraphFetcher(AbstractFetcher):
 
         if resp.status_code == 429:
             raise RateLimitError("The Graph returned 429 Too Many Requests")
+
+        if resp.status_code == 401:
+            raise FetchError(
+                f"The Graph returned 401 Unauthorized for {pool_address} — check THEGRAPH_API_KEY"
+            )
 
         if resp.status_code != 200:
             raise FetchError(
