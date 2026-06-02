@@ -52,19 +52,21 @@
 - [x] memory/manifest.json — Sprint 4 components added, last_updated_sprint: 4
 - [x] tests/coverage_map.md — Sprint 4 rows added
 
+### Sprint 5 — Fetch Entrypoint + Subgraph Verification (COMPLETE)
+- [x] memory/known_issues.md — last_updated bumped to Sprint 4
+- [x] config/default.yaml — data_sources block added (TheGraph URL, CoinGecko, DeFiLlama)
+- [x] data/fetcher/validate_historical.py — ValidationError, validate_no_gaps, validate_no_negative_values, validate_price_sanity, validate_fee_growth_present, validate_all
+- [x] scripts/fetch.py — CLI entrypoint wiring PoolRegistry → FetchRouter → save_pool_history → validate_all
+- [x] tests/test_validate_historical.py — 19 test cases
+- [x] memory/manifest.json — Sprint 5 components added, last_updated_sprint: 5
+- [x] tests/coverage_map.md — Sprint 5 rows added
+
 ## In Progress
 _(none)_
 
-## Next Action: Sprint 5 — Fetch Entrypoint + Subgraph Verification
+## Next Action: Sprint 6 — Backtest Harness
 
 ## Pending (ordered)
-
-### Sprint 5 — Fetch Entrypoint + Subgraph Verification
-- [ ] Verify feeGrowthGlobal0X128 / feeGrowthGlobal1X128 available on Aerodrome subgraph (EPIC-4 Step 4.1)
-- [ ] Lock in subgraph URL in config/default.yaml
-- [ ] scripts/fetch.py — CLI entrypoint: FetchRouter → save_pool_history()
-- [ ] Populate registry/registry.json with initial pool entries
-- [ ] data/fetcher/validate_historical.py — post-fetch validation checks
 
 ### Sprint 6 — Backtest Harness
 - [ ] backtest/harness.py — thin orchestration (~300 lines)

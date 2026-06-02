@@ -1,9 +1,11 @@
 # Active Context
 
-**Current focus:** Sprint 5 — Fetch Entrypoint + Subgraph Verification
+**Current focus:** Sprint 6 — Backtest Harness
 
 **In-progress:** none
 
-**Blockers:** feeGrowthGlobal availability on Aerodrome subgraph unverified — must confirm before scripts/fetch.py can be finalized
+**Blockers:** none
 
-**Last completed:** Sprint 4 — Registry Layer (registry/types.py, registry/registry.py, PoolRegistry, tests/test_registry.py)
+**Last completed:** Sprint 5 — Fetch Entrypoint (scripts/fetch.py, validate_historical.py, config/default.yaml data_sources block)
+
+**Note:** registry/registry.json is still an empty array. Must be populated with at least one real Aerodrome pool entry before scripts/fetch.py can execute a live fetch.

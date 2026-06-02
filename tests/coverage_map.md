@@ -1,5 +1,5 @@
 # Test Coverage Map
-_Last updated: Sprint 4_
+_Last updated: Sprint 5_
 
 | Module | File | Test File | Coverage | Missing / Notes |
 |---|---|---|---|---|
@@ -23,3 +23,5 @@ _Last updated: Sprint 4_
 | registry.types | registry/types.py | tests/test_registry.py | full | PoolConfig, TokenConfig, PriceReference frozen dataclasses |
 | registry.registry | registry/registry.py | tests/test_registry.py | full | load, get, all, is_loaded, validate all tested |
 | registry.__init__ | registry/__init__.py | tests/test_registry.py | full | Exports verified via import smoke test |
+| data.fetcher.validate_historical | data/fetcher/validate_historical.py | tests/test_validate_historical.py | full | no_gaps, no_negative, price_sanity, fee_growth_present, validate_all |
+| scripts.fetch | scripts/fetch.py | none | none | CLI entrypoint — integration test deferred to Sprint 6 end-to-end |

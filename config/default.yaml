@@ -41,6 +41,21 @@ harvesting:
   interval_hours: 6
   min_fee_gas_ratio: 3.0
 
+data_sources:
+  the_graph:
+    # Aerodrome Finance subgraph on Base
+    # Endpoint verified in Sprint 5 — feeGrowthGlobal0X128 and feeGrowthGlobal1X128 confirmed available
+    url: "https://api.studio.thegraph.com/query/30563/aerodrome-cl-base/version/latest"
+    rate_limit_per_min: 30
+
+  coingecko:
+    api_key: ""          # set via COINGECKO_API_KEY env var at runtime
+    rate_limit_per_min: 30
+
+  defillama:
+    protocol_slug: "aerodrome-finance"
+    rate_limit_per_min: 100
+
 data:
   historical_dir: data/historical
   registry_path: registry/registry.json

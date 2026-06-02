@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": 4,
+  "last_updated_sprint": 5,
   "components": [
     {
       "id": "core.models",
@@ -226,6 +226,48 @@
       "dependencies": ["registry.types", "registry.registry"],
       "test_file": "tests/test_registry.py",
       "test_coverage": "full"
+    },
+    {
+      "id": "data.fetcher.validate_historical",
+      "file": "data/fetcher/validate_historical.py",
+      "status": "complete",
+      "sprint": 5,
+      "audit_notes": [],
+      "dependencies": ["core.models"],
+      "test_file": "tests/test_validate_historical.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "scripts.fetch",
+      "file": "scripts/fetch.py",
+      "status": "complete",
+      "sprint": 5,
+      "audit_notes": [
+        "COINGECKO_API_KEY read from environment — will silently use empty string if not set"
+      ],
+      "dependencies": [
+        "registry.registry",
+        "data.fetcher.the_graph",
+        "data.fetcher.coingecko",
+        "data.fetcher.defillama",
+        "data.fetcher.router",
+        "data.loader.pool_loader",
+        "data.fetcher.validate_historical"
+      ],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "config.default_yaml",
+      "file": "config/default.yaml",
+      "status": "complete",
+      "sprint": 5,
+      "audit_notes": [
+        "CoinGecko API key is empty string by default — must be set via COINGECKO_API_KEY env var"
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
     }
   ]
 }

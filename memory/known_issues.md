@@ -1,5 +1,5 @@
 # Known Issues
-_Last updated: Sprint 3_
+_Last updated: Sprint 4_
 
 ## strategy/scorer.py
 - Weights hardcoded in class; not loaded from config/default.yaml scoring.weights
