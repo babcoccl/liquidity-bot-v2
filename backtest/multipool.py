@@ -1,5 +1,8 @@
 """Multi-pool backtesting engine with capital rotation."""
-# AUDIT NOTE: All financial params use float instead of Decimal. Hardcoded defaults (initial_capital 10000.0, min_entry_score 0.25, rebalance_cooldown_hours 4.0, max_rebalances_per_pool_per_day 3) should come from config/default.yaml backtest section. Uses raw dict for active_positions instead of PoolDayData-backed structures. Imports from backtest.simulator and core.metrics are valid layer dependencies. No hardcoded addresses.
+# AUDIT:status=partial
+# AUDIT:sprint=1
+# AUDIT:issue=All financial params use float instead of Decimal
+# AUDIT:issue=Hardcoded defaults should come from config/default.yaml backtest section
 
 from __future__ import annotations
 

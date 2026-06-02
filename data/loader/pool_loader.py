@@ -3,6 +3,8 @@ PoolLoader — loads pool history from data/historical/*.json files.
 Normalizes to list[PoolDayData].
 Handles both v1 column naming schemas.
 """
+# AUDIT:status=complete
+# AUDIT:sprint=1
 
 import json
 import logging

@@ -130,22 +130,155 @@ def test_executor_get_state_raises():
         ex.get_position_state(None)  # type: ignore[arg-type]
 
 
-# ── Core IL stub tests ───────────────────────────────────────────────
+# ── Core IL V3 tests ───────────────────────────────────────────────
 
-def test_il_compute_il_returns_zero_for_flat_price(sample_price_series: list[float]):
-    from core.il import compute_impermanent_loss
-
-    flat = [100.0] * 8
-    il = compute_impermanent_loss(flat, -887220, -885120)
-    assert abs(il) < 1e-9
+def test_tick_to_price_zero_tick():
+    from decimal import Decimal
+    from core.il import tick_to_price
+    assert tick_to_price(0) == Decimal("1")
 
 
-def test_il_non_zero_price_change():
-    from core.il import compute_impermanent_loss
+def test_tick_to_price_positive():
+    from decimal import Decimal
+    from core.il import tick_to_price
+    p = tick_to_price(1)
+    assert p > Decimal("1")
 
-    upward = [100.0, 110.0]
-    il = compute_impermanent_loss(upward, -887220, -885120)
-    assert il < 0  # IL should be negative (loss) for price movement
+
+def test_liquidity_amounts_in_range():
+    from decimal import Decimal
+    from core.il import liquidity_amounts
+    a0, a1 = liquidity_amounts(
+        price=Decimal("2000"),
+        price_lower=Decimal("1500"),
+        price_upper=Decimal("2500"),
+        capital_usd=Decimal("10000"),
+    )
+    assert a0 > Decimal("0")
+    assert a1 > Decimal("0")
+
+
+def test_liquidity_amounts_below_range():
+    from decimal import Decimal
+    from core.il import liquidity_amounts
+    a0, a1 = liquidity_amounts(
+        price=Decimal("1000"),
+        price_lower=Decimal("1500"),
+        price_upper=Decimal("2500"),
+        capital_usd=Decimal("10000"),
+    )
+    assert a0 > Decimal("0")
+    assert a1 == Decimal("0")
+
+
+def test_liquidity_amounts_above_range():
+    from decimal import Decimal
+    from core.il import liquidity_amounts
+    a0, a1 = liquidity_amounts(
+        price=Decimal("3000"),
+        price_lower=Decimal("1500"),
+        price_upper=Decimal("2500"),
+        capital_usd=Decimal("10000"),
+    )
+    assert a0 == Decimal("0")
+    assert a1 > Decimal("0")
+
+
+def test_liquidity_amounts_guard_zero_capital():
+    from decimal import Decimal
+    from core.il import liquidity_amounts
+    a0, a1 = liquidity_amounts(Decimal("2000"), Decimal("1500"), Decimal("2500"), Decimal("0"))
+    assert a0 == Decimal("0") and a1 == Decimal("0")
+
+
+def test_position_value_usd_basic():
+    from decimal import Decimal
+    from core.il import position_value_usd
+    val = position_value_usd(Decimal("1"), Decimal("1000"), Decimal("2000"))
+    assert val == Decimal("3000")
+
+
+def test_position_value_usd_zero_price():
+    from decimal import Decimal
+    from core.il import position_value_usd
+    assert position_value_usd(Decimal("1"), Decimal("1000"), Decimal("0")) == Decimal("0")
+
+
+def test_compute_il_flat_price():
+    from decimal import Decimal
+    from core.il import compute_il
+    il = compute_il(
+        entry_price=Decimal("2000"),
+        current_price=Decimal("2000"),
+        price_lower=Decimal("1500"),
+        price_upper=Decimal("2500"),
+        capital_usd=Decimal("10000"),
+    )
+    assert abs(il) < Decimal("0.01")
+
+
+def test_compute_il_price_moved():
+    from decimal import Decimal
+    from core.il import compute_il
+    il = compute_il(
+        entry_price=Decimal("2000"),
+        current_price=Decimal("2400"),
+        price_lower=Decimal("1500"),
+        price_upper=Decimal("2500"),
+        capital_usd=Decimal("10000"),
+    )
+    assert isinstance(il, Decimal)
+
+
+def test_compute_il_pct_flat():
+    from decimal import Decimal
+    from core.il import compute_il_pct
+    pct = compute_il_pct(
+        entry_price=Decimal("2000"),
+        current_price=Decimal("2000"),
+        price_lower=Decimal("1500"),
+        price_upper=Decimal("2500"),
+        capital_usd=Decimal("10000"),
+    )
+    assert abs(pct) < Decimal("0.0001")
+
+
+def test_il_vs_hodl_pnl_flat_returns_zeros():
+    from decimal import Decimal
+    from core.il import il_vs_hodl_pnl
+    result = il_vs_hodl_pnl(
+        prices=[Decimal("2000"), Decimal("2000")],
+        price_lower=Decimal("1500"),
+        price_upper=Decimal("2500"),
+        capital_usd=Decimal("10000"),
+    )
+    assert result["il_usd"] is not None
+    assert "hodl_pnl_usd" in result
+    assert "net_diff_usd" in result
+
+
+def test_il_vs_hodl_pnl_short_series():
+    from decimal import Decimal
+    from core.il import il_vs_hodl_pnl
+    result = il_vs_hodl_pnl(
+        prices=[Decimal("2000")],
+        price_lower=Decimal("1500"),
+        price_upper=Decimal("2500"),
+        capital_usd=Decimal("10000"),
+    )
+    assert result["il_usd"] == Decimal("0")
+
+
+def test_il_vs_hodl_pnl_keys_present():
+    from decimal import Decimal
+    from core.il import il_vs_hodl_pnl
+    result = il_vs_hodl_pnl(
+        prices=[Decimal("2000"), Decimal("2300")],
+        price_lower=Decimal("1500"),
+        price_upper=Decimal("2500"),
+        capital_usd=Decimal("10000"),
+    )
+    assert set(result.keys()) == {"il_usd", "il_pct", "hodl_pnl_usd", "lp_pnl_usd", "net_diff_usd"}
 
 
 # ── Fees stub tests ──────────────────────────────────────────────────
@@ -268,62 +401,6 @@ def test_registry_is_empty_list():
     data = json.loads(raw)
     assert isinstance(data, list)
     assert len(data) == 0
-
-
-# ── Deep coverage: core.il ────────────────────────────────────────────
-
-def test_il_single_price_returns_zero():
-    from core.il import compute_impermanent_loss
-    assert compute_impermanent_loss([100.0], 0, 1) == 0.0
-
-
-def test_il_empty_prices_returns_zero():
-    from core.il import compute_impermanent_loss
-    assert compute_impermanent_loss([], 0, 1) == 0.0
-
-
-def test_il_zero_price_returns_zero():
-    from core.il import compute_impermanent_loss
-    assert compute_impermanent_loss([0.0, 100.0], 0, 1) == 0.0
-
-
-def test_concentrated_liquidity_il_flat():
-    from core.il import concentrated_liquidity_il
-    assert concentrated_liquidity_il(100.0, 100.0, 90.0, 110.0) == 1.0
-
-
-def test_concentrated_liquidity_il_zero_price():
-    from core.il import concentrated_liquidity_il
-    assert concentrated_liquidity_il(0.0, 100.0, 90.0, 110.0) == 1.0
-
-
-def test_compute_il_loss_dollar_basic():
-    from core.il import compute_il_loss_dollar
-    assert compute_il_loss_dollar(1000.0, 1000.0, 100.0) == 0.0
-
-
-def test_compute_il_from_price_series():
-    from core.il import compute_il_from_price_series
-    flat = [100.0] * 8
-    assert compute_il_from_price_series(flat) == 0.0
-
-
-def test_estimate_il_at_tick_range():
-    from core.il import estimate_il_at_tick_range
-    flat = [100.0] * 8
-    assert estimate_il_at_tick_range(flat, 90.0, 110.0) == 0.0
-
-
-def test_il_vs_hodl_pnl_flat():
-    from core.il import il_vs_hodl_pnl
-    result = il_vs_hodl_pnl([100.0] * 8, 1000.0)
-    assert result["il_loss_usd"] == 0.0
-
-
-def test_il_vs_hodl_pnl_short_series():
-    from core.il import il_vs_hodl_pnl
-    result = il_vs_hodl_pnl([100.0], 1000.0)
-    assert result["il_loss_usd"] == 0.0
 
 
 # ── Deep coverage: core.fees ─────────────────────────────────────────

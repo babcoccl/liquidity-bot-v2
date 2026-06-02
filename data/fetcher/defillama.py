@@ -5,6 +5,8 @@ fee_growth_global fields always None.
 price fields set to Decimal("0") — DeFiLlama does not provide token price candles.
 No API key required.
 """
+# AUDIT:status=complete
+# AUDIT:sprint=1
 
 import logging
 import time

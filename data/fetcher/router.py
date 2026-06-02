@@ -4,6 +4,8 @@ Tries fetchers in priority order.
 Falls back on RateLimitError or empty result.
 Raises FetchError on hard failure or when all sources exhausted.
 """
+# AUDIT:status=complete
+# AUDIT:sprint=1
 
 import logging
 

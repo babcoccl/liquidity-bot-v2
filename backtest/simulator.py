@@ -1,5 +1,9 @@
 """Single-pool backtest simulator for Uniswap V3-style concentrated liquidity."""
-# AUDIT NOTE: All financial params use float instead of Decimal. Hardcoded defaults (fee_rate 0.0005, initial_capital 10000.0, tick range ±10%) should come from config/default.yaml backtest section. Uses raw dict/float for price data instead of PoolDayData. Imports from core.il and core.fees are valid layer dependencies. No hardcoded addresses.
+# AUDIT:status=partial
+# AUDIT:sprint=1
+# AUDIT:issue=All financial params use float instead of Decimal
+# AUDIT:issue=Hardcoded defaults should come from config/default.yaml backtest section
+# AUDIT:issue=PositionSimulator.step() raises NotImplementedError
 
 from __future__ import annotations
 
@@ -36,16 +40,21 @@ class Position:
             current_price:      Current token price.
             volume_since_last:  Trading volume since last update (USD).
         """
-        from core.il import concentrated_liquidity_il
+        from decimal import Decimal
+        from core.il import compute_il_pct
         from core.fees import lp_fee_share
 
-        # Compute IL ratio
-        il_ratio = concentrated_liquidity_il(
-            current_price, self.entry_price,
-            self.tick_lower, self.tick_upper,
+        # Compute IL percentage using new V3 API
+        il_pct = compute_il_pct(
+            entry_price=Decimal(str(self.entry_price)),
+            current_price=Decimal(str(current_price)),
+            price_lower=Decimal(str(self.tick_lower)),
+            price_upper=Decimal(str(self.tick_upper)),
+            capital_usd=Decimal(str(self.capital_usd)),
         )
 
         # Update position value (capital adjusted by IL)
+        il_ratio = float(il_pct + Decimal("1"))
         self.current_value = self.capital_usd * il_ratio
 
         # Accumulate fees (simplified: proportional share of volume * fee_rate)
@@ -183,12 +192,16 @@ class BacktestSimulator:
         # Compute IL loss
         il_loss = 0.0
         if self.position:
-            from core.il import compute_il_loss_dollar
-            il_loss = compute_il_loss_dollar(
-                self.position.capital_usd,
-                self.position.current_value,
-                self.position.entry_price,
+            from decimal import Decimal
+            from core.il import compute_il
+            il_result = compute_il(
+                entry_price=Decimal(str(self.position.entry_price)),
+                current_price=Decimal(str(self.position.current_value / self.position.capital_usd)) if self.position.capital_usd > 0 else Decimal("0"),
+                price_lower=Decimal(str(self.position.tick_lower)),
+                price_upper=Decimal(str(self.position.tick_upper)),
+                capital_usd=Decimal(str(self.position.capital_usd)),
             )
+            il_loss = float(il_result)
 
         return portfolio_summary(
             total_value=final_value,

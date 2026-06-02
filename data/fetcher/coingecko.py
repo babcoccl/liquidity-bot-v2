@@ -4,6 +4,8 @@ Provides price candles and volume via CoinGecko market_chart API.
 fee_growth_global fields always None (source cannot provide).
 tvl_usd always Decimal("0") (source cannot provide).
 """
+# AUDIT:status=complete
+# AUDIT:sprint=1
 
 import logging
 import time

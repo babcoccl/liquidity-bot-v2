@@ -1,9 +1,9 @@
 # Active Context
 
-Current focus: Sprint 3 — Core Math rewrite (core/il.py to use Decimal + true V3 concentrated range formula)
+**Current focus:** Sprint 4 — Registry Layer (PoolConfig, TokenConfig, PoolRegistry)
 
-In-progress: none
+**In-progress:** none
 
-Blockers: none
+**Blockers:** none
 
-Last completed: Sprint 2 — Data layer (TheGraphFetcher, CoinGeckoFetcher, DeFiLlamaFetcher, FetchRouter, PoolLoader)
+**Last completed:** Sprint 3 — Core Math rewrite (il.py V3 formula, manifest.json, known_issues.md, coverage_map.md, AUDIT tags)

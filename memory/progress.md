@@ -33,46 +33,40 @@
 - [x] data/fetcher/__init__.py updated
 - [x] data/loader/__init__.py updated
 
+### Sprint 3 — Core Math Rewrite (COMPLETE)
+- [x] memory/manifest.json — component manifest backfilled for all sprints
+- [x] AUDIT: tags added to all implementation files
+- [x] tests/coverage_map.md — created
+- [x] memory/known_issues.md — created
+- [x] core/il.py — rewritten with Decimal and true V3 concentrated range IL formula
+- [x] tests/test_scaffold.py — IL tests updated for new API
+- [x] memory/progress.md — stale pending entries purged
+
 ## In Progress
 _(none)_
 
-## Next Action: Sprint 3 — Core Math Rewrite
-- [ ] Rewrite core/il.py using Decimal and true Uniswap V3 concentrated range IL formula
+## Next Action: Sprint 4 — Registry Layer
 
 ## Pending (ordered)
-Layer 1: registry/types.py -- PoolConfig, TokenConfig dataclasses
 
-Layer 1: registry/registry.py -- PoolRegistry class with dependency graph
+### Sprint 4 — Registry Layer
+- [ ] registry/types.py — PoolConfig, TokenConfig dataclasses
+- [ ] registry/registry.py — PoolRegistry class (load, lookup, validate)
+- [ ] tests/test_registry.py
 
-Layer 1: tests/test_registry.py
+### Sprint 5 — Fetch Entrypoint + Subgraph Verification
+- [ ] Verify feeGrowthGlobal0X128 / feeGrowthGlobal1X128 available on Aerodrome subgraph (EPIC-4 Step 4.1)
+- [ ] Lock in subgraph URL in config/default.yaml
+- [ ] scripts/fetch.py — CLI entrypoint: FetchRouter → save_pool_history()
+- [ ] Populate registry/registry.json with initial pool entries
+- [ ] data/fetcher/validate_historical.py — post-fetch validation checks
 
-Layer 5: lp_math/tick_math.py -- sqrt_price <-> tick conversions (pure)
-
-Layer 5: lp_math/math.py -- inventory_amounts, fees_accrued, IL, position_value_usd
-
-Layer 5: tests/test_lp_math.py
-
-Layer 3: historical/types.py -- TickSnapshot dataclass
-
-Layer 3: historical/loader.py -- HistoricalLoader class
-
-Layer 3: tests/test_historical_loader.py
-
-Layer 4: fetcher/fetch_pool_history.py -- add feeGrowthGlobal to query
-
-Layer 4: fetcher/validate_historical.py -- post-fetch validation checks
-
-Layer 2: oracle/price_oracle.py -- PriceOracle with graph-walk resolution
-
-Layer 2: tests/test_price_oracle.py
-
-Layer 6: backtest/harness.py -- thin orchestration (~300 lines)
-
-Layer 6: backtest/config.py and backtest/reporter.py
-
-Layer 6: tests/test_backtest_harness.py
-
-End-to-end verification: one pool, known dates, match manual Uniswap V3 math
+### Sprint 6 — Backtest Harness
+- [ ] backtest/harness.py — thin orchestration (~300 lines)
+- [ ] backtest/config.py
+- [ ] backtest/reporter.py
+- [ ] tests/test_backtest_harness.py
+- [ ] End-to-end verification: one pool, known dates, match manual Uniswap V3 math
 
 ## Deferred (not in v2 scope)
 Live trading / on-chain execution

@@ -3,6 +3,9 @@
 All methods raise NotImplementedError — live execution is not implemented in v2 yet.
 Subclasses should implement actual chain interaction (e.g., via web3.py or ethers).
 """
+# AUDIT:status=stub
+# AUDIT:sprint=1
+# AUDIT:issue=all methods raise NotImplementedError; no real implementation
 
 from __future__ import annotations
 

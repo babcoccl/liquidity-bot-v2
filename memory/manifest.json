@@ -1,0 +1,207 @@
+{
+  "last_updated_sprint": 3,
+  "components": [
+    {
+      "id": "core.models",
+      "file": "core/models.py",
+      "status": "complete",
+      "sprint": 1,
+      "audit_notes": [],
+      "dependencies": [],
+      "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "core.il",
+      "file": "core/il.py",
+      "status": "complete",
+      "sprint": 3,
+      "audit_notes": [],
+      "dependencies": [],
+      "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "core.fees",
+      "file": "core/fees.py",
+      "status": "partial",
+      "sprint": 1,
+      "audit_notes": [
+        "All financial params use float instead of Decimal",
+        "Hardcoded default thresholds should come from config/default.yaml"
+      ],
+      "dependencies": [],
+      "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "core.metrics",
+      "file": "core/metrics.py",
+      "status": "partial",
+      "sprint": 1,
+      "audit_notes": [
+        "All financial params use float instead of Decimal",
+        "Hardcoded defaults should come from config/default.yaml"
+      ],
+      "dependencies": [],
+      "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "strategy.scorer",
+      "file": "strategy/scorer.py",
+      "status": "partial",
+      "sprint": 1,
+      "audit_notes": [
+        "All financial params use float instead of Decimal",
+        "Hardcoded default thresholds should come from config/default.yaml scoring section"
+      ],
+      "dependencies": [],
+      "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "strategy.signals",
+      "file": "strategy/signals.py",
+      "status": "partial",
+      "sprint": 1,
+      "audit_notes": [
+        "All financial params use float instead of Decimal",
+        "Hardcoded default thresholds should come from config/default.yaml signals section"
+      ],
+      "dependencies": [],
+      "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "strategy.regime",
+      "file": "strategy/regime.py",
+      "status": "partial",
+      "sprint": 1,
+      "audit_notes": [
+        "Hardcoded default thresholds should come from config/default.yaml",
+        "All financial params use float instead of Decimal"
+      ],
+      "dependencies": [],
+      "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "backtest.simulator",
+      "file": "backtest/simulator.py",
+      "status": "partial",
+      "sprint": 1,
+      "audit_notes": [
+        "All financial params use float instead of Decimal",
+        "Hardcoded defaults should come from config/default.yaml backtest section",
+        "PositionSimulator.step() raises NotImplementedError"
+      ],
+      "dependencies": ["core.il", "core.fees"],
+      "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "backtest.multipool",
+      "file": "backtest/multipool.py",
+      "status": "partial",
+      "sprint": 1,
+      "audit_notes": [
+        "All financial params use float instead of Decimal",
+        "Hardcoded defaults should come from config/default.yaml backtest section"
+      ],
+      "dependencies": ["backtest.simulator", "core.metrics"],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "execution.base_executor",
+      "file": "execution/base_executor.py",
+      "status": "stub",
+      "sprint": 1,
+      "audit_notes": [
+        "All methods raise NotImplementedError — live execution not implemented in v2 yet"
+      ],
+      "dependencies": [],
+      "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "reporting.run_report",
+      "file": "reporting/run_report.py",
+      "status": "complete",
+      "sprint": 1,
+      "audit_notes": [],
+      "dependencies": [],
+      "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "data.fetcher.base",
+      "file": "data/fetcher/base.py",
+      "status": "complete",
+      "sprint": 1,
+      "audit_notes": [],
+      "dependencies": ["core.models"],
+      "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "data.fetcher.the_graph",
+      "file": "data/fetcher/the_graph.py",
+      "status": "partial",
+      "sprint": 1,
+      "audit_notes": [
+        "Uses float for price values instead of Decimal"
+      ],
+      "dependencies": ["data.fetcher.base"],
+      "test_file": "tests/test_data_layer.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "data.fetcher.coingecko",
+      "file": "data/fetcher/coingecko.py",
+      "status": "partial",
+      "sprint": 1,
+      "audit_notes": [
+        "Uses float for price values instead of Decimal"
+      ],
+      "dependencies": ["data.fetcher.base"],
+      "test_file": "tests/test_data_layer.py",
+      "test_coverage": "partial"
+    },
+    {
+      "id": "data.fetcher.defillama",
+      "file": "data/fetcher/defillama.py",
+      "status": "partial",
+      "sprint": 1,
+      "audit_notes": [
+        "Uses float for TVL values instead of Decimal"
+      ],
+      "dependencies": ["data.fetcher.base"],
+      "test_file": "tests/test_data_layer.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "data.fetcher.router",
+      "file": "data/fetcher/router.py",
+      "status": "complete",
+      "sprint": 1,
+      "audit_notes": [],
+      "dependencies": ["data.fetcher.base"],
+      "test_file": "tests/test_data_layer.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "data.loader.pool_loader",
+      "file": "data/loader/pool_loader.py",
+      "status": "partial",
+      "sprint": 1,
+      "audit_notes": [
+        "Uses float for price values instead of Decimal"
+      ],
+      "dependencies": ["data.fetcher.router"],
+      "test_file": "tests/test_data_layer.py",
+      "test_coverage": "full"
+    }
+  ]
+}

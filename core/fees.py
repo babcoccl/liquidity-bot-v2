@@ -1,5 +1,8 @@
 """Fee tracking and accumulation utilities."""
-# AUDIT NOTE: All financial parameters use float instead of Decimal (fees_earned_usd, deposit_value_usd, tvl, volume_24h, position_value). FeeAccumulator stores history as list[float]. No PoolDayData usage. No hardcoded addresses or config values.
+# AUDIT:status=partial
+# AUDIT:sprint=1
+# AUDIT:issue=All financial parameters use float instead of Decimal
+# AUDIT:issue=FeeAccumulator stores history as list[float]
 
 from __future__ import annotations
 

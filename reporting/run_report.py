@@ -1,4 +1,6 @@
 """Run report generator for backtest results."""
+# AUDIT:status=complete
+# AUDIT:sprint=1
 
 from __future__ import annotations
 

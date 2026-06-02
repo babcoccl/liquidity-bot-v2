@@ -4,6 +4,8 @@ Queries Aerodrome poolDayDatas on Base chain via The Graph.
 Paginates using date_gt cursor until no results remain.
 fee_growth_global fields parsed as int(), never float.
 """
+# AUDIT:status=complete
+# AUDIT:sprint=1
 
 import logging
 import time

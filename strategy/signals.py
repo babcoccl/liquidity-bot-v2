@@ -1,5 +1,8 @@
 """Exit signal detection for LP positions."""
-# AUDIT NOTE: All financial params use float instead of Decimal. Hardcoded default thresholds (drawdown 0.15, crash 0.03/hr, tvl_collapse -0.30, il_fee_ratio 8.0, hold_hours 24) should come from config/default.yaml signals section. No PoolDayData usage. No hardcoded addresses.
+# AUDIT:status=partial
+# AUDIT:sprint=1
+# AUDIT:issue=All financial params use float instead of Decimal
+# AUDIT:issue=Hardcoded default thresholds should come from config/default.yaml
 
 from __future__ import annotations
 

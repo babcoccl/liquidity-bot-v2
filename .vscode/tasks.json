@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Token Usage Monitor",
+      "type": "shell",
+      "command": "/home/aihub/Code/lm_proxy/venv/bin/python /home/aihub/Code/lm_proxy/statusbar.py",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+  ]
+}
