@@ -1,2 +1,3 @@
-# Data loader: caching, parsing, and serving historical data to backtest engine
-# Sprint 2 will implement parquet/CSV loading here.
+from data.loader.pool_loader import load_pool_history, save_pool_history
+
+__all__ = ["load_pool_history", "save_pool_history"]

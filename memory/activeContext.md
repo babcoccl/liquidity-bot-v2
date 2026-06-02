@@ -1,9 +1,9 @@
 # Active Context
 
-**Current focus:** Sprint 2 — Data Layer (multi-source fetcher, FetchRouter, pool loader)
+Current focus: Sprint 3 — Core Math rewrite (core/il.py to use Decimal + true V3 concentrated range formula)
 
-**In-progress:** none
+In-progress: none
 
-**Blockers:** none
+Blockers: none
 
-**Last completed:** Sprint 1 gap-fill (models.py, base fetcher, audit notes, test additions)
+Last completed: Sprint 2 — Data layer (TheGraphFetcher, CoinGeckoFetcher, DeFiLlamaFetcher, FetchRouter, PoolLoader)

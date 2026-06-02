@@ -23,15 +23,21 @@
 - [x] config/default.yaml verified complete
 - [x] Tests added to tests/test_scaffold.py (PoolDayData, AbstractFetcher, exceptions)
 
+### Sprint 2 — Data Layer (COMPLETE)
+- [x] data/fetcher/the_graph.py — TheGraphFetcher implementation
+- [x] data/fetcher/coingecko.py — CoinGeckoFetcher implementation
+- [x] data/fetcher/defillama.py — DeFiLlamaFetcher implementation
+- [x] data/fetcher/router.py — FetchRouter with fallback chain
+- [x] data/loader/pool_loader.py — PoolLoader with cache & pagination
+- [x] tests/test_data_layer.py — all data layer tests
+- [x] data/fetcher/__init__.py updated
+- [x] data/loader/__init__.py updated
+
 ## In Progress
 _(none)_
 
-## Next Action: Sprint 2 — Data Layer
-- [ ] data/fetcher/the_graph.py — TheGraphFetcher implementation
-- [ ] data/fetcher/coingecko.py — CoinGeckoFetcher implementation
-- [ ] data/fetcher/defillama.py — DeFiLlamaFetcher implementation
-- [ ] data/fetcher/router.py — FetchRouter with fallback chain
-- [ ] data/loader/pool_loader.py — PoolLoader with cache & pagination
+## Next Action: Sprint 3 — Core Math Rewrite
+- [ ] Rewrite core/il.py using Decimal and true Uniswap V3 concentrated range IL formula
 
 ## Pending (ordered)
 Layer 1: registry/types.py -- PoolConfig, TokenConfig dataclasses
