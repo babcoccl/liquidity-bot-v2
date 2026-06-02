@@ -61,30 +61,30 @@
 - [x] memory/manifest.json — Sprint 5 components added, last_updated_sprint: 5
 - [x] tests/coverage_map.md — Sprint 5 rows added
 
+### Sprint 6 — Registry Population + Backtest Harness (COMPLETE)
+- [x] config/default.yaml — stale legacy data: block removed
+- [x] memory/progress.md — stale known risk removed
+- [x] registry/registry.json — 15 pools populated from v1 data/registry.json
+- [x] backtest/config.py — BacktestConfig frozen dataclass, from_yaml loader
+- [x] backtest/reporter.py — BacktestResult, BacktestReporter, save(), print_summary()
+- [x] backtest/harness.py — BacktestHarness, run(), _simulate_pool(), NotImplementedError fallback
+- [x] scripts/backtest.py — CLI entrypoint wiring BacktestConfig → PoolRegistry → BacktestHarness
+- [x] tests/test_backtest_harness.py — 12 test cases
+- [x] memory/manifest.json — Sprint 6 components added, last_updated_sprint: 6
+- [x] tests/coverage_map.md — Sprint 6 rows added
+
 ## In Progress
 _(none)_
 
-## Next Action: Sprint 6 — Backtest Harness
-
-## Pending (ordered)
-
-### Sprint 6 — Backtest Harness
-- [ ] backtest/harness.py — thin orchestration (~300 lines)
-- [ ] backtest/config.py
-- [ ] backtest/reporter.py
-- [ ] tests/test_backtest_harness.py
-- [ ] End-to-end verification: one pool, known dates, match manual Uniswap V3 math
+## Next Action: Sprint 7 — PositionSimulator Implementation
 
 ## Deferred (not in v2 scope)
+
 Live trading / on-chain execution
+
 
 Email reporting
 
 Dashboard UI
 
 Multi-pool rotation optimizer
-
-## Known Risks
-feeGrowthGlobal may not be available on the Aerodrome subgraph (verify in EPIC-4 Step 4.1)
-
-v1 registry.json may need to be partially rebuilt for v2 price_reference

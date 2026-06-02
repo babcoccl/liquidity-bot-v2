@@ -56,13 +56,3 @@ data_sources:
     protocol_slug: "aerodrome-finance"
     rate_limit_per_min: 100
 
-data:
-  historical_dir: data/historical
-  registry_path: registry/registry.json
-  sources:
-    - name: the_graph_aerodrome
-      url: "https://api.thegraph.com/subgraphs/name/aerodrome-finance/aerodrome"
-      rate_limit_per_min: 30
-    - name: the_graph_fallback
-      url: "https://gateway.thegraph.com/api/{api_key}/subgraphs/id/{subgraph_id}"
-      rate_limit_per_min: 60

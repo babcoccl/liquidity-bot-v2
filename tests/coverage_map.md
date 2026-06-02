@@ -1,5 +1,5 @@
 # Test Coverage Map
-_Last updated: Sprint 5_
+_Last updated: Sprint 6_
 
 | Module | File | Test File | Coverage | Missing / Notes |
 |---|---|---|---|---|
@@ -25,3 +25,7 @@ _Last updated: Sprint 5_
 | registry.__init__ | registry/__init__.py | tests/test_registry.py | full | Exports verified via import smoke test |
 | data.fetcher.validate_historical | data/fetcher/validate_historical.py | tests/test_validate_historical.py | full | no_gaps, no_negative, price_sanity, fee_growth_present, validate_all |
 | scripts.fetch | scripts/fetch.py | none | none | CLI entrypoint — integration test deferred to Sprint 6 end-to-end |
+| backtest.config | backtest/config.py | tests/test_backtest_harness.py | full | from_yaml, frozen fields, Decimal types |
+| backtest.reporter | backtest/reporter.py | tests/test_backtest_harness.py | full | save, summary.json, per_pool.json, print_summary |
+| backtest.harness | backtest/harness.py | tests/test_backtest_harness.py | full | run, _simulate_pool, NotImplementedError fallback, load error skip |
+| scripts.backtest | scripts/backtest.py | none | none | CLI entrypoint — integration test deferred |

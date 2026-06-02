@@ -66,7 +66,7 @@ def test_config_loads(default_config: dict):
     assert "scoring" in default_config
     assert "risk_tiers" in default_config
     assert "harvesting" in default_config
-    assert "data" in default_config
+    assert "data_sources" in default_config
 
 
 def test_config_backtest_fields(default_config: dict):
@@ -400,7 +400,7 @@ def test_registry_is_empty_list():
     import json
     data = json.loads(raw)
     assert isinstance(data, list)
-    assert len(data) == 0
+    assert len(data) >= 15
 
 
 # ── Deep coverage: core.fees ─────────────────────────────────────────

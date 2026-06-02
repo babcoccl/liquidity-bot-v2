@@ -1,0 +1,16 @@
+{
+  "run_id": "test_run",
+  "pool_count": 0,
+  "config": {
+    "days": "30",
+    "initial_capital": "10000",
+    "bollinger_multiplier": "2.0",
+    "rotation_margin": "0.05",
+    "min_entry_score": "0.6",
+    "rebalance_cooldown_hours": "4.0",
+    "max_rebalances_per_pool_per_day": "3",
+    "historical_dir": "/tmp/pytest-of-aihub/pytest-10/test_harness_run_skips_pool_on0/historical",
+    "registry_path": "registry/registry.json"
+  },
+  "total_net_lp_alpha": "0"
+}

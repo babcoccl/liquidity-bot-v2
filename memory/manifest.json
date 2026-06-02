@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": 5,
+  "last_updated_sprint": 6,
   "components": [
     {
       "id": "core.models",
@@ -264,6 +264,62 @@
       "sprint": 5,
       "audit_notes": [
         "CoinGecko API key is empty string by default — must be set via COINGECKO_API_KEY env var"
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "backtest.config",
+      "file": "backtest/config.py",
+      "status": "complete",
+      "sprint": 6,
+      "audit_notes": [],
+      "dependencies": [],
+      "test_file": "tests/test_backtest_harness.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "backtest.reporter",
+      "file": "backtest/reporter.py",
+      "status": "complete",
+      "sprint": 6,
+      "audit_notes": [],
+      "dependencies": ["backtest.config"],
+      "test_file": "tests/test_backtest_harness.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "backtest.harness",
+      "file": "backtest/harness.py",
+      "status": "complete",
+      "sprint": 6,
+      "audit_notes": [
+        "PositionSimulator.step() raises NotImplementedError — harness catches and returns zero-result per pool until Sprint 7 implements step()"
+      ],
+      "dependencies": ["backtest.config", "backtest.reporter", "backtest.simulator", "registry.registry", "data.loader.pool_loader"],
+      "test_file": "tests/test_backtest_harness.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "scripts.backtest",
+      "file": "scripts/backtest.py",
+      "status": "complete",
+      "sprint": 6,
+      "audit_notes": [],
+      "dependencies": ["backtest.harness", "backtest.config", "registry.registry"],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "registry.json",
+      "file": "registry/registry.json",
+      "status": "complete",
+      "sprint": 6,
+      "audit_notes": [
+        "15 pools migrated from v1 data/registry.json",
+        "LRDS/WETH excluded — token0 address in v1 registry appears malformed (0xd36e8964... is 42 chars but contains a duplicate segment)",
+        "Alt/duplicate pools excluded — only primary address per pair retained"
       ],
       "dependencies": [],
       "test_file": null,
