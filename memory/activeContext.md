@@ -1,34 +1,23 @@
 Active Context
 Current Focus
-Project initialization. No code exists yet for liquidity-bot-v2.
+Sprint 2: Data layer / fetcher implementation.
 
 Immediate Task
-Interview user to confirm v2 goals, scope, and first deliverable.
-Then create the repository scaffold and memory files.
+Implement data/fetcher/ with The Graph API integration for Aerodrome pool data.
 
 In Progress
-Nothing yet.
+- Sprint 1 COMPLETE: Full scaffold, all stubs, config, tests passing (91 tests, 81% coverage)
 
 Blockers
-Need user confirmation on:
-
-Whether to port registry.json from v1 or rebuild it
-
-Which pool to use as the first backtest verification target
-
-Whether feeGrowthGlobal fields are available on the subgraph in use
-(requires EPIC-4 Step 4.1 audit of fetch_pool_history.py from v1)
+None. Scaffold is green. Ready for Sprint 2.
 
 Recent Decisions
-Clean-room rewrite, not migration. v2 is a new repo.
-
-Seven-layer architecture as documented in systemPatterns.md.
-
-Cline memory pattern in use. Update this file after every session.
-
-Local LLM (Qwen3-27B) via LM Studio. Keep context windows small.
-Work one file at a time. Do not load entire v1 codebase into context.
+- Clean-room rewrite, not migration. v2 is a new repo.
+- Seven-layer architecture as documented in systemPatterns.md.
+- Cline memory pattern in use. Update this file after every session.
+- Local LLM (Qwen3-27B) via LM Studio. Keep context windows small.
+- Work one file at a time. Do not load entire v1 codebase into context.
 
 Notes for Next Session
-Start with: registry/types.py and registry/registry.py (Layer 1).
-These have no dependencies and can be written and tested first.
+Start with: data/fetcher/graph_client.py - The Graph API client for pool metrics.
+Then: data/loader/ - CSV/Parquet ingestion from historical snapshots.

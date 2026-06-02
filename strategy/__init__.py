@@ -1,0 +1,1 @@
+# Strategy module: scoring, signal detection, regime classification

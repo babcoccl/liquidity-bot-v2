@@ -1,0 +1,52 @@
+backtest:
+  days: 90
+  initial_capital: 10000.0
+  bollinger_multiplier: 2.0
+  rotation_margin: 0.05
+  min_entry_score: 0.25
+  rebalance_cooldown_hours: 4.0
+  max_rebalances_per_pool_per_day: 3
+
+signals:
+  drawdown_pct: 0.15
+  momentum_crash_pct_per_hr: 0.03
+  momentum_crash_lookback_hrs: 3
+  tvl_collapse_rate: -0.30
+  il_fee_ratio_threshold: 8.0
+  il_fee_min_hold_hours: 24.0
+
+scoring:
+  weights:
+    net_lp_alpha_30d: 0.50
+    annualized_vol_30d: -0.20
+    fee_apr: 0.20
+    volume_tvl_ratio: -0.10
+  hard_gate_net_lp_alpha: true
+
+risk_tiers:
+  anchor:
+    max_vol: 0.40
+    min_fee_apr: 0.08
+    max_allocation: 0.60
+  satellite:
+    max_vol: 0.80
+    min_fee_apr: 0.15
+    max_allocation: 0.30
+  speculative:
+    min_fee_apr: 0.25
+    max_allocation: 0.10
+
+harvesting:
+  interval_hours: 6
+  min_fee_gas_ratio: 3.0
+
+data:
+  historical_dir: data/historical
+  registry_path: registry/registry.json
+  sources:
+    - name: the_graph_aerodrome
+      url: "https://api.thegraph.com/subgraphs/name/aerodrome-finance/aerodrome"
+      rate_limit_per_min: 30
+    - name: the_graph_fallback
+      url: "https://gateway.thegraph.com/api/{api_key}/subgraphs/id/{subgraph_id}"
+      rate_limit_per_min: 60
