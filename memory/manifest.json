@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": 3,
+  "last_updated_sprint": 4,
   "components": [
     {
       "id": "core.models",
@@ -148,11 +148,9 @@
     {
       "id": "data.fetcher.the_graph",
       "file": "data/fetcher/the_graph.py",
-      "status": "partial",
-      "sprint": 1,
-      "audit_notes": [
-        "Uses float for price values instead of Decimal"
-      ],
+      "status": "complete",
+      "sprint": 2,
+      "audit_notes": [],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
@@ -161,9 +159,9 @@
       "id": "data.fetcher.coingecko",
       "file": "data/fetcher/coingecko.py",
       "status": "partial",
-      "sprint": 1,
+      "sprint": 2,
       "audit_notes": [
-        "Uses float for price values instead of Decimal"
+        "fetch_pool_history() always raises FetchError with token_id message - only fetch_token_history() is functional"
       ],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
@@ -172,11 +170,9 @@
     {
       "id": "data.fetcher.defillama",
       "file": "data/fetcher/defillama.py",
-      "status": "partial",
-      "sprint": 1,
-      "audit_notes": [
-        "Uses float for TVL values instead of Decimal"
-      ],
+      "status": "complete",
+      "sprint": 2,
+      "audit_notes": [],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
@@ -185,7 +181,7 @@
       "id": "data.fetcher.router",
       "file": "data/fetcher/router.py",
       "status": "complete",
-      "sprint": 1,
+      "sprint": 2,
       "audit_notes": [],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
@@ -194,13 +190,41 @@
     {
       "id": "data.loader.pool_loader",
       "file": "data/loader/pool_loader.py",
-      "status": "partial",
-      "sprint": 1,
-      "audit_notes": [
-        "Uses float for price values instead of Decimal"
-      ],
+      "status": "complete",
+      "sprint": 2,
+      "audit_notes": [],
       "dependencies": ["data.fetcher.router"],
       "test_file": "tests/test_data_layer.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "registry.types",
+      "file": "registry/types.py",
+      "status": "complete",
+      "sprint": 4,
+      "audit_notes": [],
+      "dependencies": [],
+      "test_file": "tests/test_registry.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "registry.registry",
+      "file": "registry/registry.py",
+      "status": "complete",
+      "sprint": 4,
+      "audit_notes": [],
+      "dependencies": ["registry.types"],
+      "test_file": "tests/test_registry.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "registry.init",
+      "file": "registry/__init__.py",
+      "status": "complete",
+      "sprint": 4,
+      "audit_notes": [],
+      "dependencies": ["registry.types", "registry.registry"],
+      "test_file": "tests/test_registry.py",
       "test_coverage": "full"
     }
   ]

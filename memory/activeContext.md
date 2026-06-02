@@ -1,9 +1,9 @@
 # Active Context
 
-**Current focus:** Sprint 4 — Registry Layer (PoolConfig, TokenConfig, PoolRegistry)
+**Current focus:** Sprint 5 — Fetch Entrypoint + Subgraph Verification
 
 **In-progress:** none
 
-**Blockers:** none
+**Blockers:** feeGrowthGlobal availability on Aerodrome subgraph unverified — must confirm before scripts/fetch.py can be finalized
 
-**Last completed:** Sprint 3 — Core Math rewrite (il.py V3 formula, manifest.json, known_issues.md, coverage_map.md, AUDIT tags)
+**Last completed:** Sprint 4 — Registry Layer (registry/types.py, registry/registry.py, PoolRegistry, tests/test_registry.py)

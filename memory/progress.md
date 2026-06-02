@@ -42,17 +42,22 @@
 - [x] tests/test_scaffold.py — IL tests updated for new API
 - [x] memory/progress.md — stale pending entries purged
 
+### Sprint 4 — Registry Layer (COMPLETE)
+- [x] memory/manifest.json — sprint numbers corrected, status fixes applied
+- [x] memory/known_issues.md — core/fees.py, core/metrics.py, backtest modules documented
+- [x] registry/types.py — PoolConfig, TokenConfig, PriceReference frozen dataclasses
+- [x] registry/registry.py — PoolRegistry with load, get, all, is_loaded, validate
+- [x] tests/test_registry.py — 21 test cases, all passing
+- [x] registry/__init__.py — exports wired
+- [x] memory/manifest.json — Sprint 4 components added, last_updated_sprint: 4
+- [x] tests/coverage_map.md — Sprint 4 rows added
+
 ## In Progress
 _(none)_
 
-## Next Action: Sprint 4 — Registry Layer
+## Next Action: Sprint 5 — Fetch Entrypoint + Subgraph Verification
 
 ## Pending (ordered)
-
-### Sprint 4 — Registry Layer
-- [ ] registry/types.py — PoolConfig, TokenConfig dataclasses
-- [ ] registry/registry.py — PoolRegistry class (load, lookup, validate)
-- [ ] tests/test_registry.py
 
 ### Sprint 5 — Fetch Entrypoint + Subgraph Verification
 - [ ] Verify feeGrowthGlobal0X128 / feeGrowthGlobal1X128 available on Aerodrome subgraph (EPIC-4 Step 4.1)

@@ -1,5 +1,5 @@
 # Test Coverage Map
-_Last updated: Sprint 3_
+_Last updated: Sprint 4_
 
 | Module | File | Test File | Coverage | Missing / Notes |
 |---|---|---|---|---|
@@ -20,3 +20,6 @@ _Last updated: Sprint 3_
 | data.fetcher.defillama | data/fetcher/defillama.py | tests/test_data_layer.py | full | TVL parsing, zero price fields, fee growth None, 429 error all tested |
 | data.fetcher.router | data/fetcher/router.py | tests/test_data_layer.py | full | Fallback on RateLimitError, skip unavailable, all-exhausted error all tested |
 | data.loader.pool_loader | data/loader/pool_loader.py | tests/test_data_layer.py | full | V1/V2 format loading, roundtrip save/reload, zero-volume skip, date sorting all tested |
+| registry.types | registry/types.py | tests/test_registry.py | full | PoolConfig, TokenConfig, PriceReference frozen dataclasses |
+| registry.registry | registry/registry.py | tests/test_registry.py | full | load, get, all, is_loaded, validate all tested |
+| registry.__init__ | registry/__init__.py | tests/test_registry.py | full | Exports verified via import smoke test |

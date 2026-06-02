@@ -14,18 +14,26 @@ _Last updated: Sprint 3_
 - No hysteresis — regime can flip rapidly on small input changes
 
 ## backtest/multipool.py
-- MultiPoolBacktest class has no test coverage
-- Capital allocation strategy not implemented (uses equal-weight placeholder)
+- No test coverage
+- Uses float for all financial math
+- Capital allocation uses equal-weight placeholder, not config-driven
+
+## core/fees.py
+- Uses float throughout for all financial math — must migrate to Decimal
+
+## core/metrics.py
+- Uses float throughout for all financial math — must migrate to Decimal
+
+## backtest/simulator.py
+- Uses float for capital, price, and fee calculations
+- PositionSimulator.step() raises NotImplementedError — not yet implemented
 
 ## data/fetcher/coingecko.py
 - `fetch_pool_history()` always raises FetchError with "token_id" message — only `fetch_token_history()` works
 - TVL always returns Decimal("0") because CoinGecko has no pool-level TVL data
 
 ## No Issues Documented
-- core/fees.py
-- core/metrics.py
 - core/models.py
-- backtest/simulator.py
 - execution/base_executor.py
 - reporting/run_report.py
 - data/fetcher/base.py
