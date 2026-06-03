@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "9-hotfix3",
+  "last_updated_sprint": "10",
   "components": [
     {
       "id": "core.models",
@@ -13,7 +13,7 @@
       "test_file": "tests/test_scaffold.py",
       "test_coverage": "full"
     },
-  
+    {
       "id": "core.il",
       "file": "core/il.py",
       "status": "complete",
@@ -217,10 +217,11 @@
       "id": "data.loader.pool_loader",
       "file": "data/loader/pool_loader.py",
       "status": "complete",
-      "sprint": "9-hotfix3",
+      "sprint": "10",
       "audit_notes": [
         "Sprint 9: save_pool_history accepts both PoolDayData (date field) and PoolHistoryPoint (timestamp field). JSON output includes timestamp for hourly records.",
-        "Hotfix 3: PoolHistoryPoint serialized to flat hourly array."
+        "Hotfix 3: PoolHistoryPoint serialized to flat hourly array.",
+        "Sprint 10: pool_address hoisted to wrapper root; stripped from per-row records; load path injects it back."
       ],
       "dependencies": ["data.fetcher.router"],
       "test_file": "tests/test_data_layer.py",
@@ -233,6 +234,18 @@
       "sprint": 9,
       "audit_notes": [
         "Sprint 9: Persists token history to data/token_history/*.json."
+      ],
+      "dependencies": ["core.models"],
+      "test_file": "tests/test_data_layer.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "data.loader.token_price_loader",
+      "file": "data/loader/token_price_loader.py",
+      "status": "complete",
+      "sprint": "10",
+      "audit_notes": [
+        "Sprint 10: Save/load TokenHistoryPoint to data/prices/{SYMBOL}.json with wrapper schema."
       ],
       "dependencies": ["core.models"],
       "test_file": "tests/test_data_layer.py",
@@ -297,11 +310,12 @@
       "id": "scripts.fetch",
       "file": "scripts/fetch.py",
       "status": "complete",
-      "sprint": 9,
+      "sprint": "10",
       "audit_notes": [
         "COINGECKO_API_KEY read from environment — will silently use empty string if not set",
         "Sprint 8: GeckoTerminalFetcher added as primary; FetchRouter order updated; TheGraph URL key substitution applied.",
-        "Sprint 9: Fetches token0 and token1 histories alongside pool history for same lookback window."
+        "Sprint 9: Fetches token0 and token1 histories alongside pool history for same lookback window.",
+        "Sprint 10: Token price fetch loop added; persists to data/prices/{SYMBOL}.json."
       ],
       "dependencies": [
         "registry.registry",
@@ -312,6 +326,7 @@
         "data.fetcher.token_prices",
         "data.fetcher.router",
         "data.loader.pool_loader",
+        "data.loader.token_price_loader",
         "data.loader.token_loader",
         "data.fetcher.validate_historical"
       ],

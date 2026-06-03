@@ -14,7 +14,7 @@ Runs post-fetch validation and prints any warnings.
 """
 
 # AUDIT:status=complete
-# AUDIT:sprint=9
+# AUDIT:sprint=10
 
 import argparse
 import logging
@@ -31,8 +31,11 @@ from data.fetcher.router import FetchRouter
 from data.fetcher.the_graph import TheGraphFetcher
 from data.fetcher.token_prices import TokenPriceFetcher
 from data.fetcher.validate_historical import validate_all
+import time as _time
+
+from data.fetcher.base import FetchError, RateLimitError
 from data.loader.pool_loader import save_pool_history
-from data.loader.token_loader import save_token_history
+from data.loader.token_price_loader import save_token_prices
 from registry.registry import PoolRegistry
 
 logger = logging.getLogger(__name__)
@@ -198,10 +201,57 @@ def _fetch_all(
         save_pool_history(pool.pool_address, pool.pair_name, records, output_path)
         print(f"Saved {len(records)} records for {pool.pair_name} -> {output_path}")
 
-        # Fetch token histories
-        _fetch_tokens_for_pool(pool, args.days, token_fetcher)
+    # Fetch token prices for unique tokens across all pools
+    _fetch_all_token_prices(pools, args.days, token_fetcher)
 
     return 0
+
+
+def _fetch_all_token_prices(
+    pools: list,
+    days: int,
+    token_fetcher: TokenPriceFetcher,
+) -> None:
+    """Fetch and save USD price history for each unique token in the pool universe.
+
+    Collects unique (symbol, address) pairs from all pools, fetches hourly
+    prices via CoinGecko, and persists to data/prices/{SYMBOL}.json.
+    Sleeps 4 seconds between tokens to respect free-tier rate limits.
+    """
+    # Build unique token map: symbol -> first address seen (case-keyed)
+    seen: dict[str, str] = {}
+    for pool in pools:
+        for token_key in ("token0", "token1"):
+            token = getattr(pool, token_key)
+            key = token.symbol.upper()
+            if key not in seen:
+                seen[key] = token.address
+
+    prices_dir = Path("data/prices")
+    prices_dir.mkdir(parents=True, exist_ok=True)
+
+    for symbol, address in seen.items():
+        try:
+            records = token_fetcher.fetch_token_history(
+                token_symbol=symbol,
+                token_address=address,
+                days=days,
+            )
+            output_path = prices_dir / f"{symbol}.json"
+            save_token_prices(address, symbol, records, output_path)
+            print(f"Saved {len(records)} hourly records for {symbol}")
+        except (FetchError, RateLimitError) as e:
+            logger.warning(
+                "Token price fetch failed for %s (%s), skipping: %s",
+                symbol, address, e,
+            )
+        except Exception as e:
+            logger.warning(
+                "Token price fetch failed for %s (%s), skipping: %s",
+                symbol, address, e,
+            )
+
+        _time.sleep(4)
 
 
 def _fetch_tokens_for_pool(
@@ -209,30 +259,11 @@ def _fetch_tokens_for_pool(
     days: int,
     token_fetcher: TokenPriceFetcher,
 ) -> None:
-    """Fetch and save USD price history for token0 and token1 of a pool."""
-    for token_key in ("token0", "token1"):
-        token = getattr(pool, token_key)
-        symbol = token.symbol
-        address = token.address
+    """Fetch and save USD price history for token0 and token1 of a pool.
 
-        # Build unique filename: use symbol_address_prefix to avoid collisions
-        addr_short = address[:8]
-        filename = f"{symbol}_{addr_short}.json"
-
-        try:
-            records = token_fetcher.fetch_token_history(
-                token_symbol=symbol,
-                token_address=address,
-                days=days,
-            )
-            output_path = Path("data/token_history") / filename
-            save_token_history(address, symbol, records, output_path)
-            print(f"Saved {len(records)} token records for {symbol} -> {output_path}")
-        except Exception as e:
-            logger.warning(
-                "Token fetch failed for %s (%s), skipping: %s",
-                symbol, address, e,
-            )
+    Deprecated — kept for backward compat with --pool single fetch path.
+    """
+    _fetch_all_token_prices([pool], days, token_fetcher)
 
 
 if __name__ == "__main__":

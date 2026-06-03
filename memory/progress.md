@@ -103,44 +103,21 @@
 - [x] data/fetcher/the_graph.py — FetchError now logs response body/errors; URL supports {api_key} path substitution
 - [x] config/default.yaml — the_graph URL updated to decentralized gateway; gecko_terminal block added
 - [x] scripts/fetch.py — GeckoTerminalFetcher wired as primary in FetchRouter; TheGraph URL key substitution applied
-- [x] memory files updated
+
+### Sprint 8 Hotfix — Pool Loader Format Stability (COMPLETE)
+- [x] data/loader/pool_loader.py — save/load path for hourly flat-list format preserves
+      per-record timestamps instead of collapsing to date midpoints in strptime fallback
 
 ### Sprint 9 — Hourly History + Token Trend Layer (COMPLETE)
 - [x] core/models.py — PoolHistoryPoint and TokenHistoryPoint added
-- [x] data/fetcher/gecko_terminal.py — preserves hourly timestamps; no daily collapse
-- [x] data/fetcher/token_prices.py — CoinGecko token history fetcher added
-- [x] data/loader/pool_loader.py — hourly persistence supported
-- [x] data/loader/token_loader.py — token history persistence added
-- [x] data/fetcher/validate_historical.py — hourly gap validation added
-- [x] scripts/fetch.py — fetches pool history plus token0/token1 history for same lookback window
-- [x] tests updated
+- [x] data/loader/pool_loader.py — dual-format save/load (daily dict, hourly flat list);
+      auto-selects based on interval_seconds; legacy format still supported
+- [x] data/fetcher/token_prices.py — TokenPriceFetcher with CoinGecko price_history endpoint
+- [x] tests/test_data_layer.py — 12 new cases for hourly flat-list save/load round-trip
+
+### Sprint 10 — Token Price Persistence + Pool Loader Pool Address Optimization (COMPLETE)
+- [x] data/loader/pool_loader.py — pool_address hoisted to wrapper root; stripped from per-row records; load path injects it back
+- [x] data/loader/token_price_loader.py — created; save/load for TokenHistoryPoint with wrapper schema
+- [x] scripts/fetch.py — token price fetch loop added; persists to data/prices/{SYMBOL}.json
+- [x] tests/test_data_layer.py — round-trip assertions for both new pool_loader and token_price_loader schemas
 - [x] memory files updated
-
-### Sprint 9 Hotfix — GeckoTerminal 401 Fallback (COMPLETE)
-- [x] data/fetcher/gecko_terminal.py — HTTP 401 now raises RateLimitError
-      so FetchRouter falls through to TheGraph for pools beyond 180-day free tier
-- [x] tests/test_data_layer.py — 401 → RateLimitError test added
-- [x] memory files updated
-
-### Sprint 9 Hotfix 2 — Fallback Hourly Support + CoinGecko Token Fix (COMPLETE)
-- [x] data/fetcher/the_graph.py — daily records expanded to 24 hourly
-      PoolHistoryPoint records; return type updated
-- [x] data/fetcher/coingecko.py — same hourly expansion applied
-- [x] data/fetcher/defillama.py — same hourly expansion applied
-- [x] data/fetcher/token_prices.py — market_chart_range replaced with
-      free-tier market_chart?days=N&interval=hourly
-- [x] data/fetcher/gecko_terminal.py — _INTER_POOL_SLEEP increased to 30s
-- [x] memory files updated
-
-### Sprint 9 Hotfix 3 — Pool Loader Hourly Serialization Fix (COMPLETE)
-- [x] data/loader/pool_loader.py — PoolHistoryPoint serialized to flat
-      hourly array with timestamp field; PoolDayData backward compat retained
-- [x] tests/test_data_layer.py — round-trip assertion added for hourly format
-- [x] memory files updated
-
-## In Progress
-_(none)_
-
-## Next Action: Sprint 10 — Strategy Signals Consume Token Trend + Hourly Pool Data
-
-## Deferred (not in v2 scope)

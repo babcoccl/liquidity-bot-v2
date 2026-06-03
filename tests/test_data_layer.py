@@ -14,6 +14,7 @@ from data.fetcher.base import AbstractFetcher, FetchError, RateLimitError
 from data.fetcher.router import FetchRouter
 from data.loader.pool_loader import load_pool_history, save_pool_history
 from data.loader.token_loader import save_token_history, load_token_history
+from data.loader.token_price_loader import save_token_prices, load_token_prices
 
 
 # ============================================================================
@@ -857,18 +858,24 @@ class TestPoolLoaderHourly:
         with open(file) as f:
             data = json.load(f)
 
-        # Must be a flat list, not wrapped in {"days": ...}
-        assert isinstance(data, list)
-        assert len(data) == 2
+        # New wrapper format: dict with pool_address, pair_name, fetched_at, records
+        assert isinstance(data, dict)
+        assert data["pool_address"] == "0xabc"
+        assert data["pair_name"] == "USDC-ETH"
+        assert "fetched_at" in data
+        assert isinstance(data["records"], list)
+        assert len(data["records"]) == 2
+        # Row records do NOT have pool_address (hoisted to root)
+        assert "pool_address" not in data["records"][0]
         # Each record has timestamp, not date
-        assert "timestamp" in data[0]
-        assert "date" not in data[0]
-        assert data[0]["timestamp"] == 1700000000
+        assert "timestamp" in data["records"][0]
+        assert "date" not in data["records"][0]
+        assert data["records"][0]["timestamp"] == 1700000000
         # price fields are string representations of Decimal
-        assert isinstance(data[0]["price_token1_in_token0"], str)
-        assert data[0]["price_token1_in_token0"] == "2.0"
+        assert isinstance(data["records"][0]["price_token1_in_token0"], str)
+        assert data["records"][0]["price_token1_in_token0"] == "2.0"
         # fee_growth null serializes as None/null
-        assert data[0]["fee_growth_global_0"] is None
+        assert data["records"][0]["fee_growth_global_0"] is None
 
     def test_save_pool_history_daily_still_has_date(self, tmp_path):
         file = tmp_path / "pool.json"
@@ -957,6 +964,179 @@ class TestTokenLoader:
 # ============================================================================
 # TokenPriceFetcher tests (Sprint 9)
 # ============================================================================
+
+# ============================================================================
+# PoolLoader new wrapper schema tests (Sprint 10)
+# ============================================================================
+
+class TestPoolLoaderWrapperSchema:
+    """Tests that pool_loader hoists pool_address to wrapper root and strips from rows."""
+
+    def test_save_pool_history_hourly_wrapper_schema(self, tmp_path):
+        """PoolHistoryPoint records save with pool_address at root, stripped from rows."""
+        file = tmp_path / "pool.json"
+        records = [
+            PoolHistoryPoint(
+                pool_address="0xabc123",
+                timestamp=1700000000,
+                price_token1_in_token0=Decimal("2.0"),
+                price_token0_in_token1=Decimal("0.5"),
+                volume_usd=Decimal("1000.0"),
+                tvl_usd=Decimal("50000.0"),
+                fee_growth_global_0=None,
+                fee_growth_global_1=None,
+                source="gecko_terminal",
+            ),
+            PoolHistoryPoint(
+                pool_address="0xabc123",
+                timestamp=1700003600,
+                price_token1_in_token0=Decimal("2.1"),
+                price_token0_in_token1=Decimal("0.476"),
+                volume_usd=Decimal("1100.0"),
+                tvl_usd=Decimal("51000.0"),
+                fee_growth_global_0=None,
+                fee_growth_global_1=None,
+                source="gecko_terminal",
+            ),
+            PoolHistoryPoint(
+                pool_address="0xabc123",
+                timestamp=1700007200,
+                price_token1_in_token0=Decimal("2.2"),
+                price_token0_in_token1=Decimal("0.455"),
+                volume_usd=Decimal("1200.0"),
+                tvl_usd=Decimal("52000.0"),
+                fee_growth_global_0=None,
+                fee_growth_global_1=None,
+                source="gecko_terminal",
+            ),
+        ]
+
+        save_pool_history("0xabc123", "USDC-ETH", records, file)
+
+        with open(file) as f:
+            data = json.load(f)
+
+        # Top-level is a dict with wrapper keys
+        assert isinstance(data, dict)
+        assert "pool_address" in data
+        assert "pair_name" in data
+        assert "fetched_at" in data
+        assert "records" in data
+        assert data["pool_address"] == "0xabc123"
+        assert data["pair_name"] == "USDC-ETH"
+
+        # records is a list
+        assert isinstance(data["records"], list)
+        assert len(data["records"]) == 3
+
+        # No pool_address key inside any row record
+        for row in data["records"]:
+            assert "pool_address" not in row
+            assert "timestamp" in row
+
+    def test_load_pool_history_wrapper_injects_pool_address(self, tmp_path):
+        """Loading new wrapper format injects pool_address onto each PoolHistoryPoint."""
+        file = tmp_path / "pool.json"
+        records = [
+            PoolHistoryPoint(
+                pool_address="0xdeadbeef",
+                timestamp=1700000000,
+                price_token1_in_token0=Decimal("2.0"),
+                price_token0_in_token1=Decimal("0.5"),
+                volume_usd=Decimal("1000.0"),
+                tvl_usd=Decimal("50000.0"),
+                fee_growth_global_0=None,
+                fee_growth_global_1=None,
+                source="gecko_terminal",
+            ),
+            PoolHistoryPoint(
+                pool_address="0xdeadbeef",
+                timestamp=1700003600,
+                price_token1_in_token0=Decimal("2.1"),
+                price_token0_in_token1=Decimal("0.476"),
+                volume_usd=Decimal("1100.0"),
+                tvl_usd=Decimal("51000.0"),
+                fee_growth_global_0=None,
+                fee_growth_global_1=None,
+                source="gecko_terminal",
+            ),
+        ]
+
+        save_pool_history("0xdeadbeef", "USDC-ETH", records, file)
+        loaded = load_pool_history(file)
+
+        assert isinstance(loaded, list)
+        assert len(loaded) == 2
+        for r in loaded:
+            assert isinstance(r, PoolHistoryPoint)
+            assert r.pool_address == "0xdeadbeef"
+
+
+# ============================================================================
+# TokenPriceLoader round-trip tests (Sprint 10)
+# ============================================================================
+
+class TestTokenPriceLoader:
+    """Tests for data.loader.token_price_loader save/load round-trip."""
+
+    def test_save_load_token_prices_round_trip(self, tmp_path):
+        file = tmp_path / "WETH.json"
+        records = [
+            TokenHistoryPoint(
+                symbol="WETH",
+                token_address="0xeth",
+                timestamp=1700003600,
+                price_usd=Decimal("2541.33"),
+                volume_usd=Decimal("183421900.12"),
+                market_cap_usd=None,
+                source="coingecko",
+            ),
+            TokenHistoryPoint(
+                symbol="WETH",
+                token_address="0xeth",
+                timestamp=1700000000,
+                price_usd=Decimal("2500.00"),
+                volume_usd=Decimal("170000000.00"),
+                market_cap_usd=Decimal("10482930000.00"),
+                source="coingecko",
+            ),
+        ]
+
+        save_token_prices("0xeth", "WETH", records, file)
+
+        # Check raw JSON structure
+        with open(file) as f:
+            data = json.load(f)
+
+        assert isinstance(data, dict)
+        assert data["token_address"] == "0xeth"
+        assert data["symbol"] == "WETH"
+        assert "fetched_at" in data
+        assert isinstance(data["records"], list)
+        assert len(data["records"]) == 2
+
+        # Row records should NOT have symbol or token_address
+        for row in data["records"]:
+            assert "symbol" not in row
+            assert "token_address" not in row
+            assert "timestamp" in row
+            assert "price_usd" in row
+
+        # Load back
+        loaded = load_token_prices(file)
+        assert isinstance(loaded, list)
+        assert len(loaded) == 2
+        for r in loaded:
+            assert r.symbol == "WETH"
+            assert r.token_address == "0xeth"
+
+        # Records sorted ascending by timestamp
+        assert loaded[0].timestamp < loaded[1].timestamp
+
+    def test_load_token_prices_missing_file(self, tmp_path):
+        with pytest.raises(FileNotFoundError):
+            load_token_prices(tmp_path / "MISSING.json")
+
 
 class TestTokenPriceFetcher:
     """Tests for data.fetcher.token_prices.TokenPriceFetcher."""

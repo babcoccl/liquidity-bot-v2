@@ -4,7 +4,7 @@ Normalizes to list[PoolDayData] or list[PoolHistoryPoint] depending on schema.
 Handles both v1 column naming schemas and hourly flat-array format.
 """
 # AUDIT:status=complete
-# AUDIT:sprint=9-hotfix3
+# AUDIT:sprint=10
 
 import json
 import logging
@@ -55,9 +55,8 @@ def _parse_fee_growth(value: Any) -> int | None:
 # ---------------------------------------------------------------------------
 
 def _serialize_history_point(record: PoolHistoryPoint) -> dict[str, Any]:
-    """Serialize a PoolHistoryPoint to a flat hourly record."""
+    """Serialize a PoolHistoryPoint to a flat hourly record (pool_address hoisted to wrapper)."""
     return {
-        "pool_address": record.pool_address.lower(),
         "timestamp": record.timestamp,
         "price_token1_in_token0": str(record.price_token1_in_token0),
         "price_token0_in_token1": str(record.price_token0_in_token1),
@@ -109,9 +108,36 @@ def load_pool_history(path: Path) -> Union[list[PoolDayData], list[PoolHistoryPo
     except json.JSONDecodeError as e:
         raise ValueError(f"Malformed JSON in {path.name}: {e}")
 
-    # Detect flat hourly array format
-    if isinstance(data, list):
+    # New hourly wrapper format: dict with "records" key
+    if isinstance(data, dict) and "records" in data:
+        pool_addr = str(data.get("pool_address", "")).lower()
         results: list[PoolHistoryPoint] = []
+        for entry in data["records"]:
+            record = PoolHistoryPoint(
+                pool_address=pool_addr,
+                timestamp=int(entry["timestamp"]),
+                price_token1_in_token0=_parse_decimal(
+                    entry.get("price_token1_in_token0", "0")
+                ),
+                price_token0_in_token1=_parse_decimal(
+                    entry.get("price_token0_in_token1", "0")
+                ),
+                volume_usd=_parse_decimal(entry.get("volume_usd", "0")),
+                tvl_usd=_parse_decimal(entry.get("tvl_usd", "0")),
+                fee_growth_global_0=_parse_fee_growth(
+                    entry.get("fee_growth_global_0")
+                ),
+                fee_growth_global_1=_parse_fee_growth(
+                    entry.get("fee_growth_global_1")
+                ),
+                source=entry.get("source", "the_graph"),
+            )
+            results.append(record)
+        return sorted(results, key=lambda r: r.timestamp)
+
+    # Legacy bare flat array (hotfix 3 format — pool_address empty string)
+    if isinstance(data, list):
+        results = []
         for entry in data:
             record = PoolHistoryPoint(
                 pool_address=str(entry.get("pool_address", "")).lower(),
@@ -193,11 +219,16 @@ def save_pool_history(
     is_hourly = hasattr(records[0], "timestamp")
 
     if is_hourly:
-        # Serialize as flat array of PoolHistoryPoint records
-        serialized = [_serialize_history_point(r) for r in records]
+        # Serialize as wrapper object with pool_address hoisted to root
+        payload = {
+            "pool_address": pool_address.lower(),
+            "pair_name": pair_name,
+            "fetched_at": int(time.time()),
+            "records": [_serialize_history_point(r) for r in records],
+        }
         tmp_path = Path(str(path) + ".tmp")
         with open(tmp_path, "w") as f:
-            json.dump(serialized, f, indent=2)
+            json.dump(payload, f, indent=2)
         tmp_path.rename(path)
     else:
         # Legacy PoolDayData format with wrapper dict
