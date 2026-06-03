@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "10",
+  "last_updated_sprint": "10-hotfix1",
   "components": [
     {
       "id": "core.models",
@@ -252,6 +252,20 @@
       "test_coverage": "full"
     },
     {
+      "id": "data.fetcher.token_prices",
+      "file": "data/fetcher/token_prices.py",
+      "status": "complete",
+      "sprint": "10-hotfix1",
+      "audit_notes": [
+        "CoinGecko token USD history fetcher. Normalizes to TokenHistoryPoint for trend and exit logic.",
+        "Sprint 9-hotfix2: Replaced market_chart_range (Pro-only) with free-tier market_chart?days=N&interval=hourly.",
+        "Hotfix 1: 90d chunk pagination via market_chart/range; uppercase COIN_ID_MAP aliases added."
+      ],
+      "dependencies": ["data.fetcher.base"],
+      "test_file": "tests/test_data_layer.py",
+      "test_coverage": "full"
+    },
+    {
       "id": "registry.types",
       "file": "registry/types.py",
       "status": "complete",
@@ -291,19 +305,6 @@
       ],
       "dependencies": ["core.models"],
       "test_file": "tests/test_validate_historical.py",
-      "test_coverage": "full"
-    },
-    {
-      "id": "data.fetcher.token_prices",
-      "file": "data/fetcher/token_prices.py",
-      "status": "complete",
-      "sprint": "9-hotfix2",
-      "audit_notes": [
-        "CoinGecko token USD history fetcher. Normalizes to TokenHistoryPoint for trend and exit logic.",
-        "Sprint 9-hotfix2: Replaced market_chart_range (Pro-only) with free-tier market_chart?days=N&interval=hourly."
-      ],
-      "dependencies": ["data.fetcher.base"],
-      "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
     {

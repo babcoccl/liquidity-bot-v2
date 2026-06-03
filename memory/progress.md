@@ -121,3 +121,8 @@
 - [x] scripts/fetch.py — token price fetch loop added; persists to data/prices/{SYMBOL}.json
 - [x] tests/test_data_layer.py — round-trip assertions for both new pool_loader and token_price_loader schemas
 - [x] memory files updated
+
+### Sprint 10 Hotfix 1 — TokenPriceFetcher Range Pagination + Aliases (COMPLETE)
+- [x] data/fetcher/token_prices.py — replaced single market_chart call
+      with chunked market_chart/range loop (<=90d per chunk); added
+      uppercase COIN_ID_MAP aliases for CBBTC, CBETH, EUSD

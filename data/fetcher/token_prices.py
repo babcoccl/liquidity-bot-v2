@@ -3,8 +3,8 @@ TokenPriceFetcher — token-level historical price source.
 Fetches hourly-ish token USD price history from CoinGecko.
 Normalizes to TokenHistoryPoint records for trend/exit signals.
 """
-# AUDIT:status=complete
-# AUDIT:sprint=9-hotfix2
+# AUDIT:status=hotfix1
+# AUDIT:sprint=10-hotfix1
 
 import json
 import logging
@@ -42,6 +42,10 @@ class TokenPriceFetcher:
         "VVV":     "venice-token",
         "FAI":     "frax-ai",
         "KTA":     "kta",
+        # Uppercase aliases (fetch.py normalizes symbols via .upper())
+        "CBBTC":   "coinbase-wrapped-btc",
+        "CBETH":   "coinbase-wrapped-staked-eth",
+        "EUSD":    "electronic-usd",
     }
 
     def __init__(
@@ -60,6 +64,8 @@ class TokenPriceFetcher:
     # Public API
     # ------------------------------------------------------------------
 
+    _MAX_DAYS_PER_CHUNK = 90  # CoinGecko free-tier hourly limit
+
     def fetch_token_history(
         self,
         token_symbol: str,
@@ -68,6 +74,9 @@ class TokenPriceFetcher:
     ) -> list[TokenHistoryPoint]:
         """
         Fetch hourly-ish USD price history for a token from CoinGecko.
+
+        Uses chunked market_chart/range requests (<=90 days per chunk) to
+        avoid the free-tier days_limit cap on market_chart?interval=hourly.
 
         Args:
             token_symbol: e.g. "WETH", "USDC" — used to resolve coin_id
@@ -85,69 +94,83 @@ class TokenPriceFetcher:
             )
 
         token_address = token_address.lower().strip()
-
-        url = f"{self.BASE_URL}/coins/{coin_id}/market_chart"
-
-        params: dict[str, Any] = {
-            "vs_currency": "usd",
-            "days": days,
-            "interval": "hourly",
-        }
-
         headers: dict[str, str] = {"Accept": "application/json"}
         if self.api_key:
             headers["x-cg-pro-api-key"] = self.api_key
 
-        resp = self._get(url, headers, params)
-        data: dict[str, Any] = resp.json()
+        now = int(time.time())
+        start = now - (days * 86400)
 
-        prices_raw: list[list] = data.get("prices", [])
-        volumes_raw: list[list] = data.get("total_volumes", [])
-        market_caps_raw: list[list] = data.get("market_caps", [])
+        # Split into <=90-day chunks, oldest first
+        chunk_starts: list[int] = []
+        t = start
+        while t < now:
+            chunk_starts.append(t)
+            t += self._MAX_DAYS_PER_CHUNK * 86400
 
-        if not prices_raw:
-            return []
+        all_results: list[TokenHistoryPoint] = []
 
-        # Build lookup maps by raw timestamp
-        volume_map: dict[int, float] = {}
-        for entry in volumes_raw:
-            ts = int(entry[0])
-            volume_map[ts] = entry[1]
+        for i, chunk_from in enumerate(chunk_starts):
+            chunk_to = min(chunk_from + self._MAX_DAYS_PER_CHUNK * 86400, now)
 
-        mcap_map: dict[int, float] = {}
-        for entry in market_caps_raw:
-            ts = int(entry[0])
-            mcap_map[ts] = entry[1]
+            url = f"{self.BASE_URL}/coins/{coin_id}/market_chart/range"
+            params: dict[str, Any] = {
+                "vs_currency": "usd",
+                "from": chunk_from,
+                "to": chunk_to,
+            }
 
-        results: list[TokenHistoryPoint] = []
-        for price_entry in prices_raw:
-            timestamp_ms: int = int(price_entry[0])
-            price_usd_val: float = price_entry[1]
+            resp = self._get(url, headers, params)
+            data: dict[str, Any] = resp.json()
 
-            # Normalize to exact UTC hour bucket (seconds)
-            timestamp = (timestamp_ms // 3600000) * 3600
+            prices_raw: list[list] = data.get("prices", [])
+            volumes_raw: list[list] = data.get("total_volumes", [])
+            market_caps_raw: list[list] = data.get("market_caps", [])
 
-            volume_usd_val = volume_map.get(timestamp_ms, 0.0)
-            mcap_usd_val = mcap_map.get(timestamp_ms, None)
-
-            if price_usd_val <= 0:
+            if not prices_raw:
+                logger.warning(
+                    "No price data returned for %s chunk %d/%d",
+                    token_symbol, i + 1, len(chunk_starts),
+                )
                 continue
 
-            results.append(
-                TokenHistoryPoint(
-                    token_address=token_address,
-                    symbol=token_symbol,
-                    timestamp=timestamp,
-                    price_usd=Decimal(str(price_usd_val)),
-                    volume_usd=Decimal(str(volume_usd_val)),
-                    market_cap_usd=Decimal(str(mcap_usd_val)) if mcap_usd_val is not None else None,
-                    source="coingecko",
+            volume_map: dict[int, float] = {int(e[0]): e[1] for e in volumes_raw}
+            mcap_map: dict[int, float] = {int(e[0]): e[1] for e in market_caps_raw}
+
+            for price_entry in prices_raw:
+                timestamp_ms = int(price_entry[0])
+                price_usd_val = price_entry[1]
+                timestamp = (timestamp_ms // 3600000) * 3600
+
+                volume_usd_val = volume_map.get(timestamp_ms, 0.0)
+                mcap_usd_val = mcap_map.get(timestamp_ms)
+
+                if price_usd_val <= 0:
+                    continue
+
+                all_results.append(
+                    TokenHistoryPoint(
+                        token_address=token_address,
+                        symbol=token_symbol,
+                        timestamp=timestamp,
+                        price_usd=Decimal(str(price_usd_val)),
+                        volume_usd=Decimal(str(volume_usd_val)),
+                        market_cap_usd=(
+                            Decimal(str(mcap_usd_val))
+                            if mcap_usd_val is not None
+                            else None
+                        ),
+                        source="coingecko",
+                    )
                 )
-            )
+
+            # Sleep between chunks to avoid 429
+            if i < len(chunk_starts) - 1:
+                time.sleep(3)
 
         # Dedup by timestamp (keep last), sort ascending
         seen: dict[int, TokenHistoryPoint] = {}
-        for entry in results:
+        for entry in all_results:
             seen[entry.timestamp] = entry
         return sorted(seen.values(), key=lambda r: r.timestamp)
 
