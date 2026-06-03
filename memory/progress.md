@@ -97,10 +97,18 @@
 - [x] memory/known_issues.md — hotfix note appended to backtest/simulator.py section
 - [x] memory/manifest.json — backtest.simulator audit_notes updated; test file entry added
 
+### Sprint 8 — Fetch Pipeline Repair (COMPLETE)
+- [x] data/fetcher/gecko_terminal.py — GeckoTerminalFetcher (primary OHLCV source, matches v1 strategy)
+- [x] data/fetcher/__init__.py — GeckoTerminalFetcher exported
+- [x] data/fetcher/the_graph.py — FetchError now logs response body/errors; URL supports {api_key} path substitution
+- [x] config/default.yaml — the_graph URL updated to decentralized gateway; gecko_terminal block added
+- [x] scripts/fetch.py — GeckoTerminalFetcher wired as primary in FetchRouter; TheGraph URL key substitution applied
+- [x] memory files updated
+
 ## In Progress
 _(none)_
 
-## Next Action: Sprint 8 — Backtest Validation Run + feeGrowthGlobal Fee Attribution
+## Next Action: Sprint 9 — Backtest Validation Run + feeGrowthGlobal Fee Attribution
 
 ## Deferred (not in v2 scope)
 

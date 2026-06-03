@@ -25,7 +25,7 @@ dev = [
 testpaths = ["tests"]
 
 [tool.setuptools.packages.find]
-include = ["data*", "core*", "strategy*", "backtest*", "execution*", "reporting*", "tests*"]
+include = ["data*", "core*", "strategy*", "backtest*", "execution*", "reporting*", "registry*", "scripts*", "tests*"]
 
 [tool.ruff]
 line-length = 120

@@ -5,8 +5,9 @@ Paginates using date_gt cursor until no results remain.
 fee_growth_global fields parsed as int(), never float.
 """
 # AUDIT:status=complete
-# AUDIT:sprint=7
+# AUDIT:sprint=8
 
+import json
 import logging
 import time
 from decimal import Decimal
@@ -74,8 +75,16 @@ class TheGraphFetcher(AbstractFetcher):
             response = self._post(query, pool_address_lower)
             data = response.json()
 
-            if "data" not in data or "poolDayDatas" not in data["data"]:
-                raise FetchError(f"Unexpected response structure from The Graph for {pool_address}")
+            if "data" not in data or "poolDayDatas" not in data.get("data", {}):
+                errors = data.get("errors", [])
+                error_msgs = (
+                    "; ".join(e.get("message", str(e)) for e in errors)
+                    if errors
+                    else json.dumps(data)
+                )
+                raise FetchError(
+                    f"Unexpected response from The Graph for {pool_address}: {error_msgs}"
+                )
 
             records: list = data["data"]["poolDayDatas"]
 

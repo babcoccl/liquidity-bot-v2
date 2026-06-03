@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": 7,
+  "last_updated_sprint": 8,
   "components": [
     {
       "id": "core.models",
@@ -161,9 +161,10 @@
       "id": "data.fetcher.the_graph",
       "file": "data/fetcher/the_graph.py",
       "status": "complete",
-      "sprint": 7,
+      "sprint": 8,
       "audit_notes": [
-        "api_key read from THEGRAPH_API_KEY env var — silently uses empty string if not set, which will produce 401 on authenticated endpoints"
+        "api_key read from THEGRAPH_API_KEY env var — silently uses empty string if not set, which will produce 401 on authenticated endpoints",
+        " Sprint 8: FetchError logs response body; URL supports {api_key} path substitution."
       ],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
@@ -255,12 +256,25 @@
       "test_coverage": "full"
     },
     {
+      "id": "data.fetcher.gecko_terminal",
+      "file": "data/fetcher/gecko_terminal.py",
+      "status": "complete",
+      "sprint": 8,
+      "audit_notes": [
+        "New primary OHLCV source. GeckoTerminal public API. Hourly candles, before_timestamp pagination. tvl_usd from pool detail snapshot. fee_growth_global always None."
+      ],
+      "dependencies": ["data.fetcher.base"],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
       "id": "scripts.fetch",
       "file": "scripts/fetch.py",
       "status": "complete",
-      "sprint": 5,
+      "sprint": 8,
       "audit_notes": [
-        "COINGECKO_API_KEY read from environment — will silently use empty string if not set"
+        "COINGECKO_API_KEY read from environment — will silently use empty string if not set",
+        " Sprint 8: GeckoTerminalFetcher added as primary; FetchRouter order updated; TheGraph URL key substitution applied."
       ],
       "dependencies": [
         "registry.registry",

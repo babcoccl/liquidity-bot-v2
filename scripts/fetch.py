@@ -12,7 +12,7 @@ Runs post-fetch validation and prints any warnings.
 """
 
 # AUDIT:status=complete
-# AUDIT:sprint=5
+# AUDIT:sprint=8
 
 import argparse
 import logging
@@ -24,6 +24,7 @@ import yaml
 
 from data.fetcher.coingecko import CoinGeckoFetcher
 from data.fetcher.defillama import DeFiLlamaFetcher
+from data.fetcher.gecko_terminal import GeckoTerminalFetcher
 from data.fetcher.router import FetchRouter
 from data.fetcher.the_graph import TheGraphFetcher
 from data.fetcher.validate_historical import validate_all
@@ -82,10 +83,17 @@ def main() -> int:
     ds = config.get("data_sources", {})
 
     # Build fetchers
+    gt_cfg = ds.get("gecko_terminal", {})
+    gecko_fetcher = GeckoTerminalFetcher(
+        network=gt_cfg.get("network", "base"),
+        timeframe=gt_cfg.get("timeframe", "hour"),
+        rate_limit_per_min=gt_cfg.get("rate_limit_per_min", 25),
+    )
+
     tg_cfg = ds.get("the_graph", {})
     graph_api_key = os.environ.get("THEGRAPH_API_KEY", tg_cfg.get("api_key", ""))
     graph_fetcher = TheGraphFetcher(
-        url=tg_cfg.get("url", ""),
+        url=tg_cfg.get("url", "").replace("{api_key}", graph_api_key),
         api_key=graph_api_key,
         rate_limit_per_min=tg_cfg.get("rate_limit_per_min", 30),
     )
@@ -104,7 +112,7 @@ def main() -> int:
         rate_limit_per_min=dl_cfg.get("rate_limit_per_min", 100),
     )
 
-    router = FetchRouter(fetchers=[graph_fetcher, coingecko_fetcher, defillama_fetcher])
+    router = FetchRouter(fetchers=[gecko_fetcher, graph_fetcher, coingecko_fetcher, defillama_fetcher])
 
     # Load registry
     registry = PoolRegistry(path=Path("registry/registry.json"))

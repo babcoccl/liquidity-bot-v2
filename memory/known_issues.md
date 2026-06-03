@@ -1,5 +1,5 @@
 # Known Issues
-_Last updated: Sprint 7_
+_Last updated: Sprint 8_
 
 ## strategy/scorer.py
 - Weights hardcoded in class; not loaded from config/default.yaml scoring.weights
@@ -47,6 +47,15 @@ _Last updated: Sprint 7_
 - fee_growth_global fields always None — CoinGecko cannot provide.
 - price_token1_in_token0 is token1's USD price (proxy only — not true intra-pool
   price ratio for non-USD pairs).
+
+## data/fetcher/gecko_terminal.py
+- tvl_usd is a snapshot from pool detail endpoint at fetch time, not per-candle historical TVL.
+  All PoolDayData records for a pool in a single fetch share the same tvl_usd value.
+- fee_growth_global fields always None — GeckoTerminal cannot provide.
+  Backtest fee attribution will use proportional TVL model when this fetcher is primary source.
+- price_token1_in_token0 uses candle close price — not a true intra-pool tick price.
+- Hourly candles bucketed to UTC midnight for daily date field. Multiple candles per day
+  collapse to the last candle's close (dedup by date keeps last).
 
 ## No Issues Documented
 - core/models.py

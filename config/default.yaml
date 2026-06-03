@@ -43,9 +43,10 @@ harvesting:
 
 data_sources:
   the_graph:
-    # Aerodrome Finance subgraph on Base
-    # Endpoint verified in Sprint 5 — feeGrowthGlobal0X128 and feeGrowthGlobal1X128 confirmed available
-    url: "https://api.studio.thegraph.com/query/30563/aerodrome-cl-base/version/latest"
+    # Aerodrome Base Full — decentralized gateway (Studio endpoint is dead as of Sprint 8)
+    # Subgraph ID: GENunSHWLBXm59mBSgPzQ8metBEp9YDfdqwFr91Av1UM
+    # Auth: API key embedded in URL path (gateway standard) + Bearer header sent redundantly
+    url: "https://gateway.thegraph.com/api/{api_key}/subgraphs/id/GENunSHWLBXm59mBSgPzQ8metBEp9YDfdqwFr91Av1UM"
     api_key: ""          # set via THEGRAPH_API_KEY env var at runtime
     rate_limit_per_min: 30
 
@@ -56,6 +57,11 @@ data_sources:
   defillama:
     protocol_slug: "aerodrome-finance"
     rate_limit_per_min: 100
+
+  gecko_terminal:
+    network: "base"
+    timeframe: "hour"
+    rate_limit_per_min: 25
 
 rpc:
   base_http: ""    # set via BASE_RPC_HTTP env var at runtime
