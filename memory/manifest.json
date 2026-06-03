@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": 9,
+  "last_updated_sprint": "9-hotfix2",
   "components": [
     {
       "id": "core.models",
@@ -13,7 +13,7 @@
       "test_file": "tests/test_scaffold.py",
       "test_coverage": "full"
     },
-    {
+  
       "id": "core.il",
       "file": "core/il.py",
       "status": "complete",
@@ -165,10 +165,11 @@
       "id": "data.fetcher.the_graph",
       "file": "data/fetcher/the_graph.py",
       "status": "complete",
-      "sprint": 8,
+      "sprint": "9-hotfix2",
       "audit_notes": [
         "api_key read from THEGRAPH_API_KEY env var — silently uses empty string if not set, which will produce 401 on authenticated endpoints",
-        "Sprint 8: FetchError logs response body; URL supports {api_key} path substitution."
+        "Sprint 8: FetchError logs response body; URL supports {api_key} path substitution.",
+        "Sprint 9-hotfix2: Daily records expanded to 24 hourly PoolHistoryPoint records."
       ],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
@@ -178,12 +179,13 @@
       "id": "data.fetcher.coingecko",
       "file": "data/fetcher/coingecko.py",
       "status": "complete",
-      "sprint": 7,
+      "sprint": "9-hotfix2",
       "audit_notes": [
         "TVL always Decimal('0') — source limitation",
         "fee_growth_global always None — source limitation",
         "price_token1_in_token0 is USD proxy for token1 not true intra-pool ratio",
-        "Requires COIN_ID_MAP update when new tokens added to registry"
+        "Requires COIN_ID_MAP update when new tokens added to registry",
+        "Sprint 9-hotfix2: Daily records expanded to 24 hourly PoolHistoryPoint records."
       ],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
@@ -193,8 +195,10 @@
       "id": "data.fetcher.defillama",
       "file": "data/fetcher/defillama.py",
       "status": "complete",
-      "sprint": 2,
-      "audit_notes": [],
+      "sprint": "9-hotfix2",
+      "audit_notes": [
+        "Sprint 9-hotfix2: Daily TVL snapshots expanded to 24 hourly PoolHistoryPoint records."
+      ],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
@@ -276,25 +280,13 @@
       "test_coverage": "full"
     },
     {
-      "id": "data.fetcher.gecko_terminal",
-      "file": "data/fetcher/gecko_terminal.py",
-      "status": "complete",
-      "sprint": "9-hotfix",
-      "audit_notes": [
-        "Sprint 9: Preserves hourly timestamps from GeckoTerminal candles. Returns PoolHistoryPoint instead of PoolDayData. No daily collapse. Dedup by exact timestamp.",
-        "Sprint 9 hotfix: HTTP 401 raises RateLimitError for free-tier day limit fallback to TheGraph."
-      ],
-      "dependencies": ["data.fetcher.base"],
-      "test_file": null,
-      "test_coverage": "none"
-    },
-    {
       "id": "data.fetcher.token_prices",
       "file": "data/fetcher/token_prices.py",
       "status": "complete",
-      "sprint": 9,
+      "sprint": "9-hotfix2",
       "audit_notes": [
-        "CoinGecko token USD history fetcher. Normalizes to TokenHistoryPoint for trend and exit logic."
+        "CoinGecko token USD history fetcher. Normalizes to TokenHistoryPoint for trend and exit logic.",
+        "Sprint 9-hotfix2: Replaced market_chart_range (Pro-only) with free-tier market_chart?days=N&interval=hourly."
       ],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
@@ -370,6 +362,20 @@
       "test_coverage": "full"
     },
     {
+      "id": "data.fetcher.gecko_terminal",
+      "file": "data/fetcher/gecko_terminal.py",
+      "status": "complete",
+      "sprint": "9-hotfix2",
+      "audit_notes": [
+        "Sprint 9: Preserves hourly timestamps from GeckoTerminal candles. Returns PoolHistoryPoint instead of PoolDayData. No daily collapse. Dedup by exact timestamp.",
+        "Sprint 9 hotfix: HTTP 401 raises RateLimitError for free-tier day limit fallback to TheGraph.",
+        "Sprint 9-hotfix2: _INTER_POOL_SLEEP increased from 10s to 30s for server-side rate limit recovery."
+      ],
+      "dependencies": ["data.fetcher.base"],
+      "test_file": "tests/test_data_layer.py",
+      "test_coverage": "full"
+    },
+    {
       "id": "scripts.backtest",
       "file": "scripts/backtest.py",
       "status": "complete",
@@ -378,19 +384,6 @@
       "dependencies": ["backtest.harness", "backtest.config", "registry.registry"],
       "test_file": null,
       "test_coverage": "none"
-    },
-    {
-      "id": "core.units",
-      "file": "core/units.py",
-      "status": "complete",
-      "sprint": 7,
-      "audit_notes": [
-        "MULTIPLY_RULES table must be extended when new denomination combinations are introduced",
-        "fee_gas_ratio returns RATIO('0') not inf — see core/fees.py note"
-      ],
-      "dependencies": [],
-      "test_file": "tests/test_units.py",
-      "test_coverage": "full"
     },
     {
       "id": "config.default_yaml.rpc",

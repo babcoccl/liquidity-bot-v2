@@ -6,7 +6,7 @@ fee_growth_global fields always None (source cannot provide).
 tvl_usd sourced from pool detail endpoint (reserve_in_usd).
 """
 # AUDIT:status=complete
-# AUDIT:sprint=9-hotfix
+# AUDIT:sprint=9-hotfix2
 
 import logging
 import time
@@ -22,7 +22,7 @@ from core.models import PoolHistoryPoint
 logger = logging.getLogger(__name__)
 
 _BASE = "https://api.geckoterminal.com/api/v2"
-_INTER_POOL_SLEEP = 10.0
+_INTER_POOL_SLEEP = 30.0
 _INTER_PAGE_SLEEP = 2.0
 _BACKOFFS = [15, 30, 60, 120, 240]
 

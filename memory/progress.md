@@ -122,6 +122,16 @@
 - [x] tests/test_data_layer.py — 401 → RateLimitError test added
 - [x] memory files updated
 
+### Sprint 9 Hotfix 2 — Fallback Hourly Support + CoinGecko Token Fix (COMPLETE)
+- [x] data/fetcher/the_graph.py — daily records expanded to 24 hourly
+      PoolHistoryPoint records; return type updated
+- [x] data/fetcher/coingecko.py — same hourly expansion applied
+- [x] data/fetcher/defillama.py — same hourly expansion applied
+- [x] data/fetcher/token_prices.py — market_chart_range replaced with
+      free-tier market_chart?days=N&interval=hourly
+- [x] data/fetcher/gecko_terminal.py — _INTER_POOL_SLEEP increased to 30s
+- [x] memory files updated
+
 ## In Progress
 _(none)_
 

@@ -4,7 +4,7 @@ Fetches hourly-ish token USD price history from CoinGecko.
 Normalizes to TokenHistoryPoint records for trend/exit signals.
 """
 # AUDIT:status=complete
-# AUDIT:sprint=9
+# AUDIT:sprint=9-hotfix2
 
 import json
 import logging
@@ -86,20 +86,12 @@ class TokenPriceFetcher:
 
         token_address = token_address.lower().strip()
 
-        url = (
-            f"{self.BASE_URL}/coins/{coin_id}/market_chart_range"
-            f"?vs_currency=usd"
-        )
-
-        from datetime import datetime, timezone, timedelta
-
-        now = datetime.now(timezone.utc)
-        start_dt = now - timedelta(days=days)
-        end_dt = now
+        url = f"{self.BASE_URL}/coins/{coin_id}/market_chart"
 
         params: dict[str, Any] = {
-            "from": int(start_dt.timestamp()),
-            "to": int(end_dt.timestamp()),
+            "vs_currency": "usd",
+            "days": days,
+            "interval": "hourly",
         }
 
         headers: dict[str, str] = {"Accept": "application/json"}

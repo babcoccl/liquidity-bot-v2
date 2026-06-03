@@ -1,6 +1,6 @@
 # Known Issues
 
-_Last updated: Sprint 9 Hotfix_
+_Last updated: Sprint 9 Hotfix 2_
 
 ## data/fetcher/gecko_terminal.py
 - tvl_usd remains a snapshot from pool detail endpoint at fetch time, not historical per-candle TVL.
@@ -17,7 +17,27 @@ _Last updated: Sprint 9 Hotfix_
 - Symbol-based coin ID mapping is static and may require manual additions for new tokens.
 
 ## data/fetcher/coingecko.py
-- Returns PoolDayData (daily-bucketed) for backward compatibility. Sprint 9 introduced TokenHistoryPoint via TokenPriceFetcher instead.
+- Now returns PoolHistoryPoint with hourly timestamps synthesized from daily source data.
+
+## Sprint 9 Hotfix 2
+
+### data/fetcher/the_graph.py / coingecko.py / defillama.py
+- Fallback fetchers return synthesized hourly PoolHistoryPoint records
+  expanded from daily source data (24 records per day, volume divided by 24).
+- Price is constant within each synthesized day — no intraday movement.
+  Backtester should be aware that hourly price variation only exists in
+  GeckoTerminal-sourced records, not fallback-sourced records.
+
+### data/fetcher/token_prices.py
+- market_chart_range is CoinGecko Pro only. Replaced with market_chart
+  free-tier endpoint using days + interval=hourly parameters.
+- max lookback on free tier with interval=hourly is 90 days.
+  Beyond 90 days, CoinGecko returns daily granularity regardless of
+  interval parameter. Token history beyond 90 days will be daily-expanded.
+
+### data/fetcher/gecko_terminal.py
+- _INTER_POOL_SLEEP increased to 30s to reduce server-side 429 frequency
+  across sequential pool fetches.
 
 ## data/loader/pool_loader.py
 - save_pool_history accepts both PoolDayData and PoolHistoryPoint but the JSON wrapper key is always "days" for backward compatibility even when storing hourly points.

@@ -5,7 +5,7 @@ fee_growth_global fields always None (source cannot provide).
 tvl_usd always Decimal("0") (source cannot provide).
 """
 # AUDIT:status=complete
-# AUDIT:sprint=7
+# AUDIT:sprint=9-hotfix2
 
 import json
 import logging
@@ -17,7 +17,7 @@ from typing import Any
 import requests
 
 from data.fetcher.base import AbstractFetcher, FetchError, RateLimitError
-from core.models import PoolDayData
+from core.models import PoolDayData, PoolHistoryPoint
 
 logger = logging.getLogger(__name__)
 
@@ -63,9 +63,12 @@ class CoinGeckoFetcher(AbstractFetcher):
     # Public API
     # ------------------------------------------------------------------
 
-    def fetch_pool_history(self, pool_address: str, days: int) -> list[PoolDayData]:
+    def fetch_pool_history(self, pool_address: str, days: int) -> list[PoolHistoryPoint]:
         """
-        Fetch pool day data using CoinGecko market_chart for the pool's token1.
+        Fetch pool history using CoinGecko market_chart for the pool's token1.
+
+        Returns synthesized hourly PoolHistoryPoint records expanded from
+        daily source data (24 records per day, volume divided by 24).
 
         Resolves pool_address → token symbols via registry.
         Maps token1 symbol → CoinGecko coin_id via COIN_ID_MAP.
@@ -90,24 +93,27 @@ class CoinGeckoFetcher(AbstractFetcher):
                 f"{token0_symbol} (pool {pool_address}). Add to COIN_ID_MAP."
             )
 
-        records = self.fetch_token_history(coin_id, days)
+        daily_records = self.fetch_token_history(coin_id, days)
 
-        restamped: list[PoolDayData] = []
-        for r in records:
-            restamped.append(
-                PoolDayData(
-                    pool_address=pool_address.lower(),
-                    date=r.date,
-                    price_token1_in_token0=r.price_token1_in_token0,
-                    price_token0_in_token1=r.price_token0_in_token1,
-                    volume_usd=r.volume_usd,
-                    tvl_usd=r.tvl_usd,
-                    fee_growth_global_0=None,
-                    fee_growth_global_1=None,
-                    source="coingecko",
+        hourly: list[PoolHistoryPoint] = []
+        for day in daily_records:
+            day_start = day.date
+            hourly_volume = day.volume_usd / Decimal("24")
+            for h in range(24):
+                hourly.append(
+                    PoolHistoryPoint(
+                        pool_address=pool_address.lower(),
+                        timestamp=day_start + h * 3600,
+                        price_token1_in_token0=day.price_token1_in_token0,
+                        price_token0_in_token1=day.price_token0_in_token1,
+                        volume_usd=hourly_volume,
+                        tvl_usd=day.tvl_usd,
+                        fee_growth_global_0=None,
+                        fee_growth_global_1=None,
+                        source="coingecko",
+                    )
                 )
-            )
-        return restamped
+        return sorted(hourly, key=lambda r: r.timestamp)
 
     def _load_registry_pool(self, pool_address: str) -> dict | None:
         """

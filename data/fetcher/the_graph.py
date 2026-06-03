@@ -5,7 +5,7 @@ Paginates using date_gt cursor until no results remain.
 fee_growth_global fields parsed as int(), never float.
 """
 # AUDIT:status=complete
-# AUDIT:sprint=8
+# AUDIT:sprint=9-hotfix2
 
 import json
 import logging
@@ -16,7 +16,7 @@ from typing import Optional
 import requests
 
 from data.fetcher.base import AbstractFetcher, FetchError, RateLimitError
-from core.models import PoolDayData
+from core.models import PoolDayData, PoolHistoryPoint
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +36,7 @@ class TheGraphFetcher(AbstractFetcher):
     # Public API
     # ------------------------------------------------------------------
 
-    def fetch_pool_history(self, pool_address: str, days: int) -> list[PoolDayData]:
+    def fetch_pool_history(self, pool_address: str, days: int) -> list[PoolHistoryPoint]:
         """Fetch up to `days` of daily data for the given pool."""
         import math
         from datetime import datetime, timezone, timedelta
@@ -104,7 +104,25 @@ class TheGraphFetcher(AbstractFetcher):
 
             cursor = int(records[-1]["date"])
 
-        return sorted(results, key=lambda r: r.date)
+        hourly: list[PoolHistoryPoint] = []
+        for day in results:
+            day_start = day.date
+            hourly_volume = day.volume_usd / Decimal("24")
+            for h in range(24):
+                hourly.append(
+                    PoolHistoryPoint(
+                        pool_address=day.pool_address,
+                        timestamp=day_start + h * 3600,
+                        price_token1_in_token0=day.price_token1_in_token0,
+                        price_token0_in_token1=day.price_token0_in_token1,
+                        volume_usd=hourly_volume,
+                        tvl_usd=day.tvl_usd,
+                        fee_growth_global_0=day.fee_growth_global_0,
+                        fee_growth_global_1=day.fee_growth_global_1,
+                        source="the_graph",
+                    )
+                )
+        return sorted(hourly, key=lambda r: r.timestamp)
 
     def is_available(self) -> bool:
         """Check if the fetcher can be used (url set and reachable)."""

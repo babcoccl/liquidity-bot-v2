@@ -6,7 +6,7 @@ price fields set to Decimal("0") — DeFiLlama does not provide token price cand
 No API key required.
 """
 # AUDIT:status=complete
-# AUDIT:sprint=1
+# AUDIT:sprint=9-hotfix2
 
 import logging
 import time
@@ -16,7 +16,7 @@ from typing import Any
 import requests
 
 from data.fetcher.base import AbstractFetcher, FetchError, RateLimitError
-from core.models import PoolDayData
+from core.models import PoolDayData, PoolHistoryPoint
 
 logger = logging.getLogger(__name__)
 
@@ -37,8 +37,12 @@ class DeFiLlamaFetcher(AbstractFetcher):
     # Public API
     # ------------------------------------------------------------------
 
-    def fetch_pool_history(self, pool_address: str, days: int) -> list[PoolDayData]:
-        """Fetch TVL history for the configured protocol."""
+    def fetch_pool_history(self, pool_address: str, days: int) -> list[PoolHistoryPoint]:
+        """Fetch TVL history for the configured protocol.
+
+        Returns synthesized hourly PoolHistoryPoint records expanded from
+        daily source data (24 records per day).
+        """
         url = f"{self.BASE_URL}/protocol/{self.protocol_slug}"
 
         resp = self._get(url)
@@ -50,7 +54,7 @@ class DeFiLlamaFetcher(AbstractFetcher):
         if len(tvl_array) > days:
             tvl_array = tvl_array[-days:]
 
-        results: list[PoolDayData] = []
+        daily_records: list[PoolDayData] = []
         for entry in tvl_array:
             ts = int(entry.get("date", 0))
             total_liquidity = entry.get("totalLiquidityUSD", 0.0)
@@ -66,9 +70,26 @@ class DeFiLlamaFetcher(AbstractFetcher):
                 fee_growth_global_1=None,
                 source="defillama",
             )
-            results.append(record)
+            daily_records.append(record)
 
-        return sorted(results, key=lambda r: r.date)
+        hourly: list[PoolHistoryPoint] = []
+        for day in daily_records:
+            day_start = day.date
+            for h in range(24):
+                hourly.append(
+                    PoolHistoryPoint(
+                        pool_address=day.pool_address,
+                        timestamp=day_start + h * 3600,
+                        price_token1_in_token0=day.price_token1_in_token0,
+                        price_token0_in_token1=day.price_token0_in_token1,
+                        volume_usd=day.volume_usd,
+                        tvl_usd=day.tvl_usd,
+                        fee_growth_global_0=None,
+                        fee_growth_global_1=None,
+                        source="defillama",
+                    )
+                )
+        return sorted(hourly, key=lambda r: r.timestamp)
 
     def is_available(self) -> bool:
         """Check if DeFiLlama API is reachable."""
