@@ -39,6 +39,7 @@ class Position:
         self.fee_tier_bps = fee_tier_bps
         self.fees_earned_usd: TaggedDecimal = usd("0")
         self.current_value_usd: TaggedDecimal = capital_usd
+        self.last_price: TaggedDecimal = entry_price   # updated each step; used by summary()
 
     def update(
         self,
@@ -65,6 +66,7 @@ class Position:
 
         # Position value = initial capital adjusted by IL
         self.current_value_usd = usd(self.capital_usd.value + il_usd)
+        self.last_price = current_price   # record last seen price for summary()
 
         # Fee attribution: estimate pool daily fees, then take LP share
         daily_fees = estimate_daily_fees(pool_tvl_usd, volume_usd, self.fee_tier_bps)
@@ -236,19 +238,13 @@ class BacktestSimulator:
         il_loss = Decimal("0")
         if self.position:
             from core.il import compute_il
-            current_price_est = (
-                self.position.current_value_usd.value / self.position.capital_usd.value
-                if self.position.capital_usd.value > 0
-                else Decimal("0")
-            )
-            il_result = compute_il(
+            il_loss = compute_il(
                 entry_price=self.position.entry_price.value,
-                current_price=current_price_est,
+                current_price=self.position.last_price.value,
                 price_lower=self.position.price_lower.value,
                 price_upper=self.position.price_upper.value,
                 capital_usd=self.position.capital_usd.value,
             )
-            il_loss = il_result
 
         # BOUNDARY: metrics.py uses float — pass .value here intentionally
         return portfolio_summary(

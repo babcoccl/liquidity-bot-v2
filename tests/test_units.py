@@ -56,7 +56,7 @@ class TestTaggedDecimalArithmetic:
         assert result.denom == "USD"
 
     def test_add_different_denom_raises_denomination_error(self) -> None:
-        with pytest.raises(DenominationError, match="incompatible"):
+        with pytest.raises(DenominationError, match="Cannot apply"):
             usd("10") + token0("5")
 
     def test_sub_same_denom_correct(self) -> None:

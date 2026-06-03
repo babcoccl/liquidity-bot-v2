@@ -87,6 +87,16 @@
 - [x] memory/known_issues.md — coingecko, fees, simulator sections updated; last_updated Sprint 7
 - [x] memory/manifest.json — 5 components updated, 2 new components added, last_updated_sprint: 7
 
+### Sprint 7 Hotfix — Simulator & Test Correctness (COMPLETE)
+- [x] tests/test_units.py — match string fixed: "incompatible" → "Cannot apply"
+- [x] backtest/simulator.py — Position.last_price field added; Position.update() records
+      last seen price; BacktestSimulator.summary() uses last_price for IL computation
+      instead of current_value/capital ratio
+- [x] tests/test_simulator.py — new file, full coverage of Position, PositionSimulator,
+      BacktestSimulator including regression test for IL price bug
+- [x] memory/known_issues.md — hotfix note appended to backtest/simulator.py section
+- [x] memory/manifest.json — backtest.simulator audit_notes updated; test file entry added
+
 ## In Progress
 _(none)_
 

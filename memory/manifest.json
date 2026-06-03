@@ -93,10 +93,23 @@
       "audit_notes": [
         "PositionSimulator.step() implemented — accepts PoolDayData",
         "fee attribution is proportional model — does not use feeGrowthGlobal yet",
-        "price range width is entry_price × multiplier — not config-driven yet"
+        "price range width is entry_price × multiplier — not config-driven yet",
+        "HOTFIX: summary() IL price bug fixed — last_price field added to Position"
       ],
       "dependencies": ["core.il", "core.fees", "core.units"],
       "test_file": "tests/test_scaffold.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "backtest.simulator.tests",
+      "file": "tests/test_simulator.py",
+      "status": "complete",
+      "sprint": "7-hotfix",
+      "audit_notes": [
+        "Includes regression test for summary() IL price bug (test_summary_il_uses_last_price_not_value_ratio)"
+      ],
+      "dependencies": ["backtest.simulator", "core.units", "core.il", "core.fees"],
+      "test_file": "tests/test_simulator.py",
       "test_coverage": "full"
     },
     {

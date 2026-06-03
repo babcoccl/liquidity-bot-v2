@@ -34,6 +34,10 @@ _Last updated: Sprint 7_
   Does not use feeGrowthGlobal — that is deferred to a future sprint.
 - price_lower/upper set as entry_price × multiplier (default ±10%).
   Config-driven range width is deferred.
+- HOTFIX Sprint 7: summary() previously computed current_price as
+  current_value_usd / capital_usd (a ratio, not a price), producing
+  incorrect IL. Fixed by storing last_price on Position and using it
+  in summary(). Regression test: test_summary_il_uses_last_price_not_value_ratio.
 
 ## data/fetcher/coingecko.py
 - fetch_pool_history() resolves pool→token via registry lookup + COIN_ID_MAP static table.
