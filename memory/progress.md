@@ -105,18 +105,20 @@
 - [x] scripts/fetch.py — GeckoTerminalFetcher wired as primary in FetchRouter; TheGraph URL key substitution applied
 - [x] memory files updated
 
+### Sprint 9 — Hourly History + Token Trend Layer (COMPLETE)
+- [x] core/models.py — PoolHistoryPoint and TokenHistoryPoint added
+- [x] data/fetcher/gecko_terminal.py — preserves hourly timestamps; no daily collapse
+- [x] data/fetcher/token_prices.py — CoinGecko token history fetcher added
+- [x] data/loader/pool_loader.py — hourly persistence supported
+- [x] data/loader/token_loader.py — token history persistence added
+- [x] data/fetcher/validate_historical.py — hourly gap validation added
+- [x] scripts/fetch.py — fetches pool history plus token0/token1 history for same lookback window
+- [x] tests updated
+- [x] memory files updated
+
 ## In Progress
 _(none)_
 
-## Next Action: Sprint 9 — Backtest Validation Run + feeGrowthGlobal Fee Attribution
+## Next Action: Sprint 10 — Strategy Signals Consume Token Trend + Hourly Pool Data
 
 ## Deferred (not in v2 scope)
-
-Live trading / on-chain execution
-
-
-Email reporting
-
-Dashboard UI
-
-Multi-pool rotation optimizer

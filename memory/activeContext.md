@@ -1,26 +1,19 @@
 # Active Context
 
-**Current focus:** Sprint 9 — Backtest Validation Run + feeGrowthGlobal Fee Attribution
+**Current focus:** Sprint 10 — Strategy Signals Consume Token Trend + Hourly Pool Data
 
 **In-progress:** none
 
 **Blockers:** none
 
-**Last completed:** Sprint 8 — Fetch Pipeline Repair
-GeckoTerminalFetcher added as primary source (matches v1 strategy).
-FetchRouter order: GeckoTerminal → TheGraph → CoinGecko → DeFiLlama.
-TheGraph URL updated to decentralized gateway with {api_key} path substitution.
-TheGraphFetcher FetchError now logs full response body on unexpected structure.
+**Last completed:** Sprint 9 — Hourly History + Token Trend Layer
+Pool history now preserves hourly timestamps from GeckoTerminal.
+Token price history is fetched separately from CoinGecko for both pool tokens.
+Fetch script writes synchronized pool and token datasets for the same lookback period.
 
-**Note:** PositionSimulator fee attribution uses proportional TVL model.
-feeGrowthGlobal-based exact fee computation is deferred to Sprint 9.
+**Note:** feeGrowthGlobal-based exact fee attribution is still deferred.
+Current fee attribution remains proportional-model based.
 
-**Note:** GeckoTerminal tvl_usd is a single snapshot per pool per fetch run,
-not per-candle historical TVL. Acceptable for current backtest fidelity.
+**Note:** GeckoTerminal tvl_usd remains a per-fetch snapshot, not historical hourly TVL.
 
-**Note:** metrics.py still uses float — intentional. Sharpe/drawdown
-operate on dimensionless return series. TaggedDecimal boundary crossing
-in BacktestSimulator.summary() is explicit and commented.
-
-**Note:** BASE_RPC_HTTP and BASE_RPC_WS are parked in config — not consumed until
-execution modules are built.
+**Note:** Token trend signals should use token_history datasets rather than infer token direction solely from pool price ratio.

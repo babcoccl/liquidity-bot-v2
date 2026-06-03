@@ -6,7 +6,7 @@ fee_growth_global fields always None (source cannot provide).
 tvl_usd sourced from pool detail endpoint (reserve_in_usd).
 """
 # AUDIT:status=complete
-# AUDIT:sprint=8
+# AUDIT:sprint=9
 
 import logging
 import time
@@ -17,7 +17,7 @@ from typing import Optional
 import requests
 
 from data.fetcher.base import AbstractFetcher, FetchError, RateLimitError
-from core.models import PoolDayData
+from core.models import PoolHistoryPoint
 
 logger = logging.getLogger(__name__)
 
@@ -47,8 +47,8 @@ class GeckoTerminalFetcher(AbstractFetcher):
     # Public API
     # ------------------------------------------------------------------
 
-    def fetch_pool_history(self, pool_address: str, days: int) -> list[PoolDayData]:
-        """Fetch up to `days` of OHLCV data for the given pool address."""
+    def fetch_pool_history(self, pool_address: str, days: int) -> list[PoolHistoryPoint]:
+        """Fetch up to `days` of hourly OHLCV data for the given pool address."""
         pool_address = pool_address.lower().strip()
 
         logger.info(
@@ -100,15 +100,13 @@ class GeckoTerminalFetcher(AbstractFetcher):
         if not all_rows:
             return []
 
-        results: list[PoolDayData] = []
+        results: list[PoolHistoryPoint] = []
         for row in all_rows:
             # row: [timestamp_s, open, high, low, close, volume]
             try:
                 ts_s = int(row[0])
                 if ts_s < cutoff_ts:
                     continue
-                # Bucket to UTC midnight for daily granularity
-                date = (ts_s // 86400) * 86400
                 close_price = Decimal(str(row[4]))
                 volume = Decimal(str(row[5]))
 
@@ -116,9 +114,9 @@ class GeckoTerminalFetcher(AbstractFetcher):
                     continue
 
                 results.append(
-                    PoolDayData(
+                    PoolHistoryPoint(
                         pool_address=pool_address,
-                        date=date,
+                        timestamp=ts_s,
                         price_token1_in_token0=close_price,
                         price_token0_in_token1=(
                             Decimal("1") / close_price
@@ -135,11 +133,11 @@ class GeckoTerminalFetcher(AbstractFetcher):
                     "GeckoTerminalFetcher: skipping malformed row %s: %s", row, e
                 )
 
-        # Deduplicate by date (keep last), sort ascending
-        seen: dict[int, PoolDayData] = {}
+        # Deduplicate by exact timestamp (keep last), sort ascending
+        seen: dict[int, PoolHistoryPoint] = {}
         for entry in results:
-            seen[entry.date] = entry
-        return sorted(seen.values(), key=lambda r: r.date)
+            seen[entry.timestamp] = entry
+        return sorted(seen.values(), key=lambda r: r.timestamp)
 
     def is_available(self) -> bool:
         """GeckoTerminal public API requires no key — always available."""

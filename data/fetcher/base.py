@@ -1,8 +1,8 @@
 # AUDIT:status=complete
-# AUDIT:sprint=1
+# AUDIT:sprint=9
 
 from abc import ABC, abstractmethod
-from core.models import PoolDayData
+from typing import Any, List
 
 
 class RateLimitError(Exception):
@@ -25,11 +25,16 @@ class AbstractFetcher(ABC):
         self,
         pool_address: str,
         days: int,
-    ) -> list[PoolDayData]:
+    ) -> List[Any]:
         """
-        Fetch up to `days` of daily data for pool_address.
+        Fetch up to `days` of historical records for pool_address.
+
+        Implementations may return PoolDayData (daily-bucketed) or
+        PoolHistoryPoint (hourly-preserved) records. The router and
+        loader layers handle both shapes via duck-typing.
+
         Must paginate internally — never truncate at source page size.
-        Returns list sorted ascending by date.
+        Returns list sorted ascending by time field (date or timestamp).
         Raises RateLimitError if rate limited.
         Raises FetchError on unrecoverable error.
         """

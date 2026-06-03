@@ -1,12 +1,14 @@
 {
-  "last_updated_sprint": 8,
+  "last_updated_sprint": 9,
   "components": [
     {
       "id": "core.models",
       "file": "core/models.py",
       "status": "complete",
-      "sprint": 1,
-      "audit_notes": [],
+      "sprint": 9,
+      "audit_notes": [
+        "Sprint 9: PoolHistoryPoint and TokenHistoryPoint added. PoolDayData retained for backward compatibility."
+      ],
       "dependencies": [],
       "test_file": "tests/test_scaffold.py",
       "test_coverage": "full"
@@ -151,8 +153,10 @@
       "id": "data.fetcher.base",
       "file": "data/fetcher/base.py",
       "status": "complete",
-      "sprint": 1,
-      "audit_notes": [],
+      "sprint": 9,
+      "audit_notes": [
+        "Sprint 9: Generalized abstract base to support hourly history fetchers. Docstrings updated."
+      ],
       "dependencies": ["core.models"],
       "test_file": "tests/test_scaffold.py",
       "test_coverage": "full"
@@ -164,7 +168,7 @@
       "sprint": 8,
       "audit_notes": [
         "api_key read from THEGRAPH_API_KEY env var — silently uses empty string if not set, which will produce 401 on authenticated endpoints",
-        " Sprint 8: FetchError logs response body; URL supports {api_key} path substitution."
+        "Sprint 8: FetchError logs response body; URL supports {api_key} path substitution."
       ],
       "dependencies": ["data.fetcher.base"],
       "test_file": "tests/test_data_layer.py",
@@ -209,9 +213,23 @@
       "id": "data.loader.pool_loader",
       "file": "data/loader/pool_loader.py",
       "status": "complete",
-      "sprint": 2,
-      "audit_notes": [],
+      "sprint": 9,
+      "audit_notes": [
+        "Sprint 9: save_pool_history accepts both PoolDayData (date field) and PoolHistoryPoint (timestamp field). JSON output includes timestamp for hourly records."
+      ],
       "dependencies": ["data.fetcher.router"],
+      "test_file": "tests/test_data_layer.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "data.loader.token_loader",
+      "file": "data/loader/token_loader.py",
+      "status": "complete",
+      "sprint": 9,
+      "audit_notes": [
+        "Sprint 9: Persists token history to data/token_history/*.json."
+      ],
+      "dependencies": ["core.models"],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
@@ -249,8 +267,10 @@
       "id": "data.fetcher.validate_historical",
       "file": "data/fetcher/validate_historical.py",
       "status": "complete",
-      "sprint": 5,
-      "audit_notes": [],
+      "sprint": 9,
+      "audit_notes": [
+        "Sprint 9: Dual-compatible validators. Hourly gap detection (flags gaps > 7200s). Daily behavior preserved."
+      ],
       "dependencies": ["core.models"],
       "test_file": "tests/test_validate_historical.py",
       "test_coverage": "full"
@@ -259,30 +279,46 @@
       "id": "data.fetcher.gecko_terminal",
       "file": "data/fetcher/gecko_terminal.py",
       "status": "complete",
-      "sprint": 8,
+      "sprint": 9,
       "audit_notes": [
-        "New primary OHLCV source. GeckoTerminal public API. Hourly candles, before_timestamp pagination. tvl_usd from pool detail snapshot. fee_growth_global always None."
+        "Sprint 9: Preserves hourly timestamps from GeckoTerminal candles. Returns PoolHistoryPoint instead of PoolDayData. No daily collapse. Dedup by exact timestamp."
       ],
       "dependencies": ["data.fetcher.base"],
       "test_file": null,
       "test_coverage": "none"
     },
     {
+      "id": "data.fetcher.token_prices",
+      "file": "data/fetcher/token_prices.py",
+      "status": "complete",
+      "sprint": 9,
+      "audit_notes": [
+        "CoinGecko token USD history fetcher. Normalizes to TokenHistoryPoint for trend and exit logic."
+      ],
+      "dependencies": ["data.fetcher.base"],
+      "test_file": "tests/test_data_layer.py",
+      "test_coverage": "full"
+    },
+    {
       "id": "scripts.fetch",
       "file": "scripts/fetch.py",
       "status": "complete",
-      "sprint": 8,
+      "sprint": 9,
       "audit_notes": [
         "COINGECKO_API_KEY read from environment — will silently use empty string if not set",
-        " Sprint 8: GeckoTerminalFetcher added as primary; FetchRouter order updated; TheGraph URL key substitution applied."
+        "Sprint 8: GeckoTerminalFetcher added as primary; FetchRouter order updated; TheGraph URL key substitution applied.",
+        "Sprint 9: Fetches token0 and token1 histories alongside pool history for same lookback window."
       ],
       "dependencies": [
         "registry.registry",
         "data.fetcher.the_graph",
         "data.fetcher.coingecko",
         "data.fetcher.defillama",
+        "data.fetcher.gecko_terminal",
+        "data.fetcher.token_prices",
         "data.fetcher.router",
         "data.loader.pool_loader",
+        "data.loader.token_loader",
         "data.fetcher.validate_historical"
       ],
       "test_file": null,

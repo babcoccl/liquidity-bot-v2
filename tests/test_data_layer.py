@@ -9,10 +9,11 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from core.models import PoolDayData
+from core.models import PoolDayData, PoolHistoryPoint, TokenHistoryPoint
 from data.fetcher.base import AbstractFetcher, FetchError, RateLimitError
 from data.fetcher.router import FetchRouter
 from data.loader.pool_loader import load_pool_history, save_pool_history
+from data.loader.token_loader import save_token_history, load_token_history
 
 
 # ============================================================================
@@ -708,3 +709,324 @@ class TestPoolLoader:
         results = load_pool_history(file)
         assert len(results) == 2
         assert results[0].date < results[1].date
+
+
+# ============================================================================
+# GeckoTerminalFetcher hourly tests (Sprint 9)
+# ============================================================================
+
+class TestGeckoTerminalHourly:
+    """Tests that GeckoTerminalFetcher preserves hourly timestamps."""
+
+    @pytest.fixture(autouse=True)
+    def _fetcher(self):
+        from data.fetcher.gecko_terminal import GeckoTerminalFetcher
+        self.fetcher = GeckoTerminalFetcher(
+            network="base",
+            timeframe="hour",
+            rate_limit_per_min=25,
+        )
+
+    def test_preserves_hourly_timestamps_no_daily_collapse(self):
+        """Multi-day mocked candles return > 24 records with distinct timestamps."""
+        # Simulate 3 days of hourly data = 72 unique timestamps
+        candles = []
+        base_ts = 1700000000
+        for i in range(72):
+            candles.append({
+                "timestamp": base_ts + i * 3600,
+                "close": f"2000.{i:04d}",
+                "volume": f"1000.{i:04d}",
+            })
+
+        detail_mock = MagicMock()
+        detail_mock.status_code = 200
+        detail_mock.json.return_value = {
+            "data": {
+                "pair": {"id": "0xabc"},
+                "pool": {"totalValueLockedUSD": "50000.0"},
+            }
+        }
+
+        history_mock = MagicMock()
+        history_mock.status_code = 200
+        history_mock.json.return_value = {
+            "data": {"pair": {"candleChartOverTime": candles}}
+        }
+
+        calls = iter([detail_mock, history_mock])
+        def side_effect(*a, **kw):
+            return next(calls)
+
+        with patch("requests.get", side_effect=side_effect):
+            results = self.fetcher.fetch_pool_history("0xabc", days=3)
+
+        assert len(results) == 72
+        # Verify timestamps are hourly (not daily-bucketed)
+        assert all(hasattr(r, "timestamp") for r in results)
+        unique_ts = set(r.timestamp for r in results)
+        assert len(unique_ts) == 72
+
+    def test_dedup_by_exact_timestamp(self):
+        """Duplicate timestamps are deduplicated, keeping last."""
+        candles = [
+            {"timestamp": 1700000000, "close": "2000.0", "volume": "1000.0"},
+            {"timestamp": 1700003600, "close": "2050.0", "volume": "1100.0"},
+            {"timestamp": 1700003600, "close": "2060.0", "volume": "1200.0"},  # dup
+        ]
+
+        detail_mock = MagicMock()
+        detail_mock.status_code = 200
+        detail_mock.json.return_value = {
+            "data": {"pair": {"id": "0xabc"}, "pool": {"totalValueLockedUSD": "50000.0"}}
+        }
+
+        history_mock = MagicMock()
+        history_mock.status_code = 200
+        history_mock.json.return_value = {
+            "data": {"pair": {"candleChartOverTime": candles}}
+        }
+
+        calls = iter([detail_mock, history_mock])
+        def side_effect(*a, **kw):
+            return next(calls)
+
+        with patch("requests.get", side_effect=side_effect):
+            results = self.fetcher.fetch_pool_history("0xabc", days=1)
+
+        assert len(results) == 2
+        # Second record should have the deduped value (last wins)
+        assert results[1].price_token1_in_token0 == Decimal("2060.0")
+
+
+# ============================================================================
+# PoolLoader hourly persistence tests (Sprint 9)
+# ============================================================================
+
+class TestPoolLoaderHourly:
+    """Tests that pool_loader correctly handles PoolHistoryPoint records."""
+
+    def test_save_pool_history_hourly_includes_timestamp(self, tmp_path):
+        file = tmp_path / "pool.json"
+        records = [
+            PoolHistoryPoint(
+                pool_address="0xabc",
+                timestamp=1700000000,
+                price_token1_in_token0=Decimal("2.0"),
+                price_token0_in_token1=Decimal("0.5"),
+                volume_usd=Decimal("1000.0"),
+                tvl_usd=Decimal("50000.0"),
+                fee_growth_global_0=None,
+                fee_growth_global_1=None,
+                source="gecko_terminal",
+            ),
+            PoolHistoryPoint(
+                pool_address="0xabc",
+                timestamp=1700003600,
+                price_token1_in_token0=Decimal("2.1"),
+                price_token0_in_token1=Decimal("0.476"),
+                volume_usd=Decimal("1100.0"),
+                tvl_usd=Decimal("51000.0"),
+                fee_growth_global_0=None,
+                fee_growth_global_1=None,
+                source="gecko_terminal",
+            ),
+        ]
+
+        save_pool_history("0xabc", "USDC-ETH", records, file)
+
+        import json as _json
+        with open(file) as f:
+            data = _json.load(f)
+
+        days = data["days"]
+        assert len(days) == 2
+        # Hourly records have timestamp, not date
+        assert "timestamp" in days[0]
+        assert days[0]["timestamp"] == 1700000000
+        assert "date" not in days[0]
+
+    def test_save_pool_history_daily_still_has_date(self, tmp_path):
+        file = tmp_path / "pool.json"
+        records = [
+            PoolDayData(
+                pool_address="0xabc",
+                date=1700000000,
+                price_token1_in_token0=Decimal("2.0"),
+                price_token0_in_token1=Decimal("0.5"),
+                volume_usd=Decimal("1000.0"),
+                tvl_usd=Decimal("50000.0"),
+                fee_growth_global_0=1000,
+                fee_growth_global_1=None,
+                source="the_graph",
+            ),
+        ]
+
+        save_pool_history("0xabc", "USDC-ETH", records, file)
+
+        import json as _json
+        with open(file) as f:
+            data = _json.load(f)
+
+        assert "date" in data["days"][0]
+        assert "timestamp" not in data["days"][0]
+
+
+# ============================================================================
+# TokenLoader tests (Sprint 9)
+# ============================================================================
+
+class TestTokenLoader:
+    """Tests for data.loader.token_loader."""
+
+    def test_save_and_load_token_history_roundtrip(self, tmp_path):
+        file = tmp_path / "WETH.json"
+        records = [
+            TokenHistoryPoint(
+                token_address="0xeth",
+                symbol="WETH",
+                timestamp=1700000000,
+                price_usd=Decimal("2000.50"),
+                volume_usd=Decimal("50000000.0"),
+                market_cap_usd=Decimal("240000000000.0"),
+                source="coingecko",
+            ),
+            TokenHistoryPoint(
+                token_address="0xeth",
+                symbol="WETH",
+                timestamp=1700003600,
+                price_usd=Decimal("2050.75"),
+                volume_usd=Decimal("55000000.0"),
+                market_cap_usd=None,
+                source="coingecko",
+            ),
+        ]
+
+        save_token_history("0xeth", "WETH", records, file)
+        loaded = load_token_history(file)
+
+        assert len(loaded) == 2
+        assert loaded[0].price_usd == Decimal("2000.50")
+        assert loaded[0].market_cap_usd == Decimal("240000000000.0")
+        assert loaded[1].market_cap_usd is None
+        assert loaded[1].timestamp == 1700003600
+
+    def test_save_token_history_creates_parent_dir(self, tmp_path):
+        file = tmp_path / "nested" / "dir" / "TOKEN.json"
+        records = [
+            TokenHistoryPoint(
+                token_address="0xtok",
+                symbol="TOKEN",
+                timestamp=1700000000,
+                price_usd=Decimal("1.0"),
+                volume_usd=Decimal("100.0"),
+                market_cap_usd=None,
+                source="coingecko",
+            ),
+        ]
+
+        result = save_token_history("0xtok", "TOKEN", records, file)
+        assert result == file
+        assert file.exists()
+
+
+# ============================================================================
+# TokenPriceFetcher tests (Sprint 9)
+# ============================================================================
+
+class TestTokenPriceFetcher:
+    """Tests for data.fetcher.token_prices.TokenPriceFetcher."""
+
+    @pytest.fixture(autouse=True)
+    def _fetcher(self, tmp_path):
+        from data.fetcher.token_prices import TokenPriceFetcher
+        registry_file = tmp_path / "registry.json"
+        with open(registry_file, "w") as f:
+            json.dump([], f)
+        self.fetcher = TokenPriceFetcher(
+            api_key="test-key",
+            rate_limit_per_min=30,
+            registry_path=registry_file,
+        )
+
+    def test_normalizes_prices_volumes_market_caps(self):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {
+            "prices": [
+                [1700000000000, 2000.5],
+                [1700086400000, 2100.75],
+            ],
+            "total_volumes": [
+                [1700000000000, 50000000.0],
+                [1700086400000, 55000000.0],
+            ],
+            "market_caps": [
+                [1700000000000, 240000000000.0],
+                [1700086400000, 252000000000.0],
+            ],
+        }
+
+        with patch("requests.get", return_value=mock_resp):
+            results = self.fetcher.fetch_token_history(
+                token_symbol="WETH",
+                token_address="0xeth",
+                days=7,
+            )
+
+        assert len(results) == 2
+        assert all(isinstance(r, TokenHistoryPoint) for r in results)
+        assert results[0].price_usd == Decimal("2000.5")
+        assert results[0].volume_usd == Decimal("50000000.0")
+        assert results[0].market_cap_usd == Decimal("240000000000.0")
+        assert results[0].source == "coingecko"
+
+    def test_timestamps_bucketed_to_hour(self):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+        # Timestamp not aligned to hour boundary
+        mock_resp.json.return_value = {
+            "prices": [[1700000100000, 2000.0]],
+            "total_volumes": [[1700000100000, 50000.0]],
+        }
+
+        with patch("requests.get", return_value=mock_resp):
+            results = self.fetcher.fetch_token_history(
+                token_symbol="WETH",
+                token_address="0xeth",
+                days=7,
+            )
+
+        # 1700000100000 ms -> bucketed to hour: (1700000100 // 3600) * 3600 = 1700000100 - 100
+        assert results[0].timestamp == (1700000100 // 3600) * 3600
+
+    def test_raises_rate_limit_on_429(self):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 429
+
+        with patch("requests.get", return_value=mock_resp):
+            with pytest.raises(RateLimitError):
+                self.fetcher.fetch_token_history(
+                    token_symbol="WETH",
+                    token_address="0xeth",
+                    days=7,
+                )
+
+    def test_raises_fetch_error_on_500(self):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 500
+
+        with patch("requests.get", return_value=mock_resp):
+            with pytest.raises(FetchError):
+                self.fetcher.fetch_token_history(
+                    token_symbol="WETH",
+                    token_address="0xeth",
+                    days=7,
+                )
+
+    def test_is_available_checks_ping(self):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+
+        with patch("requests.get", return_value=mock_resp):
+            assert self.fetcher.is_available() is True

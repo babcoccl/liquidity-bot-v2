@@ -1,5 +1,5 @@
 """
-CLI entrypoint: fetch historical pool data and save to disk.
+CLI entrypoint: fetch historical pool data + token histories and save to disk.
 
 Usage:
     python scripts/fetch.py --pool <address> --days <n> [--output <path>]
@@ -8,11 +8,13 @@ Usage:
 Reads pool metadata from registry/registry.json.
 Fetches via FetchRouter (TheGraph -> CoinGecko -> DeFiLlama fallback chain).
 Saves each pool to data/historical/<pair_name>.json.
+Additionally fetches token0 and token1 USD price histories from CoinGecko
+and saves them to data/token_history/<symbol>.json for trend/exit signals.
 Runs post-fetch validation and prints any warnings.
 """
 
 # AUDIT:status=complete
-# AUDIT:sprint=8
+# AUDIT:sprint=9
 
 import argparse
 import logging
@@ -27,8 +29,10 @@ from data.fetcher.defillama import DeFiLlamaFetcher
 from data.fetcher.gecko_terminal import GeckoTerminalFetcher
 from data.fetcher.router import FetchRouter
 from data.fetcher.the_graph import TheGraphFetcher
+from data.fetcher.token_prices import TokenPriceFetcher
 from data.fetcher.validate_historical import validate_all
 from data.loader.pool_loader import save_pool_history
+from data.loader.token_loader import save_token_history
 from registry.registry import PoolRegistry
 
 logger = logging.getLogger(__name__)
@@ -114,17 +118,29 @@ def main() -> int:
 
     router = FetchRouter(fetchers=[gecko_fetcher, graph_fetcher, coingecko_fetcher, defillama_fetcher])
 
+    # Build token price fetcher
+    token_fetcher = TokenPriceFetcher(
+        api_key=coingecko_api_key,
+        rate_limit_per_min=cg_cfg.get("rate_limit_per_min", 30),
+        registry_path=Path("registry/registry.json"),
+    )
+
     # Load registry
     registry = PoolRegistry(path=Path("registry/registry.json"))
     registry.load()
 
     if args.pool:
-        return _fetch_single(args, router, registry)
+        return _fetch_single(args, router, registry, token_fetcher)
     else:
-        return _fetch_all(args, router, registry)
+        return _fetch_all(args, router, registry, token_fetcher)
 
 
-def _fetch_single(args, router: FetchRouter, registry: PoolRegistry) -> int:
+def _fetch_single(
+    args,
+    router: FetchRouter,
+    registry: PoolRegistry,
+    token_fetcher: TokenPriceFetcher,
+) -> int:
     try:
         pool = registry.get(args.pool)
     except KeyError:
@@ -147,10 +163,18 @@ def _fetch_single(args, router: FetchRouter, registry: PoolRegistry) -> int:
 
     save_pool_history(pool.pool_address, pool.pair_name, records, output_path)
     print(f"Saved {len(records)} records for {pool.pair_name} -> {output_path}")
+
+    # Fetch token histories
+    _fetch_tokens_for_pool(pool, args.days, token_fetcher)
     return 0
 
 
-def _fetch_all(args, router: FetchRouter, registry: PoolRegistry) -> int:
+def _fetch_all(
+    args,
+    router: FetchRouter,
+    registry: PoolRegistry,
+    token_fetcher: TokenPriceFetcher,
+) -> int:
     output_dir = Path(args.output_dir) if args.output_dir else Path("data/historical")
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -174,7 +198,41 @@ def _fetch_all(args, router: FetchRouter, registry: PoolRegistry) -> int:
         save_pool_history(pool.pool_address, pool.pair_name, records, output_path)
         print(f"Saved {len(records)} records for {pool.pair_name} -> {output_path}")
 
+        # Fetch token histories
+        _fetch_tokens_for_pool(pool, args.days, token_fetcher)
+
     return 0
+
+
+def _fetch_tokens_for_pool(
+    pool,
+    days: int,
+    token_fetcher: TokenPriceFetcher,
+) -> None:
+    """Fetch and save USD price history for token0 and token1 of a pool."""
+    for token_key in ("token0", "token1"):
+        token = getattr(pool, token_key)
+        symbol = token.symbol
+        address = token.address
+
+        # Build unique filename: use symbol_address_prefix to avoid collisions
+        addr_short = address[:8]
+        filename = f"{symbol}_{addr_short}.json"
+
+        try:
+            records = token_fetcher.fetch_token_history(
+                token_symbol=symbol,
+                token_address=address,
+                days=days,
+            )
+            output_path = Path("data/token_history") / filename
+            save_token_history(address, symbol, records, output_path)
+            print(f"Saved {len(records)} token records for {symbol} -> {output_path}")
+        except Exception as e:
+            logger.warning(
+                "Token fetch failed for %s (%s), skipping: %s",
+                symbol, address, e,
+            )
 
 
 if __name__ == "__main__":

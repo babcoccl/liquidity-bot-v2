@@ -4,7 +4,7 @@ Normalizes to list[PoolDayData].
 Handles both v1 column naming schemas.
 """
 # AUDIT:status=complete
-# AUDIT:sprint=1
+# AUDIT:sprint=9
 
 import json
 import logging
@@ -103,28 +103,38 @@ def load_pool_history(path: Path) -> list[PoolDayData]:
 def save_pool_history(
     pool_address: str,
     pair_name: str,
-    records: list[PoolDayData],
+    records: list[Any],
     path: Path,
 ) -> None:
-    """Serialize PoolDayData records to JSON with atomic write."""
+    """Serialize pool history records to JSON with atomic write.
+
+    Accepts both PoolDayData (daily-bucketed) and PoolHistoryPoint
+    (hourly-preserved) records via duck-typing.
+    """
     days = []
     for r in records:
-        days.append(
-            {
-                "date": r.date,
-                "volumeUSD": str(r.volume_usd),
-                "tvlUSD": str(r.tvl_usd),
-                "token0Price": str(r.price_token0_in_token1),
-                "token1Price": str(r.price_token1_in_token0),
-                "feeGrowthGlobal0X128": (
-                    str(r.fee_growth_global_0) if r.fee_growth_global_0 is not None else None
-                ),
-                "feeGrowthGlobal1X128": (
-                    str(r.fee_growth_global_1) if r.fee_growth_global_1 is not None else None
-                ),
-                "source": r.source,
-            }
-        )
+        is_hourly = hasattr(r, "timestamp")
+
+        entry: dict[str, Any] = {
+            "volumeUSD": str(r.volume_usd),
+            "tvlUSD": str(r.tvl_usd),
+            "token0Price": str(r.price_token0_in_token1),
+            "token1Price": str(r.price_token1_in_token0),
+            "feeGrowthGlobal0X128": (
+                str(r.fee_growth_global_0) if r.fee_growth_global_0 is not None else None
+            ),
+            "feeGrowthGlobal1X128": (
+                str(r.fee_growth_global_1) if r.fee_growth_global_1 is not None else None
+            ),
+            "source": r.source,
+        }
+
+        if is_hourly:
+            entry["timestamp"] = r.timestamp
+        else:
+            entry["date"] = r.date
+
+        days.append(entry)
 
     payload = {
         "pool_address": pool_address.lower(),
