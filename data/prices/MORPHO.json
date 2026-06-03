@@ -1,15 +1,8 @@
 {
   "token_address": "0xbaa5cc21fd8ba8746cc9a926bc28c4f66f03b7b9",
   "symbol": "MORPHO",
-  "fetched_at": 1780516285,
+  "fetched_at": 1780519031,
   "records": [
-    {
-      "timestamp": 1748980800,
-      "price_usd": "1.4111580749664492",
-      "volume_usd": "10356814.84616584",
-      "market_cap_usd": "398016307.7100266",
-      "source": "coingecko"
-    },
     {
       "timestamp": 1748984400,
       "price_usd": "1.3982580456188665",
@@ -61300,6 +61293,13 @@
       "price_usd": "1.9063328736789849",
       "volume_usd": "19153917.343350682",
       "market_cap_usd": "1231685303.7496836",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780516800,
+      "price_usd": "1.887879965458777",
+      "volume_usd": "18755562.003589366",
+      "market_cap_usd": "1221640284.2447648",
       "source": "coingecko"
     }
   ]

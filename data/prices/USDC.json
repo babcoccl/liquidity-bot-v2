@@ -1,15 +1,8 @@
 {
   "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
   "symbol": "USDC",
-  "fetched_at": 1780515495,
+  "fetched_at": 1780518072,
   "records": [
-    {
-      "timestamp": 1748980800,
-      "price_usd": "0.9997920706542246",
-      "volume_usd": "8815320283.309593",
-      "market_cap_usd": "61464602262.22228",
-      "source": "coingecko"
-    },
     {
       "timestamp": 1748984400,
       "price_usd": "0.9998077890512749",
@@ -61314,6 +61307,13 @@
       "price_usd": "0.9997237930442141",
       "volume_usd": "19542286123.676144",
       "market_cap_usd": "75912525248.3425",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780516800,
+      "price_usd": "0.999703545955252",
+      "volume_usd": "19144755805.814957",
+      "market_cap_usd": "75912380827.8335",
       "source": "coingecko"
     }
   ]

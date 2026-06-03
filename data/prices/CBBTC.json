@@ -1,15 +1,8 @@
 {
   "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
   "symbol": "CBBTC",
-  "fetched_at": 1780515582,
+  "fetched_at": 1780518159,
   "records": [
-    {
-      "timestamp": 1748980800,
-      "price_usd": "106290.85737642308",
-      "volume_usd": "259778176.559487",
-      "market_cap_usd": "4737177224.996567",
-      "source": "coingecko"
-    },
     {
       "timestamp": 1748984400,
       "price_usd": "105782.3710383815",
@@ -61314,6 +61307,13 @@
       "price_usd": "65955.42105836036",
       "volume_usd": "756261349.4557813",
       "market_cap_usd": "5734190095.261348",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780516800,
+      "price_usd": "65567.91036351597",
+      "volume_usd": "754279550.6050488",
+      "market_cap_usd": "5708292980.81327",
       "source": "coingecko"
     }
   ]

@@ -40,8 +40,8 @@ class TokenPriceFetcher:
         "EURC":    "euro-coin",
         "eUSD":    "electronic-usd",
         "VVV":     "venice-token",
-        "FAI":     "frax-ai",
-        "KTA":     "kta",
+        "FAI":     "freysa-ai",
+        "KTA":     "keeta",
         # Uppercase aliases (fetch.py normalizes symbols via .upper())
         "CBBTC":   "coinbase-wrapped-btc",
         "CBETH":   "coinbase-wrapped-staked-eth",

@@ -1,15 +1,8 @@
 {
   "token_address": "0xcfa3ef56d303ae4faaba0592388f19d7c3399fb4",
   "symbol": "EUSD",
-  "fetched_at": 1780515998,
+  "fetched_at": 1780518681,
   "records": [
-    {
-      "timestamp": 1748980800,
-      "price_usd": "0.9998106557449298",
-      "volume_usd": "756684.1186959462",
-      "market_cap_usd": "22207171.66307437",
-      "source": "coingecko"
-    },
     {
       "timestamp": 1748984400,
       "price_usd": "0.9998970425373049",
@@ -61293,6 +61286,13 @@
       "price_usd": "0.9992816575595868",
       "volume_usd": "488266.07906824467",
       "market_cap_usd": "23002605.2464544",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780516800,
+      "price_usd": "0.9984624045507614",
+      "volume_usd": "475783.18337906594",
+      "market_cap_usd": "22964964.813208736",
       "source": "coingecko"
     }
   ]

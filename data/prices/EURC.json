@@ -1,15 +1,8 @@
 {
   "token_address": "0x60a3e35cc302bfa44cb288bc5a4f316fdb1adb42",
   "symbol": "EURC",
-  "fetched_at": 1780515669,
+  "fetched_at": 1780518246,
   "records": [
-    {
-      "timestamp": 1748980800,
-      "price_usd": "1.1368129420824147",
-      "volume_usd": "38566919.10687834",
-      "market_cap_usd": "196060072.00788102",
-      "source": "coingecko"
-    },
     {
       "timestamp": 1748984400,
       "price_usd": "1.1371285913597278",
@@ -61307,6 +61300,13 @@
       "price_usd": "1.1593327393859139",
       "volume_usd": "33218290.541487128",
       "market_cap_usd": "433608839.06670463",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780516800,
+      "price_usd": "1.1592159921740997",
+      "volume_usd": "29347888.044315092",
+      "market_cap_usd": "433438637.8693004",
       "source": "coingecko"
     }
   ]

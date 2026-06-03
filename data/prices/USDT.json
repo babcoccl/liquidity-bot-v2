@@ -1,15 +1,8 @@
 {
   "token_address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
   "symbol": "USDT",
-  "fetched_at": 1780515851,
+  "fetched_at": 1780518593,
   "records": [
-    {
-      "timestamp": 1748980800,
-      "price_usd": "1.0004637991292051",
-      "volume_usd": "45442030492.024414",
-      "market_cap_usd": "153383737539.52237",
-      "source": "coingecko"
-    },
     {
       "timestamp": 1748984400,
       "price_usd": "1.0004628708869514",
@@ -61307,6 +61300,13 @@
       "price_usd": "0.9987229996815633",
       "volume_usd": "210635451720.41357",
       "market_cap_usd": "187866028877.80392",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780516800,
+      "price_usd": "0.9987214586406385",
+      "volume_usd": "229778971569.75916",
+      "market_cap_usd": "187863442266.56543",
       "source": "coingecko"
     }
   ]

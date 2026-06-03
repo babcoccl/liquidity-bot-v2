@@ -1,15 +1,8 @@
 {
   "token_address": "0x532f27101965dd16442e59d40670faf5ebb142e4",
   "symbol": "BRETT",
-  "fetched_at": 1780516198,
+  "fetched_at": 1780518943,
   "records": [
-    {
-      "timestamp": 1748980800,
-      "price_usd": "0.05636530978086065",
-      "volume_usd": "52491180.11463382",
-      "market_cap_usd": "558909335.2375283",
-      "source": "coingecko"
-    },
     {
       "timestamp": 1748984400,
       "price_usd": "0.054867336613356445",
@@ -61307,6 +61300,13 @@
       "price_usd": "0.00633263259551597",
       "volume_usd": "21794468.852236614",
       "market_cap_usd": "62750009.03303737",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780516800,
+      "price_usd": "0.0062415827108107625",
+      "volume_usd": "21078073.996507842",
+      "market_cap_usd": "61826192.754810646",
       "source": "coingecko"
     }
   ]

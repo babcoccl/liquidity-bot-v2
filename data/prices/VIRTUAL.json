@@ -1,15 +1,8 @@
 {
   "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
   "symbol": "VIRTUAL",
-  "fetched_at": 1780516025,
+  "fetched_at": 1780518768,
   "records": [
-    {
-      "timestamp": 1748980800,
-      "price_usd": "1.9820537449811546",
-      "volume_usd": "288432131.96361786",
-      "market_cap_usd": "1296977505.4268687",
-      "source": "coingecko"
-    },
     {
       "timestamp": 1748984400,
       "price_usd": "1.9683620189638582",
@@ -61307,6 +61300,13 @@
       "price_usd": "0.7294828023937093",
       "volume_usd": "122065989.38631615",
       "market_cap_usd": "478572783.67675036",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780516800,
+      "price_usd": "0.7167109837020885",
+      "volume_usd": "122038520.38465631",
+      "market_cap_usd": "472686581.6203018",
       "source": "coingecko"
     }
   ]

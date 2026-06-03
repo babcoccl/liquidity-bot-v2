@@ -1,15 +1,8 @@
 {
   "token_address": "0x2ae3f1ec7f1f5012cfeab0185bfc7aa3cf0dec22",
   "symbol": "CBETH",
-  "fetched_at": 1780516372,
+  "fetched_at": 1780519118,
   "records": [
-    {
-      "timestamp": 1748980800,
-      "price_usd": "2883.458091016371",
-      "volume_usd": "9185724.627842529",
-      "market_cap_usd": "364509324.94595885",
-      "source": "coingecko"
-    },
     {
       "timestamp": 1748984400,
       "price_usd": "2878.0289000762236",
@@ -61300,6 +61293,13 @@
       "price_usd": "2072.1889109605554",
       "volume_usd": "7821950.534395218",
       "market_cap_usd": "268596451.69372326",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780516800,
+      "price_usd": "2034.8692862666383",
+      "volume_usd": "7659880.562494928",
+      "market_cap_usd": "263775331.52812773",
       "source": "coingecko"
     }
   ]

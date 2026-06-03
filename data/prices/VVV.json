@@ -1,15 +1,8 @@
 {
   "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
   "symbol": "VVV",
-  "fetched_at": 1780516111,
+  "fetched_at": 1780518855,
   "records": [
-    {
-      "timestamp": 1748980800,
-      "price_usd": "3.0280347364564255",
-      "volume_usd": "5351585.393270808",
-      "market_cap_usd": "92782563.60886559",
-      "source": "coingecko"
-    },
     {
       "timestamp": 1748984400,
       "price_usd": "3.004254991825805",
@@ -61300,6 +61293,13 @@
       "price_usd": "20.73693074500583",
       "volume_usd": "135666892.93276802",
       "market_cap_usd": "969818634.7750846",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780516800,
+      "price_usd": "20.13716981817023",
+      "volume_usd": "128217083.35963275",
+      "market_cap_usd": "942562593.1801947",
       "source": "coingecko"
     }
   ]
