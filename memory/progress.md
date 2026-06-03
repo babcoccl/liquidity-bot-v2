@@ -116,6 +116,12 @@
 - [x] tests updated
 - [x] memory files updated
 
+### Sprint 9 Hotfix — GeckoTerminal 401 Fallback (COMPLETE)
+- [x] data/fetcher/gecko_terminal.py — HTTP 401 now raises RateLimitError
+      so FetchRouter falls through to TheGraph for pools beyond 180-day free tier
+- [x] tests/test_data_layer.py — 401 → RateLimitError test added
+- [x] memory files updated
+
 ## In Progress
 _(none)_
 

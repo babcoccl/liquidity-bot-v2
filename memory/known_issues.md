@@ -1,11 +1,15 @@
 # Known Issues
 
-_Last updated: Sprint 9_
+_Last updated: Sprint 9 Hotfix_
 
 ## data/fetcher/gecko_terminal.py
 - tvl_usd remains a snapshot from pool detail endpoint at fetch time, not historical per-candle TVL.
 - fee_growth_global fields always None — exact fee attribution still deferred.
 - price_token1_in_token0 uses candle close price, not true tick-level price.
+- HTTP 401 from GeckoTerminal indicates free-tier 180-day limit exceeded.
+  Raises RateLimitError so FetchRouter falls through to TheGraph.
+  TheGraph has no day cap with a valid API key.
+  Pools with start dates within 180 days will be served by GeckoTerminal normally.
 
 ## data/fetcher/token_prices.py
 - CoinGecko token history is token-level USD pricing, not pool-execution pricing.

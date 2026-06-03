@@ -767,6 +767,23 @@ class TestGeckoTerminalHourly:
         unique_ts = set(r.timestamp for r in results)
         assert len(unique_ts) == 72
 
+    def test_gecko_terminal_401_raises_rate_limit_error(self):
+        """HTTP 401 from GeckoTerminal raises RateLimitError for router fallback."""
+        from data.fetcher.gecko_terminal import GeckoTerminalFetcher
+        fetcher = GeckoTerminalFetcher()
+        mock_resp = MagicMock()
+        mock_resp.status_code = 401
+        mock_resp.text = "Unauthorized"
+
+        with patch("requests.get", return_value=mock_resp):
+            with pytest.raises(RateLimitError) as ctx:
+                fetcher._get(
+                    "https://api.geckoterminal.com/test",
+                    {"Accept": "application/json"},
+                    {},
+                )
+        assert "401" in str(ctx.value)
+
     def test_dedup_by_exact_timestamp(self):
         """Duplicate timestamps are deduplicated, keeping last."""
         candles = [
@@ -981,7 +998,6 @@ class TestTokenPriceFetcher:
         assert results[0].market_cap_usd == Decimal("240000000000.0")
         assert results[0].source == "coingecko"
 
-    def test_timestamps_bucketed_to_hour(self):
         mock_resp = MagicMock()
         mock_resp.status_code = 200
         # Timestamp not aligned to hour boundary

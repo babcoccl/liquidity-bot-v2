@@ -279,9 +279,10 @@
       "id": "data.fetcher.gecko_terminal",
       "file": "data/fetcher/gecko_terminal.py",
       "status": "complete",
-      "sprint": 9,
+      "sprint": "9-hotfix",
       "audit_notes": [
-        "Sprint 9: Preserves hourly timestamps from GeckoTerminal candles. Returns PoolHistoryPoint instead of PoolDayData. No daily collapse. Dedup by exact timestamp."
+        "Sprint 9: Preserves hourly timestamps from GeckoTerminal candles. Returns PoolHistoryPoint instead of PoolDayData. No daily collapse. Dedup by exact timestamp.",
+        "Sprint 9 hotfix: HTTP 401 raises RateLimitError for free-tier day limit fallback to TheGraph."
       ],
       "dependencies": ["data.fetcher.base"],
       "test_file": null,

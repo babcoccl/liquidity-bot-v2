@@ -6,7 +6,7 @@ fee_growth_global fields always None (source cannot provide).
 tvl_usd sourced from pool detail endpoint (reserve_in_usd).
 """
 # AUDIT:status=complete
-# AUDIT:sprint=9
+# AUDIT:sprint=9-hotfix
 
 import logging
 import time
@@ -225,6 +225,12 @@ class GeckoTerminalFetcher(AbstractFetcher):
                     continue
                 raise FetchError(
                     f"GeckoTerminal {resp.status_code} after 3 retries: {url}"
+                )
+
+            if resp.status_code == 401:
+                raise RateLimitError(
+                    f"GeckoTerminal 401: free-tier day limit exceeded for {url} "
+                    f"— router will fall back to next source"
                 )
 
             raise FetchError(
