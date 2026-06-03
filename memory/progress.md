@@ -132,6 +132,12 @@
 - [x] data/fetcher/gecko_terminal.py — _INTER_POOL_SLEEP increased to 30s
 - [x] memory files updated
 
+### Sprint 9 Hotfix 3 — Pool Loader Hourly Serialization Fix (COMPLETE)
+- [x] data/loader/pool_loader.py — PoolHistoryPoint serialized to flat
+      hourly array with timestamp field; PoolDayData backward compat retained
+- [x] tests/test_data_layer.py — round-trip assertion added for hourly format
+- [x] memory files updated
+
 ## In Progress
 _(none)_
 

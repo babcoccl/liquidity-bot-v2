@@ -823,7 +823,9 @@ class TestGeckoTerminalHourly:
 class TestPoolLoaderHourly:
     """Tests that pool_loader correctly handles PoolHistoryPoint records."""
 
-    def test_save_pool_history_hourly_includes_timestamp(self, tmp_path):
+    # AUDIT:sprint=9-hotfix3
+    def test_save_pool_history_hourly_flat_list_with_timestamp(self, tmp_path):
+        """PoolHistoryPoint records serialize to flat JSON array with timestamp field."""
         file = tmp_path / "pool.json"
         records = [
             PoolHistoryPoint(
@@ -852,16 +854,21 @@ class TestPoolLoaderHourly:
 
         save_pool_history("0xabc", "USDC-ETH", records, file)
 
-        import json as _json
         with open(file) as f:
-            data = _json.load(f)
+            data = json.load(f)
 
-        days = data["days"]
-        assert len(days) == 2
-        # Hourly records have timestamp, not date
-        assert "timestamp" in days[0]
-        assert days[0]["timestamp"] == 1700000000
-        assert "date" not in days[0]
+        # Must be a flat list, not wrapped in {"days": ...}
+        assert isinstance(data, list)
+        assert len(data) == 2
+        # Each record has timestamp, not date
+        assert "timestamp" in data[0]
+        assert "date" not in data[0]
+        assert data[0]["timestamp"] == 1700000000
+        # price fields are string representations of Decimal
+        assert isinstance(data[0]["price_token1_in_token0"], str)
+        assert data[0]["price_token1_in_token0"] == "2.0"
+        # fee_growth null serializes as None/null
+        assert data[0]["fee_growth_global_0"] is None
 
     def test_save_pool_history_daily_still_has_date(self, tmp_path):
         file = tmp_path / "pool.json"

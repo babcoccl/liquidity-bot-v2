@@ -1,25 +1,25 @@
 """
 PoolLoader — loads pool history from data/historical/*.json files.
-Normalizes to list[PoolDayData].
-Handles both v1 column naming schemas.
+Normalizes to list[PoolDayData] or list[PoolHistoryPoint] depending on schema.
+Handles both v1 column naming schemas and hourly flat-array format.
 """
 # AUDIT:status=complete
-# AUDIT:sprint=9
+# AUDIT:sprint=9-hotfix3
 
 import json
 import logging
 import time
 from decimal import Decimal
 from pathlib import Path
-from typing import Any
+from typing import Any, Union
 
-from core.models import PoolDayData
+from core.models import PoolDayData, PoolHistoryPoint
 
 logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
-# Column name aliases (camelCase v1 → snake_case canonical)
+# Column name aliases (camelCase v1 -> snake_case canonical)
 # ---------------------------------------------------------------------------
 _VOLUME_ALIASES = ("volumeUSD", "volume_usd", "volume")
 _TVL_ALIASES = ("tvlUSD", "tvl_usd", "tvl")
@@ -50,8 +50,54 @@ def _parse_fee_growth(value: Any) -> int | None:
     return int(value)
 
 
-def load_pool_history(path: Path) -> list[PoolDayData]:
-    """Load and normalize pool history from a JSON file."""
+# ---------------------------------------------------------------------------
+# Serialization helpers
+# ---------------------------------------------------------------------------
+
+def _serialize_history_point(record: PoolHistoryPoint) -> dict[str, Any]:
+    """Serialize a PoolHistoryPoint to a flat hourly record."""
+    return {
+        "pool_address": record.pool_address.lower(),
+        "timestamp": record.timestamp,
+        "price_token1_in_token0": str(record.price_token1_in_token0),
+        "price_token0_in_token1": str(record.price_token0_in_token1),
+        "volume_usd": str(record.volume_usd),
+        "tvl_usd": str(record.tvl_usd),
+        "fee_growth_global_0": record.fee_growth_global_0,
+        "fee_growth_global_1": record.fee_growth_global_1,
+        "source": record.source,
+    }
+
+
+def _serialize_day_data(record: PoolDayData) -> dict[str, Any]:
+    """Serialize a PoolDayData to the legacy daily format."""
+    return {
+        "date": record.date,
+        "volumeUSD": str(record.volume_usd),
+        "tvlUSD": str(record.tvl_usd),
+        "token0Price": str(record.price_token0_in_token1),
+        "token1Price": str(record.price_token1_in_token0),
+        "feeGrowthGlobal0X128": (
+            str(record.fee_growth_global_0) if record.fee_growth_global_0 is not None else None
+        ),
+        "feeGrowthGlobal1X128": (
+            str(record.fee_growth_global_1) if record.fee_growth_global_1 is not None else None
+        ),
+        "source": record.source,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Public API
+# ---------------------------------------------------------------------------
+
+def load_pool_history(path: Path) -> Union[list[PoolDayData], list[PoolHistoryPoint]]:
+    """Load and normalize pool history from a JSON file.
+
+    Detects format automatically:
+    - Flat array with "timestamp" keys -> PoolHistoryPoint (hourly)
+    - Wrapper dict with "days" key -> PoolDayData (daily, legacy)
+    """
     path = Path(path)
 
     if not path.exists():
@@ -63,10 +109,35 @@ def load_pool_history(path: Path) -> list[PoolDayData]:
     except json.JSONDecodeError as e:
         raise ValueError(f"Malformed JSON in {path.name}: {e}")
 
-    # Extract pool address from top-level key
-    pool_address = str(data.get("pool_address", "")).lower()
+    # Detect flat hourly array format
+    if isinstance(data, list):
+        results: list[PoolHistoryPoint] = []
+        for entry in data:
+            record = PoolHistoryPoint(
+                pool_address=str(entry.get("pool_address", "")).lower(),
+                timestamp=int(entry["timestamp"]),
+                price_token1_in_token0=_parse_decimal(
+                    entry.get("price_token1_in_token0", "0")
+                ),
+                price_token0_in_token1=_parse_decimal(
+                    entry.get("price_token0_in_token1", "0")
+                ),
+                volume_usd=_parse_decimal(entry.get("volume_usd", "0")),
+                tvl_usd=_parse_decimal(entry.get("tvl_usd", "0")),
+                fee_growth_global_0=_parse_fee_growth(
+                    entry.get("fee_growth_global_0")
+                ),
+                fee_growth_global_1=_parse_fee_growth(
+                    entry.get("fee_growth_global_1")
+                ),
+                source=entry.get("source", "the_graph"),
+            )
+            results.append(record)
+        return sorted(results, key=lambda r: r.timestamp)
 
-    results: list[PoolDayData] = []
+    # Legacy daily wrapper format with "days" key
+    pool_address = str(data.get("pool_address", "")).lower()
+    results_day: list[PoolDayData] = []
 
     for day_entry in data.get("days", []):
         volume_usd = _parse_decimal(_get(day_entry, _VOLUME_ALIASES, "0"))
@@ -95,9 +166,9 @@ def load_pool_history(path: Path) -> list[PoolDayData]:
             fee_growth_global_1=_parse_fee_growth(_get(day_entry, _FEE1_ALIASES)),
             source=day_entry.get("source", "the_graph"),
         )
-        results.append(record)
+        results_day.append(record)
 
-    return sorted(results, key=lambda r: r.date)
+    return sorted(results_day, key=lambda r: r.date)
 
 
 def save_pool_history(
@@ -110,40 +181,34 @@ def save_pool_history(
 
     Accepts both PoolDayData (daily-bucketed) and PoolHistoryPoint
     (hourly-preserved) records via duck-typing.
+
+    PoolHistoryPoint records are saved as a flat array (new format).
+    PoolDayData records use the legacy wrapper dict (backward compat).
     """
-    days = []
-    for r in records:
-        is_hourly = hasattr(r, "timestamp")
+    if not records:
+        logger.warning("No records to save for %s", pair_name)
+        return
 
-        entry: dict[str, Any] = {
-            "volumeUSD": str(r.volume_usd),
-            "tvlUSD": str(r.tvl_usd),
-            "token0Price": str(r.price_token0_in_token1),
-            "token1Price": str(r.price_token1_in_token0),
-            "feeGrowthGlobal0X128": (
-                str(r.fee_growth_global_0) if r.fee_growth_global_0 is not None else None
-            ),
-            "feeGrowthGlobal1X128": (
-                str(r.fee_growth_global_1) if r.fee_growth_global_1 is not None else None
-            ),
-            "source": r.source,
+    # Detect record type via duck typing
+    is_hourly = hasattr(records[0], "timestamp")
+
+    if is_hourly:
+        # Serialize as flat array of PoolHistoryPoint records
+        serialized = [_serialize_history_point(r) for r in records]
+        tmp_path = Path(str(path) + ".tmp")
+        with open(tmp_path, "w") as f:
+            json.dump(serialized, f, indent=2)
+        tmp_path.rename(path)
+    else:
+        # Legacy PoolDayData format with wrapper dict
+        days = [_serialize_day_data(r) for r in records]
+        payload = {
+            "pool_address": pool_address.lower(),
+            "pair_name": pair_name,
+            "fetched_at": int(time.time()),
+            "days": days,
         }
-
-        if is_hourly:
-            entry["timestamp"] = r.timestamp
-        else:
-            entry["date"] = r.date
-
-        days.append(entry)
-
-    payload = {
-        "pool_address": pool_address.lower(),
-        "pair_name": pair_name,
-        "fetched_at": int(time.time()),
-        "days": days,
-    }
-
-    tmp_path = Path(str(path) + ".tmp")
-    with open(tmp_path, "w") as f:
-        json.dump(payload, f, indent=2)
-    tmp_path.rename(path)
+        tmp_path = Path(str(path) + ".tmp")
+        with open(tmp_path, "w") as f:
+            json.dump(payload, f, indent=2)
+        tmp_path.rename(path)

@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "9-hotfix2",
+  "last_updated_sprint": "9-hotfix3",
   "components": [
     {
       "id": "core.models",
@@ -217,9 +217,10 @@
       "id": "data.loader.pool_loader",
       "file": "data/loader/pool_loader.py",
       "status": "complete",
-      "sprint": 9,
+      "sprint": "9-hotfix3",
       "audit_notes": [
-        "Sprint 9: save_pool_history accepts both PoolDayData (date field) and PoolHistoryPoint (timestamp field). JSON output includes timestamp for hourly records."
+        "Sprint 9: save_pool_history accepts both PoolDayData (date field) and PoolHistoryPoint (timestamp field). JSON output includes timestamp for hourly records.",
+        "Hotfix 3: PoolHistoryPoint serialized to flat hourly array."
       ],
       "dependencies": ["data.fetcher.router"],
       "test_file": "tests/test_data_layer.py",
