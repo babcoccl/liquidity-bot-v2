@@ -22,7 +22,7 @@ from core.models import PoolDayData
 logger = logging.getLogger(__name__)
 
 _BASE = "https://api.geckoterminal.com/api/v2"
-_INTER_POOL_SLEEP = 5.0
+_INTER_POOL_SLEEP = 10.0
 _INTER_PAGE_SLEEP = 2.0
 _BACKOFFS = [15, 30, 60, 120, 240]
 
@@ -201,9 +201,12 @@ class GeckoTerminalFetcher(AbstractFetcher):
 
             if resp.status_code == 429:
                 if retries_429 < len(_BACKOFFS):
-                    sleep_s = float(
-                        resp.headers.get("Retry-After") or _BACKOFFS[retries_429]
-                    )
+                    retry_after_raw = resp.headers.get("Retry-After")
+                    try:
+                        retry_after_val = float(retry_after_raw) if retry_after_raw is not None else 0.0
+                    except (ValueError, TypeError):
+                        retry_after_val = 0.0
+                    sleep_s = retry_after_val if retry_after_val > 1.0 else _BACKOFFS[retries_429]
                     retries_429 += 1
                     logger.warning(
                         "GeckoTerminal 429: sleeping %.1fs (attempt %d/5)",
@@ -211,7 +214,7 @@ class GeckoTerminalFetcher(AbstractFetcher):
                     )
                     time.sleep(sleep_s)
                     continue
-                raise RateLimitError("GeckoTerminal 429: all 5 retry attempts exhausted")
+                raise FetchError("GeckoTerminal 429: all 5 retry attempts exhausted — giving up")
 
             if 500 <= resp.status_code < 600:
                 if retries_5xx < 3:
