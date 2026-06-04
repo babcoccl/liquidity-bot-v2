@@ -107,7 +107,15 @@
 
 ### Deferred
 - registry fee_tier values likely need correction after on-chain verification
-- Fee loop still counts the exit step before break
 - PositionSimulator hourly migration
 - Entry condition logic
 - More accurate IL notional / LP valuation
+
+## Sprint 15 — Parameter Sweep Harness
+**Status:** Complete
+### Completed
+- backtest/harness.py: tick_to_price calls hoisted above fee loop (optimization)
+- backtest/harness.py: fee no longer accumulated on exit step (overcount fix)
+- backtest/sweep.py: SweepConfig, SweepResult, SweepRunner implemented
+- scripts/sweep.py: CLI entry point for parameter sweep
+- tests/test_sweep.py: 7 unit/integration tests for SweepRunner

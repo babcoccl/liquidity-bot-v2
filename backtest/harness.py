@@ -7,7 +7,7 @@ Does NOT fetch data — assumes data/historical/<pair_name>.json exists.
 Use scripts/fetch.py first to populate historical data.
 
 # AUDIT:status=complete
-# AUDIT:sprint=14
+# AUDIT:sprint=15
 """
 from __future__ import annotations
 
@@ -225,6 +225,10 @@ class BacktestHarness:
         il_at_exit = Decimal("0")
         total_fees = Decimal("0")
 
+        # Fix A — Hoist tick_to_price calls out of the step loop
+        price_lower = tick_to_price(position.tick_lower)
+        price_upper = tick_to_price(position.tick_upper)
+
         for pool_rec, t0_rec, t1_rec in aligned[1:]:
             hours_simulated += 1
             sig = evaluate_position(
@@ -239,22 +243,20 @@ class BacktestHarness:
             )
             il_at_exit = sig.il_current
 
-            # Fee attribution — only accumulate when price is in range
-            price_lower = tick_to_price(position.tick_lower)
-            price_upper = tick_to_price(position.tick_upper)
-            price_in_range = price_lower <= pool_rec.price_token1_in_token0 <= price_upper
+            # Fix B — Do not accumulate fees on the exit step
+            if sig.triggered:
+                exit_signal = sig
+                break
 
+            # Fee attribution — only accumulate when price is in range
             fee_rate = Decimal(str(pool.fee_tier)) / Decimal("1000000")
+            price_in_range = price_lower <= pool_rec.price_token1_in_token0 <= price_upper
             if price_in_range and pool_rec.tvl_usd > Decimal("0"):
                 lp_share = min(
                     position.liquidity_usd / pool_rec.tvl_usd,
                     Decimal("1"),
                 )
                 total_fees += pool_rec.volume_usd * fee_rate * lp_share
-
-            if sig.triggered:
-                exit_signal = sig
-                break
 
         il_cost = il_at_exit * self.config.initial_capital
         net_lp_alpha = total_fees + il_cost   # il_cost is negative, so net = fees - |IL|

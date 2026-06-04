@@ -1,12 +1,20 @@
 # Active Context
 
-**Current focus:** Sprint 14 — Tick Range Wiring & In-Range Fee Attribution
+## Current Sprint: 15
+**Focus:** Parameter sweep harness
+**New modules:** backtest/sweep.py, scripts/sweep.py, tests/test_sweep.py
+**Modified:** backtest/harness.py (two targeted fixes)
+**Status:** Complete
+**Next:** Sprint 16 — TBD
 
-**In-progress:** none
+**Sprint 15 completed:**
+- tick_to_price calls hoisted above fee loop in _simulate_pool_hourly() (optimization)
+- Fee no longer accumulated on exit step (overcount fix)
+- SweepConfig, SweepResult, SweepRunner implemented in backtest/sweep.py
+- CLI entry point scripts/sweep.py for parameter sweep
+- 7 unit/integration tests in tests/test_sweep.py
 
-**Blockers:** none
-
-**Last completed:** Sprint 14 — Tick Range Wiring & In-Range Fee Attribution
+**Sprint 14 completed:**
 - PoolConfig now carries tick_lower and tick_upper with full-range sentinel defaults
 - registry/registry.py deserialises tick fields from JSON and validates ordering/bounds
 - registry/registry.json updated so all 15 pools have tick ranges
@@ -20,7 +28,6 @@
 
 **Remaining known issues (deferred):**
 - fee_tier values in registry.json are likely wrong for multiple pools and need on-chain verification
-- Fee loop still executes once on the exit step before break
 - PositionSimulator (daily path) still consumes PoolDayData only
 - Entry selection still uses the first aligned record; no entry filter logic exists yet
 - il_cost still uses initial_capital as notional rather than current LP position value

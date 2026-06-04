@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "14",
+  "last_updated_sprint": "15",
   "components": [
     {
       "id": "core.models",
@@ -478,14 +478,15 @@
       "test_coverage": "none"
     },
      {
-      "id": "backtest.harness",
-      "file": "backtest/harness.py",
-      "status": "complete",
-      "sprint": 14,
-      "audit_notes": [
-        "Fee attribution added to _simulate_pool_hourly(). Daily path updated with explicit hours_simulated=0, exit_reason=None.",
-        "Sprint 14: Hourly path now uses registry ticks and only accrues fees while in range."
-      ],
+       "id": "backtest.harness",
+       "file": "backtest/harness.py",
+       "status": "complete",
+       "sprint": 15,
+       "audit_notes": [
+         "Fee attribution added to _simulate_pool_hourly(). Daily path updated with explicit hours_simulated=0, exit_reason=None.",
+         "Sprint 14: Hourly path now uses registry ticks and only accrues fees while in range.",
+         "Sprint 15: tick_to_price hoisted above fee loop; fee not counted on exit step."
+       ],
       "dependencies": ["backtest.config", "backtest.reporter", "backtest.simulator", "registry.registry", "data.loader.pool_loader"],
       "test_file": "tests/test_backtest_harness.py",
       "test_coverage": "full"
@@ -600,6 +601,38 @@
       "dependencies": [],
       "test_file": null,
       "test_coverage": "none"
+    },
+    {
+      "id": "backtest.sweep",
+      "file": "backtest/sweep.py",
+      "status": "complete",
+      "sprint": 15,
+      "audit_notes": [
+        "SweepConfig, SweepResult, SweepRunner. Cartesian product over 4 exit-policy parameters. Results sorted descending by avg_net_lp_alpha."
+      ],
+      "dependencies": ["backtest.config", "backtest.harness", "backtest.reporter", "registry.registry"],
+      "test_file": "tests/test_sweep.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "scripts.sweep",
+      "file": "scripts/sweep.py",
+      "status": "complete",
+      "sprint": 15,
+      "audit_notes": [],
+      "dependencies": ["backtest.sweep", "backtest.config", "registry.registry"],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "tests.test_sweep",
+      "file": "tests/test_sweep.py",
+      "status": "complete",
+      "sprint": 15,
+      "audit_notes": [],
+      "dependencies": ["backtest.sweep", "backtest.config", "registry.registry"],
+      "test_file": "tests/test_sweep.py",
+      "test_coverage": "full"
     }
   ]
 }
