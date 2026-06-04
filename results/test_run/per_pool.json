@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "pool_address": "0xabc",
+    "pair_name": "USDC-WETH",
+    "days_simulated": 30,
+    "hours_simulated": 720,
+    "exit_reason": "TIME_LIMIT",
+    "total_fees_earned": "375.5181171618421062303571368",
+    "il_cost": "-0.0237374121437965763628770000",
+    "net_lp_alpha": "375.4943797496983096539942598",
+    "final_capital": "10375.49437974969830965399426",
+    "rebalance_count": 0,
+    "source": "hourly"
+  }
+]

@@ -2,11 +2,13 @@
   {
     "pool_address": "0xb4cb800910b228ed3d0834cf79d697127bbb00e5",
     "pair_name": "WETH-USDC",
-    "days_simulated": 4,
-    "total_fees_earned": "0",
+    "days_simulated": 1,
+    "hours_simulated": 4,
+    "exit_reason": "IL_THRESHOLD",
+    "total_fees_earned": "6.381740828983670977308304985",
     "il_cost": "-571.9095841793663413220751730",
-    "net_lp_alpha": "571.9095841793663413220751730",
-    "final_capital": "9428.090415820633658677924827",
+    "net_lp_alpha": "-565.5278433503826703447668680",
+    "final_capital": "9434.472156649617329655233127",
     "rebalance_count": 0,
     "source": "hourly"
   }

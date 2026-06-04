@@ -1,6 +1,6 @@
 {
   "run_id": "test_run",
-  "pool_count": 0,
+  "pool_count": 1,
   "config": {
     "days": "30",
     "initial_capital": "10000",
@@ -9,8 +9,14 @@
     "min_entry_score": "0.6",
     "rebalance_cooldown_hours": "4.0",
     "max_rebalances_per_pool_per_day": "3",
-    "historical_dir": "/tmp/pytest-of-aihub/pytest-10/test_harness_run_skips_pool_on0/historical",
-    "registry_path": "registry/registry.json"
+    "historical_dir": "/tmp/pytest-of-aihub/pytest-6/test_harness_run_hourly_path_i0/historical",
+    "registry_path": "registry/registry.json",
+    "prices_dir": "data/prices",
+    "hourly_dir": "data/historical",
+    "max_il_pct": "-0.05",
+    "min_tvl_usd": "500000",
+    "min_volume_usd": "50000",
+    "max_hold_hours": "720"
   },
-  "total_net_lp_alpha": "0"
+  "total_net_lp_alpha": "375.4943797496983096539942598"
 }
