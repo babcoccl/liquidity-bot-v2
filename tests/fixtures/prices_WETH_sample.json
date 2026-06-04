@@ -1,0 +1,12 @@
+{
+  "token_address": "0x4200000000000000000000000000000000000006",
+  "symbol": "WETH",
+  "fetched_at": 1700000000,
+  "records": [
+    {"timestamp": 1700000000, "price_usd": "2000.00", "volume_usd": "1000000.00", "market_cap_usd": null, "source": "fixture"},
+    {"timestamp": 1700003600, "price_usd": "2200.00", "volume_usd": "1050000.00", "market_cap_usd": null, "source": "fixture"},
+    {"timestamp": 1700007200, "price_usd": "2400.00", "volume_usd": "1100000.00", "market_cap_usd": null, "source": "fixture"},
+    {"timestamp": 1700010800, "price_usd": "2800.00", "volume_usd": "1200000.00", "market_cap_usd": null, "source": "fixture"},
+    {"timestamp": 1700014400, "price_usd": "4000.00", "volume_usd": "1500000.00", "market_cap_usd": null, "source": "fixture"}
+  ]
+}

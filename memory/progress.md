@@ -126,3 +126,17 @@
 - [x] data/fetcher/token_prices.py — replaced single market_chart call
       with chunked market_chart/range loop (<=90d per chunk); added
       uppercase COIN_ID_MAP aliases for CBBTC, CBETH, EUSD
+
+### Sprint 11 — Data Integrity Test Suite + Strategy Layer Skeleton (COMPLETE)
+- [x] strategy/il_calculator.py — pure IL functions, all Decimal
+- [x] strategy/position.py — Position frozen dataclass
+- [x] strategy/exit_signal.py — ExitSignal + ExitReason enum
+- [x] strategy/evaluator.py — stub with signed interfaces, Sprint 12 impl
+- [x] tests/fixtures/ — WETH-USDC 5-record fixture set with known IL values
+- [x] tests/test_il_calculator.py — Layer 1 unit tests (symmetry, precision,
+      field direction, edge cases)
+- [x] tests/test_layer_handoff.py — Layer 2 integration tests (loader ->
+      calculator, Decimal preservation, dual-method agreement)
+- [x] tests/test_data_integrity.py — Layer 3 smoke tests (completeness,
+      reciprocal consistency, fee growth monotonicity, stablecoin peg)
+- [x] memory files updated

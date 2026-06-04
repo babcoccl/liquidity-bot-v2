@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "10-hotfix1",
+  "last_updated_sprint": "11",
   "components": [
     {
       "id": "core.models",
@@ -427,6 +427,116 @@
       "dependencies": [],
       "test_file": null,
       "test_coverage": "none"
+    },
+    {
+      "id": "strategy.il_calculator",
+      "file": "strategy/il_calculator.py",
+      "status": "complete",
+      "sprint": 11,
+      "audit_notes": [
+        "Pure functions only. All Decimal, never float. IL formula: (2*sqrt(k)/(1+k))-1."
+      ],
+      "dependencies": [],
+      "test_file": "tests/test_il_calculator.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "strategy.position",
+      "file": "strategy/position.py",
+      "status": "complete",
+      "sprint": 11,
+      "audit_notes": [
+        "Frozen dataclass. Entry snapshot only — no computation."
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "strategy.exit_signal",
+      "file": "strategy/exit_signal.py",
+      "status": "complete",
+      "sprint": 11,
+      "audit_notes": [
+        "ExitSignal frozen dataclass + ExitReason enum."
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "strategy.evaluator",
+      "file": "strategy/evaluator.py",
+      "status": "stub",
+      "sprint": 11,
+      "audit_notes": [
+        "Signed interfaces defined. Bodies raise NotImplementedError — Sprint 12 implements."
+      ],
+      "dependencies": ["core.models", "strategy.exit_signal", "strategy.il_calculator", "strategy.position"],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "strategy.init",
+      "file": "strategy/__init__.py",
+      "status": "complete",
+      "sprint": 11,
+      "audit_notes": [],
+      "dependencies": [
+        "strategy.il_calculator",
+        "strategy.position",
+        "strategy.exit_signal"
+      ],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "tests.fixtures",
+      "file": "tests/fixtures/",
+      "status": "complete",
+      "sprint": 11,
+      "audit_notes": [
+        "5-record WETH-USDC fixture set with known IL values for hand-verification."
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "tests.test_il_calculator",
+      "file": "tests/test_il_calculator.py",
+      "status": "complete",
+      "sprint": 11,
+      "audit_notes": [
+        "Layer 1: pure function unit tests — symmetry, precision, field direction, edge cases."
+      ],
+      "dependencies": ["strategy.il_calculator"],
+      "test_file": "tests/test_il_calculator.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "tests.test_layer_handoff",
+      "file": "tests/test_layer_handoff.py",
+      "status": "complete",
+      "sprint": 11,
+      "audit_notes": [
+        "Layer 2: loader -> calculator integration — Decimal preservation, dual-method agreement."
+      ],
+      "dependencies": ["data.loader.pool_loader", "data.loader.token_price_loader", "strategy.il_calculator"],
+      "test_file": "tests/test_layer_handoff.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "tests.test_data_integrity",
+      "file": "tests/test_data_integrity.py",
+      "status": "complete",
+      "sprint": 11,
+      "audit_notes": [
+        "Layer 3: real data smoke tests — completeness, reciprocal consistency, fee growth monotonicity, stablecoin peg."
+      ],
+      "dependencies": ["data.loader.pool_loader", "data.loader.token_price_loader", "registry.registry"],
+      "test_file": "tests/test_data_integrity.py",
+      "test_coverage": "full"
     }
   ]
 }
