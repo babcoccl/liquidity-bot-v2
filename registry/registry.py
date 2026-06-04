@@ -4,7 +4,7 @@ Source of truth for all pool metadata in the codebase.
 Backed by registry/registry.json.
 """
 # AUDIT:status=complete
-# AUDIT:sprint=4
+# AUDIT:sprint=14
 
 from __future__ import annotations
 
@@ -63,6 +63,9 @@ class PoolRegistry:
                 for symbol, ref in entry.get("price_reference", {}).items()
             }
 
+            tick_lower = int(entry.get("tick_lower", -887272))
+            tick_upper = int(entry.get("tick_upper", 887272))
+
             pool = PoolConfig(
                 pool_address=pool_address,
                 pair_name=entry["pair_name"],
@@ -70,6 +73,8 @@ class PoolRegistry:
                 token1=token1,
                 fee_tier=int(entry["fee_tier"]),
                 price_reference=price_reference,
+                tick_lower=tick_lower,
+                tick_upper=tick_upper,
             )
             self._pools[pool_address] = pool
 
@@ -109,6 +114,14 @@ class PoolRegistry:
             if pool.fee_tier not in _VALID_FEE_TIERS:
                 errors.append(
                     f"{pool.pair_name}: fee_tier {pool.fee_tier} not in {_VALID_FEE_TIERS}"
+                )
+            if pool.tick_lower >= pool.tick_upper:
+                errors.append(
+                    f"{pool.pair_name}: tick_lower ({pool.tick_lower}) must be < tick_upper ({pool.tick_upper})"
+                )
+            if pool.tick_lower < -887272 or pool.tick_upper > 887272:
+                errors.append(
+                    f"{pool.pair_name}: ticks ({pool.tick_lower}, {pool.tick_upper}) outside Uniswap V3 bounds [-887272, 887272]"
                 )
             if not pool.pair_name:
                 errors.append(f"{pool.pool_address}: pair_name is empty")

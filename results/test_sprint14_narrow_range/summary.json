@@ -1,0 +1,22 @@
+{
+  "run_id": "test_sprint14_narrow_range",
+  "pool_count": 1,
+  "config": {
+    "days": "365",
+    "initial_capital": "10000",
+    "bollinger_multiplier": "2",
+    "rotation_margin": "0.01",
+    "min_entry_score": "0",
+    "rebalance_cooldown_hours": "0",
+    "max_rebalances_per_pool_per_day": "99",
+    "historical_dir": "/tmp/pytest-of-aihub/pytest-11/test_narrow_range_triggers_pri0",
+    "registry_path": "/tmp/pytest-of-aihub/pytest-11/test_narrow_range_triggers_pri0/registry_narrow.json",
+    "prices_dir": "/tmp/pytest-of-aihub/pytest-11/test_narrow_range_triggers_pri0",
+    "hourly_dir": "/tmp/pytest-of-aihub/pytest-11/test_narrow_range_triggers_pri0",
+    "max_il_pct": "-0.99",
+    "min_tvl_usd": "0",
+    "min_volume_usd": "0",
+    "max_hold_hours": "9999"
+  },
+  "total_net_lp_alpha": "-40.13975267768928969589308107"
+}

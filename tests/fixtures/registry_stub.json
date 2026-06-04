@@ -13,6 +13,8 @@
       "decimals": 6
     },
     "fee_tier": 500,
+    "tick_lower": -887272,
+    "tick_upper": 887272,
     "price_reference": {}
   }
 ]

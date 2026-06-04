@@ -1,0 +1,22 @@
+{
+  "run_id": "test_sprint14_full_range_fees",
+  "pool_count": 1,
+  "config": {
+    "days": "365",
+    "initial_capital": "10000",
+    "bollinger_multiplier": "2",
+    "rotation_margin": "0.01",
+    "min_entry_score": "0",
+    "rebalance_cooldown_hours": "0",
+    "max_rebalances_per_pool_per_day": "99",
+    "historical_dir": "/home/aihub/Code/liquidity-bot-v2/tests/fixtures",
+    "registry_path": "/home/aihub/Code/liquidity-bot-v2/tests/fixtures/registry_stub.json",
+    "prices_dir": "/home/aihub/Code/liquidity-bot-v2/tests/fixtures",
+    "hourly_dir": "/home/aihub/Code/liquidity-bot-v2/tests/fixtures",
+    "max_il_pct": "-0.05",
+    "min_tvl_usd": "100000",
+    "min_volume_usd": "10000",
+    "max_hold_hours": "720"
+  },
+  "total_net_lp_alpha": "-565.5278433503826703447668680"
+}

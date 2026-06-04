@@ -83,6 +83,31 @@
 - tests/test_backtest_integration.py: 3 new tests (fees > 0, exit_reason set, hours_simulated type)
 
 ### Deferred
-- Real tick ranges from PoolConfig.tick_lower/tick_upper not yet read from registry data
-- Fee model does not account for out-of-range hours (fees stop accruing when price exits range)
 - PositionSimulator hourly migration
+- Entry condition logic
+- More accurate IL notional / LP valuation
+
+## Sprint 14 — Tick Range Wiring & In-Range Fee Attribution
+**Status:** Complete
+### Completed
+- registry/types.py: PoolConfig gains tick_lower (int=-887272) and tick_upper (int=887272)
+  with sentinel defaults for backward compatibility
+- registry/registry.py: load() reads tick_lower/upper from JSON using entry.get() fallback;
+  validate() now checks ordering and Uniswap V3 bounds [-887272, 887272]
+- registry/registry.json: tick_lower and tick_upper added to all 15 pools
+- tests/fixtures/registry_stub.json: tick_lower=-887272 and tick_upper=887272 added
+  to preserve existing fixture behavior
+- backtest/harness.py: _simulate_pool_hourly() now uses pool.tick_lower/pool.tick_upper
+  instead of hard-coded sentinels
+- backtest/harness.py: fee loop only accrues fees when current price is in range
+- tests/test_registry.py: added coverage for tick fields, defaults, loading, validation,
+  and completeness of committed registry.json
+- tests/test_backtest_integration.py: added full-range fee regression test and narrow-range
+  PRICE_OUT_OF_RANGE integration test
+
+### Deferred
+- registry fee_tier values likely need correction after on-chain verification
+- Fee loop still counts the exit step before break
+- PositionSimulator hourly migration
+- Entry condition logic
+- More accurate IL notional / LP valuation

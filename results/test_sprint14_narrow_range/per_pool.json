@@ -1,0 +1,15 @@
+[
+  {
+    "pool_address": "0xb4cb800910b228ed3d0834cf79d697127bbb00e5",
+    "pair_name": "WETH-USDC",
+    "days_simulated": 1,
+    "hours_simulated": 2,
+    "exit_reason": "PRICE_OUT_OF_RANGE",
+    "total_fees_earned": "1.268292682926829268292682927",
+    "il_cost": "-41.40804536061611896418576400",
+    "net_lp_alpha": "-40.13975267768928969589308107",
+    "final_capital": "9959.860247322310710304106916",
+    "rebalance_count": 0,
+    "source": "hourly"
+  }
+]

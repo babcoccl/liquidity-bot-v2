@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "13",
+  "last_updated_sprint": "14",
   "components": [
     {
       "id": "core.models",
@@ -265,22 +265,26 @@
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
-    {
+     {
       "id": "registry.types",
       "file": "registry/types.py",
       "status": "complete",
-      "sprint": 4,
-      "audit_notes": [],
+      "sprint": 14,
+      "audit_notes": [
+        "Sprint 14: PoolConfig gains tick_lower/tick_upper sentinel defaults (-887272/887272)."
+      ],
       "dependencies": [],
       "test_file": "tests/test_registry.py",
       "test_coverage": "full"
     },
-    {
+     {
       "id": "registry.registry",
       "file": "registry/registry.py",
       "status": "complete",
-      "sprint": 4,
-      "audit_notes": [],
+      "sprint": 14,
+      "audit_notes": [
+        "Sprint 14: Tick fields loaded from JSON; validate() checks ordering and bounds."
+      ],
       "dependencies": ["registry.types"],
       "test_file": "tests/test_registry.py",
       "test_coverage": "full"
@@ -394,15 +398,16 @@
       "test_file": null,
       "test_coverage": "none"
     },
-    {
+     {
       "id": "registry.json",
       "file": "registry/registry.json",
       "status": "complete",
-      "sprint": 6,
+      "sprint": 14,
       "audit_notes": [
         "15 pools migrated from v1 data/registry.json",
         "LRDS/WETH excluded — token0 address in v1 registry appears malformed (0xd36e8964... is 42 chars but contains a duplicate segment)",
-        "Alt/duplicate pools excluded — only primary address per pair retained"
+        "Alt/duplicate pools excluded — only primary address per pair retained",
+        "Sprint 14: Added tick_lower/tick_upper to all 15 pool entries; fee_tier left unchanged pending audit."
       ],
       "dependencies": [],
       "test_file": null,
@@ -472,13 +477,14 @@
       "test_file": null,
       "test_coverage": "none"
     },
-    {
+     {
       "id": "backtest.harness",
       "file": "backtest/harness.py",
       "status": "complete",
-      "sprint": 13,
+      "sprint": 14,
       "audit_notes": [
-        "Fee attribution added to _simulate_pool_hourly(). Daily path updated with explicit hours_simulated=0, exit_reason=None."
+        "Fee attribution added to _simulate_pool_hourly(). Daily path updated with explicit hours_simulated=0, exit_reason=None.",
+        "Sprint 14: Hourly path now uses registry ticks and only accrues fees while in range."
       ],
       "dependencies": ["backtest.config", "backtest.reporter", "backtest.simulator", "registry.registry", "data.loader.pool_loader"],
       "test_file": "tests/test_backtest_harness.py",
@@ -533,40 +539,43 @@
       "test_coverage": "full"
     },
     {
+      "id": "tests.fixtures.registry_stub",
+      "file": "tests/fixtures/registry_stub.json",
+      "status": "complete",
+      "sprint": 14,
+      "audit_notes": [
+        "Minimal single-pool registry for integration test.",
+        "Sprint 14: Added tick_lower=-887272 and tick_upper=887272 sentinel defaults."
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "tests.test_registry",
+      "file": "tests/test_registry.py",
+      "status": "complete",
+      "sprint": 14,
+      "audit_notes": [
+        "Sprint 14: Added tick field loading, defaults, validation, and registry.json completeness tests."
+      ],
+      "dependencies": ["registry.registry", "registry.types"],
+      "test_file": "tests/test_registry.py",
+      "test_coverage": "full"
+    },
+    {
       "id": "tests.test_backtest_integration",
       "file": "tests/test_backtest_integration.py",
       "status": "complete",
-      "sprint": 13,
+      "sprint": 14,
       "audit_notes": [
-        "End-to-end test over WETH-USDC fixture; IL trigger fires at k=2.0. 3 new tests for fee attribution, exit_reason, and hours_simulated appended."
+        "End-to-end test over WETH-USDC fixture; IL trigger fires at k=2.0.",
+        "Sprint 13: 3 new tests for fee attribution, exit_reason, and hours_simulated appended.",
+        "Sprint 14: Added full-range fee regression test and narrow-range PRICE_OUT_OF_RANGE integration test."
       ],
       "dependencies": ["backtest.harness", "backtest.config", "registry.registry"],
       "test_file": "tests/test_backtest_integration.py",
       "test_coverage": "full"
-    },
-    {
-      "id": "tests.fixtures.registry_stub",
-      "file": "tests/fixtures/registry_stub.json",
-      "status": "complete",
-      "sprint": 12,
-      "audit_notes": [
-        "Minimal single-pool registry for integration test."
-      ],
-      "dependencies": [],
-      "test_file": null,
-      "test_coverage": "none"
-    },
-    {
-      "id": "tests.fixtures.weth_usdc",
-      "file": "tests/fixtures/WETH-USDC.json",
-      "status": "complete",
-      "sprint": 12,
-      "audit_notes": [
-        "Copy of pool_WETH-USDC_sample.json; harness-expected filename."
-      ],
-      "dependencies": [],
-      "test_file": null,
-      "test_coverage": "none"
     },
     {
       "id": "tests.fixtures.weth",

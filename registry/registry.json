@@ -12,6 +12,8 @@
     "decimals": 8
   },
   "fee_tier": 100,
+  "tick_lower": -887272,
+  "tick_upper": 887272,
   "price_reference": {
     "USDC": {
       "quote": "USD",
@@ -36,6 +38,8 @@
     "decimals": 6
   },
   "fee_tier": 100,
+  "tick_lower": -6932,
+  "tick_upper": 6932,
   "price_reference": {
     "AERO": {
       "quote": "USD",
@@ -60,6 +64,8 @@
     "decimals": 18
   },
   "fee_tier": 5,
+  "tick_lower": -887272,
+  "tick_upper": 887272,
   "price_reference": {
     "USDC": {
       "quote": "USD",
@@ -84,6 +90,8 @@
     "decimals": 18
   },
   "fee_tier": 5,
+  "tick_lower": -6932,
+  "tick_upper": 6932,
   "price_reference": {
     "VVV": {
       "quote": "USD",
@@ -108,6 +116,8 @@
     "decimals": 18
   },
   "fee_tier": 30,
+  "tick_lower": -6932,
+  "tick_upper": 6932,
   "price_reference": {
     "KTA": {
       "quote": "USD",
@@ -132,6 +142,8 @@
     "decimals": 18
   },
   "fee_tier": 30,
+  "tick_lower": -6932,
+  "tick_upper": 6932,
   "price_reference": {
     "VIRTUAL": {
       "quote": "USD",
@@ -156,6 +168,8 @@
     "decimals": 18
   },
   "fee_tier": 30,
+  "tick_lower": -6932,
+  "tick_upper": 6932,
   "price_reference": {
     "FAI": {
       "quote": "USD",
@@ -180,6 +194,8 @@
     "decimals": 8
   },
   "fee_tier": 5,
+  "tick_lower": -2000,
+  "tick_upper": 2000,
   "price_reference": {
     "WETH": {
       "quote": "USD",
@@ -204,6 +220,8 @@
     "decimals": 18
   },
   "fee_tier": 5,
+  "tick_lower": -200,
+  "tick_upper": 200,
   "price_reference": {
     "cbETH": {
       "quote": "USD",
@@ -228,6 +246,8 @@
     "decimals": 18
   },
   "fee_tier": 30,
+  "tick_lower": -6932,
+  "tick_upper": 6932,
   "price_reference": {
     "WETH": {
       "quote": "USD",
@@ -252,6 +272,8 @@
     "decimals": 6
   },
   "fee_tier": 1,
+  "tick_lower": -50,
+  "tick_upper": 50,
   "price_reference": {
     "USDC": {
       "quote": "USD",
@@ -276,6 +298,8 @@
     "decimals": 6
   },
   "fee_tier": 1,
+  "tick_lower": -50,
+  "tick_upper": 50,
   "price_reference": {
     "EURC": {
       "quote": "USD",
@@ -300,6 +324,8 @@
     "decimals": 8
   },
   "fee_tier": 30,
+  "tick_lower": -6932,
+  "tick_upper": 6932,
   "price_reference": {
     "AERO": {
       "quote": "USD",
@@ -324,6 +350,8 @@
     "decimals": 18
   },
   "fee_tier": 30,
+  "tick_lower": -4055,
+  "tick_upper": 4055,
   "price_reference": {
     "WETH": {
       "quote": "USD",
@@ -348,6 +376,8 @@
     "decimals": 18
   },
   "fee_tier": 5,
+  "tick_lower": -50,
+  "tick_upper": 50,
   "price_reference": {
     "USDC": {
       "quote": "USD",

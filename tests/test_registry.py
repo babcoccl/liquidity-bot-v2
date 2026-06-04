@@ -319,3 +319,141 @@ def test_registry_validate_multiple_errors_all_returned(tmp_path):
     reg.load()
     errors = reg.validate()
     assert len(errors) >= 4
+
+
+# ---------------------------------------------------------------------------
+# Sprint 14 — tick field loading and validation
+# ---------------------------------------------------------------------------
+
+def test_pool_config_has_tick_fields():
+    from registry.types import PoolConfig, TokenConfig
+
+    pool = PoolConfig(
+        pool_address="0xabc",
+        pair_name="TEST-PAIR",
+        token0=TokenConfig(symbol="A", address="0xaaa", decimals=18),
+        token1=TokenConfig(symbol="B", address="0xbbb", decimals=18),
+        fee_tier=500,
+        price_reference={},
+        tick_lower=-1000,
+        tick_upper=1000,
+    )
+
+    assert pool.tick_lower == -1000
+    assert pool.tick_upper == 1000
+
+
+def test_pool_config_tick_defaults_are_full_range():
+    from registry.types import PoolConfig, TokenConfig
+
+    pool = PoolConfig(
+        pool_address="0xabc",
+        pair_name="TEST-PAIR",
+        token0=TokenConfig(symbol="A", address="0xaaa", decimals=18),
+        token1=TokenConfig(symbol="B", address="0xbbb", decimals=18),
+        fee_tier=500,
+        price_reference={},
+    )
+
+    assert pool.tick_lower == -887272
+    assert pool.tick_upper == 887272
+
+
+def test_registry_load_reads_tick_fields(tmp_path):
+    import json
+    from registry.registry import PoolRegistry
+
+    registry_data = [
+        {
+            "pool_address": "0xb2cc224c1c9fee385f8ad6a55b4d94e92359dc59",
+            "pair_name": "USDC-WETH",
+            "token0": {"symbol": "USDC", "address": "0x8335", "decimals": 6},
+            "token1": {"symbol": "WETH", "address": "0x4200", "decimals": 18},
+            "fee_tier": 500,
+            "tick_lower": -887272,
+            "tick_upper": 887272,
+            "price_reference": {},
+        }
+    ]
+
+    path = tmp_path / "registry.json"
+    path.write_text(json.dumps(registry_data))
+
+    r = PoolRegistry(path=path)
+    r.load()
+    pool = r.get("0xb2cc224c1c9fee385f8ad6a55b4d94e92359dc59")
+
+    assert pool.tick_lower == -887272
+    assert pool.tick_upper == 887272
+
+
+def test_registry_load_uses_tick_defaults_when_absent(tmp_path):
+    import json
+    from registry.registry import PoolRegistry
+
+    registry_data = [
+        {
+            "pool_address": "0xabc1",
+            "pair_name": "A-B",
+            "token0": {"symbol": "A", "address": "0xaaa", "decimals": 18},
+            "token1": {"symbol": "B", "address": "0xbbb", "decimals": 18},
+            "fee_tier": 500,
+            "price_reference": {},
+        }
+    ]
+
+    path = tmp_path / "registry.json"
+    path.write_text(json.dumps(registry_data))
+
+    r = PoolRegistry(path=path)
+    r.load()
+    pool = r.get("0xabc1")
+
+    assert pool.tick_lower == -887272
+    assert pool.tick_upper == 887272
+
+
+def test_registry_validate_catches_inverted_ticks(tmp_path):
+    import json
+    from registry.registry import PoolRegistry
+
+    registry_data = [
+        {
+            "pool_address": "0xabc2",
+            "pair_name": "A-B",
+            "token0": {"symbol": "A", "address": "0xaaa", "decimals": 18},
+            "token1": {"symbol": "B", "address": "0xbbb", "decimals": 18},
+            "fee_tier": 500,
+            "tick_lower": 1000,
+            "tick_upper": -1000,
+            "price_reference": {},
+        }
+    ]
+
+    path = tmp_path / "registry.json"
+    path.write_text(json.dumps(registry_data))
+
+    r = PoolRegistry(path=path)
+    r.load()
+    errors = r.validate()
+
+    assert any("tick_lower" in e for e in errors)
+
+
+def test_real_registry_json_has_tick_fields():
+    import json
+    from pathlib import Path
+
+    path = Path("registry/registry.json")
+    data = json.loads(path.read_text())
+
+    assert isinstance(data, list)
+    assert len(data) == 15
+
+    for entry in data:
+        pair = entry.get("pair_name", "UNKNOWN")
+        assert "tick_lower" in entry, f"{pair}: missing tick_lower"
+        assert "tick_upper" in entry, f"{pair}: missing tick_upper"
+        assert entry["tick_lower"] < entry["tick_upper"], (
+            f"{pair}: tick_lower {entry['tick_lower']} >= tick_upper {entry['tick_upper']}"
+        )

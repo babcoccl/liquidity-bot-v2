@@ -7,7 +7,7 @@ Does NOT fetch data — assumes data/historical/<pair_name>.json exists.
 Use scripts/fetch.py first to populate historical data.
 
 # AUDIT:status=complete
-# AUDIT:sprint=13
+# AUDIT:sprint=14
 """
 from __future__ import annotations
 
@@ -27,6 +27,7 @@ from data.loader.token_price_loader import load_token_prices
 from strategy.evaluator import join_records, evaluate_position
 from strategy.exit_signal import ExitSignal, ExitReason
 from strategy.position import Position
+from core.il import tick_to_price
 
 logger = logging.getLogger(__name__)
 
@@ -214,8 +215,8 @@ class BacktestHarness:
             entry_token0_price_usd=entry_t0.price_usd,
             entry_token1_price_usd=entry_t1.price_usd,
             entry_tvl_usd=entry_pool.tvl_usd,
-            tick_lower=-887272,
-            tick_upper=887272,
+            tick_lower=pool.tick_lower,
+            tick_upper=pool.tick_upper,
             liquidity_usd=self.config.initial_capital,
         )
 
@@ -238,16 +239,18 @@ class BacktestHarness:
             )
             il_at_exit = sig.il_current
 
-            # Fee attribution — compute LP's proportional share of volume fees
-            fee_rate = Decimal(str(pool.fee_tier)) / Decimal("1000000")  # BPS / 100 / 100 = /10000/100
-            if pool_rec.tvl_usd > Decimal("0"):
+            # Fee attribution — only accumulate when price is in range
+            price_lower = tick_to_price(position.tick_lower)
+            price_upper = tick_to_price(position.tick_upper)
+            price_in_range = price_lower <= pool_rec.price_token1_in_token0 <= price_upper
+
+            fee_rate = Decimal(str(pool.fee_tier)) / Decimal("1000000")
+            if price_in_range and pool_rec.tvl_usd > Decimal("0"):
                 lp_share = min(
                     position.liquidity_usd / pool_rec.tvl_usd,
                     Decimal("1"),
                 )
-            else:
-                lp_share = Decimal("0")
-            total_fees += pool_rec.volume_usd * fee_rate * lp_share
+                total_fees += pool_rec.volume_usd * fee_rate * lp_share
 
             if sig.triggered:
                 exit_signal = sig

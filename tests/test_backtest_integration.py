@@ -1,5 +1,5 @@
 # AUDIT:status=complete
-# AUDIT:sprint=13
+# AUDIT:sprint=14
 
 from decimal import Decimal
 from pathlib import Path
@@ -108,3 +108,89 @@ def test_hours_simulated_field_type():
 
     assert isinstance(results[0].hours_simulated, int)
     assert results[0].hours_simulated >= 0
+
+
+# ---------------------------------------------------------------------------
+# Sprint 14 — Tick Range Wiring & In-Range Fee Attribution
+# ---------------------------------------------------------------------------
+
+def test_full_range_position_still_earns_fees():
+    """
+    Regression guard for Sprint 14:
+    fixture registry stub uses full-range sentinel ticks, so fee gating
+    must not zero out fees for the existing WETH-USDC fixture path.
+    """
+    config = _make_config()
+    registry = PoolRegistry(path=config.registry_path)
+    registry.load()
+    harness = BacktestHarness(config=config, registry=registry)
+
+    results = harness.run(run_id="test_sprint14_full_range_fees")
+
+    assert len(results) == 1
+    assert results[0].total_fees_earned > Decimal("0")
+
+
+def test_narrow_range_triggers_price_out_of_range(tmp_path):
+    """
+    Build a narrow-range registry stub for the same WETH-USDC fixture files.
+    Suppress IL so PRICE_OUT_OF_RANGE is the first exit.
+    """
+    import json
+    import shutil
+
+    narrow_stub = [
+        {
+            "pool_address": "0xb4cb800910b228ed3d0834cf79d697127bbb00e5",
+            "pair_name": "WETH-USDC",
+            "token0": {
+                "symbol": "WETH",
+                "address": "0x4200000000000000000000000000000000000006",
+                "decimals": 18
+            },
+            "token1": {
+                "symbol": "USDC",
+                "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+                "decimals": 6
+            },
+            "fee_tier": 500,
+            "tick_lower": 74959,
+            "tick_upper": 76966,
+            "price_reference": {}
+        }
+    ]
+
+    stub_path = tmp_path / "registry_narrow.json"
+    stub_path.write_text(json.dumps(narrow_stub))
+
+    fixtures = Path(__file__).parent / "fixtures"
+    for fname in ["WETH-USDC.json", "WETH.json", "USDC.json"]:
+        shutil.copy(fixtures / fname, tmp_path / fname)
+
+    config = BacktestConfig(
+        days=365,
+        initial_capital=Decimal("10000"),
+        bollinger_multiplier=Decimal("2"),
+        rotation_margin=Decimal("0.01"),
+        min_entry_score=Decimal("0"),
+        rebalance_cooldown_hours=Decimal("0"),
+        max_rebalances_per_pool_per_day=99,
+        historical_dir=tmp_path,
+        registry_path=stub_path,
+        prices_dir=tmp_path,
+        hourly_dir=tmp_path,
+        max_il_pct=Decimal("-0.99"),
+        min_tvl_usd=Decimal("0"),
+        min_volume_usd=Decimal("0"),
+        max_hold_hours=9999,
+    )
+
+    registry = PoolRegistry(path=stub_path)
+    registry.load()
+    harness = BacktestHarness(config=config, registry=registry)
+
+    results = harness.run(run_id="test_sprint14_narrow_range")
+
+    assert len(results) == 1
+    assert results[0].exit_reason == "PRICE_OUT_OF_RANGE"
+    assert results[0].hours_simulated >= 1

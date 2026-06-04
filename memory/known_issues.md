@@ -1,17 +1,14 @@
 # Known Issues
 
-## backtest/harness.py (Sprint 13)
-- _simulate_pool_hourly() constructs Position with tick_lower=-887272, tick_upper=887272
-  (full-range sentinels). Real tick ranges from pool registry metadata are not wired.
-  To wire: read PoolConfig.tick_lower and PoolConfig.tick_upper if those fields are added
-  to registry/types.py in a future sprint.
+## registry/registry.json (Sprint 14)
+- fee_tier values appear suspect for multiple pools. Examples in the current file include
+  fee_tier=5, fee_tier=30, and fee_tier=1, while PoolRegistry.validate() only accepts
+  {100, 500, 3000, 10000}. These values likely need on-chain verification before correction.
 
-## backtest/harness.py (Sprint 13)
-- Fee attribution model (lp_share * volume * fee_rate) does not reduce fees when price
-  is out of range. A correct model would zero fees for any step where
-  current_price < tick_to_price(tick_lower) or current_price > tick_to_price(tick_upper).
-  Deferred to Sprint 14.
+## backtest/harness.py (Sprint 14)
+- Fee accumulation still runs on the exit step before the loop breaks because the fee block
+  executes before `if sig.triggered: break`. This can slightly overcount one terminal step.
 
 ## backtest/simulator.py (Deferred)
 - PositionSimulator.step() still consumes PoolDayData daily records rather than hourly
-  records. Migration to hourly granularity deferred to Sprint 14.
+  records. Migration to hourly granularity deferred to a future sprint.
