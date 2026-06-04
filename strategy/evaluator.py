@@ -5,10 +5,11 @@ evaluate_position() is the primary entry point for the strategy layer.
 All inputs are typed. Returns ExitSignal.
 """
 # AUDIT:status=complete
-# AUDIT:sprint=12
+# AUDIT:sprint=13
 
 from decimal import Decimal
 
+from core.il import tick_to_price
 from core.models import PoolHistoryPoint, TokenHistoryPoint
 from strategy.exit_signal import ExitReason, ExitSignal
 from strategy.il_calculator import il_from_token_prices
@@ -119,21 +120,32 @@ def evaluate_position(
             f"IL {il_current:.4%} <= threshold {max_il_pct:.4%}",
         )
 
-    # Priority 2: TVL floor
+    # Priority 2: Price out of range
+    price_lower = tick_to_price(position.tick_lower)
+    price_upper = tick_to_price(position.tick_upper)
+    current_price = current_pool_record.price_token1_in_token0
+    if current_price < price_lower or current_price > price_upper:
+        return _signal(
+            ExitReason.PRICE_OUT_OF_RANGE,
+            f"price {current_price} outside range [{price_lower}, {price_upper}] "
+            f"(ticks {position.tick_lower}..{position.tick_upper})",
+        )
+
+    # Priority 3: TVL floor
     if current_pool_record.tvl_usd < min_tvl_usd:
         return _signal(
             ExitReason.TVL_DECAY,
             f"TVL ${current_pool_record.tvl_usd} < floor ${min_tvl_usd}",
         )
 
-    # Priority 3: Volume floor
+    # Priority 4: Volume floor
     if current_pool_record.volume_usd < min_volume_usd:
         return _signal(
             ExitReason.VOLUME_DECAY,
             f"Volume ${current_pool_record.volume_usd} < floor ${min_volume_usd}",
         )
 
-    # Priority 4: Time limit
+    # Priority 5: Time limit
     elapsed_hours = (current_pool_record.timestamp - position.entry_timestamp) // 3600
     if elapsed_hours >= max_hold_hours:
         return _signal(

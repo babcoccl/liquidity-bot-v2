@@ -15,6 +15,24 @@ from core.models import PoolDayData
 
 # ── Helpers ──────────────────────────────────────────────
 
+def _make_config(
+    days: int = 30,
+    historical_dir: Path | None = None,
+    registry_path: Path | None = None,
+) -> BacktestConfig:
+    return BacktestConfig(
+        days=days,
+        initial_capital=Decimal("10000"),
+        bollinger_multiplier=Decimal("2.0"),
+        rotation_margin=Decimal("0.05"),
+        min_entry_score=Decimal("0.6"),
+        rebalance_cooldown_hours=Decimal("4.0"),
+        max_rebalances_per_pool_per_day=3,
+        historical_dir=historical_dir or Path("data/historical"),
+        registry_path=registry_path or Path("registry/registry.json"),
+    )
+
+
 def _make_record(date: int = 1000000000) -> PoolDayData:
     return PoolDayData(
         pool_address="0xabc",
@@ -72,17 +90,7 @@ backtest:
         assert cfg.max_rebalances_per_pool_per_day == 3
 
     def test_backtest_config_fields_are_decimal(self) -> None:
-        cfg = BacktestConfig(
-            days=30,
-            initial_capital=Decimal("10000"),
-            bollinger_multiplier=Decimal("2.0"),
-            rotation_margin=Decimal("0.05"),
-            min_entry_score=Decimal("0.6"),
-            rebalance_cooldown_hours=Decimal("4.0"),
-            max_rebalances_per_pool_per_day=3,
-            historical_dir=Path("data/historical"),
-            registry_path=Path("registry/registry.json"),
-        )
+        cfg = _make_config()
         assert isinstance(cfg.initial_capital, Decimal)
         assert isinstance(cfg.bollinger_multiplier, Decimal)
         assert isinstance(cfg.rotation_margin, Decimal)
@@ -90,17 +98,7 @@ backtest:
         assert isinstance(cfg.rebalance_cooldown_hours, Decimal)
 
     def test_backtest_config_is_frozen(self) -> None:
-        cfg = BacktestConfig(
-            days=30,
-            initial_capital=Decimal("10000"),
-            bollinger_multiplier=Decimal("2.0"),
-            rotation_margin=Decimal("0.05"),
-            min_entry_score=Decimal("0.6"),
-            rebalance_cooldown_hours=Decimal("4.0"),
-            max_rebalances_per_pool_per_day=3,
-            historical_dir=Path("data/historical"),
-            registry_path=Path("registry/registry.json"),
-        )
+        cfg = _make_config()
         with pytest.raises(Exception):  # FrozenInstanceError
             cfg.days = 60  # type: ignore
 
@@ -134,17 +132,7 @@ class TestBacktestReporter:
     ) -> None:
         reporter = BacktestReporter(output_dir=tmp_path)
         results = [_make_result()]
-        config = BacktestConfig(
-            days=30,
-            initial_capital=Decimal("10000"),
-            bollinger_multiplier=Decimal("2.0"),
-            rotation_margin=Decimal("0.05"),
-            min_entry_score=Decimal("0.6"),
-            rebalance_cooldown_hours=Decimal("4.0"),
-            max_rebalances_per_pool_per_day=3,
-            historical_dir=Path("data/historical"),
-            registry_path=Path("registry/registry.json"),
-        )
+        config = _make_config()
         reporter.save("test_run", results, config)
 
         assert (tmp_path / "test_run" / "summary.json").exists()
@@ -154,17 +142,7 @@ class TestBacktestReporter:
         self, tmp_path: Path
     ) -> None:
         reporter = BacktestReporter(output_dir=tmp_path)
-        config = BacktestConfig(
-            days=30,
-            initial_capital=Decimal("10000"),
-            bollinger_multiplier=Decimal("2.0"),
-            rotation_margin=Decimal("0.05"),
-            min_entry_score=Decimal("0.6"),
-            rebalance_cooldown_hours=Decimal("4.0"),
-            max_rebalances_per_pool_per_day=3,
-            historical_dir=Path("data/historical"),
-            registry_path=Path("registry/registry.json"),
-        )
+        config = _make_config()
         returned = reporter.save("test_run", [], config)
         assert returned == tmp_path / "test_run"
 
@@ -173,17 +151,7 @@ class TestBacktestReporter:
     ) -> None:
         reporter = BacktestReporter(output_dir=tmp_path)
         results = [_make_result()]
-        config = BacktestConfig(
-            days=30,
-            initial_capital=Decimal("10000"),
-            bollinger_multiplier=Decimal("2.0"),
-            rotation_margin=Decimal("0.05"),
-            min_entry_score=Decimal("0.6"),
-            rebalance_cooldown_hours=Decimal("4.0"),
-            max_rebalances_per_pool_per_day=3,
-            historical_dir=Path("data/historical"),
-            registry_path=Path("registry/registry.json"),
-        )
+        config = _make_config()
         reporter.save("test_run", results, config)
 
         with open(tmp_path / "test_run" / "summary.json") as f:
@@ -196,17 +164,7 @@ class TestBacktestReporter:
     ) -> None:
         reporter = BacktestReporter(output_dir=tmp_path)
         results = [_make_result(days=30), _make_result(days=60)]
-        config = BacktestConfig(
-            days=30,
-            initial_capital=Decimal("10000"),
-            bollinger_multiplier=Decimal("2.0"),
-            rotation_margin=Decimal("0.05"),
-            min_entry_score=Decimal("0.6"),
-            rebalance_cooldown_hours=Decimal("4.0"),
-            max_rebalances_per_pool_per_day=3,
-            historical_dir=Path("data/historical"),
-            registry_path=Path("registry/registry.json"),
-        )
+        config = _make_config()
         reporter.save("test_run", results, config)
 
         with open(tmp_path / "test_run" / "per_pool.json") as f:
@@ -217,22 +175,13 @@ class TestBacktestReporter:
 # ── BacktestHarness tests ───────────────────────────────
 
 class TestBacktestHarness:
-    def test_harness_run_returns_empty_list_when_no_history_files(
+    def test_harness_run_uses_hourly_path_when_no_history_files(
         self, tmp_path: Path
     ) -> None:
+        """When historical dir has no matching files, hourly path runs with synthetic data."""
         from backtest.harness import BacktestHarness
 
-        config = BacktestConfig(
-            days=30,
-            initial_capital=Decimal("10000"),
-            bollinger_multiplier=Decimal("2.0"),
-            rotation_margin=Decimal("0.05"),
-            min_entry_score=Decimal("0.6"),
-            rebalance_cooldown_hours=Decimal("4.0"),
-            max_rebalances_per_pool_per_day=3,
-            historical_dir=tmp_path / "nonexistent",
-            registry_path=Path("registry/registry.json"),
-        )
+        config = _make_config(historical_dir=tmp_path / "nonexistent")
 
         # Create a mock registry with one pool
         mock_registry = MagicMock()
@@ -249,17 +198,21 @@ class TestBacktestHarness:
 
         harness = BacktestHarness(config, mock_registry)
         results = harness.run("test_run")
-        assert len(results) == 0
+        # Hourly path always produces a result with synthetic data
+        assert len(results) == 1
+        assert results[0].source == "hourly"
+        assert results[0].hours_simulated > 0
 
-    def test_harness_run_returns_zero_result_when_simulator_not_implemented(
+    def test_harness_run_hourly_path_produces_valid_result(
         self, tmp_path: Path
     ) -> None:
+        """Hourly path produces a result with fees > 0 and proper exit_reason."""
         from backtest.harness import BacktestHarness
 
         hist_dir = tmp_path / "historical"
         hist_dir.mkdir()
 
-        # Write a minimal history file
+        # Write a minimal history file — hourly path uses it for entry price
         records = [
             {
                 "pool_address": "0xabc",
@@ -276,17 +229,7 @@ class TestBacktestHarness:
         ]
         (hist_dir / "USDC-WETH.json").write_text(json.dumps(records))
 
-        config = BacktestConfig(
-            days=30,
-            initial_capital=Decimal("10000"),
-            bollinger_multiplier=Decimal("2.0"),
-            rotation_margin=Decimal("0.05"),
-            min_entry_score=Decimal("0.6"),
-            rebalance_cooldown_hours=Decimal("4.0"),
-            max_rebalances_per_pool_per_day=3,
-            historical_dir=hist_dir,
-            registry_path=Path("registry/registry.json"),
-        )
+        config = _make_config(historical_dir=hist_dir)
 
         mock_registry = MagicMock()
         from registry.types import PoolConfig, TokenConfig, PriceReference
@@ -305,34 +248,25 @@ class TestBacktestHarness:
 
         assert len(results) == 1
         r = results[0]
-        assert r.days_simulated == 5
-        assert r.total_fees_earned == Decimal("0")
-        assert r.il_cost == Decimal("0")
-        assert r.net_lp_alpha == Decimal("0")
-        assert r.final_capital == Decimal("10000")
+        # Hourly path uses config.days for simulation window
+        assert r.source == "hourly"
+        assert r.hours_simulated >= config.days * 24
+        assert r.exit_reason is not None
+        assert isinstance(r.exit_reason, str)
 
-    def test_harness_run_skips_pool_on_load_error(
+    def test_harness_run_hourly_path_ignores_corrupt_history(
         self, tmp_path: Path
     ) -> None:
+        """Hourly path falls back to synthetic data when history file is corrupt."""
         from backtest.harness import BacktestHarness
 
         hist_dir = tmp_path / "historical"
         hist_dir.mkdir()
 
-        # Write invalid JSON to simulate a corrupt file
+        # Write invalid JSON — hourly path should still work with synthetic defaults
         (hist_dir / "USDC-WETH.json").write_text("NOT VALID JSON")
 
-        config = BacktestConfig(
-            days=30,
-            initial_capital=Decimal("10000"),
-            bollinger_multiplier=Decimal("2.0"),
-            rotation_margin=Decimal("0.05"),
-            min_entry_score=Decimal("0.6"),
-            rebalance_cooldown_hours=Decimal("4.0"),
-            max_rebalances_per_pool_per_day=3,
-            historical_dir=hist_dir,
-            registry_path=Path("registry/registry.json"),
-        )
+        config = _make_config(historical_dir=hist_dir)
 
         mock_registry = MagicMock()
         from registry.types import PoolConfig, TokenConfig, PriceReference
@@ -349,5 +283,6 @@ class TestBacktestHarness:
         harness = BacktestHarness(config, mock_registry)
         results = harness.run("test_run")
 
-        # Pool should be skipped due to JSON parse error
-        assert len(results) == 0
+        # Hourly path produces result even with corrupt history (uses synthetic defaults)
+        assert len(results) == 1
+        assert results[0].source == "hourly"

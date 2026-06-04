@@ -1,5 +1,5 @@
 # AUDIT:status=complete
-# AUDIT:sprint=12
+# AUDIT:sprint=13
 
 from decimal import Decimal
 from pathlib import Path
@@ -59,3 +59,52 @@ def test_il_cost_and_capital_are_decimal():
     results = harness.run(run_id="test_sprint12_types")
     assert isinstance(results[0].il_cost, Decimal)
     assert isinstance(results[0].final_capital, Decimal)
+
+
+# ---------------------------------------------------------------------------
+# Sprint 13 — Fee attribution, exit_reason, hours_simulated
+# ---------------------------------------------------------------------------
+
+def test_fee_attribution_nonzero():
+    """
+    With real volume data in the fixture, total_fees_earned must be > 0.
+    Fixture records have volume_usd=500000 per record and pool fee_tier=500 (0.05%).
+    LP share = 10000 / 2000000 = 0.005. Fees/record ≈ 500000 * 0.0005 * 0.005 = $1.25.
+    Over up to 4 steps: total must be > 0.
+    """
+    config = _make_config()
+    registry = PoolRegistry(path=config.registry_path)
+    registry.load()
+    harness = BacktestHarness(config=config, registry=registry)
+    results = harness.run(run_id="test_sprint13_fees")
+
+    assert len(results) == 1
+    assert results[0].total_fees_earned > Decimal("0")
+    assert isinstance(results[0].total_fees_earned, Decimal)
+
+
+def test_exit_reason_in_result():
+    """exit_reason field must be a non-None string when position exits."""
+    config = _make_config()
+    registry = PoolRegistry(path=config.registry_path)
+    registry.load()
+    harness = BacktestHarness(config=config, registry=registry)
+    results = harness.run(run_id="test_sprint13_exit_reason")
+
+    assert len(results) == 1
+    # IL trigger fires at k=2.0 (fixture record 4) → exit_reason must be set
+    assert results[0].exit_reason is not None
+    assert isinstance(results[0].exit_reason, str)
+    assert results[0].hours_simulated >= 1
+
+
+def test_hours_simulated_field_type():
+    """hours_simulated must be an int >= 0 on all result paths."""
+    config = _make_config()
+    registry = PoolRegistry(path=config.registry_path)
+    registry.load()
+    harness = BacktestHarness(config=config, registry=registry)
+    results = harness.run(run_id="test_sprint13_hours")
+
+    assert isinstance(results[0].hours_simulated, int)
+    assert results[0].hours_simulated >= 0

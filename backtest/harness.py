@@ -7,7 +7,7 @@ Does NOT fetch data — assumes data/historical/<pair_name>.json exists.
 Use scripts/fetch.py first to populate historical data.
 
 # AUDIT:status=complete
-# AUDIT:sprint=12
+# AUDIT:sprint=13
 """
 from __future__ import annotations
 
@@ -151,6 +151,8 @@ class BacktestHarness:
                 pool_address=pool.pool_address,
                 pair_name=pool.pair_name,
                 days_simulated=len(records),
+                hours_simulated=0,
+                exit_reason=None,
                 total_fees_earned=total_fees,
                 il_cost=il_cost,
                 net_lp_alpha=net_lp_alpha,
@@ -163,6 +165,8 @@ class BacktestHarness:
                 pool_address=pool.pool_address,
                 pair_name=pool.pair_name,
                 days_simulated=len(records),
+                hours_simulated=0,
+                exit_reason=None,
                 total_fees_earned=Decimal("0"),
                 il_cost=Decimal("0"),
                 net_lp_alpha=Decimal("0"),
@@ -188,6 +192,8 @@ class BacktestHarness:
                 pool_address=pool.pool_address,
                 pair_name=pool.pair_name,
                 days_simulated=0,
+                hours_simulated=0,
+                exit_reason=None,
                 total_fees_earned=Decimal("0"),
                 il_cost=Decimal("0"),
                 net_lp_alpha=Decimal("0"),
@@ -216,6 +222,7 @@ class BacktestHarness:
         exit_signal: ExitSignal | None = None
         hours_simulated = 0
         il_at_exit = Decimal("0")
+        total_fees = Decimal("0")
 
         for pool_rec, t0_rec, t1_rec in aligned[1:]:
             hours_simulated += 1
@@ -230,20 +237,35 @@ class BacktestHarness:
                 max_hold_hours=self.config.max_hold_hours,
             )
             il_at_exit = sig.il_current
+
+            # Fee attribution — compute LP's proportional share of volume fees
+            fee_rate = Decimal(str(pool.fee_tier)) / Decimal("1000000")  # BPS / 100 / 100 = /10000/100
+            if pool_rec.tvl_usd > Decimal("0"):
+                lp_share = min(
+                    position.liquidity_usd / pool_rec.tvl_usd,
+                    Decimal("1"),
+                )
+            else:
+                lp_share = Decimal("0")
+            total_fees += pool_rec.volume_usd * fee_rate * lp_share
+
             if sig.triggered:
                 exit_signal = sig
                 break
 
         il_cost = il_at_exit * self.config.initial_capital
-        final_capital = self.config.initial_capital + il_cost
+        net_lp_alpha = total_fees + il_cost   # il_cost is negative, so net = fees - |IL|
+        final_capital = self.config.initial_capital + total_fees + il_cost
 
         return BacktestResult(
             pool_address=pool.pool_address,
             pair_name=pool.pair_name,
-            days_simulated=hours_simulated,
-            total_fees_earned=Decimal("0"),
+            days_simulated=hours_simulated // 24 if hours_simulated >= 24 else 1,
+            hours_simulated=hours_simulated,
+            exit_reason=exit_signal.reason.name if exit_signal else None,
+            total_fees_earned=total_fees,
             il_cost=il_cost,
-            net_lp_alpha=Decimal("0") - il_cost,
+            net_lp_alpha=net_lp_alpha,
             final_capital=final_capital,
             rebalance_count=0,
             source="hourly",

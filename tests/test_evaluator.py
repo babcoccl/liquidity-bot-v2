@@ -1,5 +1,5 @@
 # AUDIT:status=complete
-# AUDIT:sprint=12
+# AUDIT:sprint=13
 
 import pytest
 from decimal import Decimal
@@ -76,6 +76,24 @@ POSITION = Position(
     entry_tvl_usd=Decimal("2000000"),
     tick_lower=-887272,
     tick_upper=887272,
+    liquidity_usd=Decimal("10000"),
+)
+
+# Position with a narrow tick range: ~$1800–$2200 for WETH at $2000 entry
+# tick_to_price(tick) = 1.0001^tick gives absolute price ratio (token1/token0)
+#   tick=74959 -> ~1800, tick=76966 -> ~2200
+NARROW_POSITION = Position(
+    pool_address=POOL_ADDR,
+    pair_name="WETH-USDC",
+    token0_symbol="WETH",
+    token1_symbol="USDC",
+    entry_timestamp=TS0,
+    entry_price_t1_in_t0=Decimal("2000"),
+    entry_token0_price_usd=Decimal("2000.00"),
+    entry_token1_price_usd=Decimal("1.0000"),
+    entry_tvl_usd=Decimal("2000000"),
+    tick_lower=74959,   # ~$1800
+    tick_upper=76966,   # ~$2200
     liquidity_usd=Decimal("10000"),
 )
 
@@ -260,3 +278,89 @@ def test_evaluate_timestamp_populated():
         current_token1_price=USDC_PRICES[1],
     )
     assert sig.timestamp == TS1
+
+
+# ---------------------------------------------------------------------------
+# Sprint 13 — PRICE_OUT_OF_RANGE tests
+# ---------------------------------------------------------------------------
+
+def test_evaluate_price_out_of_range_above():
+    """Price above tick_upper fires PRICE_OUT_OF_RANGE before TVL/volume checks."""
+    # At TS4, price is 4000 (k=2.0). For NARROW_POSITION, tick_upper ≈ price 2202.
+    # So 4000 >> 2202 → out of range.
+    pool_rec = POOL_RECORDS[4]   # price=4000
+    sig = evaluate_position(
+        position=NARROW_POSITION,
+        current_pool_record=pool_rec,
+        current_token0_price=WETH_PRICES[4],
+        current_token1_price=USDC_PRICES[4],
+        max_il_pct=Decimal("-0.99"),    # suppress IL trigger
+        min_tvl_usd=Decimal("0"),
+        min_volume_usd=Decimal("0"),
+        max_hold_hours=9999,
+    )
+    assert sig.triggered is True
+    assert sig.reason == ExitReason.PRICE_OUT_OF_RANGE
+
+
+def test_evaluate_price_in_range_no_false_trigger():
+    """Price at entry ($2000) with NARROW_POSITION (range $1797-$2202) must not trigger range exit."""
+    pool_rec = POOL_RECORDS[0]   # price=2000, at entry
+    sig = evaluate_position(
+        position=NARROW_POSITION,
+        current_pool_record=pool_rec,
+        current_token0_price=WETH_PRICES[0],
+        current_token1_price=USDC_PRICES[0],
+        max_il_pct=Decimal("-0.99"),
+        min_tvl_usd=Decimal("0"),
+        min_volume_usd=Decimal("0"),
+        max_hold_hours=9999,
+    )
+    assert sig.triggered is False
+
+
+def test_evaluate_sentinel_ticks_never_trigger_range():
+    """Full-range sentinel ticks (-887272, 887272) must never fire PRICE_OUT_OF_RANGE."""
+    wide_position = Position(
+        pool_address=POOL_ADDR,
+        pair_name="WETH-USDC",
+        token0_symbol="WETH",
+        token1_symbol="USDC",
+        entry_timestamp=TS0,
+        entry_price_t1_in_t0=Decimal("2000"),
+        entry_token0_price_usd=Decimal("2000.00"),
+        entry_token1_price_usd=Decimal("1.0000"),
+        entry_tvl_usd=Decimal("2000000"),
+        tick_lower=-887272,
+        tick_upper=887272,
+        liquidity_usd=Decimal("10000"),
+    )
+    pool_rec = POOL_RECORDS[4]
+    sig = evaluate_position(
+        position=wide_position,
+        current_pool_record=pool_rec,
+        current_token0_price=WETH_PRICES[4],
+        current_token1_price=USDC_PRICES[4],
+        max_il_pct=Decimal("-0.99"),   # suppress IL
+        min_tvl_usd=Decimal("0"),
+        min_volume_usd=Decimal("0"),
+        max_hold_hours=9999,
+    )
+    # Must NOT be PRICE_OUT_OF_RANGE — sentinel ticks are full range
+    assert sig.reason != ExitReason.PRICE_OUT_OF_RANGE
+
+
+def test_evaluate_priority_il_beats_range():
+    """IL threshold fires before PRICE_OUT_OF_RANGE when both conditions are met."""
+    pool_rec = POOL_RECORDS[4]   # price=4000, IL=-5.719%, also out of narrow range
+    sig = evaluate_position(
+        position=NARROW_POSITION,
+        current_pool_record=pool_rec,
+        current_token0_price=WETH_PRICES[4],
+        current_token1_price=USDC_PRICES[4],
+        max_il_pct=Decimal("-0.05"),   # IL fires at -5.719%
+        min_tvl_usd=Decimal("0"),
+        min_volume_usd=Decimal("0"),
+        max_hold_hours=9999,
+    )
+    assert sig.reason == ExitReason.IL_THRESHOLD

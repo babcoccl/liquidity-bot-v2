@@ -24,12 +24,12 @@ class BacktestConfig:
     max_rebalances_per_pool_per_day: int
     historical_dir: Path
     registry_path: Path
-    prices_dir: Path
-    hourly_dir: Path
-    max_il_pct: Decimal
-    min_tvl_usd: Decimal
-    min_volume_usd: Decimal
-    max_hold_hours: int
+    prices_dir: Path = Path("data/prices")
+    hourly_dir: Path = Path("data/historical")
+    max_il_pct: Decimal = Decimal("-0.05")
+    min_tvl_usd: Decimal = Decimal("500000")
+    min_volume_usd: Decimal = Decimal("50000")
+    max_hold_hours: int = 720
 
     @classmethod
     def from_yaml(cls, path: Path = Path("config/default.yaml")) -> "BacktestConfig":

@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "12",
+  "last_updated_sprint": "13",
   "components": [
     {
       "id": "core.models",
@@ -359,28 +359,6 @@
       "test_coverage": "full"
     },
     {
-      "id": "backtest.reporter",
-      "file": "backtest/reporter.py",
-      "status": "complete",
-      "sprint": 6,
-      "audit_notes": [],
-      "dependencies": ["backtest.config"],
-      "test_file": "tests/test_backtest_harness.py",
-      "test_coverage": "full"
-    },
-    {
-      "id": "backtest.harness",
-      "file": "backtest/harness.py",
-      "status": "complete",
-      "sprint": 6,
-      "audit_notes": [
-        "PositionSimulator.step() raises NotImplementedError — harness catches and returns zero-result per pool until Sprint 7 implements step()"
-      ],
-      "dependencies": ["backtest.config", "backtest.reporter", "backtest.simulator", "registry.registry", "data.loader.pool_loader"],
-      "test_file": "tests/test_backtest_harness.py",
-      "test_coverage": "full"
-    },
-    {
       "id": "data.fetcher.gecko_terminal",
       "file": "data/fetcher/gecko_terminal.py",
       "status": "complete",
@@ -470,20 +448,22 @@
       "id": "strategy.evaluator",
       "file": "strategy/evaluator.py",
       "status": "complete",
-      "sprint": 12,
+      "sprint": 13,
       "audit_notes": [
-        "All three stubs implemented. PRICE_OUT_OF_RANGE deferred to Sprint 13."
+        "All three stubs implemented. PRICE_OUT_OF_RANGE check added at priority 2 (after IL, before TVL). tick_to_price() from core/il.py. Sentinel ticks handled naturally."
       ],
       "dependencies": ["core.models", "strategy.exit_signal", "strategy.il_calculator", "strategy.position"],
       "test_file": "tests/test_evaluator.py",
       "test_coverage": "full"
     },
     {
-      "id": "strategy.init",
-      "file": "strategy/__init__.py",
+      "id": "backtest.reporter",
+      "file": "backtest/reporter.py",
       "status": "complete",
-      "sprint": 11,
-      "audit_notes": [],
+      "sprint": 13,
+      "audit_notes": [
+        "BacktestResult gains hours_simulated (int=0) and exit_reason (str|None). print_summary() updated with new columns. save() serialises all Sprint 12 config fields and new result fields."
+      ],
       "dependencies": [
         "strategy.il_calculator",
         "strategy.position",
@@ -496,9 +476,9 @@
       "id": "backtest.harness",
       "file": "backtest/harness.py",
       "status": "complete",
-      "sprint": 12,
+      "sprint": 13,
       "audit_notes": [
-        "Added _simulate_pool_hourly() and hourly path in run(). Token price loading wired."
+        "Fee attribution added to _simulate_pool_hourly(). Daily path updated with explicit hours_simulated=0, exit_reason=None."
       ],
       "dependencies": ["backtest.config", "backtest.reporter", "backtest.simulator", "registry.registry", "data.loader.pool_loader"],
       "test_file": "tests/test_backtest_harness.py",
@@ -544,9 +524,9 @@
       "id": "tests.test_evaluator",
       "file": "tests/test_evaluator.py",
       "status": "complete",
-      "sprint": 12,
+      "sprint": 13,
       "audit_notes": [
-        "Full coverage — priority order, tolerance window, join alignment, Decimal enforcement."
+        "Full coverage — priority order, tolerance window, join alignment, Decimal enforcement. 4 new range-exit test cases appended."
       ],
       "dependencies": ["strategy.evaluator", "core.models", "strategy.position"],
       "test_file": "tests/test_evaluator.py",
@@ -556,9 +536,9 @@
       "id": "tests.test_backtest_integration",
       "file": "tests/test_backtest_integration.py",
       "status": "complete",
-      "sprint": 12,
+      "sprint": 13,
       "audit_notes": [
-        "End-to-end test over WETH-USDC fixture; IL trigger fires at k=2.0."
+        "End-to-end test over WETH-USDC fixture; IL trigger fires at k=2.0. 3 new tests for fee attribution, exit_reason, and hours_simulated appended."
       ],
       "dependencies": ["backtest.harness", "backtest.config", "registry.registry"],
       "test_file": "tests/test_backtest_integration.py",
