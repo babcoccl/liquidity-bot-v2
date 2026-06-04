@@ -51,3 +51,16 @@ _Last updated: Sprint 9 Hotfix 2_
 ## fee attribution
 - Current fee attribution remains proportional-model based (core/fees.py).
 - feeGrowthGlobal-based exact fee attribution is deferred to a future sprint.
+
+## strategy/evaluator.py (Sprint 12)
+- ExitReason.PRICE_OUT_OF_RANGE is defined but evaluate_position() never triggers it.
+  tick_lower and tick_upper are stored on Position but tick-to-price conversion
+  and range check are not implemented. Deferred to Sprint 13.
+
+## backtest/harness.py (Sprint 12)
+- _simulate_pool_hourly() returns total_fees_earned=Decimal("0").
+  Fee attribution (proportional lp_fee_share) over the hourly path is deferred to Sprint 13.
+- Position is constructed with tick_lower=-887272, tick_upper=887272 (full-range sentinel).
+  Real tick ranges from pool registry metadata are not wired yet.
+- days_simulated in BacktestResult now counts hours (not days) when the hourly path runs.
+  BacktestReporter is not yet aware of this semantic shift.

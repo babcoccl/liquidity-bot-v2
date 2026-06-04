@@ -7,6 +7,12 @@ backtest:
   min_entry_score: 0.25
   rebalance_cooldown_hours: 4.0
   max_rebalances_per_pool_per_day: 3
+  prices_dir: data/prices
+  hourly_dir: data/historical
+  max_il_pct: "-0.05"
+  min_tvl_usd: "500000"
+  min_volume_usd: "50000"
+  max_hold_hours: 720
 
 signals:
   drawdown_pct: 0.15

@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "11",
+  "last_updated_sprint": "12",
   "components": [
     {
       "id": "core.models",
@@ -350,8 +350,10 @@
       "id": "backtest.config",
       "file": "backtest/config.py",
       "status": "complete",
-      "sprint": 6,
-      "audit_notes": [],
+      "sprint": 12,
+      "audit_notes": [
+        "Added prices_dir, hourly_dir, max_il_pct, min_tvl_usd, min_volume_usd, max_hold_hours."
+      ],
       "dependencies": [],
       "test_file": "tests/test_backtest_harness.py",
       "test_coverage": "full"
@@ -467,14 +469,14 @@
     {
       "id": "strategy.evaluator",
       "file": "strategy/evaluator.py",
-      "status": "stub",
-      "sprint": 11,
+      "status": "complete",
+      "sprint": 12,
       "audit_notes": [
-        "Signed interfaces defined. Bodies raise NotImplementedError — Sprint 12 implements."
+        "All three stubs implemented. PRICE_OUT_OF_RANGE deferred to Sprint 13."
       ],
       "dependencies": ["core.models", "strategy.exit_signal", "strategy.il_calculator", "strategy.position"],
-      "test_file": null,
-      "test_coverage": "none"
+      "test_file": "tests/test_evaluator.py",
+      "test_coverage": "full"
     },
     {
       "id": "strategy.init",
@@ -491,16 +493,16 @@
       "test_coverage": "none"
     },
     {
-      "id": "tests.fixtures",
-      "file": "tests/fixtures/",
+      "id": "backtest.harness",
+      "file": "backtest/harness.py",
       "status": "complete",
-      "sprint": 11,
+      "sprint": 12,
       "audit_notes": [
-        "5-record WETH-USDC fixture set with known IL values for hand-verification."
+        "Added _simulate_pool_hourly() and hourly path in run(). Token price loading wired."
       ],
-      "dependencies": [],
-      "test_file": null,
-      "test_coverage": "none"
+      "dependencies": ["backtest.config", "backtest.reporter", "backtest.simulator", "registry.registry", "data.loader.pool_loader"],
+      "test_file": "tests/test_backtest_harness.py",
+      "test_coverage": "full"
     },
     {
       "id": "tests.test_il_calculator",
@@ -537,6 +539,78 @@
       "dependencies": ["data.loader.pool_loader", "data.loader.token_price_loader", "registry.registry"],
       "test_file": "tests/test_data_integrity.py",
       "test_coverage": "full"
+    },
+    {
+      "id": "tests.test_evaluator",
+      "file": "tests/test_evaluator.py",
+      "status": "complete",
+      "sprint": 12,
+      "audit_notes": [
+        "Full coverage — priority order, tolerance window, join alignment, Decimal enforcement."
+      ],
+      "dependencies": ["strategy.evaluator", "core.models", "strategy.position"],
+      "test_file": "tests/test_evaluator.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "tests.test_backtest_integration",
+      "file": "tests/test_backtest_integration.py",
+      "status": "complete",
+      "sprint": 12,
+      "audit_notes": [
+        "End-to-end test over WETH-USDC fixture; IL trigger fires at k=2.0."
+      ],
+      "dependencies": ["backtest.harness", "backtest.config", "registry.registry"],
+      "test_file": "tests/test_backtest_integration.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "tests.fixtures.registry_stub",
+      "file": "tests/fixtures/registry_stub.json",
+      "status": "complete",
+      "sprint": 12,
+      "audit_notes": [
+        "Minimal single-pool registry for integration test."
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "tests.fixtures.weth_usdc",
+      "file": "tests/fixtures/WETH-USDC.json",
+      "status": "complete",
+      "sprint": 12,
+      "audit_notes": [
+        "Copy of pool_WETH-USDC_sample.json; harness-expected filename."
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "tests.fixtures.weth",
+      "file": "tests/fixtures/WETH.json",
+      "status": "complete",
+      "sprint": 12,
+      "audit_notes": [
+        "Copy of prices_WETH_sample.json."
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
+    },
+    {
+      "id": "tests.fixtures.usdc",
+      "file": "tests/fixtures/USDC.json",
+      "status": "complete",
+      "sprint": 12,
+      "audit_notes": [
+        "Copy of prices_USDC_sample.json."
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
     }
   ]
 }

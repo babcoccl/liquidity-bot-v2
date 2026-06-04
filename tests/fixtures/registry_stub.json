@@ -1,0 +1,18 @@
+[
+  {
+    "pool_address": "0xb4cb800910b228ed3d0834cf79d697127bbb00e5",
+    "pair_name": "WETH-USDC",
+    "token0": {
+      "symbol": "WETH",
+      "address": "0x4200000000000000000000000000000000000006",
+      "decimals": 18
+    },
+    "token1": {
+      "symbol": "USDC",
+      "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+      "decimals": 6
+    },
+    "fee_tier": 500,
+    "price_reference": {}
+  }
+]

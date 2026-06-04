@@ -1,19 +1,18 @@
 # Active Context
 
-**Current focus:** Sprint 10 — Strategy Signals Consume Token Trend + Hourly Pool Data
+**Current focus:** Sprint 12 — Evaluator Implementation & Backtest Integration
 
 **In-progress:** none
 
 **Blockers:** none
 
-**Last completed:** Sprint 9 — Hourly History + Token Trend Layer
-Pool history now preserves hourly timestamps from GeckoTerminal.
-Token price history is fetched separately from CoinGecko for both pool tokens.
-Fetch script writes synchronized pool and token datasets for the same lookback period.
+**Last completed:** Sprint 12 — Evaluator Implementation & Backtest Integration
+All three stubs in strategy/evaluator.py are now implemented.
+Backtest harness gains a parallel hourly path that activates when
+token price files are present alongside pool hourly history.
+First end-to-end simulation over WETH-USDC fixture data passing.
 
 **Note:** feeGrowthGlobal-based exact fee attribution is still deferred.
-Current fee attribution remains proportional-model based.
-
-**Note:** GeckoTerminal tvl_usd remains a per-fetch snapshot, not historical hourly TVL.
-
-**Note:** Token trend signals should use token_history datasets rather than infer token direction solely from pool price ratio.
+**Note:** ExitReason.PRICE_OUT_OF_RANGE is defined but never triggered — tick-to-price conversion deferred to Sprint 13.
+**Note:** PositionSimulator.step() still consumes PoolDayData daily records. Hourly migration of the simulator is deferred to Sprint 13.
+**Note:** Fee accumulation in _simulate_pool_hourly() returns 0 — deferred to Sprint 13.

@@ -7,7 +7,7 @@ Does NOT fetch data — assumes data/historical/<pair_name>.json exists.
 Use scripts/fetch.py first to populate historical data.
 
 # AUDIT:status=complete
-# AUDIT:sprint=6
+# AUDIT:sprint=12
 """
 from __future__ import annotations
 
@@ -18,10 +18,15 @@ from pathlib import Path
 
 from registry.registry import PoolRegistry
 from registry.types import PoolConfig
-from core.models import PoolDayData
+from core.models import PoolDayData, PoolHistoryPoint, TokenHistoryPoint
 from backtest.config import BacktestConfig
 from backtest.reporter import BacktestReporter, BacktestResult
 from backtest.simulator import PositionSimulator
+from data.loader.pool_loader import load_pool_history
+from data.loader.token_price_loader import load_token_prices
+from strategy.evaluator import join_records, evaluate_position
+from strategy.exit_signal import ExitSignal, ExitReason
+from strategy.position import Position
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +53,24 @@ class BacktestHarness:
 
         for pool in self.registry.all():
             try:
+                # Hourly path: activate when token price files and hourly pool data are present
+                token0_path = self.config.prices_dir / f"{pool.token0.symbol}.json"
+                token1_path = self.config.prices_dir / f"{pool.token1.symbol}.json"
+                hourly_path = self.config.hourly_dir / f"{pool.pair_name}.json"
+
+                if hourly_path.exists() and token0_path.exists() and token1_path.exists():
+                    try:
+                        hourly_records = load_pool_history(hourly_path)
+                        t0_prices = load_token_prices(token0_path)
+                        t1_prices = load_token_prices(token1_path)
+                        result = self._simulate_pool_hourly(pool, hourly_records, t0_prices, t1_prices)
+                        results.append(result)
+                        continue  # skip legacy daily path for this pool
+                    except Exception as e:
+                        logger.warning(
+                            "Hourly path failed for %s: %s — falling back to daily", pool.pair_name, e
+                        )
+
                 history_path = self.config.historical_dir / f"{pool.pair_name}.json"
                 if not history_path.exists():
                     logger.warning("No historical data for %s at %s — skipping", pool.pair_name, history_path)
@@ -147,3 +170,81 @@ class BacktestHarness:
                 rebalance_count=0,
                 source=records[0].source if records else "unknown",
             )
+
+    def _simulate_pool_hourly(
+        self,
+        pool: PoolConfig,
+        pool_records: list[PoolHistoryPoint],
+        token0_prices: list[TokenHistoryPoint],
+        token1_prices: list[TokenHistoryPoint],
+    ) -> BacktestResult:
+        aligned = join_records(pool_records, token0_prices, token1_prices)
+        if len(aligned) < 2:
+            logger.warning(
+                "_simulate_pool_hourly: fewer than 2 aligned records for %s — skipping",
+                pool.pair_name,
+            )
+            return BacktestResult(
+                pool_address=pool.pool_address,
+                pair_name=pool.pair_name,
+                days_simulated=0,
+                total_fees_earned=Decimal("0"),
+                il_cost=Decimal("0"),
+                net_lp_alpha=Decimal("0"),
+                final_capital=self.config.initial_capital,
+                rebalance_count=0,
+                source="hourly",
+            )
+
+        entry_pool, entry_t0, entry_t1 = aligned[0]
+
+        position = Position(
+            pool_address=pool.pool_address,
+            pair_name=pool.pair_name,
+            token0_symbol=pool.token0.symbol,
+            token1_symbol=pool.token1.symbol,
+            entry_timestamp=entry_pool.timestamp,
+            entry_price_t1_in_t0=entry_pool.price_token1_in_token0,
+            entry_token0_price_usd=entry_t0.price_usd,
+            entry_token1_price_usd=entry_t1.price_usd,
+            entry_tvl_usd=entry_pool.tvl_usd,
+            tick_lower=-887272,
+            tick_upper=887272,
+            liquidity_usd=self.config.initial_capital,
+        )
+
+        exit_signal: ExitSignal | None = None
+        hours_simulated = 0
+        il_at_exit = Decimal("0")
+
+        for pool_rec, t0_rec, t1_rec in aligned[1:]:
+            hours_simulated += 1
+            sig = evaluate_position(
+                position=position,
+                current_pool_record=pool_rec,
+                current_token0_price=t0_rec,
+                current_token1_price=t1_rec,
+                max_il_pct=self.config.max_il_pct,
+                min_tvl_usd=self.config.min_tvl_usd,
+                min_volume_usd=self.config.min_volume_usd,
+                max_hold_hours=self.config.max_hold_hours,
+            )
+            il_at_exit = sig.il_current
+            if sig.triggered:
+                exit_signal = sig
+                break
+
+        il_cost = il_at_exit * self.config.initial_capital
+        final_capital = self.config.initial_capital + il_cost
+
+        return BacktestResult(
+            pool_address=pool.pool_address,
+            pair_name=pool.pair_name,
+            days_simulated=hours_simulated,
+            total_fees_earned=Decimal("0"),
+            il_cost=il_cost,
+            net_lp_alpha=Decimal("0") - il_cost,
+            final_capital=final_capital,
+            rebalance_count=0,
+            source="hourly",
+        )

@@ -122,6 +122,25 @@
 - [x] tests/test_data_layer.py — round-trip assertions for both new pool_loader and token_price_loader schemas
 - [x] memory files updated
 
+### Sprint 12 — Evaluator Implementation & Backtest Integration (COMPLETE)
+- [x] strategy/evaluator.py: implemented join_records(), find_entry_records(), evaluate_position()
+- [x] join_records(): inner-join on timestamp across all three series; returns sorted aligned tuples
+- [x] find_entry_records(): nearest-record lookup with ±1h tolerance; raises ValueError on miss or empty input
+- [x] evaluate_position(): IL → TVL → Volume → Time priority order; all thresholds parameterized; Decimal throughout
+- [x] backtest/config.py: added prices_dir, hourly_dir, max_il_pct, min_tvl_usd, min_volume_usd, max_hold_hours
+- [x] backtest/harness.py: added _simulate_pool_hourly(); run() checks for token price files and falls back to daily path if absent
+- [x] config/default.yaml: added six new backtest fields with defaults
+- [x] tests/test_evaluator.py: full coverage — priority order, tolerance window, join alignment, Decimal enforcement
+- [x] tests/test_backtest_integration.py: end-to-end test over WETH-USDC fixture; IL trigger fires at k=2.0
+- [x] tests/fixtures/registry_stub.json: minimal single-pool registry for integration test
+- [x] tests/fixtures/WETH-USDC.json, WETH.json, USDC.json: fixture copies under harness-expected filenames
+- [x] memory files updated
+
+### Deferred to Sprint 13
+- ExitReason.PRICE_OUT_OF_RANGE: tick boundary math not implemented
+- Fee accumulation in hourly path (returns 0 this sprint)
+- PositionSimulator hourly migration (still consumes PoolDayData)
+
 ### Sprint 10 Hotfix 1 — TokenPriceFetcher Range Pagination + Aliases (COMPLETE)
 - [x] data/fetcher/token_prices.py — replaced single market_chart call
       with chunked market_chart/range loop (<=90d per chunk); added

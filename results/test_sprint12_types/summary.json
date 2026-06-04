@@ -1,0 +1,16 @@
+{
+  "run_id": "test_sprint12_types",
+  "pool_count": 1,
+  "config": {
+    "days": "365",
+    "initial_capital": "10000",
+    "bollinger_multiplier": "2",
+    "rotation_margin": "0.01",
+    "min_entry_score": "0",
+    "rebalance_cooldown_hours": "0",
+    "max_rebalances_per_pool_per_day": "99",
+    "historical_dir": "/home/aihub/Code/liquidity-bot-v2/tests/fixtures",
+    "registry_path": "/home/aihub/Code/liquidity-bot-v2/tests/fixtures/registry_stub.json"
+  },
+  "total_net_lp_alpha": "571.9095841793663413220751730"
+}

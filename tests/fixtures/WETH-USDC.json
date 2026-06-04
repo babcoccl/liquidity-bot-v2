@@ -1,0 +1,57 @@
+{
+  "pool_address": "0xb4cb800910b228ed3d0834cf79d697127bbb00e5",
+  "pair_name": "WETH-USDC",
+  "fetched_at": 1700000000,
+  "records": [
+    {
+      "timestamp": 1700000000,
+      "price_token1_in_token0": "2000.000000",
+      "price_token0_in_token1": "0.000500",
+      "volume_usd": "500000.00",
+      "tvl_usd": "2000000.00",
+      "fee_growth_global_0": 1000,
+      "fee_growth_global_1": 2000,
+      "source": "fixture"
+    },
+    {
+      "timestamp": 1700003600,
+      "price_token1_in_token0": "2200.000000",
+      "price_token0_in_token1": "0.000454545",
+      "volume_usd": "520000.00",
+      "tvl_usd": "2050000.00",
+      "fee_growth_global_0": 1100,
+      "fee_growth_global_1": 2100,
+      "source": "fixture"
+    },
+    {
+      "timestamp": 1700007200,
+      "price_token1_in_token0": "2400.000000",
+      "price_token0_in_token1": "0.000416667",
+      "volume_usd": "610000.00",
+      "tvl_usd": "2100000.00",
+      "fee_growth_global_0": 1200,
+      "fee_growth_global_1": 2200,
+      "source": "fixture"
+    },
+    {
+      "timestamp": 1700010800,
+      "price_token1_in_token0": "2800.000000",
+      "price_token0_in_token1": "0.000357143",
+      "volume_usd": "750000.00",
+      "tvl_usd": "2200000.00",
+      "fee_growth_global_0": 1300,
+      "fee_growth_global_1": 2300,
+      "source": "fixture"
+    },
+    {
+      "timestamp": 1700014400,
+      "price_token1_in_token0": "4000.000000",
+      "price_token0_in_token1": "0.000250",
+      "volume_usd": "900000.00",
+      "tvl_usd": "2300000.00",
+      "fee_growth_global_0": 1400,
+      "fee_growth_global_1": 2400,
+      "source": "fixture"
+    }
+  ]
+}
