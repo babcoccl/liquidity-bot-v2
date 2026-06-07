@@ -5,7 +5,7 @@ Runs BacktestHarness across a Cartesian product of exit-policy parameters
 ranked results to disk.
 
 # AUDIT:status=complete
-# AUDIT:sprint=15
+# AUDIT:sprint=16
 """
 from __future__ import annotations
 
@@ -67,7 +67,7 @@ class SweepRunner:
         for il, hold, tvl, vol in itertools.product(il_values, hold_values, tvl_values, vol_values):
             # Build run_id with filesystem-safe encoding (replace - with n)
             il_str = str(il).replace("-", "n")
-            run_id = f"{sweep_id}__il_{il_str}__hold{hold}__tvl{int(tvl)}__vol{int(vol)}"
+            run_id = f"{sweep_id}__il{il_str}__hold{hold}__tvl{int(tvl)}__vol{int(vol)}"
 
             # Create per-run config by overriding the four sweep dimensions
             run_config = replace(

@@ -119,3 +119,13 @@
 - backtest/sweep.py: SweepConfig, SweepResult, SweepRunner implemented
 - scripts/sweep.py: CLI entry point for parameter sweep
 - tests/test_sweep.py: 7 unit/integration tests for SweepRunner
+
+## Sprint 16 — Registry fee_tier Correction & Test Hardening
+**Status:** Complete
+### Completed
+- registry/registry.json: corrected 13 invalid fee_tier values (basis-point → ppm)
+  Stablecoin pairs → 100, blue-chip volatile pairs → 500, alt/volatile pairs → 3000
+- tests/test_registry.py: added test_real_registry_json_all_fee_tiers_valid() regression guard
+- tests/test_sweep.py: strengthened NONE-key assertion in exit_reason_counts test
+- backtest/sweep.py: aligned run_id format (removed extra _ after il prefix)
+- memory/known_issues.md: closed registry/registry.json fee_tier entry

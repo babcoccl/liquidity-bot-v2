@@ -63,7 +63,7 @@
     "address": "0x4200000000000000000000000000000000000006",
     "decimals": 18
   },
-  "fee_tier": 5,
+  "fee_tier": 500,
   "tick_lower": -887272,
   "tick_upper": 887272,
   "price_reference": {
@@ -89,7 +89,7 @@
     "address": "0x4200000000000000000000000000000000000006",
     "decimals": 18
   },
-  "fee_tier": 5,
+  "fee_tier": 3000,
   "tick_lower": -6932,
   "tick_upper": 6932,
   "price_reference": {
@@ -115,7 +115,7 @@
     "address": "0x4200000000000000000000000000000000000006",
     "decimals": 18
   },
-  "fee_tier": 30,
+  "fee_tier": 3000,
   "tick_lower": -6932,
   "tick_upper": 6932,
   "price_reference": {
@@ -141,7 +141,7 @@
     "address": "0x4200000000000000000000000000000000000006",
     "decimals": 18
   },
-  "fee_tier": 30,
+  "fee_tier": 3000,
   "tick_lower": -6932,
   "tick_upper": 6932,
   "price_reference": {
@@ -167,7 +167,7 @@
     "address": "0x4200000000000000000000000000000000000006",
     "decimals": 18
   },
-  "fee_tier": 30,
+  "fee_tier": 3000,
   "tick_lower": -6932,
   "tick_upper": 6932,
   "price_reference": {
@@ -193,7 +193,7 @@
     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
     "decimals": 8
   },
-  "fee_tier": 5,
+  "fee_tier": 500,
   "tick_lower": -2000,
   "tick_upper": 2000,
   "price_reference": {
@@ -219,7 +219,7 @@
     "address": "0x4200000000000000000000000000000000000006",
     "decimals": 18
   },
-  "fee_tier": 5,
+  "fee_tier": 100,
   "tick_lower": -200,
   "tick_upper": 200,
   "price_reference": {
@@ -245,7 +245,7 @@
     "address": "0x532f27101965dd16442e59d40670faf5ebb142e4",
     "decimals": 18
   },
-  "fee_tier": 30,
+  "fee_tier": 3000,
   "tick_lower": -6932,
   "tick_upper": 6932,
   "price_reference": {
@@ -271,7 +271,7 @@
     "address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
     "decimals": 6
   },
-  "fee_tier": 1,
+  "fee_tier": 100,
   "tick_lower": -50,
   "tick_upper": 50,
   "price_reference": {
@@ -297,7 +297,7 @@
     "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
     "decimals": 6
   },
-  "fee_tier": 1,
+  "fee_tier": 100,
   "tick_lower": -50,
   "tick_upper": 50,
   "price_reference": {
@@ -323,7 +323,7 @@
     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
     "decimals": 8
   },
-  "fee_tier": 30,
+  "fee_tier": 3000,
   "tick_lower": -6932,
   "tick_upper": 6932,
   "price_reference": {
@@ -349,7 +349,7 @@
     "address": "0xbaa5cc21fd8ba8746cc9a926bc28c4f66f03b7b9",
     "decimals": 18
   },
-  "fee_tier": 30,
+  "fee_tier": 3000,
   "tick_lower": -4055,
   "tick_upper": 4055,
   "price_reference": {
@@ -375,7 +375,7 @@
     "address": "0xcfa3ef56d303ae4faaba0592388f19d7c3399fb4",
     "decimals": 18
   },
-  "fee_tier": 5,
+  "fee_tier": 100,
   "tick_lower": -50,
   "tick_upper": 50,
   "price_reference": {

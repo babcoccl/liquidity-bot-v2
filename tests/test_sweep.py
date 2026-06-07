@@ -204,6 +204,10 @@ def test_sweep_result_exit_reason_counts_none_key(tmp_path):
     # exit on TIME_LIMIT or data exhaustion producing NONE.
     # At minimum, verify the exit_reason_counts dict is non-empty and has keys.
     assert len(results[0].exit_reason_counts) > 0
+    assert "NONE" in results[0].exit_reason_counts, (
+        f"Expected 'NONE' key in exit_reason_counts, got: {results[0].exit_reason_counts}"
+    )
+    assert results[0].exit_reason_counts["NONE"] > 0
 
 
 # ---------------------------------------------------------------------------

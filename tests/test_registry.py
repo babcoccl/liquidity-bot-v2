@@ -457,3 +457,32 @@ def test_real_registry_json_has_tick_fields():
         assert entry["tick_lower"] < entry["tick_upper"], (
             f"{pair}: tick_lower {entry['tick_lower']} >= tick_upper {entry['tick_upper']}"
         )
+
+
+# ---------------------------------------------------------------------------
+# Sprint 16 — fee_tier validity regression guard
+# ---------------------------------------------------------------------------
+
+_VALID_FEE_TIERS = {100, 500, 3000, 10000}
+
+def test_real_registry_json_all_fee_tiers_valid():
+    """
+    Guard: every pool in the committed registry.json must have a fee_tier
+    in the Uniswap V3 valid set {100, 500, 3000, 10000}.
+    This test will fail if an invalid basis-point value is re-introduced.
+    """
+    import json
+    from pathlib import Path
+
+    path = Path("registry/registry.json")
+    data = json.loads(path.read_text())
+
+    assert isinstance(data, list)
+    assert len(data) == 15
+
+    for entry in data:
+        pair = entry.get("pair_name", "UNKNOWN")
+        fee = entry.get("fee_tier")
+        assert fee in _VALID_FEE_TIERS, (
+            f"{pair}: fee_tier {fee} not in valid set {_VALID_FEE_TIERS}"
+        )

@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "15",
+  "last_updated_sprint": "16",
   "components": [
     {
       "id": "core.models",
@@ -397,20 +397,20 @@
       "dependencies": [],
       "test_file": null,
       "test_coverage": "none"
-    },
+     },
      {
-      "id": "registry.json",
-      "file": "registry/registry.json",
-      "status": "complete",
-      "sprint": 14,
-      "audit_notes": [
-        "15 pools migrated from v1 data/registry.json",
-        "LRDS/WETH excluded — token0 address in v1 registry appears malformed (0xd36e8964... is 42 chars but contains a duplicate segment)",
-        "Alt/duplicate pools excluded — only primary address per pair retained",
-        "Sprint 14: Added tick_lower/tick_upper to all 15 pool entries; fee_tier left unchanged pending audit."
-      ],
-      "dependencies": [],
-      "test_file": null,
+       "id": "registry.json",
+       "file": "registry/registry.json",
+       "status": "complete",
+       "sprint": 14,
+       "audit_notes": [
+         "15 pools migrated from v1 data/registry.json",
+         "LRDS/WETH excluded — token0 address in v1 registry appears malformed",
+         "Alt/duplicate pools excluded — only primary address per pair retained",
+         "Sprint 14: Added tick_lower/tick_upper to all 15 pool entries; fee_tier left unchanged pending audit.",
+         "Sprint 16: fee_tier corrected for all 13 invalid pools (basis-point → ppm). All 15 pools now pass validate()."
+       ],
+       "dependencies": [],
       "test_coverage": "none"
     },
     {
@@ -606,9 +606,10 @@
       "id": "backtest.sweep",
       "file": "backtest/sweep.py",
       "status": "complete",
-      "sprint": 15,
+      "sprint": 16,
       "audit_notes": [
-        "SweepConfig, SweepResult, SweepRunner. Cartesian product over 4 exit-policy parameters. Results sorted descending by avg_net_lp_alpha."
+        "SweepConfig, SweepResult, SweepRunner. Cartesian product over 4 exit-policy parameters. Results sorted descending by avg_net_lp_alpha.",
+        "Sprint 16: run_id format aligned (removed extra _ after il prefix)."
       ],
       "dependencies": ["backtest.config", "backtest.harness", "backtest.reporter", "registry.registry"],
       "test_file": "tests/test_sweep.py",
@@ -623,6 +624,18 @@
       "dependencies": ["backtest.sweep", "backtest.config", "registry.registry"],
       "test_file": null,
       "test_coverage": "none"
+    },
+    {
+      "id": "tests.test_registry.fee_tier_guard",
+      "file": "tests/test_registry.py",
+      "status": "complete",
+      "sprint": 16,
+      "audit_notes": [
+        "Sprint 16: test_real_registry_json_all_fee_tiers_valid() added — asserts all 15 pools have fee_tier in {100, 500, 3000, 10000}."
+      ],
+      "dependencies": ["registry.json"],
+      "test_file": "tests/test_registry.py",
+      "test_coverage": "full"
     },
     {
       "id": "tests.test_sweep",
