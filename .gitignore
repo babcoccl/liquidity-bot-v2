@@ -20,5 +20,6 @@ htmlcov/
 data/historical/*.csv
 data/historical/*.parquet
 
-results/
+results/*
 logs/*.log
+
