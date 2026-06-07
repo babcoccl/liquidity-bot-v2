@@ -4,7 +4,7 @@ Tests for backtest/sweep.py — SweepConfig, SweepResult, SweepRunner.
 All tests are self-contained with no network calls and no filesystem side-effects outside tmp_path.
 
 # AUDIT:status=complete
-# AUDIT:sprint=15
+# AUDIT:sprint=17
 """
 from __future__ import annotations
 

@@ -73,3 +73,14 @@ rpc:
   base_http: ""    # set via BASE_RPC_HTTP env var at runtime
   base_ws: ""      # set via BASE_RPC_WS env var at runtime
 
+regime:
+  vol_threshold_low: 0.20
+  vol_threshold_high: 0.60
+  trend_threshold: 0.30
+  base_width: 0.10
+  allocation_multipliers:
+    low_vol_no_trend: 1.2
+    low_vol_trend: 1.0
+    high_vol_no_trend: 0.5
+    high_vol_trend: 0.8
+

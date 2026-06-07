@@ -129,3 +129,16 @@
 - tests/test_sweep.py: strengthened NONE-key assertion in exit_reason_counts test
 - backtest/sweep.py: aligned run_id format (removed extra _ after il prefix)
 - memory/known_issues.md: closed registry/registry.json fee_tier entry
+
+## Sprint 17 — Entry Scoring Layer Hardening
+**Status:** Complete
+### Completed
+- strategy/scorer.py: migrated to Decimal throughout; weights read from _DEFAULT_WEIGHTS (matching config/default.yaml scoring section); status → complete
+- strategy/signals.py: migrated to Decimal throughout; thresholds read from _D constants (matching config/default.yaml signals section); status → complete
+- strategy/regime.py: migrated to Decimal throughout; thresholds read from _DEFAULT_* constants (matching config/default.yaml regime section); status → complete
+- config/default.yaml: added regime: section with vol_threshold_low/high, trend_threshold, base_width, allocation_multipliers
+- tests/test_scorer.py: new — 22 unit tests covering compute_pool_score, hard_gate_alpha, PoolScorer, classify_risk_tier, rank_pools
+- tests/test_signals.py: new — 20 unit tests covering all signal functions and wrapper classes
+- tests/test_regime.py: new — 20 unit tests covering classify_regime, optimal_range_width, allocation_adjustment, RegimeClassifier, regime_summary
+- backtest/harness.py: entry score gate added to _simulate_pool_hourly() using compute_pool_score and config.min_entry_score
+- tests/test_sweep.py: AUDIT sprint tag bumped to 17

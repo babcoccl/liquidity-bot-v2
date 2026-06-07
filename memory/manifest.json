@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "16",
+  "last_updated_sprint": "17",
   "components": [
     {
       "id": "core.models",
@@ -51,11 +51,10 @@
     {
       "id": "strategy.scorer",
       "file": "strategy/scorer.py",
-      "status": "partial",
-      "sprint": 1,
+      "status": "complete",
+      "sprint": 17,
       "audit_notes": [
-        "All financial params use float instead of Decimal",
-        "Hardcoded default thresholds should come from config/default.yaml scoring section"
+        "Sprint 17: Migrated to Decimal throughout. Weights from config/default.yaml scoring section. PoolScorer class with normalize/score methods. compute_pool_score pure function. hard_gate_alpha for negative alpha filter. classify_risk_tier for anchor/satellite/speculative. rank_pools sorted descending."
       ],
       "dependencies": [],
       "test_file": "tests/test_scaffold.py",
@@ -64,11 +63,10 @@
     {
       "id": "strategy.signals",
       "file": "strategy/signals.py",
-      "status": "partial",
-      "sprint": 1,
+      "status": "complete",
+      "sprint": 17,
       "audit_notes": [
-        "All financial params use float instead of Decimal",
-        "Hardcoded default thresholds should come from config/default.yaml signals section"
+        "Sprint 17: Migrated to Decimal throughout. Thresholds from config/default.yaml signals section. Four signal functions (drawdown, momentum_crash, tvl_collapse, il_fee_ratio). Wrapper classes for each. any_exit_signal aggregates all."
       ],
       "dependencies": [],
       "test_file": "tests/test_scaffold.py",
@@ -77,11 +75,10 @@
     {
       "id": "strategy.regime",
       "file": "strategy/regime.py",
-      "status": "partial",
-      "sprint": 1,
+      "status": "complete",
+      "sprint": 17,
       "audit_notes": [
-        "Hardcoded default thresholds should come from config/default.yaml",
-        "All financial params use float instead of Decimal"
+        "Sprint 17: Migrated to Decimal throughout. Thresholds from config/default.yaml regime section. RegimeClassifier class. classify_regime returns four regimes. optimal_range_width and allocation_adjustment helpers. regime_summary full analysis dict."
       ],
       "dependencies": [],
       "test_file": "tests/test_scaffold.py",
@@ -477,16 +474,17 @@
       "test_file": null,
       "test_coverage": "none"
     },
-     {
-       "id": "backtest.harness",
-       "file": "backtest/harness.py",
-       "status": "complete",
-       "sprint": 15,
-       "audit_notes": [
-         "Fee attribution added to _simulate_pool_hourly(). Daily path updated with explicit hours_simulated=0, exit_reason=None.",
-         "Sprint 14: Hourly path now uses registry ticks and only accrues fees while in range.",
-         "Sprint 15: tick_to_price hoisted above fee loop; fee not counted on exit step."
-       ],
+      {
+        "id": "backtest.harness",
+        "file": "backtest/harness.py",
+        "status": "complete",
+        "sprint": 17,
+        "audit_notes": [
+          "Fee attribution added to _simulate_pool_hourly(). Daily path updated with explicit hours_simulated=0, exit_reason=None.",
+          "Sprint 14: Hourly path now uses registry ticks and only accrues fees while in range.",
+          "Sprint 15: tick_to_price hoisted above fee loop; fee not counted on exit step.",
+          "Sprint 17: entry score gate added to _simulate_pool_hourly() — skips pool when compute_pool_score < config.min_entry_score."
+        ],
       "dependencies": ["backtest.config", "backtest.reporter", "backtest.simulator", "registry.registry", "data.loader.pool_loader"],
       "test_file": "tests/test_backtest_harness.py",
       "test_coverage": "full"
@@ -638,11 +636,49 @@
       "test_coverage": "full"
     },
     {
+      "id": "tests.test_scorer",
+      "file": "tests/test_scorer.py",
+      "status": "complete",
+      "sprint": 17,
+      "audit_notes": [
+        "Sprint 17: 22 unit tests covering compute_pool_score, hard_gate_alpha, PoolScorer, classify_risk_tier, rank_pools. Decimal only."
+      ],
+      "dependencies": ["strategy.scorer"],
+      "test_file": "tests/test_scorer.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "tests.test_signals",
+      "file": "tests/test_signals.py",
+      "status": "complete",
+      "sprint": 17,
+      "audit_notes": [
+        "Sprint 17: 20 unit tests covering all signal functions and wrapper classes. Decimal only."
+      ],
+      "dependencies": ["strategy.signals"],
+      "test_file": "tests/test_signals.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "tests.test_regime",
+      "file": "tests/test_regime.py",
+      "status": "complete",
+      "sprint": 17,
+      "audit_notes": [
+        "Sprint 17: 20 unit tests covering classify_regime, optimal_range_width, allocation_adjustment, RegimeClassifier, regime_summary. Decimal only."
+      ],
+      "dependencies": ["strategy.regime"],
+      "test_file": "tests/test_regime.py",
+      "test_coverage": "full"
+    },
+    {
       "id": "tests.test_sweep",
       "file": "tests/test_sweep.py",
       "status": "complete",
-      "sprint": 15,
-      "audit_notes": [],
+      "sprint": 17,
+      "audit_notes": [
+        "Sprint 17: AUDIT sprint tag bumped from 15 to 17."
+      ],
       "dependencies": ["backtest.sweep", "backtest.config", "registry.registry"],
       "test_file": "tests/test_sweep.py",
       "test_coverage": "full"

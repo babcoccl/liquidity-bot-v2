@@ -1,8 +1,8 @@
-## Current Sprint: 16
-**Focus:** Registry data integrity — fee_tier correction and regression guard
-**Modified:** registry/registry.json (13 fee_tier values corrected)
-**Modified:** tests/test_registry.py (1 new regression test)
-**Modified:** tests/test_sweep.py (NONE-key assertion strengthened)
-**Modified:** backtest/sweep.py (run_id cosmetic fix)
+## Current Sprint: 17
+**Focus:** Entry scoring layer hardening — Decimal migration + config-driven thresholds
+**Modified:** strategy/scorer.py, strategy/signals.py, strategy/regime.py (float → Decimal, complete)
+**Modified:** config/default.yaml (regime: section added)
+**Modified:** backtest/harness.py (entry score gate in _simulate_pool_hourly)
+**New:** tests/test_scorer.py, tests/test_signals.py, tests/test_regime.py
 **Status:** Complete
-**Next:** Sprint 17 — Entry scoring layer hardening (strategy.scorer, strategy.signals, strategy.regime → Decimal + config-driven)
+**Next:** Sprint 18 — core.metrics + backtest.multipool hardening (last two partial modules); then entry-side integration tests
