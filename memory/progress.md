@@ -142,3 +142,24 @@
 - tests/test_regime.py: new — 20 unit tests covering classify_regime, optimal_range_width, allocation_adjustment, RegimeClassifier, regime_summary
 - backtest/harness.py: entry score gate added to _simulate_pool_hourly() using compute_pool_score and config.min_entry_score
 - tests/test_sweep.py: AUDIT sprint tag bumped to 17
+
+## Sprint 18 — Scorer Metrics from Historical Records
+**Status:** Complete
+### Completed
+- backtest/config.py: added metrics_window_hours field (int=720, 30 days * 24 hours)
+- core/metrics.py: added six new Decimal-only scorer metric functions:
+  - rolling_window: filters PoolHistoryPoint to most recent N hours, returns sorted ascending
+  - annualized_vol_30d: population stddev of hourly log-returns, annualized via sqrt(hours_per_year)
+  - fee_apr_from_records: volume * fee_rate / mean_tvl, annualized, clamped [0, 50]
+  - volume_tvl_ratio_from_records: mean(volume_usd / tvl_usd), skips zero-tvl records
+  - net_lp_alpha_from_records: fees earned in-range + IL pct (negative), normalized per unit capital
+  - compute_entry_metrics: top-level convenience, returns dict with all four scorer fields
+- core/metrics.py: AUDIT status promoted from partial to complete
+- backtest/harness.py: entry gate now calls compute_entry_metrics() with real pool records
+  instead of static Decimal("0") placeholders; AUDIT tag bumped to sprint=18
+- tests/test_metrics.py: new — 24 unit tests covering all six new functions
+  Tests use only Decimal inputs, verify types, edge cases (empty, zero-tvl, single-record),
+  and correct arithmetic outcomes
+### Deferred
+- PositionSimulator hourly migration
+- More accurate IL notional / LP valuation

@@ -1,5 +1,5 @@
 # AUDIT:status=complete
-# AUDIT:sprint=14
+# AUDIT:sprint=18
 
 from decimal import Decimal
 from pathlib import Path
@@ -17,7 +17,8 @@ def _make_config() -> BacktestConfig:
         initial_capital=Decimal("10000"),
         bollinger_multiplier=Decimal("2"),
         rotation_margin=Decimal("0.01"),
-        min_entry_score=Decimal("0"),
+        # SPINT 18: REAL METRICS IN ENTRY GATE. SET LOW SO FIXTURE DATA PASSES.
+        min_entry_score=Decimal("-10"),
         rebalance_cooldown_hours=Decimal("0"),
         max_rebalances_per_pool_per_day=99,
         historical_dir=FIXTURES_DIR,
@@ -172,7 +173,8 @@ def test_narrow_range_triggers_price_out_of_range(tmp_path):
         initial_capital=Decimal("10000"),
         bollinger_multiplier=Decimal("2"),
         rotation_margin=Decimal("0.01"),
-        min_entry_score=Decimal("0"),
+        # SPINT 18: REAL METRICS IN ENTRY GATE. SET LOW SO FIXTURE DATA PASSES.
+        min_entry_score=Decimal("-10"),
         rebalance_cooldown_hours=Decimal("0"),
         max_rebalances_per_pool_per_day=99,
         historical_dir=tmp_path,

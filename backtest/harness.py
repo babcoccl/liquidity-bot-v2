@@ -7,7 +7,7 @@ Does NOT fetch data — assumes data/historical/<pair_name>.json exists.
 Use scripts/fetch.py first to populate historical data.
 
 # AUDIT:status=complete
-# AUDIT:sprint=17
+# AUDIT:sprint=18
 """
 from __future__ import annotations
 
@@ -29,6 +29,7 @@ from strategy.exit_signal import ExitSignal, ExitReason
 from strategy.position import Position
 from strategy.scorer import compute_pool_score
 from core.il import tick_to_price
+from core.metrics import compute_entry_metrics
 
 logger = logging.getLogger(__name__)
 
@@ -204,36 +205,38 @@ class BacktestHarness:
                 source="hourly",
             )
 
-        # ENTRY GATE. SCORE POOL BEFORE ENTER. SKIP IF SCORE TOO LOW.
-        entry_pool_pre, entry_t0_pre, entry_t1_pre = aligned[0]
-        if entry_pool_pre.tvl_usd > Decimal("0"):
-            fee_rate = Decimal(str(pool.fee_tier)) / Decimal("1000000")
-            # PROXY METRICS FROM ENTRY RECORD ONLY — ROUGH ENTRY GATE
-            entry_score = compute_pool_score(
-                net_lp_alpha_30d=Decimal("0"),           # NOT AVAILABLE AT ENTRY — DEFAULT NEUTRAL
-                annualized_vol_30d=Decimal("0"),         # NOT AVAILABLE AT ENTRY — DEFAULT NEUTRAL
-                fee_apr=fee_rate * Decimal("8760"),      # ANNUALIZE HOURLY FEE RATE
-                volume_tvl_ratio=entry_pool_pre.volume_usd / entry_pool_pre.tvl_usd
-                    if entry_pool_pre.tvl_usd > Decimal("0") else Decimal("0"),
+        # ENTRY GATE. SCORE POOL WITH REAL 30D ROLLING METRICS.
+        entry_metrics = compute_entry_metrics(
+            records=pool_records,
+            fee_tier=pool.fee_tier,
+            tick_lower=pool.tick_lower,
+            tick_upper=pool.tick_upper,
+            window_hours=self.config.metrics_window_hours,
+        )
+        entry_score = compute_pool_score(
+            net_lp_alpha_30d=entry_metrics["net_lp_alpha_30d"],
+            annualized_vol_30d=entry_metrics["annualized_vol_30d"],
+            fee_apr=entry_metrics["fee_apr"],
+            volume_tvl_ratio=entry_metrics["volume_tvl_ratio"],
+        )
+        if entry_score < self.config.min_entry_score:
+            logger.debug(
+                "POOL %s ENTRY SCORE %s BELOW THRESHOLD %s — SKIP",
+                pool.pair_name, entry_score, self.config.min_entry_score,
             )
-            if entry_score < self.config.min_entry_score:
-                logger.debug(
-                    "POOL %s ENTRY SCORE %s BELOW THRESHOLD %s — SKIP",
-                    pool.pair_name, entry_score, self.config.min_entry_score,
-                )
-                return BacktestResult(
-                    pool_address=pool.pool_address,
-                    pair_name=pool.pair_name,
-                    days_simulated=0,
-                    hours_simulated=0,
-                    exit_reason="ENTRY_SCORE_BELOW_THRESHOLD",
-                    total_fees_earned=Decimal("0"),
-                    il_cost=Decimal("0"),
-                    net_lp_alpha=Decimal("0"),
-                    final_capital=self.config.initial_capital,
-                    rebalance_count=0,
-                    source="hourly",
-                )
+            return BacktestResult(
+                pool_address=pool.pool_address,
+                pair_name=pool.pair_name,
+                days_simulated=0,
+                hours_simulated=0,
+                exit_reason="ENTRY_SCORE_BELOW_THRESHOLD",
+                total_fees_earned=Decimal("0"),
+                il_cost=Decimal("0"),
+                net_lp_alpha=Decimal("0"),
+                final_capital=self.config.initial_capital,
+                rebalance_count=0,
+                source="hourly",
+            )
 
         entry_pool, entry_t0, entry_t1 = aligned[0]
 

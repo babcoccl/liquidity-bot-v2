@@ -4,7 +4,7 @@ Tests for backtest/sweep.py — SweepConfig, SweepResult, SweepRunner.
 All tests are self-contained with no network calls and no filesystem side-effects outside tmp_path.
 
 # AUDIT:status=complete
-# AUDIT:sprint=17
+# AUDIT:sprint=18
 """
 from __future__ import annotations
 
@@ -31,7 +31,8 @@ def _make_sweep_config(tmp_path: Path, **overrides) -> Tuple[SweepConfig, PoolRe
         initial_capital=Decimal("10000"),
         bollinger_multiplier=Decimal("2"),
         rotation_margin=Decimal("0.01"),
-        min_entry_score=Decimal("0"),
+        # SPINT 18: REAL METRICS IN ENTRY GATE. SET LOW SO FIXTURE DATA PASSES.
+        min_entry_score=Decimal("-10"),
         rebalance_cooldown_hours=Decimal("0"),
         max_rebalances_per_pool_per_day=99,
         historical_dir=FIXTURES_DIR,

@@ -4,7 +4,7 @@ Loaded from config/default.yaml backtest section.
 All financial values stored as Decimal.
 
 # AUDIT:status=complete
-# AUDIT:sprint=12
+# AUDIT:sprint=18
 """
 from __future__ import annotations
 from dataclasses import dataclass
@@ -30,6 +30,7 @@ class BacktestConfig:
     min_tvl_usd: Decimal = Decimal("500000")
     min_volume_usd: Decimal = Decimal("50000")
     max_hold_hours: int = 720
+    metrics_window_hours: int = 720
 
     @classmethod
     def from_yaml(cls, path: Path = Path("config/default.yaml")) -> "BacktestConfig":
@@ -52,4 +53,5 @@ class BacktestConfig:
             min_tvl_usd=Decimal(str(bt.get("min_tvl_usd", "500000"))),
             min_volume_usd=Decimal(str(bt.get("min_volume_usd", "50000"))),
             max_hold_hours=int(bt.get("max_hold_hours", 720)),
+            metrics_window_hours=int(bt.get("metrics_window_hours", 720)),
         )

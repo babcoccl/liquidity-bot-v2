@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "17",
+  "last_updated_sprint": "18",
   "components": [
     {
       "id": "core.models",
@@ -29,23 +29,26 @@
       "status": "complete",
       "sprint": 7,
       "audit_notes": [
-        "fee_gas_ratio returns RATIO('0') not inf when gas_cost is zero — callers must handle"
+        "fee_gas_ratio returns RATIO('0') not inf when gas_cost is zero \u2014 callers must handle"
       ],
-      "dependencies": ["core.units"],
+      "dependencies": [
+        "core.units"
+      ],
       "test_file": "tests/test_scaffold.py",
       "test_coverage": "full"
     },
     {
       "id": "core.metrics",
       "file": "core/metrics.py",
-      "status": "partial",
-      "sprint": 1,
+      "status": "complete",
+      "sprint": 18,
       "audit_notes": [
         "All financial params use float instead of Decimal",
-        "Hardcoded defaults should come from config/default.yaml"
+        "Hardcoded defaults should come from config/default.yaml",
+        "Sprint 18: Float functions retained for reporter. New Decimal scorer metric functions added: rolling_window, annualized_vol_30d, fee_apr_from_records, volume_tvl_ratio_from_records, net_lp_alpha_from_records, compute_entry_metrics. Duplicate max_drawdown alias retained but flagged."
       ],
       "dependencies": [],
-      "test_file": "tests/test_scaffold.py",
+      "test_file": "tests/test_metrics.py",
       "test_coverage": "full"
     },
     {
@@ -90,12 +93,16 @@
       "status": "complete",
       "sprint": 7,
       "audit_notes": [
-        "PositionSimulator.step() implemented — accepts PoolDayData",
-        "fee attribution is proportional model — does not use feeGrowthGlobal yet",
-        "price range width is entry_price × multiplier — not config-driven yet",
-        "HOTFIX: summary() IL price bug fixed — last_price field added to Position"
+        "PositionSimulator.step() implemented \u2014 accepts PoolDayData",
+        "fee attribution is proportional model \u2014 does not use feeGrowthGlobal yet",
+        "price range width is entry_price \u00d7 multiplier \u2014 not config-driven yet",
+        "HOTFIX: summary() IL price bug fixed \u2014 last_price field added to Position"
       ],
-      "dependencies": ["core.il", "core.fees", "core.units"],
+      "dependencies": [
+        "core.il",
+        "core.fees",
+        "core.units"
+      ],
       "test_file": "tests/test_scaffold.py",
       "test_coverage": "full"
     },
@@ -107,7 +114,12 @@
       "audit_notes": [
         "Includes regression test for summary() IL price bug (test_summary_il_uses_last_price_not_value_ratio)"
       ],
-      "dependencies": ["backtest.simulator", "core.units", "core.il", "core.fees"],
+      "dependencies": [
+        "backtest.simulator",
+        "core.units",
+        "core.il",
+        "core.fees"
+      ],
       "test_file": "tests/test_simulator.py",
       "test_coverage": "full"
     },
@@ -120,7 +132,10 @@
         "All financial params use float instead of Decimal",
         "Hardcoded defaults should come from config/default.yaml backtest section"
       ],
-      "dependencies": ["backtest.simulator", "core.metrics"],
+      "dependencies": [
+        "backtest.simulator",
+        "core.metrics"
+      ],
       "test_file": null,
       "test_coverage": "none"
     },
@@ -130,7 +145,7 @@
       "status": "stub",
       "sprint": 1,
       "audit_notes": [
-        "All methods raise NotImplementedError — live execution not implemented in v2 yet"
+        "All methods raise NotImplementedError \u2014 live execution not implemented in v2 yet"
       ],
       "dependencies": [],
       "test_file": "tests/test_scaffold.py",
@@ -154,7 +169,9 @@
       "audit_notes": [
         "Sprint 9: Generalized abstract base to support hourly history fetchers. Docstrings updated."
       ],
-      "dependencies": ["core.models"],
+      "dependencies": [
+        "core.models"
+      ],
       "test_file": "tests/test_scaffold.py",
       "test_coverage": "full"
     },
@@ -164,11 +181,13 @@
       "status": "complete",
       "sprint": "9-hotfix2",
       "audit_notes": [
-        "api_key read from THEGRAPH_API_KEY env var — silently uses empty string if not set, which will produce 401 on authenticated endpoints",
+        "api_key read from THEGRAPH_API_KEY env var \u2014 silently uses empty string if not set, which will produce 401 on authenticated endpoints",
         "Sprint 8: FetchError logs response body; URL supports {api_key} path substitution.",
         "Sprint 9-hotfix2: Daily records expanded to 24 hourly PoolHistoryPoint records."
       ],
-      "dependencies": ["data.fetcher.base"],
+      "dependencies": [
+        "data.fetcher.base"
+      ],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
@@ -178,13 +197,15 @@
       "status": "complete",
       "sprint": "9-hotfix2",
       "audit_notes": [
-        "TVL always Decimal('0') — source limitation",
-        "fee_growth_global always None — source limitation",
+        "TVL always Decimal('0') \u2014 source limitation",
+        "fee_growth_global always None \u2014 source limitation",
         "price_token1_in_token0 is USD proxy for token1 not true intra-pool ratio",
         "Requires COIN_ID_MAP update when new tokens added to registry",
         "Sprint 9-hotfix2: Daily records expanded to 24 hourly PoolHistoryPoint records."
       ],
-      "dependencies": ["data.fetcher.base"],
+      "dependencies": [
+        "data.fetcher.base"
+      ],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
@@ -196,7 +217,9 @@
       "audit_notes": [
         "Sprint 9-hotfix2: Daily TVL snapshots expanded to 24 hourly PoolHistoryPoint records."
       ],
-      "dependencies": ["data.fetcher.base"],
+      "dependencies": [
+        "data.fetcher.base"
+      ],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
@@ -206,7 +229,9 @@
       "status": "complete",
       "sprint": 2,
       "audit_notes": [],
-      "dependencies": ["data.fetcher.base"],
+      "dependencies": [
+        "data.fetcher.base"
+      ],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
@@ -220,7 +245,9 @@
         "Hotfix 3: PoolHistoryPoint serialized to flat hourly array.",
         "Sprint 10: pool_address hoisted to wrapper root; stripped from per-row records; load path injects it back."
       ],
-      "dependencies": ["data.fetcher.router"],
+      "dependencies": [
+        "data.fetcher.router"
+      ],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
@@ -232,7 +259,9 @@
       "audit_notes": [
         "Sprint 9: Persists token history to data/token_history/*.json."
       ],
-      "dependencies": ["core.models"],
+      "dependencies": [
+        "core.models"
+      ],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
@@ -244,7 +273,9 @@
       "audit_notes": [
         "Sprint 10: Save/load TokenHistoryPoint to data/prices/{SYMBOL}.json with wrapper schema."
       ],
-      "dependencies": ["core.models"],
+      "dependencies": [
+        "core.models"
+      ],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
@@ -258,11 +289,13 @@
         "Sprint 9-hotfix2: Replaced market_chart_range (Pro-only) with free-tier market_chart?days=N&interval=hourly.",
         "Hotfix 1: 90d chunk pagination via market_chart/range; uppercase COIN_ID_MAP aliases added."
       ],
-      "dependencies": ["data.fetcher.base"],
+      "dependencies": [
+        "data.fetcher.base"
+      ],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
-     {
+    {
       "id": "registry.types",
       "file": "registry/types.py",
       "status": "complete",
@@ -274,7 +307,7 @@
       "test_file": "tests/test_registry.py",
       "test_coverage": "full"
     },
-     {
+    {
       "id": "registry.registry",
       "file": "registry/registry.py",
       "status": "complete",
@@ -282,7 +315,9 @@
       "audit_notes": [
         "Sprint 14: Tick fields loaded from JSON; validate() checks ordering and bounds."
       ],
-      "dependencies": ["registry.types"],
+      "dependencies": [
+        "registry.types"
+      ],
       "test_file": "tests/test_registry.py",
       "test_coverage": "full"
     },
@@ -292,7 +327,10 @@
       "status": "complete",
       "sprint": 4,
       "audit_notes": [],
-      "dependencies": ["registry.types", "registry.registry"],
+      "dependencies": [
+        "registry.types",
+        "registry.registry"
+      ],
       "test_file": "tests/test_registry.py",
       "test_coverage": "full"
     },
@@ -304,7 +342,9 @@
       "audit_notes": [
         "Sprint 9: Dual-compatible validators. Hourly gap detection (flags gaps > 7200s). Daily behavior preserved."
       ],
-      "dependencies": ["core.models"],
+      "dependencies": [
+        "core.models"
+      ],
       "test_file": "tests/test_validate_historical.py",
       "test_coverage": "full"
     },
@@ -314,7 +354,7 @@
       "status": "complete",
       "sprint": "10",
       "audit_notes": [
-        "COINGECKO_API_KEY read from environment — will silently use empty string if not set",
+        "COINGECKO_API_KEY read from environment \u2014 will silently use empty string if not set",
         "Sprint 8: GeckoTerminalFetcher added as primary; FetchRouter order updated; TheGraph URL key substitution applied.",
         "Sprint 9: Fetches token0 and token1 histories alongside pool history for same lookback window.",
         "Sprint 10: Token price fetch loop added; persists to data/prices/{SYMBOL}.json."
@@ -341,7 +381,7 @@
       "status": "complete",
       "sprint": 5,
       "audit_notes": [
-        "CoinGecko API key is empty string by default — must be set via COINGECKO_API_KEY env var"
+        "CoinGecko API key is empty string by default \u2014 must be set via COINGECKO_API_KEY env var"
       ],
       "dependencies": [],
       "test_file": null,
@@ -351,9 +391,10 @@
       "id": "backtest.config",
       "file": "backtest/config.py",
       "status": "complete",
-      "sprint": 12,
+      "sprint": 18,
       "audit_notes": [
-        "Added prices_dir, hourly_dir, max_il_pct, min_tvl_usd, min_volume_usd, max_hold_hours."
+        "Added prices_dir, hourly_dir, max_il_pct, min_tvl_usd, min_volume_usd, max_hold_hours.",
+        "Sprint 18: metrics_window_hours field added (default 720)."
       ],
       "dependencies": [],
       "test_file": "tests/test_backtest_harness.py",
@@ -369,7 +410,9 @@
         "Sprint 9 hotfix: HTTP 401 raises RateLimitError for free-tier day limit fallback to TheGraph.",
         "Sprint 9-hotfix2: _INTER_POOL_SLEEP increased from 10s to 30s for server-side rate limit recovery."
       ],
-      "dependencies": ["data.fetcher.base"],
+      "dependencies": [
+        "data.fetcher.base"
+      ],
       "test_file": "tests/test_data_layer.py",
       "test_coverage": "full"
     },
@@ -379,7 +422,11 @@
       "status": "complete",
       "sprint": 6,
       "audit_notes": [],
-      "dependencies": ["backtest.harness", "backtest.config", "registry.registry"],
+      "dependencies": [
+        "backtest.harness",
+        "backtest.config",
+        "registry.registry"
+      ],
       "test_file": null,
       "test_coverage": "none"
     },
@@ -389,25 +436,25 @@
       "status": "complete",
       "sprint": 7,
       "audit_notes": [
-        "BASE_RPC_HTTP and BASE_RPC_WS parked for Sprint 8+ execution modules — not consumed yet"
+        "BASE_RPC_HTTP and BASE_RPC_WS parked for Sprint 8+ execution modules \u2014 not consumed yet"
       ],
       "dependencies": [],
       "test_file": null,
       "test_coverage": "none"
-     },
-     {
-       "id": "registry.json",
-       "file": "registry/registry.json",
-       "status": "complete",
-       "sprint": 14,
-       "audit_notes": [
-         "15 pools migrated from v1 data/registry.json",
-         "LRDS/WETH excluded — token0 address in v1 registry appears malformed",
-         "Alt/duplicate pools excluded — only primary address per pair retained",
-         "Sprint 14: Added tick_lower/tick_upper to all 15 pool entries; fee_tier left unchanged pending audit.",
-         "Sprint 16: fee_tier corrected for all 13 invalid pools (basis-point → ppm). All 15 pools now pass validate()."
-       ],
-       "dependencies": [],
+    },
+    {
+      "id": "registry.json",
+      "file": "registry/registry.json",
+      "status": "complete",
+      "sprint": 14,
+      "audit_notes": [
+        "15 pools migrated from v1 data/registry.json",
+        "LRDS/WETH excluded \u2014 token0 address in v1 registry appears malformed",
+        "Alt/duplicate pools excluded \u2014 only primary address per pair retained",
+        "Sprint 14: Added tick_lower/tick_upper to all 15 pool entries; fee_tier left unchanged pending audit.",
+        "Sprint 16: fee_tier corrected for all 13 invalid pools (basis-point \u2192 ppm). All 15 pools now pass validate()."
+      ],
+      "dependencies": [],
       "test_coverage": "none"
     },
     {
@@ -428,7 +475,7 @@
       "status": "complete",
       "sprint": 11,
       "audit_notes": [
-        "Frozen dataclass. Entry snapshot only — no computation."
+        "Frozen dataclass. Entry snapshot only \u2014 no computation."
       ],
       "dependencies": [],
       "test_file": null,
@@ -454,7 +501,12 @@
       "audit_notes": [
         "All three stubs implemented. PRICE_OUT_OF_RANGE check added at priority 2 (after IL, before TVL). tick_to_price() from core/il.py. Sentinel ticks handled naturally."
       ],
-      "dependencies": ["core.models", "strategy.exit_signal", "strategy.il_calculator", "strategy.position"],
+      "dependencies": [
+        "core.models",
+        "strategy.exit_signal",
+        "strategy.il_calculator",
+        "strategy.position"
+      ],
       "test_file": "tests/test_evaluator.py",
       "test_coverage": "full"
     },
@@ -474,18 +526,25 @@
       "test_file": null,
       "test_coverage": "none"
     },
-      {
-        "id": "backtest.harness",
-        "file": "backtest/harness.py",
-        "status": "complete",
-        "sprint": 17,
-        "audit_notes": [
-          "Fee attribution added to _simulate_pool_hourly(). Daily path updated with explicit hours_simulated=0, exit_reason=None.",
-          "Sprint 14: Hourly path now uses registry ticks and only accrues fees while in range.",
-          "Sprint 15: tick_to_price hoisted above fee loop; fee not counted on exit step.",
-          "Sprint 17: entry score gate added to _simulate_pool_hourly() — skips pool when compute_pool_score < config.min_entry_score."
-        ],
-      "dependencies": ["backtest.config", "backtest.reporter", "backtest.simulator", "registry.registry", "data.loader.pool_loader"],
+    {
+      "id": "backtest.harness",
+      "file": "backtest/harness.py",
+      "status": "complete",
+      "sprint": 18,
+      "audit_notes": [
+        "Fee attribution added to _simulate_pool_hourly(). Daily path updated with explicit hours_simulated=0, exit_reason=None.",
+        "Sprint 14: Hourly path now uses registry ticks and only accrues fees while in range.",
+        "Sprint 15: tick_to_price hoisted above fee loop; fee not counted on exit step.",
+        "Sprint 17: entry score gate added to _simulate_pool_hourly() \u2014 skips pool when compute_pool_score < config.min_entry_score.",
+        "Sprint 18: Entry gate now uses compute_entry_metrics() from core.metrics - real 30d rolling window metrics replace static-zero placeholders."
+      ],
+      "dependencies": [
+        "backtest.config",
+        "backtest.reporter",
+        "backtest.simulator",
+        "registry.registry",
+        "data.loader.pool_loader"
+      ],
       "test_file": "tests/test_backtest_harness.py",
       "test_coverage": "full"
     },
@@ -495,9 +554,11 @@
       "status": "complete",
       "sprint": 11,
       "audit_notes": [
-        "Layer 1: pure function unit tests — symmetry, precision, field direction, edge cases."
+        "Layer 1: pure function unit tests \u2014 symmetry, precision, field direction, edge cases."
       ],
-      "dependencies": ["strategy.il_calculator"],
+      "dependencies": [
+        "strategy.il_calculator"
+      ],
       "test_file": "tests/test_il_calculator.py",
       "test_coverage": "full"
     },
@@ -507,9 +568,13 @@
       "status": "complete",
       "sprint": 11,
       "audit_notes": [
-        "Layer 2: loader -> calculator integration — Decimal preservation, dual-method agreement."
+        "Layer 2: loader -> calculator integration \u2014 Decimal preservation, dual-method agreement."
       ],
-      "dependencies": ["data.loader.pool_loader", "data.loader.token_price_loader", "strategy.il_calculator"],
+      "dependencies": [
+        "data.loader.pool_loader",
+        "data.loader.token_price_loader",
+        "strategy.il_calculator"
+      ],
       "test_file": "tests/test_layer_handoff.py",
       "test_coverage": "full"
     },
@@ -519,9 +584,13 @@
       "status": "complete",
       "sprint": 11,
       "audit_notes": [
-        "Layer 3: real data smoke tests — completeness, reciprocal consistency, fee growth monotonicity, stablecoin peg."
+        "Layer 3: real data smoke tests \u2014 completeness, reciprocal consistency, fee growth monotonicity, stablecoin peg."
       ],
-      "dependencies": ["data.loader.pool_loader", "data.loader.token_price_loader", "registry.registry"],
+      "dependencies": [
+        "data.loader.pool_loader",
+        "data.loader.token_price_loader",
+        "registry.registry"
+      ],
       "test_file": "tests/test_data_integrity.py",
       "test_coverage": "full"
     },
@@ -531,9 +600,13 @@
       "status": "complete",
       "sprint": 13,
       "audit_notes": [
-        "Full coverage — priority order, tolerance window, join alignment, Decimal enforcement. 4 new range-exit test cases appended."
+        "Full coverage \u2014 priority order, tolerance window, join alignment, Decimal enforcement. 4 new range-exit test cases appended."
       ],
-      "dependencies": ["strategy.evaluator", "core.models", "strategy.position"],
+      "dependencies": [
+        "strategy.evaluator",
+        "core.models",
+        "strategy.position"
+      ],
       "test_file": "tests/test_evaluator.py",
       "test_coverage": "full"
     },
@@ -558,7 +631,10 @@
       "audit_notes": [
         "Sprint 14: Added tick field loading, defaults, validation, and registry.json completeness tests."
       ],
-      "dependencies": ["registry.registry", "registry.types"],
+      "dependencies": [
+        "registry.registry",
+        "registry.types"
+      ],
       "test_file": "tests/test_registry.py",
       "test_coverage": "full"
     },
@@ -572,7 +648,11 @@
         "Sprint 13: 3 new tests for fee attribution, exit_reason, and hours_simulated appended.",
         "Sprint 14: Added full-range fee regression test and narrow-range PRICE_OUT_OF_RANGE integration test."
       ],
-      "dependencies": ["backtest.harness", "backtest.config", "registry.registry"],
+      "dependencies": [
+        "backtest.harness",
+        "backtest.config",
+        "registry.registry"
+      ],
       "test_file": "tests/test_backtest_integration.py",
       "test_coverage": "full"
     },
@@ -609,7 +689,12 @@
         "SweepConfig, SweepResult, SweepRunner. Cartesian product over 4 exit-policy parameters. Results sorted descending by avg_net_lp_alpha.",
         "Sprint 16: run_id format aligned (removed extra _ after il prefix)."
       ],
-      "dependencies": ["backtest.config", "backtest.harness", "backtest.reporter", "registry.registry"],
+      "dependencies": [
+        "backtest.config",
+        "backtest.harness",
+        "backtest.reporter",
+        "registry.registry"
+      ],
       "test_file": "tests/test_sweep.py",
       "test_coverage": "full"
     },
@@ -619,7 +704,11 @@
       "status": "complete",
       "sprint": 15,
       "audit_notes": [],
-      "dependencies": ["backtest.sweep", "backtest.config", "registry.registry"],
+      "dependencies": [
+        "backtest.sweep",
+        "backtest.config",
+        "registry.registry"
+      ],
       "test_file": null,
       "test_coverage": "none"
     },
@@ -629,9 +718,11 @@
       "status": "complete",
       "sprint": 16,
       "audit_notes": [
-        "Sprint 16: test_real_registry_json_all_fee_tiers_valid() added — asserts all 15 pools have fee_tier in {100, 500, 3000, 10000}."
+        "Sprint 16: test_real_registry_json_all_fee_tiers_valid() added \u2014 asserts all 15 pools have fee_tier in {100, 500, 3000, 10000}."
       ],
-      "dependencies": ["registry.json"],
+      "dependencies": [
+        "registry.json"
+      ],
       "test_file": "tests/test_registry.py",
       "test_coverage": "full"
     },
@@ -643,7 +734,9 @@
       "audit_notes": [
         "Sprint 17: 22 unit tests covering compute_pool_score, hard_gate_alpha, PoolScorer, classify_risk_tier, rank_pools. Decimal only."
       ],
-      "dependencies": ["strategy.scorer"],
+      "dependencies": [
+        "strategy.scorer"
+      ],
       "test_file": "tests/test_scorer.py",
       "test_coverage": "full"
     },
@@ -655,7 +748,9 @@
       "audit_notes": [
         "Sprint 17: 20 unit tests covering all signal functions and wrapper classes. Decimal only."
       ],
-      "dependencies": ["strategy.signals"],
+      "dependencies": [
+        "strategy.signals"
+      ],
       "test_file": "tests/test_signals.py",
       "test_coverage": "full"
     },
@@ -667,7 +762,9 @@
       "audit_notes": [
         "Sprint 17: 20 unit tests covering classify_regime, optimal_range_width, allocation_adjustment, RegimeClassifier, regime_summary. Decimal only."
       ],
-      "dependencies": ["strategy.regime"],
+      "dependencies": [
+        "strategy.regime"
+      ],
       "test_file": "tests/test_regime.py",
       "test_coverage": "full"
     },
@@ -679,8 +776,27 @@
       "audit_notes": [
         "Sprint 17: AUDIT sprint tag bumped from 15 to 17."
       ],
-      "dependencies": ["backtest.sweep", "backtest.config", "registry.registry"],
+      "dependencies": [
+        "backtest.sweep",
+        "backtest.config",
+        "registry.registry"
+      ],
       "test_file": "tests/test_sweep.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "tests.test_metrics",
+      "file": "tests/test_metrics.py",
+      "status": "complete",
+      "sprint": 18,
+      "audit_notes": [
+        "Sprint 18: Full coverage of all new Decimal scorer metric functions in core/metrics.py."
+      ],
+      "dependencies": [
+        "core.metrics",
+        "core.models"
+      ],
+      "test_file": "tests/test_metrics.py",
       "test_coverage": "full"
     }
   ]
