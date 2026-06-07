@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "18",
+  "last_updated_sprint": "19",
   "components": [
     {
       "id": "core.models",
@@ -126,18 +126,18 @@
     {
       "id": "backtest.multipool",
       "file": "backtest/multipool.py",
-      "status": "partial",
-      "sprint": 1,
+      "status": "complete",
+      "sprint": 19,
       "audit_notes": [
-        "All financial params use float instead of Decimal",
-        "Hardcoded defaults should come from config/default.yaml backtest section"
+        "Sprint 1: All financial params use float instead of Decimal. Hardcoded defaults should come from config/default.yaml backtest section.",
+        "Sprint 19: Migrated to Decimal throughout. Defaults wired to BacktestConfig values. Latent BacktestSimulator import bug fixed (was PositionSimulator). summary() uses Decimal quantize. equity_df() converts to float at display boundary only."
       ],
       "dependencies": [
         "backtest.simulator",
         "core.metrics"
       ],
-      "test_file": null,
-      "test_coverage": "none"
+      "test_file": "tests/test_multipool.py",
+      "test_coverage": "full"
     },
     {
       "id": "execution.base_executor",
@@ -797,6 +797,20 @@
         "core.models"
       ],
       "test_file": "tests/test_metrics.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "tests.test_multipool",
+      "file": "tests/test_multipool.py",
+      "status": "complete",
+      "sprint": 19,
+      "audit_notes": [
+        "Sprint 19: 25 unit tests covering all MultiPoolBacktest methods. Decimal only inputs. equity_df float conversion verified."
+      ],
+      "dependencies": [
+        "backtest.multipool"
+      ],
+      "test_file": "tests/test_multipool.py",
       "test_coverage": "full"
     }
   ]

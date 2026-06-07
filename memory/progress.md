@@ -163,3 +163,26 @@
 ### Deferred
 - PositionSimulator hourly migration
 - More accurate IL notional / LP valuation
+
+## Sprint 19 — MultiPoolBacktest Decimal Migration
+**Status:** Complete
+### Completed
+- backtest/multipool.py: full float → Decimal migration across all 8 methods in MultiPoolBacktest
+  - __init__: initial_capital, min_entry_score, rebalance_cooldown_hours now Decimal
+  - total_value: sums Decimal, uses Decimal("0") default
+  - can_rebalance: Decimal arithmetic for cooldown check. Daily limit remains stub (DAILY LIMIT NOT DONE YET)
+  - evaluate_entry: Decimal score comparison, Decimal allocation
+  - evaluate_exit: unchanged logic, Decimal types
+  - step: Decimal timestamp/prices/volumes/scores. Fixed latent bug: BacktestSimulator → PositionSimulator import
+    Float conversion at simulator boundary only (permitted). POSITIONSIMULATOR NO HAVE ENTER METHOD comment added
+  - summary: round() replaced with .quantize(Decimal("0.01"/"0.0001"), ROUND_HALF_UP) for monetary/ratio values
+    max_drawdown() call converts to float at reporting boundary (permitted), wraps back to Decimal
+  - equity_df: converts self.equity_curve to float for pandas DataFrame (DISPLAY ONLY NOT FOR MATH)
+- tests/test_multipool.py: new — 25 unit tests, all Decimal inputs
+  Tests cover: __init__ state (4), total_value (3), can_rebalance (3), evaluate_entry (4),
+  evaluate_exit (3), step (3), summary (3), equity_df columns and float dtype (2)
+- All 25 tests pass
+
+### Deferred
+- PositionSimulator hourly migration
+- More accurate IL notional / LP valuation

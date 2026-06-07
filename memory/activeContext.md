@@ -1,8 +1,6 @@
-## Current Sprint: 18
-**Focus:** Scorer metrics engine — compute real entry metrics from historical PoolHistoryPoint records
-**Modified:** backtest/config.py (metrics_window_hours field added, default 720)
-**Modified:** core/metrics.py (six new Decimal-only scorer metric functions; AUDIT promoted to complete)
-**Modified:** backtest/harness.py (entry gate uses compute_entry_metrics instead of static zeros; AUDIT sprint=18)
-**New:** tests/test_metrics.py (24 unit tests for all six new functions)
-**Status:** Complete
-**Next:** Sprint 19 — backtest.multipool float migration (last partial module); then entry-side integration tests
+## Current Sprint: 19
+**Focus:** MultiPoolBacktest Decimal migration — last partial module promoted to complete
+**Modified:** backtest/multipool.py (full float → Decimal across all 8 methods; BacktestSimulator → PositionSimulator import fix)
+**New:** tests/test_multipool.py (25 unit tests, Decimal inputs, equity_df float conversion verified)
+**Status:** Complete — all 25 tests pass
+**Next:** execution.base_executor stub promotion (or new sprint objective TBD)
