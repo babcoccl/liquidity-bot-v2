@@ -220,17 +220,31 @@ def save_token_prices(
     path: Path,
 ) -> None:
     """WRITE TOKEN PRICE FILE. ATOMIC WRITE.
-    FORMAT: { "symbol": str, "quote": "USD", "fetched_at": int, "prices": [...] }
+    FORMAT MATCHES token_price_loader.load_token_prices() SCHEMA.
+    { "token_address": "", "symbol": str, "fetched_at": int, "records": [...] }
+    EACH RECORD: { "timestamp": int, "price_usd": str, "volume_usd": "0",
+                   "market_cap_usd": null, "source": "coingecko" }
     """
     if not prices:
         logger.warning("No price records to save for %s", symbol)
         return
 
+    records = [
+        {
+            "timestamp": p["timestamp"],
+            "price_usd": p["price_usd"],
+            "volume_usd": "0",
+            "market_cap_usd": None,
+            "source": "coingecko",
+        }
+        for p in prices
+    ]
+
     payload = {
+        "token_address": "",
         "symbol": symbol,
-        "quote": "USD",
         "fetched_at": int(time.time()),
-        "prices": prices,
+        "records": records,
     }
 
     path.parent.mkdir(parents=True, exist_ok=True)

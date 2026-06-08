@@ -349,30 +349,23 @@
       "test_file": "tests/test_validate_historical.py",
       "test_coverage": "full"
     },
+      "file": "config/default.yaml",
+      "status": "complete",
+      "sprint": 5,
+      "audit_notes": [
+        "CoinGecko API key is empty string by default \u2014 must be set via COINGECKO_API_KEY env var"
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
+    },
     {
       "id": "scripts.fetch",
       "file": "scripts/fetch.py",
       "status": "complete",
       "sprint": 22,
       "audit_notes": [
-        "Sprint 10: COINGECKO_API_KEY read from environment. GeckoTerminalFetcher primary. FetchRouter fallback chain. Token price fetch loop persists to data/prices/{SYMBOL}.json.",
-        "Sprint 22: Full rewrite. Direct The Graph poolHourDatas query + CoinGecko market_chart. Removed FetchRouter/yaml dependency. Reads pool list from PoolRegistry only. Atomic writes. --days arg default 30. THEGRAPH_API_KEY + COINGECKO_API_KEY required from env. Per-pool and per-token exception handling with logger.warning + continue. 1s sleep between CoinGecko calls."
-      ],
-      "dependencies": [
-        "registry.registry",
-        "data.loader.pool_loader",
-        "core.models"
-      ],
-      "test_file": null,
-      "test_coverage": "none"
-    },
-    {
-      "id": "config.default_yaml",
-      "file": "config/default.yaml",
-      "status": "complete",
-      "sprint": 5,
-      "audit_notes": [
-        "CoinGecko API key is empty string by default \u2014 must be set via COINGECKO_API_KEY env var"
+        "Sprint 22C: save_token_prices rewritten to match token_price_loader schema. Key changed from 'prices' to 'records'. Added volume_usd/market_cap_usd/source fields per TokenHistoryPoint contract."
       ],
       "dependencies": [],
       "test_file": null,
@@ -892,24 +885,3 @@
       "dependencies": [],
       "test_file": null,
       "test_coverage": "none"
-    },
-    {
-      "id": "scripts.run_backtest",
-      "file": "scripts/run_backtest.py",
-      "status": "complete",
-      "sprint": 22,
-      "audit_notes": [
-        "SPRINT 22: ONE-SHOT RUNNER. REAL DATA. DAYS=30. INITIAL_CAPITAL=10000.",
-        "MIN_ENTRY_SCORE=0.05. MAX_IL_PCT=-0.50. ALL POOLS ENTER FOR FIRST VALIDATION RUN.",
-        "build_config() + make_run_id() + main(). Prints summary path + pools simulated/skipped counts."
-      ],
-      "dependencies": [
-        "backtest.harness",
-        "backtest.config",
-        "registry.registry"
-      ],
-      "test_file": null,
-      "test_coverage": "none"
-    }
-  ]
-}

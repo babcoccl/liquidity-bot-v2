@@ -29,3 +29,10 @@
 - Run: python scripts/run_backtest.py
 - Review results/runs/real_{date}/summary.json
 - Determine whether to expand registry back toward 15 pools or tune strategy params first
+
+## Sprint 22C — Post-Fix Manual Step
+After pulling Sprint 22C, delete stale price files before re-running fetch:
+    rm data/prices/*.json
+Then re-run:
+    python scripts/fetch.py --days 30
+    python scripts/run_backtest.py
