@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "21",
+  "last_updated_sprint": "22",
   "components": [
     {
       "id": "core.models",
@@ -20,20 +20,6 @@
       "sprint": 3,
       "audit_notes": [],
       "dependencies": [],
-      "test_file": "tests/test_scaffold.py",
-      "test_coverage": "full"
-    },
-    {
-      "id": "core.fees",
-      "file": "core/fees.py",
-      "status": "complete",
-      "sprint": 7,
-      "audit_notes": [
-        "fee_gas_ratio returns RATIO('0') not inf when gas_cost is zero \u2014 callers must handle"
-      ],
-      "dependencies": [
-        "core.units"
-      ],
       "test_file": "tests/test_scaffold.py",
       "test_coverage": "full"
     },
@@ -564,14 +550,6 @@
       "test_file": "tests/test_run_index.py",
       "test_coverage": "full"
     },
-    {
-      "id": "reporting.comparator",
-      "file": "reporting/comparator.py",
-      "status": "complete",
-      "sprint": 20,
-      "audit_notes": [
-        "# AUDIT:status=complete, # AUDIT:sprint=20. PoolResult/AggregateStats/RunSummary frozen dataclasses. compare_runs() never raises \u2014 malformed fields default to Decimal('0') with warning. load_run_summary() raises FileNotFoundError."
-      ],
       "dependencies": [
         "reporting.run_index"
       ],

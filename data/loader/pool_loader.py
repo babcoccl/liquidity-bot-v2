@@ -8,6 +8,7 @@ Handles both v1 column naming schemas and hourly flat-array format.
 
 import json
 import logging
+import os
 import time
 from decimal import Decimal
 from pathlib import Path
@@ -226,10 +227,6 @@ def save_pool_history(
             "fetched_at": int(time.time()),
             "records": [_serialize_history_point(r) for r in records],
         }
-        tmp_path = Path(str(path) + ".tmp")
-        with open(tmp_path, "w") as f:
-            json.dump(payload, f, indent=2)
-        tmp_path.rename(path)
     else:
         # Legacy PoolDayData format with wrapper dict
         days = [_serialize_day_data(r) for r in records]
@@ -239,7 +236,10 @@ def save_pool_history(
             "fetched_at": int(time.time()),
             "days": days,
         }
-        tmp_path = Path(str(path) + ".tmp")
-        with open(tmp_path, "w") as f:
-            json.dump(payload, f, indent=2)
-        tmp_path.rename(path)
+
+    # ATOMIC WRITE: tmp then os.replace
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = Path(str(path) + ".tmp")
+    with open(tmp_path, "w") as f:
+        json.dump(payload, f, indent=2)
+    os.replace(str(tmp_path), str(path))
