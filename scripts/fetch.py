@@ -169,6 +169,7 @@ def fetch_token_prices_usd(
     """FETCH TOKEN PRICE HISTORY FROM COINGECKO. RETURN LIST OF PRICE DICTS.
     EACH DICT: { "timestamp": int, "price_usd": str }
     RAISE ON HTTP ERROR. RETURN EMPTY LIST IF SYMBOL NOT IN _COINGECKO_IDS.
+    API KEY IS OPTIONAL — FREE TIER WORKS WITHOUT IT.
     """
     import urllib.request
     import urllib.error
@@ -265,7 +266,7 @@ def main() -> None:
     args = parse_args()
     days = args.days
 
-    # READ API KEYS FROM ENV
+    # THEGRAPH KEY IS REQUIRED — AUTHENTICATED ENDPOINT
     thegraph_key = os.environ.get("THEGRAPH_API_KEY", "")
     if not thegraph_key:
         logger.error(
@@ -274,13 +275,10 @@ def main() -> None:
         )
         sys.exit(1)
 
+    # COINGECKO KEY IS OPTIONAL — FREE TIER WORKS WITHOUT IT
     coingecko_key = os.environ.get("COINGECKO_API_KEY", "")
     if not coingecko_key:
-        logger.error(
-            "COINGECKO_API_KEY env var required. "
-            "Set it in .env file or export before running."
-        )
-        sys.exit(1)
+        logger.info("COINGECKO_API_KEY not set — using free tier (no key)")
 
     # LOAD REGISTRY
     registry = PoolRegistry(path=REGISTRY_PATH)
