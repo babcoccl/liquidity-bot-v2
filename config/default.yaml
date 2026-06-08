@@ -52,7 +52,7 @@ data_sources:
     # Aerodrome Base Full — decentralized gateway (Studio endpoint is dead as of Sprint 8)
     # Subgraph ID: GENunSHWLBXm59mBSgPzQ8metBEp9YDfdqwFr91Av1UM
     # Auth: API key embedded in URL path (gateway standard) + Bearer header sent redundantly
-    url: "https://gateway.thegraph.com/api/{api_key}/subgraphs/id/GENunSHWLBXm59mBSgPzQ8metBEp9YDfdqwFr91Av1UM"
+    url: "https://gateway.thegraph.com/api/{api_key}/subgraphs/id/FUbEPQw1oMghy39fwWBFY5fE6MXPXZQtjncQy2cXdrNS"
     api_key: ""          # set via THEGRAPH_API_KEY env var at runtime
     rate_limit_per_min: 30
 

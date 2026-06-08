@@ -34,7 +34,7 @@ PRICES_DIR = Path("data/prices")
 # ---------------------------------------------------------------------------
 # THE GRAPH — AERODROME ON BASE SUBGRAPH
 # ---------------------------------------------------------------------------
-_AERO_SUBGRAPH_ID = "GENunSHWLBXm59mBSgPzQ8metBEp9YDfdqwFr91Tg1Qx"
+_AERO_SUBGRAPH_ID = "FUbEPQw1oMghy39fwWBFY5fE6MXPXZQtjncQy2cXdrNS"
 
 
 def _the_graph_endpoint(api_key: str) -> str:
