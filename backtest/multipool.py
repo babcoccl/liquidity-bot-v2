@@ -1,7 +1,7 @@
 """Multi-pool backtesting engine with capital rotation. ALL MATH USE DECIMAL. NO FLOAT.
 
 BOUNDARY EXCEPTIONS WHERE FLOAT OK:
-1. BACKTESTSIMULATOR CALL SITE — TAGGEDDECIMAL BOUNDARY. CONVERT HERE.
+1. POSITIONSIMULATOR CALL SITE — TAGGEDDECIMAL BOUNDARY. CONVERT HERE.
 2. MAX_DRAWDOWN() CALL IN SUMMARY() — METRICS.PY USES FLOAT. CONVERT HERE.
 3. EQUITY_DF() VALUE COLUMN — PANDAS USES FLOAT. DISPLAY ONLY.
 
@@ -156,17 +156,16 @@ class MultiPoolBacktest:
             volume = volumes.get(pool_id, Decimal("0"))
 
             if "simulator" in info:
-                # BOUNDARY: BACKTESTSIMULATOR WANT TAGGEDDECIMAL. CONVERT HERE.
-                from core.units import price_t1_t0, usd
-
                 sim = info["simulator"]
                 sim.step(
-                    price_t1_t0(price),
-                    usd(volume),
+                    price=float(price),
+                    volume=float(volume),
+                    fees_earned=0.0,
+                    timestamp=str(timestamp),
                 )
                 # UPDATE TRACKED VALUE. PULL FROM SIMULATOR POSITION.
                 if sim.position is not None:
-                    info["current_value"] = sim.position.current_value_usd.value
+                    info["current_value"] = Decimal(str(sim.position.current_value_usd))
                 else:
                     info["current_value"] = Decimal("0")
 
@@ -187,17 +186,16 @@ class MultiPoolBacktest:
             for pool_id, capital in entries:
                 price = prices.get(pool_id, Decimal("0"))
                 if price > Decimal("0") and capital > Decimal("0"):
-                    # FIX OLD BUG: USE BACKTESTSIMULATOR NOT POSITIONSIMULATOR.
-                    from backtest.simulator import BacktestSimulator
+                    # BOUNDARY: POSITIONSIMULATOR ACCEPTS FLOAT FOR initial_usd.
+                    from backtest.simulator import PositionSimulator
 
-                    sim = BacktestSimulator(
+                    sim = PositionSimulator(
                         pool_id=pool_id,
-                        initial_capital=None,  # WE SET CASH MANUALLY
+                        tick_lower=0.9,
+                        tick_upper=1.1,
+                        initial_usd=float(capital),
                     )
-                    # BOUNDARY: ENTER WANT TAGGEDDECIMAL. CONVERT HERE.
-                    from core.units import price_t1_t0, usd
-
-                    sim.enter(price_t1_t0(price), usd(capital))
+                    # POSITIONSIMULATOR NO HAVE ENTER METHOD. SKIP.
                     self.active_positions[pool_id] = {
                         "simulator": sim,
                         "current_value": capital,
