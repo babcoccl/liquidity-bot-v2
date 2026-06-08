@@ -1,6 +1,6 @@
 """COMPARATOR. COMPARE TWO RUN SUMMARY. FIND DELTA. DECIMAL ONLY. NO FLOAT."""
 # AUDIT:status=complete
-# AUDIT:sprint=20
+# AUDIT:sprint=22
 # AUDIT:issue=none
 
 from __future__ import annotations
@@ -215,9 +215,13 @@ def compare_runs(a: RunSummary, b: RunSummary) -> RunDelta:
     )
 
 
-def load_run_summary(run_id: str) -> RunSummary:
-    """LOAD summary.json FOR ONE RUN. RAISE FileNotFoundError IF MISSING."""
-    summary_path = Path("results/runs") / run_id / "summary.json"
+def load_run_summary(run_id: str, root_path: Path | None = None) -> RunSummary:
+    """LOAD summary.json FOR ONE RUN. RAISE FileNotFoundError IF MISSING.
+    
+    ROOT_PATH OVERRIDE FOR TESTS. DEFAULT results/runs WHEN NONE.
+    """
+    base = root_path if root_path is not None else Path("results/runs")
+    summary_path = base / run_id / "summary.json"
     if not summary_path.exists():
         raise FileNotFoundError(
             f"summary.json not found for run {run_id} at {summary_path}"

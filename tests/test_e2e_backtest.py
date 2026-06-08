@@ -1,11 +1,11 @@
 """
-E2E SMOKE TEST — SPRINT 21.
+E2E SMOKE TEST — SPRINT 22.
 FULL PIPELINE: DATA ON DISK -> BACKTESTHARNESS -> REPORTER.SAVE() -> SUMMARY.JSON + RUN_INDEX.JSON.
 
 NO NETWORK CALLS. ALL DATA FROM FIXTURES. WRITES TO TMP_PATH ONLY.
 
 # AUDIT:status=complete
-# AUDIT:sprint=21
+# AUDIT:sprint=22
 """
 
 from __future__ import annotations
@@ -233,41 +233,18 @@ class TestReporterOutput:
                            "entry_score", "final_capital"):
                 assert isinstance(pool[field], str), f"POOL.{field} IS {type(pool[field]).__name__}, EXPECTED STR"
 
-    @pytest.mark.xfail(
-        reason="PY3.12 Path.__init__ not called with args — construction happens in __new__. PatchedPath subclass intercept fails. load_run_summary has hardcoded Path('results/runs'). FIX IN SPRINT 22.",
-        strict=True,
-    )
     def test_e2e_summary_json_parseable_by_load_run_summary(self, e2e_config, e2e_registry, tmp_path):
-        """LOAD_RUN_SUMMARY CAN PARSE THE WRITTEN SUMMARY.JSON."""
+        """LOAD_RUN_SUMMARY PARSES WRITTEN SUMMARY.JSON. ROOT_PATH PARAM USED."""
+        from reporting.comparator import load_run_summary, RunSummary
+
         run_id, _ = _run_and_save(e2e_config, e2e_registry, tmp_path)
 
-        # MONKEYPATCH: redirect Path("results/runs") to tmp_path/runs
-        import builtins
-        real_Path = __import__("pathlib").Path
-
-        class PatchedPath(real_Path):  # type: ignore[misc]
-            def __new__(cls, *args, **kwargs):
-                instance = super().__new__(cls)
-                return instance
-
-            def __init__(self, *args, **kwargs):
-                first_arg = args[0] if args else kwargs.get("path", ".")
-                if isinstance(first_arg, str) and first_arg == "results/runs":
-                    super().__init__(str(tmp_path / "runs"), **kwargs)
-                else:
-                    super().__init__(*args, **kwargs)
-
-        import reporting.comparator as comp_module
-        original_Path = comp_module.Path
-        comp_module.Path = PatchedPath
-
-        try:
-            from reporting.comparator import load_run_summary, RunSummary
-            summary = load_run_summary(run_id)
-            assert isinstance(summary, RunSummary)
-            assert summary.run_id == run_id
-        finally:
-            comp_module.Path = original_Path
+        # USE root_path PARAM TO REDIRECT FROM DEFAULT results/runs TO TMP_PATH/RUNS
+        summary = load_run_summary(run_id, root_path=tmp_path / "runs")
+        assert isinstance(summary, RunSummary)
+        assert summary.run_id == run_id
+        assert summary.schema_version == 1
+        assert summary.aggregate.pools_evaluated == 3
 
     def test_e2e_summary_json_directly_parseable(self, e2e_config, e2e_registry, tmp_path):
         """SUMMARY.JSON PARSES TO RunSummary SHAPE. DIRECT FILE READ.
