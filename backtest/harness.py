@@ -7,7 +7,7 @@ Does NOT fetch data — assumes data/historical/<pair_name>.json exists.
 Use scripts/fetch.py first to populate historical data.
 
 # AUDIT:status=complete
-# AUDIT:sprint=18
+# AUDIT:sprint=21
 """
 from __future__ import annotations
 

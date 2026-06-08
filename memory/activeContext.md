@@ -1,7 +1,6 @@
-## Current Sprint: 20
-**Focus:** Reporting infrastructure — three new modules + updated reporter/harness for full backtest reporting
-**New Files:** reporting/run_index.py, reporting/comparator.py, reporting/display.py, tests/test_run_index.py, tests/test_comparator.py
-**Modified:** backtest/reporter.py (save() writes summary.json + appends run_index.json; entry_score field), backtest/harness.py (entry_score passed through)
-**Output Convention:** results/run_index.json (append-only index), results/runs/{run_id}/summary.json (enriched combined), results/runs/{run_id}/results.json (raw retained)
-**Status:** Complete — all 19 new tests pass, full suite passes
-**Next:** Sprint 21 E2E smoke test against real data
+## Current Sprint: 21
+**Focus:** E2E SMOKE TEST SUITE. FULL PIPELINE TEST ON SYNTHETIC DATA. HARNESS -> REPORTER -> SUMMARY.JSON + RUN_INDEX.
+**New Files:** tests/fixtures/generate_e2e_fixtures.py, tests/fixtures/hourly_e2e/USDC-USDT.json, tests/fixtures/hourly_e2e/USDC-WETH.json, tests/fixtures/hourly_e2e/WETH-cbBTC.json, tests/fixtures/prices_e2e/cbBTC.json, tests/fixtures/prices_e2e/USDC.json, tests/fixtures/prices_e2e/USDT.json, tests/fixtures/prices_e2e/WETH.json, tests/fixtures/registry_e2e.json
+**Modified:** tests/test_e2e_backtest.py (xfail broken Path test + add direct-parse replacement), backtest/harness.py (AUDIT tag bump sprint=18->21), backtest/reporter.py (SPRINT 20 runtime fixes carry forward)
+**Status:** Complete — 14 tests pass, 1 xfail expected (PatchedPath subclass fails on PY3.12 because Path.__init__ not called with args, construction in __new__)
+**Next:** Sprint 22 — Real Data Validation Run. Fetch real Aerodrome data via scripts/fetch.py. Run backtest on live data. Inspect summary.json for plausible numbers.
