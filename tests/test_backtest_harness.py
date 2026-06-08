@@ -135,8 +135,8 @@ class TestBacktestReporter:
         config = _make_config()
         reporter.save("test_run", results, config)
 
-        assert (tmp_path / "test_run" / "summary.json").exists()
-        assert (tmp_path / "test_run" / "per_pool.json").exists()
+        assert (tmp_path / "runs" / "test_run" / "summary.json").exists()
+        assert (tmp_path / "runs" / "test_run" / "results.json").exists()
 
     def test_reporter_save_returns_correct_path(
         self, tmp_path: Path
@@ -144,7 +144,7 @@ class TestBacktestReporter:
         reporter = BacktestReporter(output_dir=tmp_path)
         config = _make_config()
         returned = reporter.save("test_run", [], config)
-        assert returned == tmp_path / "test_run"
+        assert returned == tmp_path / "runs" / "test_run"
 
     def test_reporter_summary_json_contains_run_id(
         self, tmp_path: Path
@@ -154,10 +154,10 @@ class TestBacktestReporter:
         config = _make_config()
         reporter.save("test_run", results, config)
 
-        with open(tmp_path / "test_run" / "summary.json") as f:
+        with open(tmp_path / "runs" / "test_run" / "summary.json") as f:
             summary = json.load(f)
         assert summary["run_id"] == "test_run"
-        assert summary["pool_count"] == 1
+        assert summary["aggregate"]["pools_evaluated"] == 1
 
     def test_reporter_per_pool_json_contains_all_results(
         self, tmp_path: Path
@@ -167,7 +167,7 @@ class TestBacktestReporter:
         config = _make_config()
         reporter.save("test_run", results, config)
 
-        with open(tmp_path / "test_run" / "per_pool.json") as f:
+        with open(tmp_path / "runs" / "test_run" / "results.json") as f:
             per_pool = json.load(f)
         assert len(per_pool) == 2
 

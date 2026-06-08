@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "19",
+  "last_updated_sprint": "20",
   "components": [
     {
       "id": "core.models",
@@ -514,9 +514,10 @@
       "id": "backtest.reporter",
       "file": "backtest/reporter.py",
       "status": "complete",
-      "sprint": 13,
+      "sprint": 20,
       "audit_notes": [
-        "BacktestResult gains hours_simulated (int=0) and exit_reason (str|None). print_summary() updated with new columns. save() serialises all Sprint 12 config fields and new result fields."
+        "BacktestResult gains hours_simulated (int=0) and exit_reason (str|None). print_summary() updated with new columns. save() serialises all Sprint 12 config fields and new result fields.",
+        "Sprint 20: save() now writes results/runs/{run_id}/summary.json (enriched combined) and appends to results/run_index.json. Run ID format changed to YYYYMMDD_HHMMSS_{config_hash}. BacktestResult gains entry_score field."
       ],
       "dependencies": [
         "strategy.il_calculator",
@@ -530,13 +531,14 @@
       "id": "backtest.harness",
       "file": "backtest/harness.py",
       "status": "complete",
-      "sprint": 18,
+      "sprint": 20,
       "audit_notes": [
         "Fee attribution added to _simulate_pool_hourly(). Daily path updated with explicit hours_simulated=0, exit_reason=None.",
         "Sprint 14: Hourly path now uses registry ticks and only accrues fees while in range.",
         "Sprint 15: tick_to_price hoisted above fee loop; fee not counted on exit step.",
-        "Sprint 17: entry score gate added to _simulate_pool_hourly() \u2014 skips pool when compute_pool_score < config.min_entry_score.",
-        "Sprint 18: Entry gate now uses compute_entry_metrics() from core.metrics - real 30d rolling window metrics replace static-zero placeholders."
+        "Sprint 17: entry score gate added to _simulate_pool_hourly() — skips pool when compute_pool_score < config.min_entry_score.",
+        "Sprint 18: Entry gate now uses compute_entry_metrics() from core.metrics - real 30d rolling window metrics replace static-zero placeholders.",
+        "Sprint 20: entry_score passed through to BacktestResult."
       ],
       "dependencies": [
         "backtest.config",
@@ -547,6 +549,48 @@
       ],
       "test_file": "tests/test_backtest_harness.py",
       "test_coverage": "full"
+    },
+    {
+      "id": "reporting.run_index",
+      "file": "reporting/run_index.py",
+      "status": "complete",
+      "sprint": 20,
+      "audit_notes": [
+        "# AUDIT:status=complete, # AUDIT:sprint=20. RunIndexEntry frozen dataclass. RunIndex class with load/append/latest/config_hash_from_config. Atomic writes via tmp+rename. Decimal fields serialized as strings."
+      ],
+      "dependencies": [
+        "backtest.config"
+      ],
+      "test_file": "tests/test_run_index.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "reporting.comparator",
+      "file": "reporting/comparator.py",
+      "status": "complete",
+      "sprint": 20,
+      "audit_notes": [
+        "# AUDIT:status=complete, # AUDIT:sprint=20. PoolResult/AggregateStats/RunSummary frozen dataclasses. compare_runs() never raises — malformed fields default to Decimal('0') with warning. load_run_summary() raises FileNotFoundError."
+      ],
+      "dependencies": [
+        "reporting.run_index"
+      ],
+      "test_file": "tests/test_comparator.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "reporting.display",
+      "file": "reporting/display.py",
+      "status": "complete",
+      "sprint": 20,
+      "audit_notes": [
+        "# AUDIT:status=complete, # AUDIT:sprint=20. Three print functions: print_run_summary, print_run_comparison, print_run_history. Stdout only — no file I/O. Accepts deserialized objects only."
+      ],
+      "dependencies": [
+        "reporting.comparator"
+      ],
+      "test_file": null,
+      "test_coverage": "none"
     },
     {
       "id": "tests.test_il_calculator",

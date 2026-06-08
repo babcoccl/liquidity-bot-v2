@@ -164,6 +164,32 @@
 - PositionSimulator hourly migration
 - More accurate IL notional / LP valuation
 
+## Sprint 20 — Reporting Infrastructure
+**Status:** Complete
+Three new modules plus updated reporter and harness deliver full backtest reporting infrastructure.
+
+### New Modules
+- reporting/run_index.py: RunIndexEntry frozen dataclass + RunIndex class with load/append/latest/config_hash_from_config. Atomic writes via tmp+rename. Decimal fields serialized as strings.
+- reporting/comparator.py: PoolResult/AggregateStats/RunSummary frozen dataclasses. compare_runs() never raises — malformed fields default to Decimal('0') with warning. load_run_summary() raises FileNotFoundError.
+- reporting/display.py: Three print functions (print_run_summary, print_run_comparison, print_run_history). Stdout only — no file I/O. Accepts deserialized objects only.
+
+### Updated Modules
+- backtest/reporter.py: save() now writes results/runs/{run_id}/summary.json (enriched combined) and appends to results/run_index.json. Run ID format changed to YYYYMMDD_HHMMSS_{config_hash}. BacktestResult gains entry_score field.
+- backtest/harness.py: entry_score passed through to BacktestResult in both hourly and daily paths.
+
+### Tests
+- tests/test_run_index.py: 9 tests covering append, load, latest, config_hash functions via tmp_path + monkeypatch
+- tests/test_comparator.py: 10 tests covering compare_runs statuses (improved/degraded/unchanged/added/dropped), empty pools, skipped delta, and load_run_summary FileNotFoundError
+
+### Output Convention
+All run output goes under results/:
+results/run_index.json — append-only index of all completed runs
+results/runs/{run_id}/summary.json — enriched combined: aggregate + per-pool detail
+results/runs/{run_id}/results.json — existing raw per-pool array (retained)
+
+### Deferred
+- Sprint 21: E2E smoke test against real data
+
 ## Sprint 19 — MultiPoolBacktest Decimal Migration
 **Status:** Complete
 ### Completed

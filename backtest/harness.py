@@ -162,6 +162,7 @@ class BacktestHarness:
                 final_capital=current_value,
                 rebalance_count=0,
                 source=records[0].source if records else "unknown",
+                entry_score=Decimal("0"),
             )
         except NotImplementedError:
             return BacktestResult(
@@ -176,6 +177,7 @@ class BacktestHarness:
                 final_capital=self.config.initial_capital,
                 rebalance_count=0,
                 source=records[0].source if records else "unknown",
+                entry_score=Decimal("0"),
             )
 
     def _simulate_pool_hourly(
@@ -203,6 +205,7 @@ class BacktestHarness:
                 final_capital=self.config.initial_capital,
                 rebalance_count=0,
                 source="hourly",
+                entry_score=Decimal("0"),
             )
 
         # ENTRY GATE. SCORE POOL WITH REAL 30D ROLLING METRICS.
@@ -236,6 +239,7 @@ class BacktestHarness:
                 final_capital=self.config.initial_capital,
                 rebalance_count=0,
                 source="hourly",
+                entry_score=entry_score,
             )
 
         entry_pool, entry_t0, entry_t1 = aligned[0]
@@ -309,4 +313,5 @@ class BacktestHarness:
             final_capital=final_capital,
             rebalance_count=0,
             source="hourly",
+            entry_score=entry_score,
         )
