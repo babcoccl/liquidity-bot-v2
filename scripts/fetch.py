@@ -253,14 +253,15 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
-    """RUN FETCH. LOAD .ENV FIRST."""
+    """FETCH ALL POOLS + TOKENS. WRITE TO DISK. LOG PROGRESS."""
+    logging.basicConfig(level=logging.INFO)
+
     try:
         from dotenv import load_dotenv
         load_dotenv()
     except ImportError:
         pass
-    
-    """FETCH ALL POOLS + TOKENS. WRITE TO DISK. LOG PROGRESS."""
+
     args = parse_args()
     days = args.days
 
@@ -354,5 +355,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     main()
