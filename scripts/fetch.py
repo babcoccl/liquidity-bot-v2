@@ -96,7 +96,7 @@ def fetch_pool_hourly(
     endpoint = _the_graph_endpoint(api_key)
 
     variables: dict[str, Any] = {
-        "pool": pool_address.lower().strip("0x"),
+        "pool": pool_address.lower()[2:],
         "periodStartUnix_gte": str(cutoff),
     }
 
