@@ -133,14 +133,15 @@ class BacktestReporter:
 
         pool_details = []
         for r in results:
-            # Risk tier from entry_score
-            risk_tier = classify_risk_tier(r.entry_score) if r.entry_score != Decimal("0") else "unknown"
-
             # Fee APR per pool = total_fees / initial_capital annualized by hours
             if r.hours_simulated > 0:
                 pool_fee_apr = r.total_fees_earned / config.initial_capital
             else:
                 pool_fee_apr = Decimal("0")
+
+            # SPRINT 21 RUNTIME FIX: classify_risk_tier needs (annualized_vol, fee_apr).
+            # BacktestResult has no annualized_vol. Use zero vol + computed fee_apr.
+            risk_tier = classify_risk_tier(Decimal("0"), pool_fee_apr) if r.hours_simulated > 0 else "unknown"
 
             pool_details.append({
                 "pool_address": r.pool_address,

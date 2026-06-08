@@ -1,0 +1,53 @@
+[
+  {
+    "pool_address": "0xb2cc224c1c9fee385f8ad6a55b4d94e92359dc59",
+    "pair_name": "USDC-WETH",
+    "token0": {
+      "symbol": "USDC",
+      "address": "",
+      "decimals": 6
+    },
+    "token1": {
+      "symbol": "WETH",
+      "address": "",
+      "decimals": 18
+    },
+    "fee_tier": 500,
+    "tick_lower": -887272,
+    "tick_upper": 887272
+  },
+  {
+    "pool_address": "0x70acdf2ad0bf2402c957154f944c19ef4e1cbae1",
+    "pair_name": "WETH-cbBTC",
+    "token0": {
+      "symbol": "WETH",
+      "address": "",
+      "decimals": 18
+    },
+    "token1": {
+      "symbol": "cbBTC",
+      "address": "",
+      "decimals": 18
+    },
+    "fee_tier": 500,
+    "tick_lower": -2000,
+    "tick_upper": 2000
+  },
+  {
+    "pool_address": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1",
+    "pair_name": "USDC-USDT",
+    "token0": {
+      "symbol": "USDC",
+      "address": "",
+      "decimals": 6
+    },
+    "token1": {
+      "symbol": "USDT",
+      "address": "",
+      "decimals": 6
+    },
+    "fee_tier": 100,
+    "tick_lower": -50,
+    "tick_upper": 50
+  }
+]

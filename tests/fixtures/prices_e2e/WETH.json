@@ -1,0 +1,5957 @@
+{
+  "token_address": "0x4200000000000000000000000000000000000006",
+  "symbol": "WETH",
+  "fetched_at": 1703060000,
+  "records": [
+    {
+      "timestamp": 1700000000,
+      "price_usd": "2500.0",
+      "volume_usd": "100000000.0",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700003600,
+      "price_usd": "2500.3118",
+      "volume_usd": "100799786.68",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700007200,
+      "price_usd": "2500.6235",
+      "volume_usd": "101598293.88",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700010800,
+      "price_usd": "2500.9352",
+      "volume_usd": "102394244.15",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700014400,
+      "price_usd": "2501.2467",
+      "volume_usd": "103186364.13",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700018000,
+      "price_usd": "2501.5582",
+      "volume_usd": "103973386.62",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700021600,
+      "price_usd": "2501.8695",
+      "volume_usd": "104754052.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700025200,
+      "price_usd": "2502.1806",
+      "volume_usd": "105527112.97",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700028800,
+      "price_usd": "2502.4916",
+      "volume_usd": "106291331.21",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700032400,
+      "price_usd": "2502.8022",
+      "volume_usd": "107045484.67",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700036000,
+      "price_usd": "2503.1126",
+      "volume_usd": "107788366.85",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700039600,
+      "price_usd": "2503.4228",
+      "volume_usd": "108518789.3",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700043200,
+      "price_usd": "2503.7325",
+      "volume_usd": "109235583.51",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700046800,
+      "price_usd": "2504.042",
+      "volume_usd": "109937602.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700050400,
+      "price_usd": "2504.351",
+      "volume_usd": "110623723.96",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700054000,
+      "price_usd": "2504.6596",
+      "volume_usd": "111292849.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700057600,
+      "price_usd": "2504.9678",
+      "volume_usd": "111943908.83",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700061200,
+      "price_usd": "2505.2755",
+      "volume_usd": "112575860.48",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700064800,
+      "price_usd": "2505.5827",
+      "volume_usd": "113187693.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700068400,
+      "price_usd": "2505.8893",
+      "volume_usd": "113778428.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700072000,
+      "price_usd": "2506.1954",
+      "volume_usd": "114347121.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700075600,
+      "price_usd": "2506.5009",
+      "volume_usd": "114892862.4",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700079200,
+      "price_usd": "2506.8057",
+      "volume_usd": "115414777.58",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700082800,
+      "price_usd": "2507.1099",
+      "volume_usd": "115912032.4",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700086400,
+      "price_usd": "2507.4134",
+      "volume_usd": "116383831.37",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700090000,
+      "price_usd": "2507.7162",
+      "volume_usd": "116829419.7",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700093600,
+      "price_usd": "2508.0183",
+      "volume_usd": "117248084.54",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700097200,
+      "price_usd": "2508.3196",
+      "volume_usd": "117639156.14",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700100800,
+      "price_usd": "2508.6201",
+      "volume_usd": "118002008.84",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700104400,
+      "price_usd": "2508.9197",
+      "volume_usd": "118336062.18",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700108000,
+      "price_usd": "2509.2185",
+      "volume_usd": "118640781.72",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700111600,
+      "price_usd": "2509.5165",
+      "volume_usd": "118915679.99",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700115200,
+      "price_usd": "2509.8135",
+      "volume_usd": "119160317.21",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700118800,
+      "price_usd": "2510.1095",
+      "volume_usd": "119374302.0",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700122400,
+      "price_usd": "2510.4046",
+      "volume_usd": "119557292.05",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700126000,
+      "price_usd": "2510.6987",
+      "volume_usd": "119708994.6",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700129600,
+      "price_usd": "2510.9918",
+      "volume_usd": "119829166.96",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700133200,
+      "price_usd": "2511.2838",
+      "volume_usd": "119917616.89",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700136800,
+      "price_usd": "2511.5747",
+      "volume_usd": "119974202.88",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700140400,
+      "price_usd": "2511.8645",
+      "volume_usd": "119998834.4",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700144000,
+      "price_usd": "2512.1531",
+      "volume_usd": "119991472.06",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700147600,
+      "price_usd": "2512.4406",
+      "volume_usd": "119952127.63",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700151200,
+      "price_usd": "2512.7269",
+      "volume_usd": "119880864.04",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700154800,
+      "price_usd": "2513.012",
+      "volume_usd": "119777795.32",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700158400,
+      "price_usd": "2513.2958",
+      "volume_usd": "119643086.34",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700162000,
+      "price_usd": "2513.5784",
+      "volume_usd": "119476952.62",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700165600,
+      "price_usd": "2513.8596",
+      "volume_usd": "119279659.92",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700169200,
+      "price_usd": "2514.1395",
+      "volume_usd": "119051523.89",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700172800,
+      "price_usd": "2514.4181",
+      "volume_usd": "118792909.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700176400,
+      "price_usd": "2514.6952",
+      "volume_usd": "118504230.42",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700180000,
+      "price_usd": "2514.971",
+      "volume_usd": "118185948.54",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700183600,
+      "price_usd": "2515.2453",
+      "volume_usd": "117838573.02",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700187200,
+      "price_usd": "2515.5182",
+      "volume_usd": "117462659.59",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700190800,
+      "price_usd": "2515.7895",
+      "volume_usd": "117058809.63",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700194400,
+      "price_usd": "2516.0594",
+      "volume_usd": "116627669.22",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700198000,
+      "price_usd": "2516.3277",
+      "volume_usd": "116169928.08",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700201600,
+      "price_usd": "2516.5944",
+      "volume_usd": "115686318.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700205200,
+      "price_usd": "2516.8595",
+      "volume_usd": "115177614.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700208800,
+      "price_usd": "2517.1231",
+      "volume_usd": "114644628.88",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700212400,
+      "price_usd": "2517.3849",
+      "volume_usd": "114088215.32",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700216000,
+      "price_usd": "2517.6452",
+      "volume_usd": "113509263.61",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700219600,
+      "price_usd": "2517.9037",
+      "volume_usd": "112908699.97",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700223200,
+      "price_usd": "2518.1605",
+      "volume_usd": "112287485.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700226800,
+      "price_usd": "2518.4155",
+      "volume_usd": "111646612.99",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700230400,
+      "price_usd": "2518.6688",
+      "volume_usd": "110987108.73",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700234000,
+      "price_usd": "2518.9203",
+      "volume_usd": "110310027.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700237600,
+      "price_usd": "2519.17",
+      "volume_usd": "109616452.3",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700241200,
+      "price_usd": "2519.4178",
+      "volume_usd": "108907492.89",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700244800,
+      "price_usd": "2519.6638",
+      "volume_usd": "108184283.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700248400,
+      "price_usd": "2519.9079",
+      "volume_usd": "107447980.79",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700252000,
+      "price_usd": "2520.1501",
+      "volume_usd": "106699763.0",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700255600,
+      "price_usd": "2520.3903",
+      "volume_usd": "105940827.03",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700259200,
+      "price_usd": "2520.6286",
+      "volume_usd": "105172386.99",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700262800,
+      "price_usd": "2520.8649",
+      "volume_usd": "104395672.24",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700266400,
+      "price_usd": "2521.0992",
+      "volume_usd": "103611925.36",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700270000,
+      "price_usd": "2521.3315",
+      "volume_usd": "102822400.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700273600,
+      "price_usd": "2521.5618",
+      "volume_usd": "102028359.73",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700277200,
+      "price_usd": "2521.7899",
+      "volume_usd": "101231074.35",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700280800,
+      "price_usd": "2522.016",
+      "volume_usd": "100431819.51",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700284400,
+      "price_usd": "2522.24",
+      "volume_usd": "99631873.86",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700288000,
+      "price_usd": "2522.4619",
+      "volume_usd": "98832517.13",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700291600,
+      "price_usd": "2522.6816",
+      "volume_usd": "98035028.13",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700295200,
+      "price_usd": "2522.8991",
+      "volume_usd": "97240682.65",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700298800,
+      "price_usd": "2523.1144",
+      "volume_usd": "96450751.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700302400,
+      "price_usd": "2523.3275",
+      "volume_usd": "95666498.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700306000,
+      "price_usd": "2523.5384",
+      "volume_usd": "94889177.96",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700309600,
+      "price_usd": "2523.747",
+      "volume_usd": "94120033.75",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700313200,
+      "price_usd": "2523.9534",
+      "volume_usd": "93360296.24",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700316800,
+      "price_usd": "2524.1575",
+      "volume_usd": "92611180.83",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700320400,
+      "price_usd": "2524.3592",
+      "volume_usd": "91873885.96",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700324000,
+      "price_usd": "2524.5586",
+      "volume_usd": "91149591.13",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700327600,
+      "price_usd": "2524.7557",
+      "volume_usd": "90439455.08",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700331200,
+      "price_usd": "2524.9504",
+      "volume_usd": "89744613.85",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700334800,
+      "price_usd": "2525.1427",
+      "volume_usd": "89066179.06",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700338400,
+      "price_usd": "2525.3326",
+      "volume_usd": "88405236.05",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700342000,
+      "price_usd": "2525.5201",
+      "volume_usd": "87762842.18",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700345600,
+      "price_usd": "2525.7052",
+      "volume_usd": "87140025.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700349200,
+      "price_usd": "2525.8877",
+      "volume_usd": "86537781.35",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700352800,
+      "price_usd": "2526.0679",
+      "volume_usd": "85957074.23",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700356400,
+      "price_usd": "2526.2455",
+      "volume_usd": "85398832.78",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700360000,
+      "price_usd": "2526.4206",
+      "volume_usd": "84863950.09",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700363600,
+      "price_usd": "2526.5932",
+      "volume_usd": "84353281.86",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700367200,
+      "price_usd": "2526.7632",
+      "volume_usd": "83867645.03",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700370800,
+      "price_usd": "2526.9307",
+      "volume_usd": "83407816.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700374400,
+      "price_usd": "2527.0957",
+      "volume_usd": "82974531.98",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700378000,
+      "price_usd": "2527.258",
+      "volume_usd": "82568484.55",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700381600,
+      "price_usd": "2527.4177",
+      "volume_usd": "82190323.83",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700385200,
+      "price_usd": "2527.5748",
+      "volume_usd": "81840654.79",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700388800,
+      "price_usd": "2527.7293",
+      "volume_usd": "81520036.83",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700392400,
+      "price_usd": "2527.8812",
+      "volume_usd": "81228982.86",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700396000,
+      "price_usd": "2528.0303",
+      "volume_usd": "80967958.52",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700399600,
+      "price_usd": "2528.1768",
+      "volume_usd": "80737381.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700403200,
+      "price_usd": "2528.3207",
+      "volume_usd": "80537620.34",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700406800,
+      "price_usd": "2528.4618",
+      "volume_usd": "80368994.94",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700410400,
+      "price_usd": "2528.6002",
+      "volume_usd": "80231774.96",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700414000,
+      "price_usd": "2528.7359",
+      "volume_usd": "80126179.93",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700417600,
+      "price_usd": "2528.8688",
+      "volume_usd": "80052378.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700421200,
+      "price_usd": "2528.999",
+      "volume_usd": "80010489.54",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700424800,
+      "price_usd": "2529.1264",
+      "volume_usd": "80000579.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700428400,
+      "price_usd": "2529.2511",
+      "volume_usd": "80022663.81",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700432000,
+      "price_usd": "2529.3729",
+      "volume_usd": "80076707.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700435600,
+      "price_usd": "2529.492",
+      "volume_usd": "80162624.85",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700439200,
+      "price_usd": "2529.6083",
+      "volume_usd": "80280277.45",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700442800,
+      "price_usd": "2529.7217",
+      "volume_usd": "80429477.4",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700446400,
+      "price_usd": "2529.8323",
+      "volume_usd": "80609986.01",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700450000,
+      "price_usd": "2529.9401",
+      "volume_usd": "80821514.51",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700453600,
+      "price_usd": "2530.0451",
+      "volume_usd": "81063724.49",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700457200,
+      "price_usd": "2530.1471",
+      "volume_usd": "81336228.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700460800,
+      "price_usd": "2530.2464",
+      "volume_usd": "81638590.51",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700464400,
+      "price_usd": "2530.3427",
+      "volume_usd": "81970326.88",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700468000,
+      "price_usd": "2530.4362",
+      "volume_usd": "82330906.89",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700471600,
+      "price_usd": "2530.5267",
+      "volume_usd": "82719753.67",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700475200,
+      "price_usd": "2530.6144",
+      "volume_usd": "83136245.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700478800,
+      "price_usd": "2530.6992",
+      "volume_usd": "83579715.07",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700482400,
+      "price_usd": "2530.781",
+      "volume_usd": "84049453.92",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700486000,
+      "price_usd": "2530.8599",
+      "volume_usd": "84544710.25",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700489600,
+      "price_usd": "2530.9359",
+      "volume_usd": "85064691.74",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700493200,
+      "price_usd": "2531.009",
+      "volume_usd": "85608566.54",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700496800,
+      "price_usd": "2531.0791",
+      "volume_usd": "86175464.57",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700500400,
+      "price_usd": "2531.1463",
+      "volume_usd": "86764478.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700504000,
+      "price_usd": "2531.2106",
+      "volume_usd": "87374667.24",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700507600,
+      "price_usd": "2531.2718",
+      "volume_usd": "88005053.42",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700511200,
+      "price_usd": "2531.3301",
+      "volume_usd": "88654628.96",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700514800,
+      "price_usd": "2531.3855",
+      "volume_usd": "89322354.67",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700518400,
+      "price_usd": "2531.4379",
+      "volume_usd": "90007162.34",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700522000,
+      "price_usd": "2531.4873",
+      "volume_usd": "90707956.41",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700525600,
+      "price_usd": "2531.5337",
+      "volume_usd": "91423615.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700529200,
+      "price_usd": "2531.5771",
+      "volume_usd": "92152995.52",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700532800,
+      "price_usd": "2531.6176",
+      "volume_usd": "92894928.8",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700536400,
+      "price_usd": "2531.6551",
+      "volume_usd": "93648228.68",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700540000,
+      "price_usd": "2531.6896",
+      "volume_usd": "94411690.04",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700543600,
+      "price_usd": "2531.721",
+      "volume_usd": "95184091.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700547200,
+      "price_usd": "2531.7495",
+      "volume_usd": "95964197.38",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700550800,
+      "price_usd": "2531.775",
+      "volume_usd": "96750759.7",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700554400,
+      "price_usd": "2531.7975",
+      "volume_usd": "97542520.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700558000,
+      "price_usd": "2531.817",
+      "volume_usd": "98338211.94",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700561600,
+      "price_usd": "2531.8335",
+      "volume_usd": "99136562.3",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700565200,
+      "price_usd": "2531.847",
+      "volume_usd": "99936293.96",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700568800,
+      "price_usd": "2531.8576",
+      "volume_usd": "100736127.55",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700572400,
+      "price_usd": "2531.8651",
+      "volume_usd": "101534783.49",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700576000,
+      "price_usd": "2531.8696",
+      "volume_usd": "102330984.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700579600,
+      "price_usd": "2531.8711",
+      "volume_usd": "103123455.63",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700583200,
+      "price_usd": "2531.8696",
+      "volume_usd": "103910930.3",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700586800,
+      "price_usd": "2531.8651",
+      "volume_usd": "104692148.32",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700590400,
+      "price_usd": "2531.8576",
+      "volume_usd": "105465859.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700594000,
+      "price_usd": "2531.8471",
+      "volume_usd": "106230827.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700597600,
+      "price_usd": "2531.8337",
+      "volume_usd": "106985826.65",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700601200,
+      "price_usd": "2531.8172",
+      "volume_usd": "107729650.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700604800,
+      "price_usd": "2531.7978",
+      "volume_usd": "108461107.94",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700608400,
+      "price_usd": "2531.7753",
+      "volume_usd": "109179029.73",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700612000,
+      "price_usd": "2531.7499",
+      "volume_usd": "109882267.02",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700615600,
+      "price_usd": "2531.7216",
+      "volume_usd": "110569694.8",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700619200,
+      "price_usd": "2531.6902",
+      "volume_usd": "111240213.32",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700622800,
+      "price_usd": "2531.6559",
+      "volume_usd": "111892749.89",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700626400,
+      "price_usd": "2531.6186",
+      "volume_usd": "112526260.61",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700630000,
+      "price_usd": "2531.5784",
+      "volume_usd": "113139731.97",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700633600,
+      "price_usd": "2531.5352",
+      "volume_usd": "113732182.57",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700637200,
+      "price_usd": "2531.4891",
+      "volume_usd": "114302664.61",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700640800,
+      "price_usd": "2531.44",
+      "volume_usd": "114850265.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700644400,
+      "price_usd": "2531.388",
+      "volume_usd": "115374109.0",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700648000,
+      "price_usd": "2531.3331",
+      "volume_usd": "115873357.28",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700651600,
+      "price_usd": "2531.2752",
+      "volume_usd": "116347211.56",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700655200,
+      "price_usd": "2531.2145",
+      "volume_usd": "116794913.8",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700658800,
+      "price_usd": "2531.1508",
+      "volume_usd": "117215747.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700662400,
+      "price_usd": "2531.0842",
+      "volume_usd": "117609040.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700666000,
+      "price_usd": "2531.0147",
+      "volume_usd": "117974161.92",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700669600,
+      "price_usd": "2530.9424",
+      "volume_usd": "118310528.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700673200,
+      "price_usd": "2530.8671",
+      "volume_usd": "118617602.78",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700676800,
+      "price_usd": "2530.7891",
+      "volume_usd": "118894892.54",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700680400,
+      "price_usd": "2530.7081",
+      "volume_usd": "119141954.51",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700684000,
+      "price_usd": "2530.6243",
+      "volume_usd": "119358393.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700687600,
+      "price_usd": "2530.5377",
+      "volume_usd": "119543863.07",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700691200,
+      "price_usd": "2530.4482",
+      "volume_usd": "119698066.68",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700694800,
+      "price_usd": "2530.3559",
+      "volume_usd": "119820757.59",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700698400,
+      "price_usd": "2530.2608",
+      "volume_usd": "119911739.52",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700702000,
+      "price_usd": "2530.1629",
+      "volume_usd": "119970866.91",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700705600,
+      "price_usd": "2530.0622",
+      "volume_usd": "119998045.17",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700709200,
+      "price_usd": "2529.9588",
+      "volume_usd": "119993230.83",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700712800,
+      "price_usd": "2529.8526",
+      "volume_usd": "119956431.58",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700716400,
+      "price_usd": "2529.7436",
+      "volume_usd": "119887706.3",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700720000,
+      "price_usd": "2529.6319",
+      "volume_usd": "119787164.93",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700723600,
+      "price_usd": "2529.5174",
+      "volume_usd": "119654968.32",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700727200,
+      "price_usd": "2529.4003",
+      "volume_usd": "119491327.95",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700730800,
+      "price_usd": "2529.2804",
+      "volume_usd": "119296505.62",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700734400,
+      "price_usd": "2529.1579",
+      "volume_usd": "119070812.99",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700738000,
+      "price_usd": "2529.0326",
+      "volume_usd": "118814611.13",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700741600,
+      "price_usd": "2528.9047",
+      "volume_usd": "118528309.91",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700745200,
+      "price_usd": "2528.7742",
+      "volume_usd": "118212367.34",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700748800,
+      "price_usd": "2528.641",
+      "volume_usd": "117867288.87",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700752400,
+      "price_usd": "2528.5053",
+      "volume_usd": "117493626.55",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700756000,
+      "price_usd": "2528.3669",
+      "volume_usd": "117091978.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700759600,
+      "price_usd": "2528.2259",
+      "volume_usd": "116662986.25",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700763200,
+      "price_usd": "2528.0823",
+      "volume_usd": "116207337.12",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700766800,
+      "price_usd": "2527.9362",
+      "volume_usd": "115725759.7",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700770400,
+      "price_usd": "2527.7876",
+      "volume_usd": "115219024.43",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700774000,
+      "price_usd": "2527.6364",
+      "volume_usd": "114687941.96",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700777600,
+      "price_usd": "2527.4827",
+      "volume_usd": "114133361.91",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700781200,
+      "price_usd": "2527.3265",
+      "volume_usd": "113556171.51",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700784800,
+      "price_usd": "2527.1678",
+      "volume_usd": "112957294.12",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700788400,
+      "price_usd": "2527.0067",
+      "volume_usd": "112337687.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700792000,
+      "price_usd": "2526.8431",
+      "volume_usd": "111698343.86",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700795600,
+      "price_usd": "2526.6771",
+      "volume_usd": "111040285.04",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700799200,
+      "price_usd": "2526.5087",
+      "volume_usd": "110364564.12",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700802800,
+      "price_usd": "2526.3379",
+      "volume_usd": "109672262.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700806400,
+      "price_usd": "2526.1648",
+      "volume_usd": "108964486.54",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700810000,
+      "price_usd": "2525.9893",
+      "volume_usd": "108242369.7",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700813600,
+      "price_usd": "2525.8114",
+      "volume_usd": "107507066.84",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700817200,
+      "price_usd": "2525.6312",
+      "volume_usd": "106759754.26",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700820800,
+      "price_usd": "2525.4488",
+      "volume_usd": "106001627.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700824400,
+      "price_usd": "2525.264",
+      "volume_usd": "105233899.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700828000,
+      "price_usd": "2525.077",
+      "volume_usd": "104457798.28",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700831600,
+      "price_usd": "2524.8878",
+      "volume_usd": "103674565.57",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700835200,
+      "price_usd": "2524.6964",
+      "volume_usd": "102885454.34",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700838800,
+      "price_usd": "2524.5027",
+      "volume_usd": "102091727.0",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700842400,
+      "price_usd": "2524.3069",
+      "volume_usd": "101294653.34",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700846000,
+      "price_usd": "2524.1089",
+      "volume_usd": "100495508.51",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700849600,
+      "price_usd": "2523.9088",
+      "volume_usd": "99695570.97",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700853200,
+      "price_usd": "2523.7066",
+      "volume_usd": "98896120.46",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700856800,
+      "price_usd": "2523.5022",
+      "volume_usd": "98098435.91",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700860400,
+      "price_usd": "2523.2959",
+      "volume_usd": "97303793.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700864000,
+      "price_usd": "2523.0874",
+      "volume_usd": "96513464.38",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700867600,
+      "price_usd": "2522.877",
+      "volume_usd": "95728713.0",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700871200,
+      "price_usd": "2522.6645",
+      "volume_usd": "94950794.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700874800,
+      "price_usd": "2522.45",
+      "volume_usd": "94180954.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700878400,
+      "price_usd": "2522.2336",
+      "volume_usd": "93420422.84",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700882000,
+      "price_usd": "2522.0153",
+      "volume_usd": "92670417.41",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700885600,
+      "price_usd": "2521.795",
+      "volume_usd": "91932137.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700889200,
+      "price_usd": "2521.5729",
+      "volume_usd": "91206764.96",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700892800,
+      "price_usd": "2521.3489",
+      "volume_usd": "90495459.46",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700896400,
+      "price_usd": "2521.123",
+      "volume_usd": "89799359.2",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700900000,
+      "price_usd": "2520.8953",
+      "volume_usd": "89119577.78",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700903600,
+      "price_usd": "2520.6659",
+      "volume_usd": "88457202.72",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700907200,
+      "price_usd": "2520.4346",
+      "volume_usd": "87813293.68",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700910800,
+      "price_usd": "2520.2016",
+      "volume_usd": "87188880.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700914400,
+      "price_usd": "2519.9669",
+      "volume_usd": "86584962.91",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700918000,
+      "price_usd": "2519.7305",
+      "volume_usd": "86002506.25",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700921600,
+      "price_usd": "2519.4924",
+      "volume_usd": "85442442.59",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700925200,
+      "price_usd": "2519.2527",
+      "volume_usd": "84905667.92",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700928800,
+      "price_usd": "2519.0113",
+      "volume_usd": "84393040.97",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700932400,
+      "price_usd": "2518.7684",
+      "volume_usd": "83905381.81",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700936000,
+      "price_usd": "2518.5239",
+      "volume_usd": "83443470.62",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700939600,
+      "price_usd": "2518.2778",
+      "volume_usd": "83008046.34",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700943200,
+      "price_usd": "2518.0302",
+      "volume_usd": "82599805.56",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700946800,
+      "price_usd": "2517.7811",
+      "volume_usd": "82219401.38",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700950400,
+      "price_usd": "2517.5306",
+      "volume_usd": "81867442.36",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700954000,
+      "price_usd": "2517.2786",
+      "volume_usd": "81544491.57",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700957600,
+      "price_usd": "2517.0251",
+      "volume_usd": "81251065.65",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700961200,
+      "price_usd": "2516.7703",
+      "volume_usd": "80987634.03",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700964800,
+      "price_usd": "2516.5142",
+      "volume_usd": "80754618.14",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700968400,
+      "price_usd": "2516.2567",
+      "volume_usd": "80552390.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700972000,
+      "price_usd": "2515.9979",
+      "volume_usd": "80381275.4",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700975600,
+      "price_usd": "2515.7378",
+      "volume_usd": "80241545.81",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700979200,
+      "price_usd": "2515.4764",
+      "volume_usd": "80133425.54",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700982800,
+      "price_usd": "2515.2138",
+      "volume_usd": "80057087.55",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700986400,
+      "price_usd": "2514.9501",
+      "volume_usd": "80012653.96",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700990000,
+      "price_usd": "2514.6851",
+      "volume_usd": "80000195.87",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700993600,
+      "price_usd": "2514.419",
+      "volume_usd": "80019733.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1700997200,
+      "price_usd": "2514.1518",
+      "volume_usd": "80071234.68",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701000800,
+      "price_usd": "2513.8835",
+      "volume_usd": "80154617.94",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701004400,
+      "price_usd": "2513.6142",
+      "volume_usd": "80269749.59",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701008000,
+      "price_usd": "2513.3438",
+      "volume_usd": "80416445.42",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701011600,
+      "price_usd": "2513.0724",
+      "volume_usd": "80594470.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701015200,
+      "price_usd": "2512.8",
+      "volume_usd": "80803540.81",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701018800,
+      "price_usd": "2512.5267",
+      "volume_usd": "81043321.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701022400,
+      "price_usd": "2512.2524",
+      "volume_usd": "81313428.03",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701026000,
+      "price_usd": "2511.9773",
+      "volume_usd": "81613429.49",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701029600,
+      "price_usd": "2511.7013",
+      "volume_usd": "81942845.54",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701033200,
+      "price_usd": "2511.4245",
+      "volume_usd": "82301149.18",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701036800,
+      "price_usd": "2511.1468",
+      "volume_usd": "82687767.21",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701040400,
+      "price_usd": "2510.8684",
+      "volume_usd": "83102081.12",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701044000,
+      "price_usd": "2510.5892",
+      "volume_usd": "83543428.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701047600,
+      "price_usd": "2510.3094",
+      "volume_usd": "84011102.08",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701051200,
+      "price_usd": "2510.0288",
+      "volume_usd": "84504354.89",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701054800,
+      "price_usd": "2509.7476",
+      "volume_usd": "85022397.42",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701058400,
+      "price_usd": "2509.4657",
+      "volume_usd": "85564400.92",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701062000,
+      "price_usd": "2509.1833",
+      "volume_usd": "86129498.3",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701065600,
+      "price_usd": "2508.9002",
+      "volume_usd": "86716785.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701069200,
+      "price_usd": "2508.6167",
+      "volume_usd": "87325323.06",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701072800,
+      "price_usd": "2508.3326",
+      "volume_usd": "87954137.38",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701076400,
+      "price_usd": "2508.048",
+      "volume_usd": "88602222.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701080000,
+      "price_usd": "2507.763",
+      "volume_usd": "89268541.64",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701083600,
+      "price_usd": "2507.4776",
+      "volume_usd": "89952028.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701087200,
+      "price_usd": "2507.1917",
+      "volume_usd": "90651590.61",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701090800,
+      "price_usd": "2506.9055",
+      "volume_usd": "91366107.87",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701094400,
+      "price_usd": "2506.619",
+      "volume_usd": "92094437.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701098000,
+      "price_usd": "2506.3322",
+      "volume_usd": "92835414.36",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701101600,
+      "price_usd": "2506.0451",
+      "volume_usd": "93587853.02",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701105200,
+      "price_usd": "2505.7577",
+      "volume_usd": "94350549.74",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701108800,
+      "price_usd": "2505.4701",
+      "volume_usd": "95122284.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701112400,
+      "price_usd": "2505.1824",
+      "volume_usd": "95901822.33",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701116000,
+      "price_usd": "2504.8945",
+      "volume_usd": "96687916.49",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701119600,
+      "price_usd": "2504.6064",
+      "volume_usd": "97479309.28",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701123200,
+      "price_usd": "2504.3183",
+      "volume_usd": "98274734.63",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701126800,
+      "price_usd": "2504.0301",
+      "volume_usd": "99072920.04",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701130400,
+      "price_usd": "2503.7419",
+      "volume_usd": "99872588.57",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701134000,
+      "price_usd": "2503.4537",
+      "volume_usd": "100672460.94",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701137600,
+      "price_usd": "2503.1655",
+      "volume_usd": "101471257.52",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701141200,
+      "price_usd": "2502.8773",
+      "volume_usd": "102267700.4",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701144800,
+      "price_usd": "2502.5892",
+      "volume_usd": "103060515.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701148400,
+      "price_usd": "2502.3013",
+      "volume_usd": "103848434.31",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701152000,
+      "price_usd": "2502.0135",
+      "volume_usd": "104630196.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701155600,
+      "price_usd": "2501.7259",
+      "volume_usd": "105404551.37",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701159200,
+      "price_usd": "2501.4384",
+      "volume_usd": "106170260.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701162800,
+      "price_usd": "2501.1512",
+      "volume_usd": "106926097.75",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701166400,
+      "price_usd": "2500.8643",
+      "volume_usd": "107670855.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701170000,
+      "price_usd": "2500.5777",
+      "volume_usd": "108403340.74",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701173600,
+      "price_usd": "2500.2914",
+      "volume_usd": "109122382.81",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701177200,
+      "price_usd": "2500.0054",
+      "volume_usd": "109826831.02",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701180800,
+      "price_usd": "2499.7198",
+      "volume_usd": "110515558.4",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701184400,
+      "price_usd": "2499.4347",
+      "volume_usd": "111187463.12",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701188000,
+      "price_usd": "2499.15",
+      "volume_usd": "111841470.29",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701191600,
+      "price_usd": "2498.8657",
+      "volume_usd": "112476533.64",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701195200,
+      "price_usd": "2498.582",
+      "volume_usd": "113091637.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701198800,
+      "price_usd": "2498.2988",
+      "volume_usd": "113685796.92",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701202400,
+      "price_usd": "2498.0162",
+      "volume_usd": "114258062.29",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701206000,
+      "price_usd": "2497.7341",
+      "volume_usd": "114807517.8",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701209600,
+      "price_usd": "2497.4527",
+      "volume_usd": "115333284.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701213200,
+      "price_usd": "2497.1719",
+      "volume_usd": "115834521.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701216800,
+      "price_usd": "2496.8918",
+      "volume_usd": "116310425.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701220400,
+      "price_usd": "2496.6124",
+      "volume_usd": "116760237.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701224000,
+      "price_usd": "2496.3338",
+      "volume_usd": "117183236.3",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701227600,
+      "price_usd": "2496.0559",
+      "volume_usd": "117578745.58",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701231200,
+      "price_usd": "2495.7788",
+      "volume_usd": "117946132.62",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701234800,
+      "price_usd": "2495.5025",
+      "volume_usd": "118284809.68",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701238400,
+      "price_usd": "2495.2271",
+      "volume_usd": "118594234.94",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701242000,
+      "price_usd": "2494.9526",
+      "volume_usd": "118873913.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701245600,
+      "price_usd": "2494.679",
+      "volume_usd": "119123397.61",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701249200,
+      "price_usd": "2494.4063",
+      "volume_usd": "119342288.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701252800,
+      "price_usd": "2494.1346",
+      "volume_usd": "119530235.79",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701256400,
+      "price_usd": "2493.8638",
+      "volume_usd": "119686938.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701260000,
+      "price_usd": "2493.5942",
+      "volume_usd": "119812147.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701263600,
+      "price_usd": "2493.3255",
+      "volume_usd": "119905660.12",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701267200,
+      "price_usd": "2493.0579",
+      "volume_usd": "119967328.31",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701270800,
+      "price_usd": "2492.7915",
+      "volume_usd": "119997053.03",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701274400,
+      "price_usd": "2492.5262",
+      "volume_usd": "119994786.74",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701278000,
+      "price_usd": "2492.262",
+      "volume_usd": "119960533.05",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701281600,
+      "price_usd": "2491.9991",
+      "volume_usd": "119894346.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701285200,
+      "price_usd": "2491.7373",
+      "volume_usd": "119796333.78",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701288800,
+      "price_usd": "2491.4768",
+      "volume_usd": "119666650.88",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701292400,
+      "price_usd": "2491.2176",
+      "volume_usd": "119505505.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701296000,
+      "price_usd": "2490.9597",
+      "volume_usd": "119313155.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701299600,
+      "price_usd": "2490.7031",
+      "volume_usd": "119089908.6",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701303200,
+      "price_usd": "2490.4478",
+      "volume_usd": "118836121.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701306800,
+      "price_usd": "2490.194",
+      "volume_usd": "118552201.41",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701310400,
+      "price_usd": "2489.9415",
+      "volume_usd": "118238601.36",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701314000,
+      "price_usd": "2489.6905",
+      "volume_usd": "117895823.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701317600,
+      "price_usd": "2489.441",
+      "volume_usd": "117524416.02",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701321200,
+      "price_usd": "2489.1929",
+      "volume_usd": "117124973.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701324800,
+      "price_usd": "2488.9463",
+      "volume_usd": "116698134.22",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701328400,
+      "price_usd": "2488.7013",
+      "volume_usd": "116244581.72",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701332000,
+      "price_usd": "2488.4579",
+      "volume_usd": "115765041.35",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701335600,
+      "price_usd": "2488.216",
+      "volume_usd": "115260280.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701339200,
+      "price_usd": "2487.9757",
+      "volume_usd": "114731106.01",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701342800,
+      "price_usd": "2487.7371",
+      "volume_usd": "114178365.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701346400,
+      "price_usd": "2487.5002",
+      "volume_usd": "113602941.86",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701350000,
+      "price_usd": "2487.2649",
+      "volume_usd": "113005756.8",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701353600,
+      "price_usd": "2487.0314",
+      "volume_usd": "112387765.31",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701357200,
+      "price_usd": "2486.7996",
+      "volume_usd": "111749956.03",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701360800,
+      "price_usd": "2486.5695",
+      "volume_usd": "111093349.33",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701364400,
+      "price_usd": "2486.3413",
+      "volume_usd": "110418995.64",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701368000,
+      "price_usd": "2486.1149",
+      "volume_usd": "109727973.78",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701371600,
+      "price_usd": "2485.8902",
+      "volume_usd": "109021389.23",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701375200,
+      "price_usd": "2485.6675",
+      "volume_usd": "108300372.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701378800,
+      "price_usd": "2485.4466",
+      "volume_usd": "107566076.72",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701382400,
+      "price_usd": "2485.2277",
+      "volume_usd": "106819676.94",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701386000,
+      "price_usd": "2485.0107",
+      "volume_usd": "106062367.13",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701389600,
+      "price_usd": "2484.7956",
+      "volume_usd": "105295358.83",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701393200,
+      "price_usd": "2484.5825",
+      "volume_usd": "104519879.09",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701396800,
+      "price_usd": "2484.3714",
+      "volume_usd": "103737168.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701400400,
+      "price_usd": "2484.1623",
+      "volume_usd": "102948479.24",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701404000,
+      "price_usd": "2483.9553",
+      "volume_usd": "102155073.05",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701407600,
+      "price_usd": "2483.7503",
+      "volume_usd": "101358219.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701411200,
+      "price_usd": "2483.5474",
+      "volume_usd": "100559192.48",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701414800,
+      "price_usd": "2483.3466",
+      "volume_usd": "99759271.17",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701418400,
+      "price_usd": "2483.1479",
+      "volume_usd": "98959734.98",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701422000,
+      "price_usd": "2482.9514",
+      "volume_usd": "98161863.0",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701425600,
+      "price_usd": "2482.7571",
+      "volume_usd": "97366931.64",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701429200,
+      "price_usd": "2482.5649",
+      "volume_usd": "96576212.62",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701432800,
+      "price_usd": "2482.375",
+      "volume_usd": "95790970.94",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701436400,
+      "price_usd": "2482.1873",
+      "volume_usd": "95012462.81",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701440000,
+      "price_usd": "2482.0018",
+      "volume_usd": "94241933.67",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701443600,
+      "price_usd": "2481.8186",
+      "volume_usd": "93480616.21",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701447200,
+      "price_usd": "2481.6377",
+      "volume_usd": "92729728.37",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701450800,
+      "price_usd": "2481.4591",
+      "volume_usd": "91990471.41",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701454400,
+      "price_usd": "2481.2829",
+      "volume_usd": "91264028.0",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701458000,
+      "price_usd": "2481.1089",
+      "volume_usd": "90551560.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701461600,
+      "price_usd": "2480.9374",
+      "volume_usd": "89854208.03",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701465200,
+      "price_usd": "2480.7682",
+      "volume_usd": "89173086.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701468800,
+      "price_usd": "2480.6015",
+      "volume_usd": "88509286.52",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701472400,
+      "price_usd": "2480.4371",
+      "volume_usd": "87863868.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701476000,
+      "price_usd": "2480.2752",
+      "volume_usd": "87237866.35",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701479600,
+      "price_usd": "2480.1158",
+      "volume_usd": "86632280.57",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701483200,
+      "price_usd": "2479.9588",
+      "volume_usd": "86048080.29",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701486800,
+      "price_usd": "2479.8043",
+      "volume_usd": "85486200.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701490400,
+      "price_usd": "2479.6523",
+      "volume_usd": "84947538.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701494000,
+      "price_usd": "2479.5028",
+      "volume_usd": "84432958.43",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701497600,
+      "price_usd": "2479.3559",
+      "volume_usd": "83943281.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701501200,
+      "price_usd": "2479.2115",
+      "volume_usd": "83479292.69",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701504800,
+      "price_usd": "2479.0697",
+      "volume_usd": "83041733.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701508400,
+      "price_usd": "2478.9305",
+      "volume_usd": "82631303.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701512000,
+      "price_usd": "2478.7939",
+      "volume_usd": "82248659.33",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701515600,
+      "price_usd": "2478.6599",
+      "volume_usd": "81894413.91",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701519200,
+      "price_usd": "2478.5285",
+      "volume_usd": "81569133.56",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701522800,
+      "price_usd": "2478.3998",
+      "volume_usd": "81273338.67",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701526400,
+      "price_usd": "2478.2737",
+      "volume_usd": "81007502.45",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701530000,
+      "price_usd": "2478.1503",
+      "volume_usd": "80772050.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701533600,
+      "price_usd": "2478.0296",
+      "volume_usd": "80567358.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701537200,
+      "price_usd": "2477.9116",
+      "volume_usd": "80393754.91",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701540800,
+      "price_usd": "2477.7963",
+      "volume_usd": "80251517.14",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701544400,
+      "price_usd": "2477.6837",
+      "volume_usd": "80140872.73",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701548000,
+      "price_usd": "2477.5738",
+      "volume_usd": "80061998.68",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701551600,
+      "price_usd": "2477.4667",
+      "volume_usd": "80015021.18",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701555200,
+      "price_usd": "2477.3624",
+      "volume_usd": "80000015.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701558800,
+      "price_usd": "2477.2608",
+      "volume_usd": "80017005.3",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701562400,
+      "price_usd": "2477.1621",
+      "volume_usd": "80065963.74",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701566000,
+      "price_usd": "2477.0661",
+      "volume_usd": "80146812.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701569600,
+      "price_usd": "2476.9729",
+      "volume_usd": "80259421.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701573200,
+      "price_usd": "2476.8825",
+      "volume_usd": "80403612.13",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701576800,
+      "price_usd": "2476.795",
+      "volume_usd": "80579152.4",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701580400,
+      "price_usd": "2476.7103",
+      "volume_usd": "80785761.88",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701584000,
+      "price_usd": "2476.6284",
+      "volume_usd": "81023110.04",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701587600,
+      "price_usd": "2476.5494",
+      "volume_usd": "81290817.18",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701591200,
+      "price_usd": "2476.4733",
+      "volume_usd": "81588455.02",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701594800,
+      "price_usd": "2476.4",
+      "volume_usd": "81915547.4",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701598400,
+      "price_usd": "2476.3296",
+      "volume_usd": "82271571.06",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701602000,
+      "price_usd": "2476.2621",
+      "volume_usd": "82655956.41",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701605600,
+      "price_usd": "2476.1975",
+      "volume_usd": "83068088.54",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701609200,
+      "price_usd": "2476.1358",
+      "volume_usd": "83507308.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701612800,
+      "price_usd": "2476.077",
+      "volume_usd": "83972912.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701616400,
+      "price_usd": "2476.0212",
+      "volume_usd": "84464156.75",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701620000,
+      "price_usd": "2475.9682",
+      "volume_usd": "84980255.06",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701623600,
+      "price_usd": "2475.9182",
+      "volume_usd": "85520381.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701627200,
+      "price_usd": "2475.8711",
+      "volume_usd": "86083672.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701630800,
+      "price_usd": "2475.827",
+      "volume_usd": "86669226.93",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701634400,
+      "price_usd": "2475.7858",
+      "volume_usd": "87276107.49",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701638000,
+      "price_usd": "2475.7476",
+      "volume_usd": "87903343.55",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701641600,
+      "price_usd": "2475.7124",
+      "volume_usd": "88549931.69",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701645200,
+      "price_usd": "2475.6801",
+      "volume_usd": "89214837.49",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701648800,
+      "price_usd": "2475.6508",
+      "volume_usd": "89896997.25",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701652400,
+      "price_usd": "2475.6244",
+      "volume_usd": "90595319.66",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701656000,
+      "price_usd": "2475.601",
+      "volume_usd": "91308687.56",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701659600,
+      "price_usd": "2475.5806",
+      "volume_usd": "92035959.7",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701663200,
+      "price_usd": "2475.5632",
+      "volume_usd": "92775972.6",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701666800,
+      "price_usd": "2475.5488",
+      "volume_usd": "93527542.41",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701670400,
+      "price_usd": "2475.5374",
+      "volume_usd": "94289466.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701674000,
+      "price_usd": "2475.529",
+      "volume_usd": "95060526.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701677600,
+      "price_usd": "2475.5235",
+      "volume_usd": "95839488.86",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701681200,
+      "price_usd": "2475.5211",
+      "volume_usd": "96625106.89",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701684800,
+      "price_usd": "2475.5216",
+      "volume_usd": "97416124.03",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701688400,
+      "price_usd": "2475.5252",
+      "volume_usd": "98211274.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701692000,
+      "price_usd": "2475.5317",
+      "volume_usd": "99009287.18",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701695600,
+      "price_usd": "2475.5413",
+      "volume_usd": "99808884.48",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701699200,
+      "price_usd": "2475.5538",
+      "volume_usd": "100608787.52",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701702800,
+      "price_usd": "2475.5694",
+      "volume_usd": "101407716.63",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701706400,
+      "price_usd": "2475.5879",
+      "volume_usd": "102204393.69",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701710000,
+      "price_usd": "2475.6095",
+      "volume_usd": "102997544.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701713600,
+      "price_usd": "2475.634",
+      "volume_usd": "103785899.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701717200,
+      "price_usd": "2475.6615",
+      "volume_usd": "104568197.71",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701720800,
+      "price_usd": "2475.6921",
+      "volume_usd": "105343188.01",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701724400,
+      "price_usd": "2475.7256",
+      "volume_usd": "106109630.34",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701728000,
+      "price_usd": "2475.7621",
+      "volume_usd": "106866298.58",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701731600,
+      "price_usd": "2475.8016",
+      "volume_usd": "107611982.2",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701735200,
+      "price_usd": "2475.8441",
+      "volume_usd": "108345488.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701738800,
+      "price_usd": "2475.8896",
+      "volume_usd": "109065643.34",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701742400,
+      "price_usd": "2475.9381",
+      "volume_usd": "109771295.32",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701746000,
+      "price_usd": "2475.9895",
+      "volume_usd": "110461315.3",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701749600,
+      "price_usd": "2476.0439",
+      "volume_usd": "111134599.42",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701753200,
+      "price_usd": "2476.1013",
+      "volume_usd": "111790070.55",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701756800,
+      "price_usd": "2476.1616",
+      "volume_usd": "112426680.08",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701760400,
+      "price_usd": "2476.2249",
+      "volume_usd": "113043409.58",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701764000,
+      "price_usd": "2476.2911",
+      "volume_usd": "113639272.4",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701767600,
+      "price_usd": "2476.3603",
+      "volume_usd": "114213315.3",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701771200,
+      "price_usd": "2476.4325",
+      "volume_usd": "114764619.92",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701774800,
+      "price_usd": "2476.5075",
+      "volume_usd": "115292304.3",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701778400,
+      "price_usd": "2476.5855",
+      "volume_usd": "115795524.26",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701782000,
+      "price_usd": "2476.6664",
+      "volume_usd": "116273474.75",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701785600,
+      "price_usd": "2476.7503",
+      "volume_usd": "116725391.15",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701789200,
+      "price_usd": "2476.837",
+      "volume_usd": "117150550.49",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701792800,
+      "price_usd": "2476.9267",
+      "volume_usd": "117548272.61",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701796400,
+      "price_usd": "2477.0192",
+      "volume_usd": "117917921.24",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701800000,
+      "price_usd": "2477.1146",
+      "volume_usd": "118258905.01",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701803600,
+      "price_usd": "2477.2129",
+      "volume_usd": "118570678.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701807200,
+      "price_usd": "2477.3141",
+      "volume_usd": "118852742.74",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701810800,
+      "price_usd": "2477.4181",
+      "volume_usd": "119104646.67",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701814400,
+      "price_usd": "2477.525",
+      "volume_usd": "119325987.24",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701818000,
+      "price_usd": "2477.6347",
+      "volume_usd": "119516410.36",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701821600,
+      "price_usd": "2477.7473",
+      "volume_usd": "119675611.38",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701825200,
+      "price_usd": "2477.8626",
+      "volume_usd": "119803335.62",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701828800,
+      "price_usd": "2477.9808",
+      "volume_usd": "119899378.75",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701832400,
+      "price_usd": "2478.1018",
+      "volume_usd": "119963587.12",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701836000,
+      "price_usd": "2478.2256",
+      "volume_usd": "119995858.0",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701839600,
+      "price_usd": "2478.3521",
+      "volume_usd": "119996139.78",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701843200,
+      "price_usd": "2478.4814",
+      "volume_usd": "119964432.0",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701846800,
+      "price_usd": "2478.6135",
+      "volume_usd": "119900785.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701850400,
+      "price_usd": "2478.7483",
+      "volume_usd": "119805301.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701854000,
+      "price_usd": "2478.8858",
+      "volume_usd": "119678133.89",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701857600,
+      "price_usd": "2479.0261",
+      "volume_usd": "119519485.2",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701861200,
+      "price_usd": "2479.169",
+      "volume_usd": "119329609.49",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701864800,
+      "price_usd": "2479.3147",
+      "volume_usd": "119108810.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701868400,
+      "price_usd": "2479.463",
+      "volume_usd": "118857441.55",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701872000,
+      "price_usd": "2479.614",
+      "volume_usd": "118575904.68",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701875600,
+      "price_usd": "2479.7676",
+      "volume_usd": "118264650.33",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701879200,
+      "price_usd": "2479.9239",
+      "volume_usd": "117924176.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701882800,
+      "price_usd": "2480.0828",
+      "volume_usd": "117555027.69",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701886400,
+      "price_usd": "2480.2443",
+      "volume_usd": "117157794.63",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701890000,
+      "price_usd": "2480.4084",
+      "volume_usd": "116733112.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701893600,
+      "price_usd": "2480.5751",
+      "volume_usd": "116281661.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701897200,
+      "price_usd": "2480.7443",
+      "volume_usd": "115804163.04",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701900800,
+      "price_usd": "2480.9161",
+      "volume_usd": "115301381.29",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701904400,
+      "price_usd": "2481.0904",
+      "volume_usd": "114774120.59",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701908000,
+      "price_usd": "2481.2673",
+      "volume_usd": "114223224.46",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701911600,
+      "price_usd": "2481.4466",
+      "volume_usd": "113649574.2",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701915200,
+      "price_usd": "2481.6284",
+      "volume_usd": "113054087.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701918800,
+      "price_usd": "2481.8127",
+      "volume_usd": "112437717.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701922400,
+      "price_usd": "2481.9994",
+      "volume_usd": "111801448.99",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701926000,
+      "price_usd": "2482.1885",
+      "volume_usd": "111146301.07",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701929600,
+      "price_usd": "2482.3801",
+      "volume_usd": "110473321.45",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701933200,
+      "price_usd": "2482.574",
+      "volume_usd": "109783586.75",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701936800,
+      "price_usd": "2482.7703",
+      "volume_usd": "109078200.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701940400,
+      "price_usd": "2482.969",
+      "volume_usd": "108358290.85",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701944000,
+      "price_usd": "2483.17",
+      "volume_usd": "107625009.83",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701947600,
+      "price_usd": "2483.3733",
+      "volume_usd": "106879530.42",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701951200,
+      "price_usd": "2483.579",
+      "volume_usd": "106123045.23",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701954800,
+      "price_usd": "2483.7869",
+      "volume_usd": "105356764.48",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701958400,
+      "price_usd": "2483.997",
+      "volume_usd": "104581914.04",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701962000,
+      "price_usd": "2484.2094",
+      "volume_usd": "103799733.52",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701965600,
+      "price_usd": "2484.4241",
+      "volume_usd": "103011474.23",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701969200,
+      "price_usd": "2484.6409",
+      "volume_usd": "102218397.23",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701972800,
+      "price_usd": "2484.8599",
+      "volume_usd": "101421771.26",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701976400,
+      "price_usd": "2485.0811",
+      "volume_usd": "100622870.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701980000,
+      "price_usd": "2485.3044",
+      "volume_usd": "99822973.81",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701983600,
+      "price_usd": "2485.5298",
+      "volume_usd": "99023360.06",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701987200,
+      "price_usd": "2485.7573",
+      "volume_usd": "98225308.73",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701990800,
+      "price_usd": "2485.9869",
+      "volume_usd": "97430096.52",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701994400,
+      "price_usd": "2486.2185",
+      "volume_usd": "96638995.61",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1701998000,
+      "price_usd": "2486.4522",
+      "volume_usd": "95853271.59",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702001600,
+      "price_usd": "2486.6879",
+      "volume_usd": "95074181.45",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702005200,
+      "price_usd": "2486.9256",
+      "volume_usd": "94302971.57",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702008800,
+      "price_usd": "2487.1652",
+      "volume_usd": "93540875.72",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702012400,
+      "price_usd": "2487.4068",
+      "volume_usd": "92789113.09",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702016000,
+      "price_usd": "2487.6502",
+      "volume_usd": "92048886.34",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702019600,
+      "price_usd": "2487.8956",
+      "volume_usd": "91321379.67",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702023200,
+      "price_usd": "2488.1429",
+      "volume_usd": "90607756.95",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702026800,
+      "price_usd": "2488.392",
+      "volume_usd": "89909159.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702030400,
+      "price_usd": "2488.6429",
+      "volume_usd": "89226705.87",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702034000,
+      "price_usd": "2488.8956",
+      "volume_usd": "88561486.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702037600,
+      "price_usd": "2489.1501",
+      "volume_usd": "87914567.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702041200,
+      "price_usd": "2489.4063",
+      "volume_usd": "87286981.43",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702044800,
+      "price_usd": "2489.6643",
+      "volume_usd": "86679733.87",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702048400,
+      "price_usd": "2489.924",
+      "volume_usd": "86093795.89",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702052000,
+      "price_usd": "2490.1853",
+      "volume_usd": "85530104.88",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702055600,
+      "price_usd": "2490.4483",
+      "volume_usd": "84989562.61",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702059200,
+      "price_usd": "2490.7129",
+      "volume_usd": "84473033.84",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702062800,
+      "price_usd": "2490.9792",
+      "volume_usd": "83981344.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702066400,
+      "price_usd": "2491.247",
+      "volume_usd": "83515282.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702070000,
+      "price_usd": "2491.5163",
+      "volume_usd": "83075591.92",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702073600,
+      "price_usd": "2491.7872",
+      "volume_usd": "82662976.88",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702077200,
+      "price_usd": "2492.0596",
+      "volume_usd": "82278097.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702080800,
+      "price_usd": "2492.3334",
+      "volume_usd": "81921569.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702084400,
+      "price_usd": "2492.6087",
+      "volume_usd": "81593962.56",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702088000,
+      "price_usd": "2492.8855",
+      "volume_usd": "81295801.7",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702091600,
+      "price_usd": "2493.1636",
+      "volume_usd": "81027563.56",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702095200,
+      "price_usd": "2493.4431",
+      "volume_usd": "80789677.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702098800,
+      "price_usd": "2493.7239",
+      "volume_usd": "80582523.41",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702102400,
+      "price_usd": "2494.006",
+      "volume_usd": "80406433.36",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702106000,
+      "price_usd": "2494.2894",
+      "volume_usd": "80261688.84",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702109600,
+      "price_usd": "2494.5741",
+      "volume_usd": "80148521.4",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702113200,
+      "price_usd": "2494.86",
+      "volume_usd": "80067112.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702116800,
+      "price_usd": "2495.1471",
+      "volume_usd": "80017591.17",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702120400,
+      "price_usd": "2495.4354",
+      "volume_usd": "80000037.83",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702124000,
+      "price_usd": "2495.7249",
+      "volume_usd": "80014480.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702127600,
+      "price_usd": "2496.0154",
+      "volume_usd": "80060895.06",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702131200,
+      "price_usd": "2496.3071",
+      "volume_usd": "80139208.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702134800,
+      "price_usd": "2496.5998",
+      "volume_usd": "80249294.51",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702138400,
+      "price_usd": "2496.8936",
+      "volume_usd": "80390977.67",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702142000,
+      "price_usd": "2497.1884",
+      "volume_usd": "80564031.09",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702145600,
+      "price_usd": "2497.4841",
+      "volume_usd": "80768177.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702149200,
+      "price_usd": "2497.7808",
+      "volume_usd": "81003091.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702152800,
+      "price_usd": "2498.0784",
+      "volume_usd": "81268396.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702156400,
+      "price_usd": "2498.377",
+      "volume_usd": "81563667.36",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702160000,
+      "price_usd": "2498.6764",
+      "volume_usd": "81888432.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702163600,
+      "price_usd": "2498.9766",
+      "volume_usd": "82242172.8",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702167200,
+      "price_usd": "2499.2776",
+      "volume_usd": "82624321.58",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702170800,
+      "price_usd": "2499.5794",
+      "volume_usd": "83034267.74",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702174400,
+      "price_usd": "2499.882",
+      "volume_usd": "83471355.45",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702178000,
+      "price_usd": "2500.1853",
+      "volume_usd": "83934885.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702181600,
+      "price_usd": "2500.4893",
+      "volume_usd": "84424116.24",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702185200,
+      "price_usd": "2500.794",
+      "volume_usd": "84938265.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702188800,
+      "price_usd": "2501.0992",
+      "volume_usd": "85476509.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702192400,
+      "price_usd": "2501.4051",
+      "volume_usd": "86037988.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702196000,
+      "price_usd": "2501.7116",
+      "volume_usd": "86621803.59",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702199600,
+      "price_usd": "2502.0186",
+      "volume_usd": "87227021.01",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702203200,
+      "price_usd": "2502.3261",
+      "volume_usd": "87852672.46",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702206800,
+      "price_usd": "2502.6342",
+      "volume_usd": "88497757.05",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702210400,
+      "price_usd": "2502.9426",
+      "volume_usd": "89161242.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702214000,
+      "price_usd": "2503.2515",
+      "volume_usd": "89842068.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702217600,
+      "price_usd": "2503.5608",
+      "volume_usd": "90539144.14",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702221200,
+      "price_usd": "2503.8705",
+      "volume_usd": "91251355.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702224800,
+      "price_usd": "2504.1805",
+      "volume_usd": "91977562.7",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702228400,
+      "price_usd": "2504.4908",
+      "volume_usd": "92716604.15",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702232000,
+      "price_usd": "2504.8014",
+      "volume_usd": "93467297.48",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702235600,
+      "price_usd": "2505.1123",
+      "volume_usd": "94228441.74",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702239200,
+      "price_usd": "2505.4233",
+      "volume_usd": "94998819.26",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702242800,
+      "price_usd": "2505.7346",
+      "volume_usd": "95777197.61",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702246400,
+      "price_usd": "2506.046",
+      "volume_usd": "96562331.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702250000,
+      "price_usd": "2506.3576",
+      "volume_usd": "97352965.0",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702253600,
+      "price_usd": "2506.6692",
+      "volume_usd": "98147833.15",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702257200,
+      "price_usd": "2506.9809",
+      "volume_usd": "98945664.38",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702260800,
+      "price_usd": "2507.2927",
+      "volume_usd": "99745182.32",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702264400,
+      "price_usd": "2507.6044",
+      "volume_usd": "100545107.91",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702268000,
+      "price_usd": "2507.9162",
+      "volume_usd": "101344161.45",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702271600,
+      "price_usd": "2508.2279",
+      "volume_usd": "102141064.62",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702275200,
+      "price_usd": "2508.5395",
+      "volume_usd": "102934542.53",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702278800,
+      "price_usd": "2508.851",
+      "volume_usd": "103723325.81",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702282400,
+      "price_usd": "2509.1623",
+      "volume_usd": "104506152.56",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702286000,
+      "price_usd": "2509.4735",
+      "volume_usd": "105281770.43",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702289600,
+      "price_usd": "2509.7845",
+      "volume_usd": "106048938.59",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702293200,
+      "price_usd": "2510.0953",
+      "volume_usd": "106806429.74",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702296800,
+      "price_usd": "2510.4058",
+      "volume_usd": "107553032.05",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702300400,
+      "price_usd": "2510.716",
+      "volume_usd": "108287551.13",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702304000,
+      "price_usd": "2511.0259",
+      "volume_usd": "109008811.89",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702307600,
+      "price_usd": "2511.3354",
+      "volume_usd": "109715660.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702311200,
+      "price_usd": "2511.6446",
+      "volume_usd": "110406966.07",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702314800,
+      "price_usd": "2511.9533",
+      "volume_usd": "111081622.74",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702318400,
+      "price_usd": "2512.2617",
+      "volume_usd": "111738551.18",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702322000,
+      "price_usd": "2512.5695",
+      "volume_usd": "112376700.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702325600,
+      "price_usd": "2512.8768",
+      "volume_usd": "112995049.62",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702329200,
+      "price_usd": "2513.1837",
+      "volume_usd": "113592609.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702332800,
+      "price_usd": "2513.4899",
+      "volume_usd": "114168424.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702336400,
+      "price_usd": "2513.7956",
+      "volume_usd": "114721572.24",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702340000,
+      "price_usd": "2514.1007",
+      "volume_usd": "115251169.01",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702343600,
+      "price_usd": "2514.4051",
+      "volume_usd": "115756367.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702347200,
+      "price_usd": "2514.7088",
+      "volume_usd": "116236358.49",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702350800,
+      "price_usd": "2515.0118",
+      "volume_usd": "116690375.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702354400,
+      "price_usd": "2515.3141",
+      "volume_usd": "117117690.67",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702358000,
+      "price_usd": "2515.6157",
+      "volume_usd": "117517621.6",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702361600,
+      "price_usd": "2515.9164",
+      "volume_usd": "117889528.06",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702365200,
+      "price_usd": "2516.2164",
+      "volume_usd": "118232815.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702368800,
+      "price_usd": "2516.5154",
+      "volume_usd": "118546933.52",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702372400,
+      "price_usd": "2516.8136",
+      "volume_usd": "118831380.8",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702376000,
+      "price_usd": "2517.1109",
+      "volume_usd": "119085701.89",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702379600,
+      "price_usd": "2517.4073",
+      "volume_usd": "119309489.93",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702383200,
+      "price_usd": "2517.7027",
+      "volume_usd": "119502386.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702386800,
+      "price_usd": "2517.9971",
+      "volume_usd": "119664084.22",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702390400,
+      "price_usd": "2518.2905",
+      "volume_usd": "119794323.2",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702394000,
+      "price_usd": "2518.5828",
+      "volume_usd": "119892895.48",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702397600,
+      "price_usd": "2518.8741",
+      "volume_usd": "119959643.37",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702401200,
+      "price_usd": "2519.1643",
+      "volume_usd": "119994460.09",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702404800,
+      "price_usd": "2519.4533",
+      "volume_usd": "119997289.94",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702408400,
+      "price_usd": "2519.7412",
+      "volume_usd": "119968128.39",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702412000,
+      "price_usd": "2520.0279",
+      "volume_usd": "119907022.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702415600,
+      "price_usd": "2520.3133",
+      "volume_usd": "119814068.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702419200,
+      "price_usd": "2520.5975",
+      "volume_usd": "119689417.25",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702422800,
+      "price_usd": "2520.8805",
+      "volume_usd": "119533266.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702426400,
+      "price_usd": "2521.1622",
+      "volume_usd": "119345867.32",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702430000,
+      "price_usd": "2521.4425",
+      "volume_usd": "119127518.57",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702433600,
+      "price_usd": "2521.7215",
+      "volume_usd": "118878569.86",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702437200,
+      "price_usd": "2521.9991",
+      "volume_usd": "118599419.48",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702440800,
+      "price_usd": "2522.2753",
+      "volume_usd": "118290513.98",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702444400,
+      "price_usd": "2522.5501",
+      "volume_usd": "117952347.57",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702448000,
+      "price_usd": "2522.8234",
+      "volume_usd": "117585461.23",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702451600,
+      "price_usd": "2523.0952",
+      "volume_usd": "117190441.91",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702455200,
+      "price_usd": "2523.3656",
+      "volume_usd": "116767921.54",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702458800,
+      "price_usd": "2523.6344",
+      "volume_usd": "116318576.08",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702462400,
+      "price_usd": "2523.9016",
+      "volume_usd": "115843124.38",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702466000,
+      "price_usd": "2524.1673",
+      "volume_usd": "115342327.05",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702469600,
+      "price_usd": "2524.4313",
+      "volume_usd": "114816985.28",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702473200,
+      "price_usd": "2524.6937",
+      "volume_usd": "114267939.49",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702476800,
+      "price_usd": "2524.9544",
+      "volume_usd": "113696068.04",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702480400,
+      "price_usd": "2525.2135",
+      "volume_usd": "113102285.81",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702484000,
+      "price_usd": "2525.4708",
+      "volume_usd": "112487542.71",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702487600,
+      "price_usd": "2525.7265",
+      "volume_usd": "111852822.21",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702491200,
+      "price_usd": "2525.9803",
+      "volume_usd": "111199139.72",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702494800,
+      "price_usd": "2526.2324",
+      "volume_usd": "110527540.99",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702498400,
+      "price_usd": "2526.4826",
+      "volume_usd": "109839100.45",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702502000,
+      "price_usd": "2526.7311",
+      "volume_usd": "109134919.44",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702505600,
+      "price_usd": "2526.9776",
+      "volume_usd": "108416124.51",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702509200,
+      "price_usd": "2527.2223",
+      "volume_usd": "107683865.58",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702512800,
+      "price_usd": "2527.4651",
+      "volume_usd": "106939314.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702516400,
+      "price_usd": "2527.706",
+      "volume_usd": "106183661.21",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702520000,
+      "price_usd": "2527.9449",
+      "volume_usd": "105418115.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702523600,
+      "price_usd": "2528.1818",
+      "volume_usd": "104643902.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702527200,
+      "price_usd": "2528.4168",
+      "volume_usd": "103862259.98",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702530800,
+      "price_usd": "2528.6497",
+      "volume_usd": "103074438.66",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702534400,
+      "price_usd": "2528.8806",
+      "volume_usd": "102281698.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702538000,
+      "price_usd": "2529.1095",
+      "volume_usd": "101485308.91",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702541600,
+      "price_usd": "2529.3362",
+      "volume_usd": "100686542.74",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702545200,
+      "price_usd": "2529.5609",
+      "volume_usd": "99886678.25",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702548800,
+      "price_usd": "2529.7834",
+      "volume_usd": "99086995.05",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702552400,
+      "price_usd": "2530.0038",
+      "volume_usd": "98288772.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702556000,
+      "price_usd": "2530.222",
+      "volume_usd": "97493287.48",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702559600,
+      "price_usd": "2530.438",
+      "volume_usd": "96701812.7",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702563200,
+      "price_usd": "2530.6519",
+      "volume_usd": "95915614.31",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702566800,
+      "price_usd": "2530.8635",
+      "volume_usd": "95135950.07",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702570400,
+      "price_usd": "2531.0728",
+      "volume_usd": "94364067.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702574000,
+      "price_usd": "2531.2799",
+      "volume_usd": "93601200.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702577600,
+      "price_usd": "2531.4847",
+      "volume_usd": "92848570.97",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702581200,
+      "price_usd": "2531.6872",
+      "volume_usd": "92107381.93",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702584800,
+      "price_usd": "2531.8873",
+      "volume_usd": "91378819.41",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702588400,
+      "price_usd": "2532.0852",
+      "volume_usd": "90664048.93",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702592000,
+      "price_usd": "2532.2806",
+      "volume_usd": "89964213.98",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702595600,
+      "price_usd": "2532.4737",
+      "volume_usd": "89280434.15",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702599200,
+      "price_usd": "2532.6644",
+      "volume_usd": "88613803.34",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702602800,
+      "price_usd": "2532.8526",
+      "volume_usd": "87965388.01",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702606400,
+      "price_usd": "2533.0385",
+      "volume_usd": "87336225.49",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702610000,
+      "price_usd": "2533.2218",
+      "volume_usd": "86727322.32",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702613600,
+      "price_usd": "2533.4027",
+      "volume_usd": "86139652.59",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702617200,
+      "price_usd": "2533.5812",
+      "volume_usd": "85574156.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702620800,
+      "price_usd": "2533.7571",
+      "volume_usd": "85031738.61",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702624400,
+      "price_usd": "2533.9305",
+      "volume_usd": "84513266.79",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702628000,
+      "price_usd": "2534.1013",
+      "volume_usd": "84019570.43",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702631600,
+      "price_usd": "2534.2696",
+      "volume_usd": "83551439.35",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702635200,
+      "price_usd": "2534.4354",
+      "volume_usd": "83109622.45",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702638800,
+      "price_usd": "2534.5985",
+      "volume_usd": "82694826.56",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702642400,
+      "price_usd": "2534.7591",
+      "volume_usd": "82307715.26",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702646000,
+      "price_usd": "2534.9171",
+      "volume_usd": "81948907.84",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702649600,
+      "price_usd": "2535.0724",
+      "volume_usd": "81618978.31",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702653200,
+      "price_usd": "2535.2251",
+      "volume_usd": "81318454.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702656800,
+      "price_usd": "2535.3751",
+      "volume_usd": "81047817.17",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702660400,
+      "price_usd": "2535.5225",
+      "volume_usd": "80807499.29",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702664000,
+      "price_usd": "2535.6671",
+      "volume_usd": "80597885.33",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702667600,
+      "price_usd": "2535.8091",
+      "volume_usd": "80419310.6",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702671200,
+      "price_usd": "2535.9484",
+      "volume_usd": "80272060.8",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702674800,
+      "price_usd": "2536.0849",
+      "volume_usd": "80156371.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702678400,
+      "price_usd": "2536.2187",
+      "volume_usd": "80072427.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702682000,
+      "price_usd": "2536.3498",
+      "volume_usd": "80020363.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702685600,
+      "price_usd": "2536.4781",
+      "volume_usd": "80000263.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702689200,
+      "price_usd": "2536.6036",
+      "volume_usd": "80012157.79",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702692800,
+      "price_usd": "2536.7264",
+      "volume_usd": "80056028.68",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702696400,
+      "price_usd": "2536.8464",
+      "volume_usd": "80131805.66",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702700000,
+      "price_usd": "2536.9635",
+      "volume_usd": "80239367.52",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702703600,
+      "price_usd": "2537.0779",
+      "volume_usd": "80378542.17",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702707200,
+      "price_usd": "2537.1894",
+      "volume_usd": "80549106.97",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702710800,
+      "price_usd": "2537.2981",
+      "volume_usd": "80750789.05",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702714400,
+      "price_usd": "2537.4039",
+      "volume_usd": "80983265.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702718000,
+      "price_usd": "2537.5069",
+      "volume_usd": "81246165.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702721600,
+      "price_usd": "2537.607",
+      "volume_usd": "81539066.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702725200,
+      "price_usd": "2537.7043",
+      "volume_usd": "81861501.88",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702728800,
+      "price_usd": "2537.7987",
+      "volume_usd": "82212954.73",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702732400,
+      "price_usd": "2537.8902",
+      "volume_usd": "82592863.05",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702736000,
+      "price_usd": "2537.9788",
+      "volume_usd": "83000619.08",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702739600,
+      "price_usd": "2538.0645",
+      "volume_usd": "83435570.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702743200,
+      "price_usd": "2538.1472",
+      "volume_usd": "83897021.46",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702746800,
+      "price_usd": "2538.2271",
+      "volume_usd": "84384233.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702750400,
+      "price_usd": "2538.304",
+      "volume_usd": "84896427.96",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702754000,
+      "price_usd": "2538.378",
+      "volume_usd": "85432784.64",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702757600,
+      "price_usd": "2538.4491",
+      "volume_usd": "85992445.77",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702761200,
+      "price_usd": "2538.5172",
+      "volume_usd": "86574515.99",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702764800,
+      "price_usd": "2538.5824",
+      "volume_usd": "87178064.12",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702768400,
+      "price_usd": "2538.6446",
+      "volume_usd": "87802124.62",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702772000,
+      "price_usd": "2538.7039",
+      "volume_usd": "88445699.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702775600,
+      "price_usd": "2538.7602",
+      "volume_usd": "89107758.02",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702779200,
+      "price_usd": "2538.8135",
+      "volume_usd": "89787242.2",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702782800,
+      "price_usd": "2538.8638",
+      "volume_usd": "90483064.6",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702786400,
+      "price_usd": "2538.9112",
+      "volume_usd": "91194112.08",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702790000,
+      "price_usd": "2538.9556",
+      "volume_usd": "91919247.09",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702793600,
+      "price_usd": "2538.997",
+      "volume_usd": "92657309.59",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702797200,
+      "price_usd": "2539.0354",
+      "volume_usd": "93407118.83",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702800800,
+      "price_usd": "2539.0709",
+      "volume_usd": "94167475.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702804400,
+      "price_usd": "2539.1033",
+      "volume_usd": "94937162.5",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702808000,
+      "price_usd": "2539.1328",
+      "volume_usd": "95714949.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702811600,
+      "price_usd": "2539.1592",
+      "volume_usd": "96499591.06",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702815200,
+      "price_usd": "2539.1827",
+      "volume_usd": "97289832.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702818800,
+      "price_usd": "2539.2031",
+      "volume_usd": "98084410.28",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702822400,
+      "price_usd": "2539.2206",
+      "volume_usd": "98882052.28",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702826000,
+      "price_usd": "2539.2351",
+      "volume_usd": "99681482.75",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702829600,
+      "price_usd": "2539.2465",
+      "volume_usd": "100481422.78",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702833200,
+      "price_usd": "2539.255",
+      "volume_usd": "101280592.64",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702836800,
+      "price_usd": "2539.2604",
+      "volume_usd": "102077713.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702840400,
+      "price_usd": "2539.2629",
+      "volume_usd": "102871511.1",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702844000,
+      "price_usd": "2539.2624",
+      "volume_usd": "103660714.58",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702847600,
+      "price_usd": "2539.2588",
+      "volume_usd": "104444061.7",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702851200,
+      "price_usd": "2539.2523",
+      "volume_usd": "105220299.26",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702854800,
+      "price_usd": "2539.2428",
+      "volume_usd": "105988185.46",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702858400,
+      "price_usd": "2539.2303",
+      "volume_usd": "106746491.84",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702862000,
+      "price_usd": "2539.2148",
+      "volume_usd": "107494005.27",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702865600,
+      "price_usd": "2539.1963",
+      "volume_usd": "108229529.9",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702869200,
+      "price_usd": "2539.1748",
+      "volume_usd": "108951889.03",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702872800,
+      "price_usd": "2539.1503",
+      "volume_usd": "109659927.04",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702876400,
+      "price_usd": "2539.1229",
+      "volume_usd": "110352511.24",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702880000,
+      "price_usd": "2539.0925",
+      "volume_usd": "111028533.62",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702883600,
+      "price_usd": "2539.0591",
+      "volume_usd": "111686912.71",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702887200,
+      "price_usd": "2539.0228",
+      "volume_usd": "112326595.23",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702890800,
+      "price_usd": "2538.9835",
+      "volume_usd": "112946557.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702894400,
+      "price_usd": "2538.9413",
+      "volume_usd": "113545808.68",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702898000,
+      "price_usd": "2538.8961",
+      "volume_usd": "114123389.14",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702901600,
+      "price_usd": "2538.8479",
+      "volume_usd": "114678375.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702905200,
+      "price_usd": "2538.7969",
+      "volume_usd": "115209878.97",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702908800,
+      "price_usd": "2538.7429",
+      "volume_usd": "115717050.19",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702912400,
+      "price_usd": "2538.6859",
+      "volume_usd": "116199077.48",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702916000,
+      "price_usd": "2538.6261",
+      "volume_usd": "116655189.71",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702919600,
+      "price_usd": "2538.5634",
+      "volume_usd": "117084657.18",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702923200,
+      "price_usd": "2538.4977",
+      "volume_usd": "117486792.84",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702926800,
+      "price_usd": "2538.4292",
+      "volume_usd": "117860953.37",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702930400,
+      "price_usd": "2538.3577",
+      "volume_usd": "118206540.18",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702934000,
+      "price_usd": "2538.2834",
+      "volume_usd": "118523000.41",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702937600,
+      "price_usd": "2538.2062",
+      "volume_usd": "118809827.8",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702941200,
+      "price_usd": "2538.1262",
+      "volume_usd": "119066563.47",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702944800,
+      "price_usd": "2538.0433",
+      "volume_usd": "119292796.7",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702948400,
+      "price_usd": "2537.9575",
+      "volume_usd": "119488165.58",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702952000,
+      "price_usd": "2537.869",
+      "volume_usd": "119652357.55",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702955600,
+      "price_usd": "2537.7776",
+      "volume_usd": "119785109.94",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702959200,
+      "price_usd": "2537.6834",
+      "volume_usd": "119886210.37",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702962800,
+      "price_usd": "2537.5864",
+      "volume_usd": "119955497.11",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702966400,
+      "price_usd": "2537.4866",
+      "volume_usd": "119992859.31",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702970000,
+      "price_usd": "2537.384",
+      "volume_usd": "119998237.2",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702973600,
+      "price_usd": "2537.2787",
+      "volume_usd": "119971622.18",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702977200,
+      "price_usd": "2537.1706",
+      "volume_usd": "119913056.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702980800,
+      "price_usd": "2537.0597",
+      "volume_usd": "119822634.82",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702984400,
+      "price_usd": "2536.9462",
+      "volume_usd": "119700500.83",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702988000,
+      "price_usd": "2536.8299",
+      "volume_usd": "119546850.25",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702991600,
+      "price_usd": "2536.7109",
+      "volume_usd": "119361928.87",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702995200,
+      "price_usd": "2536.5892",
+      "volume_usd": "119146032.54",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1702998800,
+      "price_usd": "2536.4648",
+      "volume_usd": "118899506.64",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703002400,
+      "price_usd": "2536.3378",
+      "volume_usd": "118622745.56",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703006000,
+      "price_usd": "2536.2081",
+      "volume_usd": "118316192.06",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703009600,
+      "price_usd": "2536.0757",
+      "volume_usd": "117980336.56",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703013200,
+      "price_usd": "2535.9408",
+      "volume_usd": "117615716.36",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703016800,
+      "price_usd": "2535.8032",
+      "volume_usd": "117222914.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703020400,
+      "price_usd": "2535.6631",
+      "volume_usd": "116802560.18",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703024000,
+      "price_usd": "2535.5203",
+      "volume_usd": "116355325.09",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703027600,
+      "price_usd": "2535.375",
+      "volume_usd": "115881924.97",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703031200,
+      "price_usd": "2535.2272",
+      "volume_usd": "115383117.15",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703034800,
+      "price_usd": "2535.0768",
+      "volume_usd": "114859699.63",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703038400,
+      "price_usd": "2534.9239",
+      "volume_usd": "114312509.76",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703042000,
+      "price_usd": "2534.7685",
+      "volume_usd": "113742422.92",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703045600,
+      "price_usd": "2534.6106",
+      "volume_usd": "113150351.15",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703049200,
+      "price_usd": "2534.4503",
+      "volume_usd": "112537241.61",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703052800,
+      "price_usd": "2534.2875",
+      "volume_usd": "111904075.16",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    },
+    {
+      "timestamp": 1703056400,
+      "price_usd": "2534.1223",
+      "volume_usd": "111251864.73",
+      "market_cap_usd": "25000000000.0",
+      "source": "synthetic_e2e"
+    }
+  ]
+}
