@@ -34,11 +34,13 @@ PRICES_E2E = FIXTURES_DIR / "prices_e2e"
 REGISTRY_E2E = FIXTURES_DIR / "registry_e2e.json"
 
 VALID_EXIT_REASONS = {
-    "IL_EXCEEDED",
-    "TVL_COLLAPSE",
-    "MAX_HOLD_EXCEEDED",
-    "PRICE_OUT_OF_RANGE",
-    "ENTRY_SCORE_BELOW_THRESHOLD",
+    "IL_THRESHOLD",           # ExitReason.IL_THRESHOLD.name
+    "TVL_DECAY",              # ExitReason.TVL_DECAY.name
+    "VOLUME_DECAY",           # ExitReason.VOLUME_DECAY.name
+    "TIME_LIMIT",             # ExitReason.TIME_LIMIT.name
+    "PRICE_OUT_OF_RANGE",     # ExitReason.PRICE_OUT_OF_RANGE.name (correct)
+    "MANUAL",                 # ExitReason.MANUAL.name
+    "ENTRY_SCORE_BELOW_THRESHOLD",  # harness string, not enum
     None,
 }
 
@@ -264,13 +266,20 @@ class TestReporterOutput:
 
     def test_e2e_run_index_appended(self, e2e_config, e2e_registry, tmp_path):
         """RUN_INDEX.APPEND() ADDS ENTRY. LOAD RETURNS LIST WITH ONE ENTRY."""
-        run_id, _ = _run_and_save(e2e_config, e2e_registry, tmp_path)
+        from reporting import run_index as ri_module
 
-        index = RunIndex()
-        entries = index.load()
-        assert len(entries) >= 1
-        # ENTRIES ARE RunIndexEntry DATACLASS INSTANCES (NOT DICTS)
-        assert any(e.run_id == run_id for e in entries)
+        # Redirect RunIndex to tmp_path so we read the index written by _run_and_save
+        original_index_path = ri_module.RunIndex.INDEX_PATH
+        ri_module.RunIndex.INDEX_PATH = tmp_path / "run_index.json"
+        try:
+            run_id, _ = _run_and_save(e2e_config, e2e_registry, tmp_path)
+            index = RunIndex()
+            entries = index.load()
+            assert len(entries) >= 1
+            # ENTRIES ARE RunIndexEntry DATACLASS INSTANCES (NOT DICTS)
+            assert any(e.run_id == run_id for e in entries)
+        finally:
+            ri_module.RunIndex.INDEX_PATH = original_index_path
 
 
 # ---------------------------------------------------------------------------

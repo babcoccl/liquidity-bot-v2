@@ -173,7 +173,7 @@ def generate_price_fixtures():
         {"symbol": "WETH", "address": "0x4200000000000000000000000000000000000006", "base_price": 2500.0},
         {"symbol": "USDC", "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913", "base_price": 1.0},
         {"symbol": "USDT", "address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2", "base_price": 1.0},
-        {"symbol": "CBBTC", "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf", "base_price": 65000.0},
+        {"symbol": "cbBTC", "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf", "base_price": 65000.0},
     ]
 
     for token in tokens:
@@ -186,7 +186,7 @@ def generate_price_fixtures():
 
             if symbol == "WETH":
                 price = _weth_price(i)
-            elif symbol == "CBBTC":
+            elif symbol == "cbBTC":
                 price = _cbbtc_price(i)
             else:
                 # STABLECOIN
