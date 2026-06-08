@@ -134,10 +134,7 @@ class BacktestReporter:
         pool_details = []
         for r in results:
             # Risk tier from entry_score
-            if r.entry_score != Decimal("0"):
-                risk_tier = "anchor"  # simplified — full classification needs vol + fee_apr
-            else:
-                risk_tier = "unknown"
+            risk_tier = classify_risk_tier(r.entry_score) if r.entry_score != Decimal("0") else "unknown"
 
             # Fee APR per pool = total_fees / initial_capital annualized by hours
             if r.hours_simulated > 0:
