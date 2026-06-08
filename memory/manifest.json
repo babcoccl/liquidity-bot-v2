@@ -29,7 +29,7 @@
       "status": "complete",
       "sprint": 7,
       "audit_notes": [
-        "fee_gas_ratio returns RATIO('0') not inf when gas_cost is zero — callers must handle"
+        "fee_gas_ratio returns RATIO('0') not inf when gas_cost is zero -- callers must handle"
       ],
       "dependencies": [
         "core.units"
@@ -93,10 +93,10 @@
       "status": "complete",
       "sprint": 7,
       "audit_notes": [
-        "PositionSimulator.step() implemented — accepts PoolDayData",
-        "fee attribution is proportional model — does not use feeGrowthGlobal yet",
-        "price range width is entry_price × multiplier — not config-driven yet",
-        "HOTFIX: summary() IL price bug fixed — last_price field added to Position"
+        "PositionSimulator.step() implemented -- accepts PoolDayData",
+        "fee attribution is proportional model -- does not use feeGrowthGlobal yet",
+        "price range width is entry_price x multiplier -- not config-driven yet",
+        "HOTFIX: summary() IL price bug fixed -- last_price field added to Position"
       ],
       "dependencies": [
         "core.il",
@@ -145,7 +145,7 @@
       "status": "stub",
       "sprint": 1,
       "audit_notes": [
-        "All methods raise NotImplementedError — live execution not implemented in v2 yet"
+        "All methods raise NotImplementedError -- live execution not implemented in v2 yet"
       ],
       "dependencies": [],
       "test_file": "tests/test_scaffold.py",
@@ -181,7 +181,7 @@
       "status": "complete",
       "sprint": "9-hotfix2",
       "audit_notes": [
-        "api_key read from THEGRAPH_API_KEY env var — silently uses empty string if not set, which will produce 401 on authenticated endpoints",
+        "api_key read from THEGRAPH_API_KEY env var -- silently uses empty string if not set, which will produce 401 on authenticated endpoints",
         "Sprint 8: FetchError logs response body; URL supports {api_key} path substitution.",
         "Sprint 9-hotfix2: Daily records expanded to 24 hourly PoolHistoryPoint records."
       ],
@@ -197,8 +197,8 @@
       "status": "complete",
       "sprint": "9-hotfix2",
       "audit_notes": [
-        "TVL always Decimal('0') — source limitation",
-        "fee_growth_global always None — source limitation",
+        "TVL always Decimal('0') -- source limitation",
+        "fee_growth_global always None -- source limitation",
         "price_token1_in_token0 is USD proxy for token1 not true intra-pool ratio",
         "Requires COIN_ID_MAP update when new tokens added to registry",
         "Sprint 9-hotfix2: Daily records expanded to 24 hourly PoolHistoryPoint records."
@@ -244,7 +244,7 @@
         "Sprint 9: save_pool_history accepts both PoolDayData (date field) and PoolHistoryPoint (timestamp field). JSON output includes timestamp for hourly records.",
         "Hotfix 3: PoolHistoryPoint serialized to flat hourly array.",
         "Sprint 10: pool_address hoisted to wrapper root; stripped from per-row records; load path injects it back.",
-        "Sprint 22: Atomic write block consolidated — mkdir(parents=True) + os.replace() now unified for both hourly and daily branches."
+        "Sprint 22: Atomic write block consolidated -- mkdir(parents=True) + os.replace() now unified for both hourly and daily branches."
       ],
       "dependencies": [
         "data.fetcher.router"
@@ -351,11 +351,11 @@
     },
     {
       "id": "config.default_yaml",
-      "file": "config
+      "file": "config/default.yaml",
       "status": "complete",
       "sprint": 5,
       "audit_notes": [
-        "CoinGecko API key is empty string by default — must be set via COINGECKO_API_KEY env var"
+        "CoinGecko API key is empty string by default -- must be set via COINGECKO_API_KEY env var"
       ],
       "dependencies": [],
       "test_file": null,
@@ -410,10 +410,12 @@
     },
     {
       "id": "scripts.backtest",
-      "file": "scripts/backtest.py",
+      "file": "scripts/run_backtest_legacy.py",
       "status": "complete",
       "sprint": 6,
-      "audit_notes": [],
+      "audit_notes": [
+        "Legacy runner -- renamed from scripts/backtest.py to avoid shadowing backtest/ package. Sprint 22B."
+      ],
       "dependencies": [
         "backtest.harness",
         "backtest.config",
@@ -428,7 +430,7 @@
       "status": "complete",
       "sprint": 7,
       "audit_notes": [
-        "BASE_RPC_HTTP and BASE_RPC_WS parked for Sprint 8+ execution modules — not consumed yet"
+        "BASE_RPC_HTTP and BASE_RPC_WS parked for Sprint 8+ execution modules -- not consumed yet"
       ],
       "dependencies": [],
       "test_file": null,
@@ -441,10 +443,10 @@
       "sprint": 22,
       "audit_notes": [
         "15 pools migrated from v1 data/registry.json",
-        "LRDS/WETH excluded — token0 address in v1 registry appears malformed",
-        "Alt/duplicate pools excluded — only primary address per pair retained",
+        "LRDS/WETH excluded -- token0 address in v1 registry appears malformed",
+        "Alt/duplicate pools excluded -- only primary address per pair retained",
         "Sprint 14: Added tick_lower/tick_upper to all 15 pool entries; fee_tier left unchanged pending audit.",
-        "Sprint 16: fee_tier corrected for all 13 invalid pools (basis-point → ppm). All 15 pools now pass validate().",
+        "Sprint 16: fee_tier corrected for all 13 invalid pools (basis-point to ppm). All 15 pools now pass validate().",
         "Sprint 22: Trimmed to 3 pools (USDC-WETH, WETH-cbBTC, USDC-USDT). Removed 10 pools: USDC-cbBTC, AERO-USDC, VVV-WETH, KTA-WETH, VIRTUAL-WETH, FAI-WETH, cbETH-WETH, WETH-BRETT, EURC-USDC, AERO-cbBTC, WETH-MORPHO, USDC-eUSD. Trimmed to match E2E fixture coverage before first real data run. Committed unscoped in 07df0ab."
       ],
       "dependencies": [],
@@ -468,7 +470,7 @@
       "status": "complete",
       "sprint": 11,
       "audit_notes": [
-        "Frozen dataclass. Entry snapshot only — no computation."
+        "Frozen dataclass. Entry snapshot only -- no computation."
       ],
       "dependencies": [],
       "test_file": null,
@@ -529,7 +531,7 @@
         "Fee attribution added to _simulate_pool_hourly(). Daily path updated with explicit hours_simulated=0, exit_reason=None.",
         "Sprint 14: Hourly path now uses registry ticks and only accrues fees while in range.",
         "Sprint 15: tick_to_price hoisted above fee loop; fee not counted on exit step.",
-        "Sprint 17: entry score gate added to _simulate_pool_hourly() — skips pool when compute_pool_score < config.min_entry_score.",
+        "Sprint 17: entry score gate added to _simulate_pool_hourly() -- skips pool when compute_pool_score < config.min_entry_score.",
         "Sprint 18: Entry gate now uses compute_entry_metrics() from core.metrics - real 30d rolling window metrics replace static-zero placeholders.",
         "Sprint 20: entry_score passed through to BacktestResult.",
         "Sprint 21: AUDIT tag bumped sprint=18 -> sprint=21."
@@ -564,7 +566,7 @@
       "status": "complete",
       "sprint": 22,
       "audit_notes": [
-        "# AUDIT:status=complete, # AUDIT:sprint=20. PoolResult/AggregateStats/RunSummary frozen dataclasses. compare_runs() never raises — malformed fields default to Decimal('0') with warning. load_run_summary() raises FileNotFoundError.",
+        "# AUDIT:status=complete, # AUDIT:sprint=20. PoolResult/AggregateStats/RunSummary frozen dataclasses. compare_runs() never raises -- malformed fields default to Decimal('0') with warning. load_run_summary() raises FileNotFoundError.",
         "Sprint 22: root_path param added to load_run_summary(). Sprint 21 xfail resolved."
       ],
       "dependencies": [
@@ -579,7 +581,7 @@
       "status": "complete",
       "sprint": 20,
       "audit_notes": [
-        "# AUDIT:status=complete, # AUDIT:sprint=20. Three print functions: print_run_summary, print_run_comparison, print_run_history. Stdout only — no file I/O. Accepts deserialized objects only."
+        "# AUDIT:status=complete, # AUDIT:sprint=20. Three print functions: print_run_summary, print_run_comparison, print_run_history. Stdout only -- no file I/O. Accepts deserialized objects only."
       ],
       "dependencies": [
         "reporting.comparator"
@@ -593,7 +595,7 @@
       "status": "complete",
       "sprint": 11,
       "audit_notes": [
-        "Layer 1: pure function unit tests — symmetry, precision, field direction, edge cases."
+        "Layer 1: pure function unit tests -- symmetry, precision, field direction, edge cases."
       ],
       "dependencies": [
         "strategy.il_calculator"
@@ -607,7 +609,7 @@
       "status": "complete",
       "sprint": 11,
       "audit_notes": [
-        "Layer 2: loader -> calculator integration — Decimal preservation, dual-method agreement."
+        "Layer 2: loader -> calculator integration -- Decimal preservation, dual-method agreement."
       ],
       "dependencies": [
         "data.loader.pool_loader",
@@ -623,7 +625,7 @@
       "status": "complete",
       "sprint": 11,
       "audit_notes": [
-        "Layer 3: real data smoke tests — completeness, reciprocal consistency, fee growth monotonicity, stablecoin peg."
+        "Layer 3: real data smoke tests -- completeness, reciprocal consistency, fee growth monotonicity, stablecoin peg."
       ],
       "dependencies": [
         "data.loader.pool_loader",
@@ -639,7 +641,7 @@
       "status": "complete",
       "sprint": 13,
       "audit_notes": [
-        "Full coverage — priority order, tolerance window, join alignment, Decimal enforcement. 4 new range-exit test cases appended."
+        "Full coverage -- priority order, tolerance window, join alignment, Decimal enforcement. 4 new range-exit test cases appended."
       ],
       "dependencies": [
         "strategy.evaluator",
@@ -757,7 +759,7 @@
       "status": "complete",
       "sprint": 16,
       "audit_notes": [
-        "Sprint 16: test_real_registry_json_all_fee_tiers_valid() added — asserts all 15 pools have fee_tier in {100, 500, 3000, 10000}."
+        "Sprint 16: test_real_registry_json_all_fee_tiers_valid() added -- asserts all 15 pools have fee_tier in {100, 500, 3000, 10000}."
       ],
       "dependencies": [
         "registry.json"
@@ -906,4 +908,11 @@
       ],
       "dependencies": [
         "backtest.harness",
-        "backtest.config
+        "backtest.config",
+        "registry.registry"
+      ],
+      "test_file": null,
+      "test_coverage": "none"
+    }
+  ]
+}
