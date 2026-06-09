@@ -1,0 +1,114 @@
+# .clinerules
+# liquidity-bot-v2 — Cline agent standing rules
+# Last updated: Sprint 22D
+
+# ─────────────────────────────────────────────
+# EXECUTION MODEL
+# ─────────────────────────────────────────────
+
+## What Cline does
+- Writes and edits files only
+- Runs git add, git status, git commit
+- Runs fast, local-only Python one-liners (no network, no I/O longer than 5s)
+- Reads files to confirm edits landed before posting a confirm message
+
+## What Cline never does
+- Never executes any command that makes an HTTP/network request
+- Never runs scripts/fetch.py, scripts/run_backtest.py, or scripts/sweep.py
+- Never runs curl, wget, or any shell command that contacts an external API
+- Never chains commands with && where the second depends on a long-running first
+- Never executes a command that could run longer than 5 seconds
+
+## Handoff steps
+- Any step requiring a network call or long-running process must be written
+  as a [YOU RUN] step with the exact command the developer will paste into
+  their terminal
+- Cline waits at every [YOU RUN] step until the developer pastes output back
+  before continuing to the next step
+
+# ─────────────────────────────────────────────
+# CHECK SCRIPTS
+# ─────────────────────────────────────────────
+
+- All network validation lives in scripts/check_*.py files
+- Cline writes these scripts; the developer runs them
+- Every check script must:
+    - Load .env via python-dotenv (wrapped in try/except ImportError)
+    - Use urllib with an explicit timeout (never omit timeout=)
+    - Print a single final line: CHECK PASSED: <what> or CHECK FAILED: <why>
+    - Exit with code 0 on pass, code 1 on fail
+- Check scripts are prerequisites: fetch.py is never run without
+  check_graph_endpoint.py passing first
+
+# ─────────────────────────────────────────────
+# STRUCTURED SUMMARY BLOCKS
+# ─────────────────────────────────────────────
+
+- Every script that produces data output (fetch.py, run_backtest.py,
+  sweep.py) must end with a clearly delimited summary block:
+    print("=== <SCRIPT NAME> SUMMARY ===")
+    ... one line per key metric ...
+    print("<SCRIPT NAME> COMPLETE.")
+- This block is what the developer pastes back for collaborator review
+- Never require the developer to open a JSON file to confirm success —
+  all pass/fail signal must be visible in terminal output
+
+# ─────────────────────────────────────────────
+# CODE STANDARDS
+# ─────────────────────────────────────────────
+
+- All financial values use Decimal, never float
+  (float permitted only at display/serialization boundaries)
+- Atomic writes only: write to .tmp then os.replace(), never write
+  directly to a final path
+- No hardcoded pool addresses or token symbols in business logic —
+  read from registry/registry.json
+- Never use text-based find/replace on any JSON file —
+  always write a Python script that reads, patches in memory,
+  asserts structure, then writes atomically
+
+# ─────────────────────────────────────────────
+# MEMORY FILE RULES
+# ─────────────────────────────────────────────
+
+- memory/activeContext.md, memory/known_issues.md, and
+  memory/manifest.json are the source of truth for project state
+- Any commit that changes a script's status, sprint, or behavior
+  must also update all three memory files in the same commit
+- manifest.json must always be valid JSON after any edit —
+  validate with: python3 -c "import json; json.load(open('memory/manifest.json')); print('VALID')"
+  before committing
+- Never allow memory files to describe a sprint that is behind
+  the actual git log
+
+# ─────────────────────────────────────────────
+# SPEC EXECUTION RULES
+# ─────────────────────────────────────────────
+
+- Allow full thinking — never suppress reasoning or use shorthand
+  directives that skip self-consistency checks
+- Number every step; each step names an exact file path and exact tool
+- After every read step, post a heartbeat confirm before proceeding:
+  e.g. "FETCH.PY READ. _http_post headers dict confirmed."
+- After every edit step, re-read the modified lines to confirm the
+  change landed — never trust the edit tool output alone
+- Keep each step narrow: one file, one concern
+  (large files + multi-edit steps cause context saturation and truncation)
+- Smoke test must show real output (N > 0) before any commit that
+  touches data fetch or schema logic — never commit on a warning-only run
+
+# ─────────────────────────────────────────────
+# COMMIT RULES
+# ─────────────────────────────────────────────
+
+- Never commit unless all of the following are true:
+    [ ] Edited files re-read and confirmed correct
+    [ ] memory/manifest.json validated as valid JSON
+    [ ] activeContext.md sprint label matches actual completed work
+    [ ] Any [YOU RUN] steps that gate the commit have returned
+        output that was reviewed and confirmed PASSED
+- Commit message format:
+    <VERB> <file(s)>: <one-line description>. Sprint <ID> <status>.
+  Examples:
+    "FIX fetch.py: Cloudflare-compatible headers. Sprint 22D complete."
+    "ADD check_graph_endpoint.py + check_data_files.py. Sprint 22D handoff-ready."
