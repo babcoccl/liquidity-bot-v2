@@ -139,8 +139,11 @@ def fetch_pool_hourly(
             pages_fetched, len(page), oldest_ts,
         )
 
-        # Stop if we've gone back far enough or got a partial page
-        if oldest_ts <= cutoff or len(page) < _GT_PAGE_SIZE:
+        # Stop only when we've gone back far enough.
+        # Do NOT exit on partial page — GT naturally returns < 1000
+        # candles on the most recent page (incomplete current hour).
+        # The empty-page check above handles true end-of-data.
+        if oldest_ts <= cutoff:
             break
 
         # Prepare next page: fetch candles older than oldest on this page
@@ -517,7 +520,7 @@ def main() -> None:
             # RATE LIMIT: GeckoTerminal free tier = 30 req/min.
             # Pagination adds 2s sleep between pages within fetch_pool_hourly.
             # Add 8s between pools to avoid 429 on free tier (5 pools x 2+ calls).
-            time.sleep(8)  # rate limit: 8s between pools for GT free tier
+            time.sleep(12)  # rate limit: 12s between pools (90d = 3 pages x 2s + 1s + 12s = safe)
 
         except Exception as e:
             logger.warning(
