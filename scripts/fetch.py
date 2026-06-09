@@ -448,28 +448,38 @@ def main() -> None:
             )
             logger.info("Saved %s -> %s (%d records)", pool.pair_name, out_path, len(records))
 
+            # RATE LIMIT: GeckoTerminal free tier = 30 req/min.
+            # CoinGecko token prices already use 1s sleep per token.
+            # Add 3s here to ensure we stay well under limit.
+            time.sleep(3)
+
         except Exception as e:
             logger.warning(
                 "FAILED to fetch pool %s (%s): %s — CONTINUING",
                 pool.pair_name, pool.pool_address[:10], e,
             )
 
-    # STRUCTURED SUMMARY — PASTE-FRIENDLY FOR REVIEW
+    # STRUCTURED SUMMARY — SCOPED TO REGISTRY PAIRS ONLY
+    # Does not show stale files from prior runs with different registries
     print("=== FETCH SUMMARY ===")
-    for hfile in sorted(HISTORICAL_DIR.glob("*.json")):
+    for pool in pools:
+        hfile = HISTORICAL_DIR / f"{pool.pair_name}.json"
         try:
             d = json.loads(hfile.read_text())
             n = len(d.get("records", []))
-            print(f"  {hfile.name:<22} N={n:>4} hourly records")
+            status = "OK" if n > 0 else "EMPTY — fetch may have failed"
+            print(f"  {pool.pair_name:<20} N={n:>4} hourly records  {status}")
+        except FileNotFoundError:
+            print(f"  {pool.pair_name:<20} MISSING — file not written")
         except Exception:
-            print(f"  {hfile.name:<22} PARSE ERROR")
+            print(f"  {pool.pair_name:<20} PARSE ERROR")
     for pfile in sorted(PRICES_DIR.glob("*.json")):
         try:
             d = json.loads(pfile.read_text())
             n = len(d.get("records", []))
-            print(f"  {pfile.name:<22} N={n:>4} price points")
+            print(f"  {pfile.name:<20} N={n:>4} price points")
         except Exception:
-            print(f"  {pfile.name:<22} PARSE ERROR")
+            print(f"  {pfile.name:<20} PARSE ERROR")
     print("FETCH COMPLETE.")
 
 
