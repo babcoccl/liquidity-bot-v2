@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "22E Patch 2",
+  "last_updated_sprint": "22E Patch 3",
   "components": [
     {
       "id": "core.models",
@@ -370,7 +370,8 @@
         "Sprint 10: COINGECKO_API_KEY read from environment. GeckoTerminalFetcher primary. FetchRouter fallback chain. Token price fetch loop persists to data/prices/{SYMBOL}.json.",
         "Sprint 22: Direct The Graph poolHourDatas query + CoinGecko market_chart. Removed FetchRouter/yaml dependency. Reads pool list from PoolRegistry only. Atomic writes. --days arg default 30. THEGRAPH_API_KEY + COINGECKO_API_KEY required from env. Per-pool and per-token exception handling with logger.warning + continue. 1s sleep between CoinGecko calls.",
         "Sprint 22C: save_token_prices rewritten to match token_price_loader schema. Key changed from 'prices' to 'records'. Added volume_usd/market_cap_usd/source fields per TokenHistoryPoint contract.",
-        "Sprint 22E Patch 2: Added 3s time.sleep() between pool fetches (GeckoTerminal free tier rate limit). Scoped FETCH SUMMARY to registry pairs only — shows OK/EMPTY/MISSING status."
+        "Sprint 22E Patch 2: Added 3s time.sleep() between pool fetches (GeckoTerminal free tier rate limit). Scoped FETCH SUMMARY to registry pairs only — shows OK/EMPTY/MISSING status.",
+        "Sprint 22E Patch 3: Removed invalid GT/CoinGecko price sanity check (ratio vs USD mismatch for non-stable pairs). Added empty-file guard on 0 records to prevent stale summary. (commit 1a461a5)."
       ],
       "dependencies": [
         "registry.registry",

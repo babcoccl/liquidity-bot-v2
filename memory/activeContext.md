@@ -1,7 +1,7 @@
 # Active Context
 
-## Current Sprint: 22E Patch 2 (complete — awaiting YOU RUN)
-- Sprint 22E Patch 2: Added 3s rate limit sleep between GeckoTerminal pool fetches. Scoped FETCH SUMMARY to registry pairs only (commit 6246db3).
+## Current Sprint: 22E Patch 3 (complete — awaiting YOU RUN)
+- Sprint 22E Patch 3: Removed invalid GT/CoinGecko price sanity check (ratio vs USD mismatch for non-stable pairs). Added empty-file guard on 0 records to prevent stale summary. (commit 1a461a5).
 
 ## Sprint 22 Goals
 - Fix load_run_summary() root_path param (DONE — Sprint 22A, commit 619a201)
@@ -15,7 +15,8 @@
 - load_run_summary() accepts root_path param — xfail removed
 - scripts/fetch.py uses GeckoTerminal OHLCV as primary source.
   The Graph retained as secondary. TVL=0 handled gracefully.
-  Price sanity check against CoinGecko ratio.
+  Price sanity check removed (was invalid: compared GT ratio price vs CoinGecko USD/USD).
+  Empty-file guard writes explicit empty records on 0 fetch to prevent stale summary.
 - scripts/run_backtest.py runs backtest on real data and writes results/runs/{run_id}/summary.json
 - pool_loader.py atomic write consolidated for both hourly + daily branches
 - registry/registry.json trimmed to 3 pools for first real data validation run

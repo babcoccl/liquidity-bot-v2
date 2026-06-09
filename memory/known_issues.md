@@ -52,8 +52,15 @@
   evaluator.py TVL_DECAY check patched to skip when tvl_usd=0.
   Real TVL fetch from GT pool info endpoint deferred to Sprint 23.
 - Price source: GeckoTerminal OHLCV close price with token="base"
-  gives price_token1_in_token0 directly. CoinGecko USD prices
-  retained as sanity check (>50% deviation drops candle).
+  gives price_token1_in_token0 directly. CoinGecko USD price
+  sanity check removed (Sprint 22E Patch 3, commit 1a461a5) because
+  it compared GT ratio (e.g., cbBTC/WETH ≈ 0.047) against
+  CoinGecko USD/USD (e.g., cbBTC_usd/WETH_usd ≈ 24) — different
+  quantities for non-stablecoin pairs. Only valid when both tokens
+  are USD-denominated, which never occurs for ratio prices.
+- Empty-file guard: when fetch_pool_hourly returns 0 records, an
+  explicit empty records file is written atomically to prevent the
+  FETCH SUMMARY from reading stale files from prior runs.
 - feeGrowthGlobal not available. fee_growth_global_0/1 = None.
   Fee accumulation in harness uses volume_usd * fee_rate (unaffected).
 - THEGRAPH_API_KEY is now optional — fetch.py will not exit if missing.
