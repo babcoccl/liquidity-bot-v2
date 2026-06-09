@@ -131,8 +131,8 @@ def evaluate_position(
             f"(ticks {position.tick_lower}..{position.tick_upper})",
         )
 
-    # Priority 3: TVL floor
-    if current_pool_record.tvl_usd < min_tvl_usd:
+    # Priority 3: TVL floor (skip when tvl=0 means "not available from source")
+    if current_pool_record.tvl_usd > Decimal("0") and current_pool_record.tvl_usd < min_tvl_usd:
         return _signal(
             ExitReason.TVL_DECAY,
             f"TVL ${current_pool_record.tvl_usd} < floor ${min_tvl_usd}",

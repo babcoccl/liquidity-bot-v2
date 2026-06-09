@@ -1,10 +1,14 @@
-"""CHECK THE GRAPH ENDPOINT CONNECTIVITY AND POOL HOURLY SCHEMA.
+"""CHECK THE GRAPH ENDPOINT CONNECTIVITY (SECONDARY SOURCE).
 
-Run this before fetch.py to verify:
-  1. API key is loaded
+NOTE: fetch.py now uses GeckoTerminal as primary data source.
+The Graph is retained as a fallback for when GeckoTerminal is
+unavailable. Run this script to verify Graph indexers are healthy
+before switching back.
+
+Checks:
+  1. THEGRAPH_API_KEY is loaded
   2. Subgraph endpoint responds (ping)
-  3. poolHourDatas field exists on the schema
-  4. Variable types match what fetch.py sends
+  3. liquidityPoolHourlySnapshots field present with collection args
 
 Usage:
     python scripts/check_graph_endpoint.py

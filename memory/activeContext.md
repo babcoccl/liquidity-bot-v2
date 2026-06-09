@@ -1,6 +1,6 @@
 # Active Context
 
-## Current Sprint: 22D (complete — awaiting YOU RUN validation)
+## Current Sprint: 22E (complete — awaiting YOU RUN)
 
 ## Sprint 22 Goals
 - Fix load_run_summary() root_path param (DONE — Sprint 22A, commit 619a201)
@@ -12,7 +12,9 @@
 ## What Works Now
 - E2E smoke test suite passes (tests/test_e2e_backtest.py — 15 tests)
 - load_run_summary() accepts root_path param — xfail removed
-- scripts/fetch.py rewrites pool history + token prices from live APIs
+- scripts/fetch.py uses GeckoTerminal OHLCV as primary source.
+  The Graph retained as secondary. TVL=0 handled gracefully.
+  Price sanity check against CoinGecko ratio.
 - scripts/run_backtest.py runs backtest on real data and writes results/runs/{run_id}/summary.json
 - pool_loader.py atomic write consolidated for both hourly + daily branches
 - registry/registry.json trimmed to 3 pools for first real data validation run
@@ -29,18 +31,20 @@
   Fetch order: tokens first, pools second.
 
 ## Next Actions — YOU RUN (in order)
-# 1. Verify endpoint + confirm liquidityPoolHourlySnapshots field
-python scripts/check_graph_endpoint.py
+# 1. Verify GeckoTerminal connectivity + pool coverage
+python scripts/check_geckoterminal.py
 
-# 2. Fetch 30 days (tokens first, then pools with price join)
+# 2. Fetch 30 days
 python scripts/fetch.py --days 30
 
-# 3. Verify all data files non-empty
+# 3. Verify data files
 python scripts/check_data_files.py
 
 # 4. Run backtest
 python scripts/run_backtest.py
 
-# Paste === FETCH SUMMARY === and === BACKTEST SUMMARY === back
-# for review. Collaborator will verify price ratio magnitudes
-# before declaring Sprint 22D complete.
+# Paste === FETCH SUMMARY === and === BACKTEST SUMMARY ===.
+# Verify price magnitudes:
+#   USDC-WETH close price ~ 2500 (USDC per WETH, token="base")
+#   WETH-cbBTC close price ~ 21  (WETH per cbBTC)
+#   USDC-USDT close price ~ 1.0

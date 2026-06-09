@@ -37,4 +37,27 @@
     WETH-cbBTC price_token1_in_token0 ~ 21  (cbBTC costs ~21 WETH)
     USDC-USDT price_token1_in_token0 ~ 1.0
   If inverted: t0/t1 token ordering in registry differs from expected.
-  Fix: swap token0_symbol and token1_symbol in _build_price_index call.
+   Fix: swap token0_symbol and token1_symbol in _build_price_index call.
+
+## scripts/fetch.py — Switched to GeckoTerminal (Sprint 22E)
+- The Graph decentralized network indexers for all Uniswap V3 Base
+  subgraphs returned "Odd number of digits" errors on 2026-06-09.
+  Both BuildersDAO (HMuAwufqZ1...) and community (96eJ9G...) subgraphs
+  were affected simultaneously — infrastructure-level degradation.
+- Switched primary data source to GeckoTerminal OHLCV REST API.
+  No API key required. Free tier supports up to 6 months history.
+  Rate limit: 30 req/min.
+- TVL is not available per-candle from GeckoTerminal free tier.
+  tvl_usd=0 in all PoolHistoryPoint records from this source.
+  evaluator.py TVL_DECAY check patched to skip when tvl_usd=0.
+  Real TVL fetch from GT pool info endpoint deferred to Sprint 23.
+- Price source: GeckoTerminal OHLCV close price with token="base"
+  gives price_token1_in_token0 directly. CoinGecko USD prices
+  retained as sanity check (>50% deviation drops candle).
+- feeGrowthGlobal not available. fee_growth_global_0/1 = None.
+  Fee accumulation in harness uses volume_usd * fee_rate (unaffected).
+- THEGRAPH_API_KEY is now optional — fetch.py will not exit if missing.
+  Key retained in env for future Graph fallback use.
+- WATCH Sprint 23: Add TVL fetch from GT pool info endpoint.
+  Endpoint: GET /networks/base/pools/{address}
+  Field: data.attributes.reserve_in_usd
