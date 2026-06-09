@@ -68,3 +68,16 @@
 - WATCH Sprint 23: Add TVL fetch from GT pool info endpoint.
   Endpoint: GET /networks/base/pools/{address}
   Field: data.attributes.reserve_in_usd
+
+## fetch.py — TVL now real from GT pool info endpoint (Sprint 23)
+- Sprint 22E tvl_usd=0 workaround replaced with real TVL from
+  GeckoTerminal GET /networks/base/pools/{address} endpoint.
+  Field: data.attributes.reserve_in_usd (current TVL as string).
+- TVL is a scalar (current snapshot) applied to all hourly records.
+  Historical per-record TVL requires paid GT tier — deferred Sprint 24.
+- evaluator.py TVL_DECAY guard reverted to simple tvl < min_tvl_usd.
+- Rate limit: +1 req per pool per fetch run. Total requests per run:
+    4 CoinGecko (tokens) + 3 OHLCV + 3 pool info = 10 req per run.
+    With 1s+3s sleeps, total wall time ~25s. Well within 30 req/min.
+- WATCH Sprint 24: per-candle TVL from GT paid OHLCV endpoint
+  (includes volume and liquidity per candle in Pro tier).

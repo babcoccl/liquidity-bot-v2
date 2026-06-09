@@ -1,7 +1,7 @@
 # Active Context
 
-## Current Sprint: 22E Patch 3 (complete — awaiting YOU RUN)
-- Sprint 22E Patch 3: Removed invalid GT/CoinGecko price sanity check (ratio vs USD mismatch for non-stable pairs). Added empty-file guard on 0 records to prevent stale summary. (commit 1a461a5).
+## Current Sprint: 23 (complete — awaiting YOU RUN)
+- Sprint 23: Fetch real TVL from GeckoTerminal pool info endpoint. Scalar per pool, current snapshot applied to all hourly records. Reverted evaluator.py TVL=0 guard. (commit TBD).
 
 ## Sprint 22 Goals
 - Fix load_run_summary() root_path param (DONE — Sprint 22A, commit 619a201)
@@ -14,7 +14,9 @@
 - E2E smoke test suite passes (tests/test_e2e_backtest.py — 15 tests)
 - load_run_summary() accepts root_path param — xfail removed
 - scripts/fetch.py uses GeckoTerminal OHLCV as primary source.
-  The Graph retained as secondary. TVL=0 handled gracefully.
+  The Graph retained as secondary. TVL real from GT pool info endpoint.
+  Scalar per pool, current snapshot applied to all hourly records.
+  Fee/alpha metrics now non-zero (no longer blocked by tvl=0).
   Price sanity check removed (was invalid: compared GT ratio price vs CoinGecko USD/USD).
   Empty-file guard writes explicit empty records on 0 fetch to prevent stale summary.
 - scripts/run_backtest.py runs backtest on real data and writes results/runs/{run_id}/summary.json
@@ -33,20 +35,15 @@
    FETCH SUMMARY scoped to registry pairs only — shows OK/EMPTY/MISSING status per pool.
 
 ## Next Actions — YOU RUN (in order)
-# 1. Verify GeckoTerminal connectivity + pool coverage
-python scripts/check_geckoterminal.py
-
-# 2. Fetch 30 days
+# 1. Fetch fresh data (TVL now included)
 python scripts/fetch.py --days 30
 
-# 3. Verify data files
-python scripts/check_data_files.py
-
-# 4. Run backtest
+# 2. Run backtest
 python scripts/run_backtest.py
 
 # Paste === FETCH SUMMARY === and === BACKTEST SUMMARY ===.
-# Verify price magnitudes:
-#   USDC-WETH close price ~ 2500 (USDC per WETH, token="base")
-#   WETH-cbBTC close price ~ 21  (WETH per cbBTC)
-#   USDC-USDT close price ~ 1.0
+# Verify TVL log lines appear per pool:
+#   fetch_pool_hourly: TVL for 0xb2cc224c = XXXXXXX USD
+# Verify entry_score > 0.05 for at least one pool.
+# If all three still fail entry gate, paste summary.json —
+# scoring weight recalibration may be needed.

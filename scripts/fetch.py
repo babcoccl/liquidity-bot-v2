@@ -2,7 +2,7 @@
 ATOMIC WRITES. READ REGISTRY. NO HARDCODED ADDRESSES.
 
 # AUDIT:status=complete
-# AUDIT:sprint=22
+# AUDIT:sprint=23
 # AUDIT:issue=none
 """
 
@@ -46,6 +46,14 @@ def _geckoterminal_ohlcv_url(pool_address: str) -> str:
     )
 
 
+def _geckoterminal_pool_info_url(pool_address: str) -> str:
+    """BUILD GECKOTERMINAL POOL INFO URL. RETURNS CURRENT TVL."""
+    return (
+        f"{_GT_BASE_URL}/networks/{_GT_NETWORK}"
+        f"/pools/{pool_address.lower()}"
+    )
+
+
 def _http_get(url: str, params: dict[str, Any], timeout: int = 30) -> dict:
     """MINIMAL HTTP GET WITH urllib. NO EXTERNAL DEPS.
     BUILDS QUERY STRING FROM params DICT.
@@ -85,7 +93,7 @@ def fetch_pool_hourly(
     price_index: dict[str, dict[int, Decimal]],
 ) -> list[PoolHistoryPoint]:
     """FETCH HOURLY OHLCV FROM GECKOTERMINAL. NO API KEY REQUIRED.
-    DERIVE TVL FROM POOL INFO ENDPOINT.
+    DERIVE TVL FROM POOL INFO ENDPOINT (SCALAR — CURRENT SNAPSHOT).
     PRICE: close price with token="base" = price_token1_in_token0.
     RECORDS WITH NO COINGECKO PRICE MATCH WITHIN ±1800s ARE DROPPED.
     RAISE ON HTTP ERROR. RETURN EMPTY LIST IF NO DATA.
@@ -101,6 +109,8 @@ def fetch_pool_hourly(
     }
 
     resp = _http_get(url, params)
+
+    time.sleep(1)  # rate limit: separate OHLCV and pool info calls
 
     raw_candles = (
         resp.get("data", {})
@@ -121,6 +131,29 @@ def fetch_pool_hourly(
     cutoff = int(time.time()) - (days * 86400)
     raw_candles = [c for c in raw_candles if int(c[0]) >= cutoff]
 
+    # FETCH CURRENT TVL FROM POOL INFO ENDPOINT (ONE CALL PER POOL)
+    pool_tvl = Decimal("0")
+    try:
+        info_url = _geckoterminal_pool_info_url(pool_address)
+        info_resp = _http_get(info_url, {})
+        reserve = (
+            info_resp.get("data", {})
+                     .get("attributes", {})
+                     .get("reserve_in_usd", "0")
+            or "0"
+        )
+        pool_tvl = Decimal(str(reserve))
+        logger.info(
+            "fetch_pool_hourly: TVL for %s = %s USD",
+            pool_address[:10], pool_tvl
+        )
+    except Exception as e:
+        logger.warning(
+            "fetch_pool_hourly: TVL fetch failed for %s: %s — using 0",
+            pool_address[:10], e
+        )
+        pool_tvl = Decimal("0")
+
     results: list[PoolHistoryPoint] = []
 
     for candle in raw_candles:
@@ -136,11 +169,8 @@ def fetch_pool_hourly(
         else:
             p_t0_in_t1 = Decimal("0")
 
-        # TVL: derive from CoinGecko price index as proxy
-        # TVL ≈ not directly available per-candle from GT free tier
-        # Use Decimal("0") — harness TVL floor check will not trigger
-        # unless real TVL is fetched separately (future sprint)
-        tvl = Decimal("0")
+        # TVL from pool info endpoint (scalar — current snapshot)
+        tvl = pool_tvl
 
         pt = PoolHistoryPoint(
             pool_address=pool_address.lower(),
