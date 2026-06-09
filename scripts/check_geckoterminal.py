@@ -68,7 +68,8 @@ def main() -> int:
     # CHECK 2: Load registry
     try:
         raw = json.loads(_REGISTRY_PATH.read_text())
-        pools = raw.get("pools", [])
+        # registry.json is a top-level array, not {"pools": [...]}
+        pools = raw if isinstance(raw, list) else raw.get("pools", [])
         if not pools:
             failures.append("Registry has 0 pools")
             print("[2] REGISTRY: FAILED — 0 pools found")
