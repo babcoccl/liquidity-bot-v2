@@ -46,7 +46,7 @@ def _the_graph_endpoint(api_key: str) -> str:
 
 
 _POOL_HOURLY_QUERY = """\
-query poolHourDatas($pool: Bytes!, $periodStartUnix_gte: BigInt!) {
+query poolHourDatas($pool: String!, $periodStartUnix_gte: Int!) {
   poolHourDatas(
     where: {pool: $pool, periodStartUnix_gte: $periodStartUnix_gte}
     orderBy: periodStartUnix
@@ -72,7 +72,10 @@ def _http_post(url: str, payload: dict[str, Any], timeout: int = 30) -> dict:
     req = urllib.request.Request(
         url,
         data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
+        headers={
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (compatible; liquidity-bot/2.0)",
+        },
         method="POST",
     )
     try:
@@ -96,8 +99,8 @@ def fetch_pool_hourly(
     endpoint = _the_graph_endpoint(api_key)
 
     variables: dict[str, Any] = {
-        "pool": pool_address.lower()[2:],
-        "periodStartUnix_gte": str(cutoff),
+        "pool": pool_address.lower(),
+        "periodStartUnix_gte": int(cutoff),
     }
 
     payload = {
