@@ -44,6 +44,7 @@ class BacktestResult:
     hours_simulated: int = 0    # NEW (Sprint 13) — 0 for daily-path results
     exit_reason: str | None = None  # NEW (Sprint 13) — None for daily-path results
     entry_score: Decimal = Decimal("0")  # NEW (Sprint 20) — score at entry gate time
+    mtm_adjustment: Decimal = Decimal("0")  # NEW (Sprint 26) — USD mark-to-market on volatile leg
 
 
 class BacktestReporter:
@@ -151,6 +152,7 @@ class BacktestReporter:
                 "net_lp_alpha": _q(r.net_lp_alpha),
                 "fee_apr": _q(pool_fee_apr),
                 "il_cost": _q(r.il_cost),
+                "mtm_adjustment": _q(r.mtm_adjustment),
                 "total_fees_earned": _q(r.total_fees_earned),
                 "hours_simulated": r.hours_simulated,
                 "exit_reason": r.exit_reason,

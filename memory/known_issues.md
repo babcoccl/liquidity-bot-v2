@@ -96,3 +96,29 @@
   where FEE_BPS = fee_tier / 100 (e.g. 500 → 5, 3000 → 30).
 - WATCH Sprint 25: Add concentrated tick range per pool based
   on 90d realized volatility (±2σ price band).
+
+## Sprint 26 — Mark-to-market + trend awareness
+
+### Mark-to-market fix (Part A)
+- Prior to Sprint 26, final_capital ignored USD price changes
+  of the volatile token leg. A 20% WETH drop on a 50/50 position
+  reduced actual value by ~$1,000 but backtest showed $10,000 base.
+- Fix: mark_to_market_usd() in core/il.py. Applied in harness
+  final_capital calculation using token0 USD price at entry and exit.
+- New result field: mtm_adjustment (signed USD). Appears in summary.json.
+- Backtest results from Sprint 25 and earlier are overstated in
+  bear markets, understated in bull markets. Re-run after this fix.
+
+### Trend awareness (Part B)
+- strategy/trend.py added with 5 functions:
+    trend_strength(), trend_direction(), is_ranging(),
+    trend_score_penalty(), should_exit_trend()
+- trend_score_penalty() integrated into compute_pool_score().
+  Trending pools score lower — less likely to pass entry gate.
+- should_exit_trend() integrated into harness step loop.
+  New exit reason: TREND_EXIT:<detail> (ExitReason.TREND_EXIT added).
+- Thresholds (tunable in config):
+    strength_threshold = 0.05 (entry penalty kicks in at 0.03)
+    adverse_move_threshold = 0.07
+- WATCH Sprint 27: Add trend_strength_threshold to BacktestConfig
+  so it can be sweep-tuned. Current values are hardcoded defaults.

@@ -56,14 +56,16 @@ def compute_pool_score(
     fee_apr: Decimal,
     volume_tvl_ratio: Decimal,
     weights: dict[str, Decimal] | None = None,
+    trend_penalty: Decimal = Decimal("0"),
 ) -> Decimal:
-    """COMPUTE SCORE. WEIGHT TIMES VALUE. SUM ALL. RETURN DECIMAL."""
+    """COMPUTE SCORE. WEIGHT TIMES VALUE. SUM ALL. SUBTRACT TREND PENALTY. RETURN DECIMAL."""
     w = weights if weights is not None else _DEFAULT_WEIGHTS
     return (
         w["net_lp_alpha_30d"] * net_lp_alpha_30d
         + w["annualized_vol_30d"] * annualized_vol_30d
         + w["fee_apr"] * fee_apr
         + w["volume_tvl_ratio"] * volume_tvl_ratio
+        - trend_penalty
     )
 
 

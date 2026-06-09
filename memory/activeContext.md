@@ -1,5 +1,15 @@
 # Active Context
 
+## Current Sprint: 26 (complete — awaiting YOU RUN)
+- Sprint 26A: Mark-to-market capital fix. Added mark_to_market_usd() to core/il.py.
+  Harness computes final_capital with MTM adjustment from token0 USD price change.
+  New PoolResult field: mtm_adjustment (signed USD). Appears in summary.json.
+- Sprint 26B: Price trend awareness module. Created strategy/trend.py with 5 functions:
+    trend_strength(), trend_direction(), is_ranging(),
+    trend_score_penalty(), should_exit_trend()
+  Trend penalty integrated into compute_pool_score().
+  Trend exit check integrated into harness step loop (TREND_EXIT reason).
+
 ## Current Sprint: 25 (complete)
 - Sprint 25: Added --days CLI flag to scripts/run_backtest.py. max_hold_hours = days * 24. run_id format: real_YYYY-MM-DD_Nd. (commit 6684695)
 
@@ -32,6 +42,10 @@
   cbBTC-USDC-5, WETH-cbBTC-5, USDC-USDT-1.
   All use full-range ticks [-887272, 887272].
   Two new high-volume pools added from GeckoTerminal discovery.
+- Mark-to-market capital fix: final_capital now reflects USD price changes
+  of volatile token leg via mark_to_market_usd() in core/il.py.
+- Trend awareness: strategy/trend.py provides trend detection, entry penalty,
+  and exit signal. Integrated into scorer and harness.
 
 ## Known Issues / Watch Items
 - scripts/fetch.py pool address was using .strip("0x") — FIXED in Sprint 22B (use [2:] instead)
@@ -46,22 +60,16 @@
    FETCH SUMMARY scoped to registry pairs only — shows OK/EMPTY/MISSING status per pool.
 
 ## Next Actions — YOU RUN (in order)
-# 1. Fetch 90 days for all 5 pools
-python scripts/fetch.py --days 90
+# 1. Run trend module tests
+python -m pytest tests/test_trend.py -v
 
-# Expected FETCH SUMMARY:
-#   WETH-USDC-5      N=2160 hourly records  OK
-#   WETH-USDC-30     N=2160 hourly records  OK
-#   cbBTC-USDC-5     N=2160 hourly records  OK
-#   WETH-cbBTC-5     N=2160 hourly records  OK
-#   USDC-USDT-1      N=2160 hourly records  OK
-
-# 2. Run 90-day backtest
+# 2. Re-run 90-day backtest with MTM fix active
 python scripts/run_backtest.py --days 90
 
-# Paste === FETCH SUMMARY === and === BACKTEST SUMMARY ===.
+# Paste === BACKTEST SUMMARY === and summary.json.
 # Key things to verify:
-#   - WETH-USDC-30 entry_score > WETH-USDC-5 (higher fee captures more)
-#   - cbBTC-USDC-5 entry_score > 0.05 (high vol/TVL ratio)
-#   - WETH-cbBTC-5 now earns fees (was 0 with tight ticks)
-#   - net_alpha > 0 for at least 2 pools
+#   - final_capital for WETH-USDC-5 reduced by ~$1,000 vs Sprint 25
+#     (reflects -20% WETH price over 90d)
+#   - mtm_adjustment field present in summary.json pools[]
+#   - Any TREND_EXIT reason appearing (WETH was trending down)
+#   - WETH-USDC-5 may now score lower due to trend penalty

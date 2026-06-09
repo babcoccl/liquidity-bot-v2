@@ -28,6 +28,8 @@ from strategy.evaluator import join_records, evaluate_position
 from strategy.exit_signal import ExitSignal, ExitReason
 from strategy.position import Position
 from strategy.scorer import compute_pool_score
+from strategy.trend import trend_score_penalty as _trend_penalty
+from strategy.trend import should_exit_trend as _should_exit_trend
 from core.il import tick_to_price
 from core.metrics import compute_entry_metrics
 
@@ -216,11 +218,16 @@ class BacktestHarness:
             tick_upper=pool.tick_upper,
             window_hours=self.config.metrics_window_hours,
         )
+        # TREND PENALTY: compute from token0 price history before entry
+        t0_prices_history = [t.price_usd for t in token0_prices]
+        trend_pen = _trend_penalty(t0_prices_history)
+
         entry_score = compute_pool_score(
             net_lp_alpha_30d=entry_metrics["net_lp_alpha_30d"],
             annualized_vol_30d=entry_metrics["annualized_vol_30d"],
             fee_apr=entry_metrics["fee_apr"],
             volume_tvl_ratio=entry_metrics["volume_tvl_ratio"],
+            trend_penalty=trend_pen,
         )
         if entry_score < self.config.min_entry_score:
             logger.debug(
@@ -297,9 +304,42 @@ class BacktestHarness:
                 )
                 total_fees += pool_rec.volume_usd * fee_rate * lp_share
 
+            # TREND EXIT CHECK: evaluate mid-position trend breakout
+            t0_prices_so_far = [entry_t0.price_usd] + [
+                a[1].price_usd for a in aligned[1:aligned.index((pool_rec, t0_rec, t1_rec)) + 1]
+            ]
+            exit_trend, trend_reason = _should_exit_trend(
+                prices=t0_prices_so_far,
+                entry_price=position.entry_token0_price_usd,
+            )
+            if exit_trend:
+                exit_signal = ExitSignal(
+                    triggered=True,
+                    reason="TREND_EXIT",
+                    il_current=sig.il_current,
+                    tvl_current=pool_rec.tvl_usd,
+                    volume_current=pool_rec.volume_usd,
+                    hours_held=hours_simulated,
+                    detail=trend_reason,
+                )
+                break
+
         il_cost = il_at_exit * self.config.initial_capital
         net_lp_alpha = total_fees + il_cost   # il_cost is negative, so net = fees - |IL|
-        final_capital = self.config.initial_capital + total_fees + il_cost
+
+        # MARK-TO-MARKET: adjust for USD price change of volatile leg (token0)
+        from core.il import mark_to_market_usd as _mtm
+        mtm_adjustment = Decimal("0")
+        if position.entry_token0_price_usd > Decimal("0"):
+            mtm_adjustment = _mtm(
+                capital_usd=self.config.initial_capital,
+                entry_price_usd_volatile=position.entry_token0_price_usd,
+                current_price_usd_volatile=t0_rec.price_usd,
+            )
+
+        final_capital = (
+            self.config.initial_capital + total_fees + il_cost + mtm_adjustment
+        )
 
         return BacktestResult(
             pool_address=pool.pool_address,
@@ -311,6 +351,7 @@ class BacktestHarness:
             il_cost=il_cost,
             net_lp_alpha=net_lp_alpha,
             final_capital=final_capital,
+            mtm_adjustment=mtm_adjustment,
             rebalance_count=0,
             source="hourly",
             entry_score=entry_score,

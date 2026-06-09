@@ -212,3 +212,37 @@ def il_vs_hodl_pnl(
         "lp_pnl_usd": lp_pnl,
         "net_diff_usd": net_diff,
     }
+
+
+def mark_to_market_usd(
+    capital_usd: Decimal,
+    entry_price_usd_volatile: Decimal,
+    current_price_usd_volatile: Decimal,
+    volatile_fraction: Decimal = Decimal("0.5"),
+) -> Decimal:
+    """COMPUTE MARK-TO-MARKET ADJUSTMENT FOR VOLATILE ASSET LEG.
+
+    For a 50/50 LP position, half the capital is in a volatile
+    token. As that token's USD price changes, the dollar value
+    of the position changes proportionally on that half.
+
+    This is SEPARATE from IL — IL measures the divergence loss
+    vs holding. MTM measures the absolute USD value change of
+    the volatile leg vs entry.
+
+    Returns signed Decimal: positive = appreciation, negative = depreciation.
+    Returns Decimal("0") if entry_price_usd_volatile is zero.
+
+    Args:
+        capital_usd:                  Entry capital in USD.
+        entry_price_usd_volatile:     USD price of volatile token at entry.
+        current_price_usd_volatile:   USD price of volatile token now.
+        volatile_fraction:            Fraction of capital in volatile token.
+                                      Default 0.5 (50/50 full-range position).
+    """
+    if entry_price_usd_volatile <= Decimal("0"):
+        return Decimal("0")
+    price_return = (
+        current_price_usd_volatile / entry_price_usd_volatile
+    ) - Decimal("1")
+    return capital_usd * volatile_fraction * price_return
