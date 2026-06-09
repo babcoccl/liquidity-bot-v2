@@ -98,11 +98,21 @@ def main() -> int:
         data = _post(url, schema_query)
         fields = data["data"]["__schema"]["queryType"]["fields"]
 
+        # Match the PLURAL collection field (has where/orderBy/first args)
+        # NOT the singular lookup field (has only id/block args)
         hour_field = None
         for f in fields:
-            if "hourly" in f["name"].lower() and "pool" in f["name"].lower():
-                hour_field = f
-                break
+            name_lower = f["name"].lower()
+            if (
+                "hourly" in name_lower
+                and "pool" in name_lower
+                and name_lower.endswith("snapshots")  # plural only
+            ):
+                # Confirm it has collection-style args (where or first or orderBy)
+                arg_names = {a["name"] for a in f["args"]}
+                if arg_names & {"where", "first", "orderBy"}:
+                    hour_field = f
+                    break
 
         if hour_field is None:
             failures.append("liquidityPoolHourlySnapshots field NOT found in schema")
@@ -119,23 +129,22 @@ def main() -> int:
                 args[a["name"]] = type_name
             print(f"[3] SCHEMA: field={hour_field['name']} args={args}")
 
-            # CHECK 4: Variable type compatibility
-            pool_arg = next(
-                (k for k in args if "pool" in k.lower()), None
-            )
-            ts_arg = next(
-                (k for k in args if "unix" in k.lower() or "time" in k.lower()), None
-            )
-            if pool_arg:
-                print(f"[4] POOL ARG:  {pool_arg}: {args[pool_arg]}")
-            else:
-                failures.append("No pool address argument found on hourly field")
-                print("[4] POOL ARG: FAILED — not found")
-            if ts_arg:
-                print(f"[4] TS ARG:    {ts_arg}: {args[ts_arg]}")
-            else:
-                failures.append("No timestamp argument found on hourly field")
-                print("[4] TS ARG: FAILED — not found")
+            # CHECK 4: Confirm collection-style args present
+            # Messari subgraphs use nested `where` input for filters —
+            # pool address and timestamp filters are inside the where object,
+            # not as top-level args. Confirm `where` and `first` are present.
+            has_where = "where" in args
+            has_first = "first" in args
+            has_order = "orderBy" in args
+
+            print(f"[4] COLLECTION ARGS: where={has_where} first={has_first} orderBy={has_order}")
+
+            if not has_where:
+                failures.append(
+                    f"Field {hour_field['name']} missing 'where' arg — "
+                    "cannot filter by pool address or timestamp"
+                )
+                print("[4] COLLECTION ARGS: FAILED — 'where' arg not found")
 
     except Exception as e:
         failures.append(f"SCHEMA {type(e).__name__}: {e}")
