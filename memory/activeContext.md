@@ -1,5 +1,8 @@
 # Active Context
 
+## Current Sprint: 25 (complete)
+- Sprint 25: Added --days CLI flag to scripts/run_backtest.py. max_hold_hours = days * 24. run_id format: real_YYYY-MM-DD_Nd. (commit 6684695)
+
 ## Current Sprint: 24 (complete — awaiting YOU RUN)
 - Sprint 24: Expanded registry to 5 pools (added WETH-USDC-30, cbBTC-USDC-5). Fixed WETH-cbBTC + USDC-USDT tick ranges to full range [-887272, 887272]. Ready for 90-day backtest.
 - Sprint 24 Patch: Paginated GeckoTerminal OHLCV fetch (before_timestamp walks backwards in 1000-candle pages). Dedup at page boundaries. Increased inter-pool sleep from 3s to 8s for GT free tier rate limits. Added 2s sleep between pagination requests. (commit 2b29303)

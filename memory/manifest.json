@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "22E Patch 3",
+  "last_updated_sprint": "25",
   "components": [
     {
       "id": "core.models",
@@ -868,11 +868,12 @@
       "id": "scripts.run_backtest",
       "file": "scripts/run_backtest.py",
       "status": "complete",
-      "sprint": 22,
+      "sprint": 25,
       "audit_notes": [
         "SPRINT 22: ONE-SHOT RUNNER. REAL DATA. DAYS=30. INITIAL_CAPITAL=10000.",
         "MIN_ENTRY_SCORE=0.05. MAX_IL_PCT=-0.50. ALL POOLS ENTER FOR FIRST VALIDATION RUN.",
-        "build_config() + make_run_id() + main(). Prints summary path + pools simulated/skipped counts."
+        "build_config() + make_run_id() + main(). Prints summary path + pools simulated/skipped counts.",
+        "SPRINT 25: Added --days CLI flag via argparse (default 30). max_hold_hours = days * 24. run_id format: real_YYYY-MM-DD_Nd."
       ],
       "dependencies": [
         "backtest.harness",
