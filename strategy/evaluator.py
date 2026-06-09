@@ -21,20 +21,41 @@ def join_records(
     token0_prices: list[TokenHistoryPoint],
     token1_prices: list[TokenHistoryPoint],
 ) -> list[tuple[PoolHistoryPoint, TokenHistoryPoint, TokenHistoryPoint]]:
-    """
-    Inner-join pool records with token0 and token1 price records on
-    timestamp. Returns only timestamps present in all three series.
+    """Inner-join pool records with token0 and token1 price records.
 
-    Used by backtester to iterate aligned records.
-    """
-    pool_by_ts = {r.timestamp: r for r in pool_records}
-    t0_by_ts   = {r.timestamp: r for r in token0_prices}
-    t1_by_ts   = {r.timestamp: r for r in token1_prices}
+    Snaps all timestamps to the nearest hour boundary before joining.
+    This tolerates cross-source timestamp offsets (e.g. GeckoTerminal
+    vs CoinGecko) of up to ±1800s without data loss.
 
-    common = set(pool_by_ts) & set(t0_by_ts) & set(t1_by_ts)
+    When multiple records from the same series snap to the same hour,
+    the one closest to the hour boundary is kept (last-write-wins on tie).
+
+    Returns only hour buckets present in all three series, sorted ascending.
+    """
+    _HOUR = 3600
+
+    def _snap(ts: int) -> int:
+        """Snap unix timestamp to nearest hour boundary."""
+        return round(ts / _HOUR) * _HOUR
+
+    # Build hour-snapped indexes — closest record wins on collision
+    def _build_snapped(records) -> dict[int, any]:
+        snapped: dict[int, tuple[int, any]] = {}  # hour -> (delta, record)
+        for r in records:
+            h = _snap(r.timestamp)
+            delta = abs(r.timestamp - h)
+            if h not in snapped or delta < snapped[h][0]:
+                snapped[h] = (delta, r)
+        return {h: v[1] for h, v in snapped.items()}
+
+    pool_by_h  = _build_snapped(pool_records)
+    t0_by_h    = _build_snapped(token0_prices)
+    t1_by_h    = _build_snapped(token1_prices)
+
+    common = set(pool_by_h) & set(t0_by_h) & set(t1_by_h)
     return [
-        (pool_by_ts[ts], t0_by_ts[ts], t1_by_ts[ts])
-        for ts in sorted(common)
+        (pool_by_h[h], t0_by_h[h], t1_by_h[h])
+        for h in sorted(common)
     ]
 
 
