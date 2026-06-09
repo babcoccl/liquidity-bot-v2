@@ -82,7 +82,10 @@ class BacktestHarness:
                     continue
 
                 with open(history_path, "r") as f:
-                    raw_records = json.load(f)
+                    raw_data = json.load(f)
+
+                raw_records = raw_data.get("records", raw_data) \
+                    if isinstance(raw_data, dict) else raw_data
 
                 # Convert raw dicts to PoolDayData
                 records: list[PoolDayData] = []
@@ -315,12 +318,12 @@ class BacktestHarness:
             if exit_trend:
                 exit_signal = ExitSignal(
                     triggered=True,
-                    reason="TREND_EXIT",
+                    reason=ExitReason.TREND_EXIT,
                     il_current=sig.il_current,
                     tvl_current=pool_rec.tvl_usd,
                     volume_current=pool_rec.volume_usd,
                     hours_held=hours_simulated,
-                    detail=trend_reason,
+                    details=trend_reason,
                 )
                 break
 
