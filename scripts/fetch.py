@@ -102,10 +102,15 @@ _DEFILLAMA_YIELDS_URL = "https://yields.llama.fi"
 
 
 def fetch_defillama_tvl_history(
-    pool_address: str,
+    pool_address: str,       # kept for logging only
     days: int,
+    symbol: str,             # e.g. "WETH-USDC" (no fee suffix)
+    fee_tier: int,           # e.g. 500, 3000, 10000
 ) -> dict[int, Decimal]:
     """FETCH DAILY TVL HISTORY FROM DEFILLAMA FOR ONE POOL.
+
+    Matching uses chain + project + symbol + fee_tier from poolMeta
+    because DeFiLlama yields API does NOT store pool contract addresses.
 
     RETURNS { unix_timestamp_midnight: Decimal(tvl_usd) }.
     RETURNS EMPTY DICT IF POOL NOT FOUND OR REQUEST FAILS.
@@ -113,8 +118,14 @@ def fetch_defillama_tvl_history(
     """
     import urllib.request as _urllib_req
 
-    # STEP 1 — discover DeFiLlama pool UUID by contract address
+    # STEP 1 — discover DeFiLlama pool UUID by symbol + fee_tier
     uuid: str | None = None
+
+    # Build candidate symbols: try both token orderings
+    fee_pct = fee_tier / 10000  # 500 -> 0.05%
+    sym_parts = [s.strip().upper() for s in symbol.split("-")]
+    candidates = {symbol.upper(), f"{sym_parts[1]}-{sym_parts[0]}"}
+
     try:
         req = _urllib_req.Request(
             f"{_DEFILLAMA_YIELDS_URL}/pools",
@@ -126,12 +137,29 @@ def fetch_defillama_tvl_history(
         with _urllib_req.urlopen(req, timeout=15) as r:
             all_pools = json.loads(r.read())
 
-        target = pool_address.lower()
         for p in all_pools.get("data", []):
-            pool_field = p.get("pool", "").lower()
-            if target in pool_field:
-                uuid = p["pool"]
-                break
+            if p.get("chain", "").lower() != "base":
+                continue
+            if p.get("project", "").lower() != "uniswap-v3":
+                continue
+            p_symbol = p.get("symbol", "").upper()
+            if p_symbol not in candidates:
+                continue
+            # Match fee tier via poolMeta field
+            # DeFiLlama poolMeta for Uniswap V3 looks like "0.05%" or "0.3%"
+            meta = (p.get("poolMeta") or "").replace("%", "").strip()
+            try:
+                meta_fee_pct = float(meta)
+            except ValueError:
+                meta_fee_pct = None
+            if meta_fee_pct is not None and abs(meta_fee_pct - fee_pct) > 0.001:
+                continue
+            uuid = p["pool"]
+            logger.info(
+                "fetch_defillama_tvl_history: matched %s fee=%s -> uuid=%s symbol=%s tvl=$%s",
+                symbol, fee_tier, uuid[:8], p_symbol, p.get("tvlUsd"),
+            )
+            break
     except Exception as e:
         logger.warning(
             "fetch_defillama_tvl_history: pool lookup failed for %s: %s",
@@ -141,8 +169,8 @@ def fetch_defillama_tvl_history(
 
     if not uuid:
         logger.warning(
-            "fetch_defillama_tvl_history: pool %s not found in DeFiLlama",
-            pool_address[:10],
+            "fetch_defillama_tvl_history: symbol=%s fee=%s not found in DeFiLlama",
+            symbol, fee_tier,
         )
         return {}
 
@@ -167,8 +195,8 @@ def fetch_defillama_tvl_history(
                 result[ts] = tvl
 
         logger.info(
-            "fetch_defillama_tvl_history: %d TVL points for %s",
-            len(result), pool_address[:10],
+            "fetch_defillama_tvl_history: %s — %d daily points",
+            symbol, len(result),
         )
         return result
     except Exception as e:
@@ -598,19 +626,19 @@ def main() -> None:
     logger.info("Batch TVL fetch complete: %d pools", len(pool_tvl_map))
 
     # FETCH HISTORICAL TVL FROM DEFILLAMA FOR EACH POOL
-    # One request per pool to DeFiLlama yields API (no rate limit issues)
     pool_tvl_history: dict[str, dict[int, Decimal]] = {}
     for pool in pools:
         time.sleep(1)
+        # Strip fee tier suffix from pair_name for symbol matching
+        # "WETH-USDC-5" -> "WETH-USDC"
+        base_symbol = pool.pair_name.rsplit("-", 1)[0]
         history = fetch_defillama_tvl_history(
             pool_address=pool.pool_address,
             days=days,
+            symbol=base_symbol,
+            fee_tier=pool.fee_tier,
         )
         pool_tvl_history[pool.pool_address.lower()] = history
-        logger.info(
-            "DeFiLlama TVL history: %s — %d daily points",
-            pool.pair_name, len(history),
-        )
 
     for i, pool in enumerate(pools):
         try:
