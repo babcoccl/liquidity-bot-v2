@@ -28,4 +28,5 @@ class ExitSignal:
     tvl_current: Decimal = Decimal("0")
     volume_current: Decimal = Decimal("0")
     hours_held: int = 0
+    timestamp: int = 0              # unix timestamp of evaluation point
     details: str = ""               # human-readable explanation

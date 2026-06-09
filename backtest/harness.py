@@ -84,6 +84,14 @@ class BacktestHarness:
                 with open(history_path, "r") as f:
                     raw_data = json.load(f)
 
+                # New-format hourly JSON — cannot parse as PoolDayData. Skip.
+                if isinstance(raw_data, dict) and "schema_version" in raw_data:
+                    logger.warning(
+                        "Daily fallback: %s is hourly format — no daily data available. Skipping.",
+                        pool.pair_name,
+                    )
+                    continue
+
                 raw_records = raw_data.get("records", raw_data) \
                     if isinstance(raw_data, dict) else raw_data
 
