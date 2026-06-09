@@ -99,37 +99,89 @@ def fetch_pool_hourly(
     RAISE ON HTTP ERROR. RETURN EMPTY LIST IF NO DATA.
     """
     url = _geckoterminal_ohlcv_url(pool_address)
-    limit = min(days * 24 + 24, 1000)  # 1000 is GT max per request
+    target_hours = days * 24
+    cutoff = int(time.time()) - (days * 86400)
+    _GT_PAGE_SIZE = 1000  # GT free tier hard cap per request
 
-    params: dict[str, Any] = {
-        "aggregate": 1,
-        "limit": limit,
-        "currency": "usd",
-        "token": "base",  # price of quote token in base token units
-    }
+    # PAGINATE BACKWARDS UNTIL WE HAVE ENOUGH HOURS OR NO MORE DATA
+    all_pages: list[list] = []
+    before_ts: int | None = None
+    pages_fetched = 0
 
-    resp = _http_get(url, params)
+    while True:
+        params: dict[str, Any] = {
+            "aggregate": 1,
+            "limit": _GT_PAGE_SIZE,
+            "currency": "usd",
+            "token": "base",
+        }
+        if before_ts is not None:
+            params["before_timestamp"] = before_ts
 
-    time.sleep(1)  # rate limit: separate OHLCV and pool info calls
+        resp = _http_get(url, params)
+        page = (
+            resp.get("data", {})
+                .get("attributes", {})
+                .get("ohlcv_list", [])
+        )
 
-    raw_candles = (
-        resp.get("data", {})
-            .get("attributes", {})
-            .get("ohlcv_list", [])
-    )
+        if not page:
+            break
 
-    if not raw_candles:
+        # GT returns newest-first within each page
+        # Oldest candle in this page = last element
+        oldest_ts = int(page[-1][0])
+        all_pages.append(page)
+        pages_fetched += 1
+
+        logger.debug(
+            "fetch_pool_hourly: page %d fetched %d candles, oldest_ts=%d",
+            pages_fetched, len(page), oldest_ts,
+        )
+
+        # Stop if we've gone back far enough or got a partial page
+        if oldest_ts <= cutoff or len(page) < _GT_PAGE_SIZE:
+            break
+
+        # Prepare next page: fetch candles older than oldest on this page
+        before_ts = oldest_ts
+
+        # Rate limit: sleep between pagination requests
+        time.sleep(2)
+
+    if not all_pages:
         logger.warning(
             "fetch_pool_hourly: 0 candles returned for %s", pool_address[:10]
         )
         return []
 
-    # GeckoTerminal returns newest-first — reverse to ascending
-    raw_candles = list(reversed(raw_candles))
+    # Concatenate pages (each newest-first), then reverse entire set
+    # to produce a single ascending-time list
+    combined_newest_first: list = []
+    for page in all_pages:
+        combined_newest_first.extend(page)
 
-    # Cutoff: drop candles older than requested days
-    cutoff = int(time.time()) - (days * 86400)
+    raw_candles = list(reversed(combined_newest_first))
+
+    # Drop duplicates on timestamp (can occur at page boundaries)
+    seen_ts: set[int] = set()
+    deduped: list = []
+    for c in raw_candles:
+        ts = int(c[0])
+        if ts not in seen_ts:
+            seen_ts.add(ts)
+            deduped.append(c)
+    raw_candles = deduped
+
+    # Drop candles older than cutoff
     raw_candles = [c for c in raw_candles if int(c[0]) >= cutoff]
+
+    logger.info(
+        "fetch_pool_hourly: %d pages, %d candles after dedup+cutoff for %s",
+        pages_fetched, len(raw_candles), pool_address[:10],
+    )
+
+    time.sleep(1)  # rate limit: separate OHLCV and pool info calls
 
     # FETCH CURRENT TVL FROM POOL INFO ENDPOINT (ONE CALL PER POOL)
     pool_tvl = Decimal("0")
@@ -463,9 +515,9 @@ def main() -> None:
             logger.info("Saved %s -> %s (%d records)", pool.pair_name, out_path, len(records))
 
             # RATE LIMIT: GeckoTerminal free tier = 30 req/min.
-            # CoinGecko token prices already use 1s sleep per token.
-            # Add 3s here to ensure we stay well under limit.
-            time.sleep(3)
+            # Pagination adds 2s sleep between pages within fetch_pool_hourly.
+            # Add 8s between pools to avoid 429 on free tier (5 pools x 2+ calls).
+            time.sleep(8)  # rate limit: 8s between pools for GT free tier
 
         except Exception as e:
             logger.warning(
