@@ -54,16 +54,62 @@ def _geckoterminal_pool_info_url(pool_address: str) -> str:
     )
 
 
-def _http_get(url: str, params: dict[str, Any], timeout: int = 30) -> dict:
+def fetch_pool_tvls_batch(
+    pool_addresses: list[str],
+) -> dict[str, Decimal]:
+    """FETCH CURRENT TVL FOR MULTIPLE POOLS IN ONE GT REQUEST.
+    RETURNS { pool_address_lower: Decimal(reserve_in_usd) }.
+    MISSING POOLS GET Decimal("0"). NEVER RAISES.
+    """
+    if not pool_addresses:
+        return {}
+
+    url = f"{_GT_BASE_URL}/networks/{_GT_NETWORK}/pools"
+    # GT accepts comma-separated addresses in the `addresses` param
+    params: dict[str, Any] = {
+        "addresses": ",".join(a.lower() for a in pool_addresses),
+    }
+
+    result: dict[str, Decimal] = {
+        a.lower(): Decimal("0") for a in pool_addresses
+    }
+
+    try:
+        resp = _http_get(url, params)
+        for pool_data in resp.get("data", []):
+            attrs = pool_data.get("attributes", {})
+            addr = attrs.get("address", "").lower()
+            reserve = attrs.get("reserve_in_usd") or "0"
+            if addr in result:
+                result[addr] = Decimal(str(reserve))
+                logger.info(
+                    "fetch_pool_tvls_batch: %s TVL = %s USD",
+                    addr[:10], result[addr],
+                )
+    except Exception as e:
+        logger.warning(
+            "fetch_pool_tvls_batch: failed — %s: %s. All TVLs = 0.",
+            type(e).__name__, e,
+        )
+
+    return result
+
+
+def _http_get(
+    url: str,
+    params: dict[str, Any],
+    timeout: int = 30,
+    max_retries: int = 3,
+) -> dict:
     """MINIMAL HTTP GET WITH urllib. NO EXTERNAL DEPS.
-    BUILDS QUERY STRING FROM params DICT.
-    RAISES urllib.error.HTTPError ON NON-200 RESPONSE.
+    RETRIES UP TO max_retries TIMES ON 429 WITH EXPONENTIAL BACKOFF.
+    RAISES ON FINAL FAILURE OR NON-429 HTTP ERROR.
     """
     import urllib.parse
     import urllib.request
     import urllib.error
 
-    full_url = url + "?" + urllib.parse.urlencode(params)
+    full_url = url + "?" + urllib.parse.urlencode(params) if params else url
     req = urllib.request.Request(
         full_url,
         headers={
@@ -76,13 +122,27 @@ def _http_get(url: str, params: dict[str, Any], timeout: int = 30) -> dict:
         },
         method="GET",
     )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return json.loads(resp.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8", errors="replace")
-        logger.error("HTTP %d from %s: %s", e.code, full_url[:120], body[:200])
-        raise
+    last_exc: Exception | None = None
+    for attempt in range(max_retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and attempt < max_retries:
+                wait = 15 * (2 ** attempt)  # 15s, 30s, 60s
+                logger.warning(
+                    "HTTP 429 from %s — retry %d/%d in %ds",
+                    full_url[:80], attempt + 1, max_retries, wait,
+                )
+                time.sleep(wait)
+                last_exc = e
+                continue
+            body = e.read().decode("utf-8", errors="replace")
+            logger.error(
+                "HTTP %d from %s: %s", e.code, full_url[:120], body[:200]
+            )
+            raise
+    raise last_exc  # type: ignore[misc]
 
 
 def fetch_pool_hourly(
@@ -91,6 +151,7 @@ def fetch_pool_hourly(
     token0_symbol: str,
     token1_symbol: str,
     price_index: dict[str, dict[int, Decimal]],
+    tvl_usd: Decimal = Decimal("0"),
 ) -> list[PoolHistoryPoint]:
     """FETCH HOURLY OHLCV FROM GECKOTERMINAL. NO API KEY REQUIRED.
     DERIVE TVL FROM POOL INFO ENDPOINT (SCALAR — CURRENT SNAPSHOT).
@@ -184,31 +245,6 @@ def fetch_pool_hourly(
         pages_fetched, len(raw_candles), pool_address[:10],
     )
 
-    time.sleep(1)  # rate limit: separate OHLCV and pool info calls
-
-    # FETCH CURRENT TVL FROM POOL INFO ENDPOINT (ONE CALL PER POOL)
-    pool_tvl = Decimal("0")
-    try:
-        info_url = _geckoterminal_pool_info_url(pool_address)
-        info_resp = _http_get(info_url, {})
-        reserve = (
-            info_resp.get("data", {})
-                     .get("attributes", {})
-                     .get("reserve_in_usd", "0")
-            or "0"
-        )
-        pool_tvl = Decimal(str(reserve))
-        logger.info(
-            "fetch_pool_hourly: TVL for %s = %s USD",
-            pool_address[:10], pool_tvl
-        )
-    except Exception as e:
-        logger.warning(
-            "fetch_pool_hourly: TVL fetch failed for %s: %s — using 0",
-            pool_address[:10], e
-        )
-        pool_tvl = Decimal("0")
-
     results: list[PoolHistoryPoint] = []
 
     for candle in raw_candles:
@@ -224,8 +260,7 @@ def fetch_pool_hourly(
         else:
             p_t0_in_t1 = Decimal("0")
 
-        # TVL from pool info endpoint (scalar — current snapshot)
-        tvl = pool_tvl
+        tvl = tvl_usd
 
         pt = PoolHistoryPoint(
             pool_address=pool_address.lower(),
@@ -458,6 +493,13 @@ def main() -> None:
             )
 
     # FETCH POOL HOURLY DATA — TOKENS MUST BE ON DISK FIRST
+
+    # BATCH-FETCH TVL FOR ALL POOLS IN ONE REQUEST
+    pool_tvl_map: dict[str, Decimal] = fetch_pool_tvls_batch(
+        [pool.pool_address for pool in pools]
+    )
+    logger.info("Batch TVL fetch complete: %d pools", len(pool_tvl_map))
+
     for i, pool in enumerate(pools):
         try:
             logger.info(
@@ -486,6 +528,7 @@ def main() -> None:
                 token0_symbol=pool.token0.symbol,
                 token1_symbol=pool.token1.symbol,
                 price_index=price_index,
+                tvl_usd=pool_tvl_map.get(pool.pool_address.lower(), Decimal("0")),
             )
 
             if not records:
@@ -520,7 +563,7 @@ def main() -> None:
             # RATE LIMIT: GeckoTerminal free tier = 30 req/min.
             # Pagination adds 2s sleep between pages within fetch_pool_hourly.
             # Add 8s between pools to avoid 429 on free tier (5 pools x 2+ calls).
-            time.sleep(12)  # rate limit: 12s between pools (90d = 3 pages x 2s + 1s + 12s = safe)
+            time.sleep(5)  # rate limit: 5s between pools (TVL now batch-fetched)
 
         except Exception as e:
             logger.warning(
