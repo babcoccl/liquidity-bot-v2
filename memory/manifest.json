@@ -362,40 +362,6 @@
       "test_coverage": "none"
     },
     {
-      "id": "scripts.fetch",
-      "file": "scripts/fetch.py",
-      "status": "complete",
-      "sprint": 22,
-      "audit_notes": [
-        "Sprint 10: COINGECKO_API_KEY read from environment. GeckoTerminalFetcher primary. FetchRouter fallback chain. Token price fetch loop persists to data/prices/{SYMBOL}.json.",
-        "Sprint 22: Direct The Graph poolHourDatas query + CoinGecko market_chart. Removed FetchRouter/yaml dependency. Reads pool list from PoolRegistry only. Atomic writes. --days arg default 30. THEGRAPH_API_KEY + COINGECKO_API_KEY required from env. Per-pool and per-token exception handling with logger.warning + continue. 1s sleep between CoinGecko calls.",
-        "Sprint 22C: save_token_prices rewritten to match token_price_loader schema. Key changed from 'prices' to 'records'. Added volume_usd/market_cap_usd/source fields per TokenHistoryPoint contract.",
-        "Sprint 22E Patch 2: Added 3s time.sleep() between pool fetches (GeckoTerminal free tier rate limit). Scoped FETCH SUMMARY to registry pairs only — shows OK/EMPTY/MISSING status.",
-        "Sprint 22E Patch 3: Removed invalid GT/CoinGecko price sanity check (ratio vs USD mismatch for non-stable pairs). Added empty-file guard on 0 records to prevent stale summary. (commit 1a461a5)."
-      ],
-      "dependencies": [
-        "registry.registry",
-        "data.loader.pool_loader",
-        "core.models"
-      ],
-      "test_file": null,
-      "test_coverage": "none"
-    },
-    {
-      "id": "backtest.config",
-      "file": "backtest/config.py",
-      "status": "complete",
-      "sprint": 18,
-      "audit_notes": [
-        "Added prices_dir, hourly_dir, max_il_pct, min_tvl_usd, min_volume_usd, max_hold_hours.",
-        "Sprint 18: metrics_window_hours field added (default 720)."
-      ],
-      "dependencies": [],
-      "test_file": "tests/test_backtest_harness.py",
-      "test_coverage": "full"
-    },
-    {
-      "id": "data.fetcher.gecko_terminal",
       "file": "data/fetcher/gecko_terminal.py",
       "status": "complete",
       "sprint": "9-hotfix2",

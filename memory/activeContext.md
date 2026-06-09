@@ -2,6 +2,7 @@
 
 ## Current Sprint: 24 (complete — awaiting YOU RUN)
 - Sprint 24: Expanded registry to 5 pools (added WETH-USDC-30, cbBTC-USDC-5). Fixed WETH-cbBTC + USDC-USDT tick ranges to full range [-887272, 887272]. Ready for 90-day backtest.
+- Sprint 24 Patch: Paginated GeckoTerminal OHLCV fetch (before_timestamp walks backwards in 1000-candle pages). Dedup at page boundaries. Increased inter-pool sleep from 3s to 8s for GT free tier rate limits. Added 2s sleep between pagination requests. (commit 2b29303)
 
 ## Current Sprint: 23 (complete — awaiting YOU RUN)
 - Sprint 23: Fetch real TVL from GeckoTerminal pool info endpoint. Scalar per pool, current snapshot applied to all hourly records. Reverted evaluator.py TVL=0 guard. (commit TBD).
@@ -37,7 +38,8 @@
 - First real backtest run not yet executed — pending fetch + run_backtest execution
 - scripts/fetch.py rewritten for GeckoTerminal OHLCV source.
    Fetch order: tokens first, pools second.
-   3s rate limit sleep between pool fetches (GeckoTerminal free tier = 30 req/min).
+   8s rate limit sleep between pools, 2s between pagination pages within a pool (GeckoTerminal free tier = 30 req/min).
+   OHLCV fetch paginates backwards using before_timestamp (1000 candles/page max) to support >90d.
    FETCH SUMMARY scoped to registry pairs only — shows OK/EMPTY/MISSING status per pool.
 
 ## Next Actions — YOU RUN (in order)
