@@ -1,79 +1,137 @@
-[{
-  "pool_address": "0xb2cc224c1c9fee385f8ad6a55b4d94e92359dc59",
-  "pair_name": "USDC-WETH",
-  "token0": {
-    "symbol": "USDC",
-    "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-    "decimals": 6
-  },
-  "token1": {
-    "symbol": "WETH",
-    "address": "0x4200000000000000000000000000000000000006",
-    "decimals": 18
-  },
-  "fee_tier": 500,
-  "tick_lower": -887272,
-  "tick_upper": 887272,
-  "price_reference": {
-    "USDC": {
-      "quote": "USD",
-      "source_pool": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1"
+[
+  {
+    "pool_address": "0xb2cc224c1c9fee385f8ad6a55b4d94e92359dc59",
+    "pair_name": "WETH-USDC-5",
+    "token0": {
+      "symbol": "WETH",
+      "address": "0x4200000000000000000000000000000000000006",
+      "decimals": 18
     },
-    "WETH": {
-      "quote": "USD",
-      "source_pool": "0xb2cc224c1c9fee385f8ad6a55b4d94e92359dc59"
+    "token1": {
+      "symbol": "USDC",
+      "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+      "decimals": 6
+    },
+    "fee_tier": 500,
+    "tick_lower": -887272,
+    "tick_upper": 887272,
+    "price_reference": {
+      "WETH": {
+        "quote": "USD",
+        "source_pool": "0xb2cc224c1c9fee385f8ad6a55b4d94e92359dc59"
+      },
+      "USDC": {
+        "quote": "USD",
+        "source_pool": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1"
+      }
+    }
+  },
+  {
+    "pool_address": "0x6c561b446416e1a00e8e93e221854d6ea4171372",
+    "pair_name": "WETH-USDC-30",
+    "token0": {
+      "symbol": "WETH",
+      "address": "0x4200000000000000000000000000000000000006",
+      "decimals": 18
+    },
+    "token1": {
+      "symbol": "USDC",
+      "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+      "decimals": 6
+    },
+    "fee_tier": 3000,
+    "tick_lower": -887272,
+    "tick_upper": 887272,
+    "price_reference": {
+      "WETH": {
+        "quote": "USD",
+        "source_pool": "0xb2cc224c1c9fee385f8ad6a55b4d94e92359dc59"
+      },
+      "USDC": {
+        "quote": "USD",
+        "source_pool": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1"
+      }
+    }
+  },
+  {
+    "pool_address": "0x4e962bb3889bf030368f56810a9c96b83cb3e778",
+    "pair_name": "cbBTC-USDC-5",
+    "token0": {
+      "symbol": "cbBTC",
+      "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+      "decimals": 8
+    },
+    "token1": {
+      "symbol": "USDC",
+      "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+      "decimals": 6
+    },
+    "fee_tier": 500,
+    "tick_lower": -887272,
+    "tick_upper": 887272,
+    "price_reference": {
+      "cbBTC": {
+        "quote": "USD",
+        "source_pool": "0x4e962bb3889bf030368f56810a9c96b83cb3e778"
+      },
+      "USDC": {
+        "quote": "USD",
+        "source_pool": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1"
+      }
+    }
+  },
+  {
+    "pool_address": "0x70acdf2ad0bf2402c957154f944c19ef4e1cbae1",
+    "pair_name": "WETH-cbBTC-5",
+    "token0": {
+      "symbol": "WETH",
+      "address": "0x4200000000000000000000000000000000000006",
+      "decimals": 18
+    },
+    "token1": {
+      "symbol": "cbBTC",
+      "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+      "decimals": 8
+    },
+    "fee_tier": 500,
+    "tick_lower": -887272,
+    "tick_upper": 887272,
+    "price_reference": {
+      "WETH": {
+        "quote": "USD",
+        "source_pool": "0xb2cc224c1c9fee385f8ad6a55b4d94e92359dc59"
+      },
+      "cbBTC": {
+        "quote": "USD",
+        "source_pool": "0x4e962bb3889bf030368f56810a9c96b83cb3e778"
+      }
+    }
+  },
+  {
+    "pool_address": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1",
+    "pair_name": "USDC-USDT-1",
+    "token0": {
+      "symbol": "USDC",
+      "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+      "decimals": 6
+    },
+    "token1": {
+      "symbol": "USDT",
+      "address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+      "decimals": 6
+    },
+    "fee_tier": 100,
+    "tick_lower": -887272,
+    "tick_upper": 887272,
+    "price_reference": {
+      "USDC": {
+        "quote": "USD",
+        "source_pool": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1"
+      },
+      "USDT": {
+        "quote": "USD",
+        "source_pool": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1"
+      }
     }
   }
-}, {
-  "pool_address": "0x70acdf2ad0bf2402c957154f944c19ef4e1cbae1",
-  "pair_name": "WETH-cbBTC",
-  "token0": {
-    "symbol": "WETH",
-    "address": "0x4200000000000000000000000000000000000006",
-    "decimals": 18
-  },
-  "token1": {
-    "symbol": "cbBTC",
-    "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
-    "decimals": 8
-  },
-  "fee_tier": 500,
-  "tick_lower": -2000,
-  "tick_upper": 2000,
-  "price_reference": {
-    "WETH": {
-      "quote": "USD",
-      "source_pool": "0xb2cc224c1c9fee385f8ad6a55b4d94e92359dc59"
-    },
-    "cbBTC": {
-      "quote": "USD",
-      "source_pool": "0x3e66e55e97ce60096f74b7c475e8249f2d31a9fb"
-    }
-  }
-}, {
-  "pool_address": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1",
-  "pair_name": "USDC-USDT",
-  "token0": {
-    "symbol": "USDC",
-    "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-    "decimals": 6
-  },
-  "token1": {
-    "symbol": "USDT",
-    "address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
-    "decimals": 6
-  },
-  "fee_tier": 100,
-  "tick_lower": -50,
-  "tick_upper": 50,
-  "price_reference": {
-    "USDC": {
-      "quote": "USD",
-      "source_pool": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1"
-    },
-    "USDT": {
-      "quote": "USD",
-      "source_pool": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1"
-    }
-  }
-}]
+]

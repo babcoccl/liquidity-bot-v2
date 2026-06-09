@@ -1,5 +1,8 @@
 # Active Context
 
+## Current Sprint: 24 (complete — awaiting YOU RUN)
+- Sprint 24: Expanded registry to 5 pools (added WETH-USDC-30, cbBTC-USDC-5). Fixed WETH-cbBTC + USDC-USDT tick ranges to full range [-887272, 887272]. Ready for 90-day backtest.
+
 ## Current Sprint: 23 (complete — awaiting YOU RUN)
 - Sprint 23: Fetch real TVL from GeckoTerminal pool info endpoint. Scalar per pool, current snapshot applied to all hourly records. Reverted evaluator.py TVL=0 guard. (commit TBD).
 
@@ -21,7 +24,10 @@
   Empty-file guard writes explicit empty records on 0 fetch to prevent stale summary.
 - scripts/run_backtest.py runs backtest on real data and writes results/runs/{run_id}/summary.json
 - pool_loader.py atomic write consolidated for both hourly + daily branches
-- registry/registry.json trimmed to 3 pools for first real data validation run
+- Registry expanded to 5 pools: WETH-USDC-5, WETH-USDC-30,
+  cbBTC-USDC-5, WETH-cbBTC-5, USDC-USDT-1.
+  All use full-range ticks [-887272, 887272].
+  Two new high-volume pools added from GeckoTerminal discovery.
 
 ## Known Issues / Watch Items
 - scripts/fetch.py pool address was using .strip("0x") — FIXED in Sprint 22B (use [2:] instead)
@@ -35,15 +41,22 @@
    FETCH SUMMARY scoped to registry pairs only — shows OK/EMPTY/MISSING status per pool.
 
 ## Next Actions — YOU RUN (in order)
-# 1. Fetch fresh data (TVL now included)
-python scripts/fetch.py --days 30
+# 1. Fetch 90 days for all 5 pools
+python scripts/fetch.py --days 90
 
-# 2. Run backtest
-python scripts/run_backtest.py
+# Expected FETCH SUMMARY:
+#   WETH-USDC-5      N=2160 hourly records  OK
+#   WETH-USDC-30     N=2160 hourly records  OK
+#   cbBTC-USDC-5     N=2160 hourly records  OK
+#   WETH-cbBTC-5     N=2160 hourly records  OK
+#   USDC-USDT-1      N=2160 hourly records  OK
+
+# 2. Run 90-day backtest
+python scripts/run_backtest.py --days 90
 
 # Paste === FETCH SUMMARY === and === BACKTEST SUMMARY ===.
-# Verify TVL log lines appear per pool:
-#   fetch_pool_hourly: TVL for 0xb2cc224c = XXXXXXX USD
-# Verify entry_score > 0.05 for at least one pool.
-# If all three still fail entry gate, paste summary.json —
-# scoring weight recalibration may be needed.
+# Key things to verify:
+#   - WETH-USDC-30 entry_score > WETH-USDC-5 (higher fee captures more)
+#   - cbBTC-USDC-5 entry_score > 0.05 (high vol/TVL ratio)
+#   - WETH-cbBTC-5 now earns fees (was 0 with tight ticks)
+#   - net_alpha > 0 for at least 2 pools

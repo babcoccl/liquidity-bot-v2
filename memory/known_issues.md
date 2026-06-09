@@ -81,3 +81,18 @@
     With 1s+3s sleeps, total wall time ~25s. Well within 30 req/min.
 - WATCH Sprint 24: per-candle TVL from GT paid OHLCV endpoint
   (includes volume and liquidity per candle in Pro tier).
+
+## registry/registry.json — Expanded to 5 pools (Sprint 24)
+- Added WETH-USDC-30 (0.3% fee, $96.8M TVL, $101M/day vol)
+  and cbBTC-USDC-5 (0.05% fee, $9.1M TVL, $124M/day vol).
+  Both discovered via GeckoTerminal search API on 2026-06-09.
+- Fixed WETH-cbBTC tick range [-2000,2000] → [-887272,887272].
+  Tight range caused 0 fee earnings across 30d — pool was
+  out of range the entire backtest window.
+- Fixed USDC-USDT tick range [-50,50] → [-887272,887272].
+- All pools now use full-range ticks as conservative baseline.
+  Concentrated range optimization deferred to Sprint 25.
+- pair_name convention updated: {TOKEN0}-{TOKEN1}-{FEE_BPS}
+  where FEE_BPS = fee_tier / 100 (e.g. 500 → 5, 3000 → 30).
+- WATCH Sprint 25: Add concentrated tick range per pool based
+  on 90d realized volatility (±2σ price band).
