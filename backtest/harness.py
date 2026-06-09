@@ -56,7 +56,16 @@ class BacktestHarness:
         """
         results: list[BacktestResult] = []
 
-        for pool in self.registry.all():
+        # Sprint 27 FIX: split capital evenly across pools to avoid over-deployment
+        all_pools = self.registry.all()
+        n_pools = len(all_pools)
+        per_pool_capital = self.config.initial_capital / Decimal(str(n_pools)) if n_pools > 0 else self.config.initial_capital
+        logger.info(
+            "Capital allocation: $%s split across %d pools -> $%s per pool",
+            self.config.initial_capital, n_pools, per_pool_capital,
+        )
+
+        for pool in all_pools:
             try:
                 # Hourly path: activate when token price files and hourly pool data are present
                 token0_path = self.config.prices_dir / f"{pool.token0.symbol}.json"
@@ -68,7 +77,9 @@ class BacktestHarness:
                         hourly_records = load_pool_history(hourly_path)
                         t0_prices = load_token_prices(token0_path)
                         t1_prices = load_token_prices(token1_path)
-                        result = self._simulate_pool_hourly(pool, hourly_records, t0_prices, t1_prices)
+                        result = self._simulate_pool_hourly(
+                            pool, hourly_records, t0_prices, t1_prices, per_pool_capital
+                        )
                         results.append(result)
                         continue  # skip legacy daily path for this pool
                     except Exception as e:
@@ -199,7 +210,11 @@ class BacktestHarness:
         pool_records: list[PoolHistoryPoint],
         token0_prices: list[TokenHistoryPoint],
         token1_prices: list[TokenHistoryPoint],
+        capital: Decimal | None = None,
     ) -> BacktestResult:
+        # Sprint 27: use passed capital (per-pool split) or fall back to config
+        if capital is None:
+            capital = self.config.initial_capital
         aligned = join_records(pool_records, token0_prices, token1_prices)
         if len(aligned) < 2:
             logger.warning(
@@ -215,7 +230,7 @@ class BacktestHarness:
                 total_fees_earned=Decimal("0"),
                 il_cost=Decimal("0"),
                 net_lp_alpha=Decimal("0"),
-                final_capital=self.config.initial_capital,
+                final_capital=capital,
                 rebalance_count=0,
                 source="hourly",
                 entry_score=Decimal("0"),
@@ -254,7 +269,7 @@ class BacktestHarness:
                 total_fees_earned=Decimal("0"),
                 il_cost=Decimal("0"),
                 net_lp_alpha=Decimal("0"),
-                final_capital=self.config.initial_capital,
+                final_capital=capital,
                 rebalance_count=0,
                 source="hourly",
                 entry_score=entry_score,
@@ -274,7 +289,7 @@ class BacktestHarness:
             entry_tvl_usd=entry_pool.tvl_usd,
             tick_lower=pool.tick_lower,
             tick_upper=pool.tick_upper,
-            liquidity_usd=self.config.initial_capital,
+            liquidity_usd=capital,
         )
 
         exit_signal: ExitSignal | None = None
@@ -324,6 +339,10 @@ class BacktestHarness:
                 entry_price=position.entry_token0_price_usd,
             )
             if exit_trend:
+                logger.debug(
+                    "TREND_EXIT triggered: pool=%s hour=%d reason=%s",
+                    pool.pool_address[:10], hours_simulated, trend_reason,
+                )
                 exit_signal = ExitSignal(
                     triggered=True,
                     reason=ExitReason.TREND_EXIT,
@@ -335,7 +354,7 @@ class BacktestHarness:
                 )
                 break
 
-        il_cost = il_at_exit * self.config.initial_capital
+        il_cost = il_at_exit * capital
         net_lp_alpha = total_fees + il_cost   # il_cost is negative, so net = fees - |IL|
 
         # MARK-TO-MARKET: adjust for USD price change of volatile leg (token0)
@@ -343,13 +362,13 @@ class BacktestHarness:
         mtm_adjustment = Decimal("0")
         if position.entry_token0_price_usd > Decimal("0"):
             mtm_adjustment = _mtm(
-                capital_usd=self.config.initial_capital,
+                capital_usd=capital,
                 entry_price_usd_volatile=position.entry_token0_price_usd,
                 current_price_usd_volatile=t0_rec.price_usd,
             )
 
         final_capital = (
-            self.config.initial_capital + total_fees + il_cost + mtm_adjustment
+            capital + total_fees + il_cost + mtm_adjustment
         )
 
         return BacktestResult(

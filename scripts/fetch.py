@@ -400,6 +400,15 @@ def fetch_pool_hourly(
         )
         results.append(pt)
 
+    # Sprint 27: log first and last TVL values applied (one-time per pool)
+    tvl_values = [rec.tvl_usd for rec in results if rec.tvl_usd > Decimal("0")]
+    if tvl_values:
+        logger.info(
+            "TVL range for %s: first=$%s last=$%s (current_snapshot=$%s)",
+            pool_address[:10],
+            tvl_values[0], tvl_values[-1], tvl_usd,
+        )
+
     logger.info(
         "fetch_pool_hourly: %d records for %s", len(results), pool_address[:8]
     )
