@@ -1,6 +1,7 @@
 # Active Context
 
-## Current Sprint: 22E (complete — awaiting YOU RUN)
+## Current Sprint: 22E Patch 2 (complete — awaiting YOU RUN)
+- Sprint 22E Patch 2: Added 3s rate limit sleep between GeckoTerminal pool fetches. Scoped FETCH SUMMARY to registry pairs only (commit 6246db3).
 
 ## Sprint 22 Goals
 - Fix load_run_summary() root_path param (DONE — Sprint 22A, commit 619a201)
@@ -25,10 +26,10 @@
 - scripts/run_backtest.py has no test coverage — manual validation only
 - data/historical/ and data/prices/ are gitignored — must re-fetch after clean clone
 - First real backtest run not yet executed — pending fetch + run_backtest execution
-- scripts/fetch.py rewritten for Messari schema (Option B).
-  Field: liquidityPoolHourlySnapshots. Price ratio derived from
-  CoinGecko price index at fetch time (t1_usd / t0_usd).
-  Fetch order: tokens first, pools second.
+- scripts/fetch.py rewritten for GeckoTerminal OHLCV source.
+   Fetch order: tokens first, pools second.
+   3s rate limit sleep between pool fetches (GeckoTerminal free tier = 30 req/min).
+   FETCH SUMMARY scoped to registry pairs only — shows OK/EMPTY/MISSING status per pool.
 
 ## Next Actions — YOU RUN (in order)
 # 1. Verify GeckoTerminal connectivity + pool coverage
