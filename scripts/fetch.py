@@ -46,20 +46,17 @@ def _the_graph_endpoint(api_key: str) -> str:
 
 
 _POOL_HOURLY_QUERY = """\
-query liquidityPoolHourlySnapshots($pool: String!, $timestamp_gte: BigInt!) {
+query LiquidityPoolHourlySnapshots($pool: String!, $timestamp_gte: BigInt!) {
   liquidityPoolHourlySnapshots(
     where: {pool: $pool, timestamp_gte: $timestamp_gte}
     orderBy: timestamp
     orderDirection: asc
+    first: 1000
   ) {
     timestamp
-    hourlyVolumeUSD
     totalValueLockedUSD
-    activeLiquidityUSD
-    hourlyTotalRevenueUSD
-    cumulativeSupplySideRevenueUSD
-    hourlySwapCount
-    tick
+    hourlyVolumeUSD
+    hourlySupplySideRevenueUSD
   }
 }
 """
@@ -100,8 +97,13 @@ def fetch_pool_hourly(
     pool_address: str,
     days: int,
     api_key: str,
+    token0_symbol: str,
+    token1_symbol: str,
+    price_index: dict[str, dict[int, Decimal]],
 ) -> list[PoolHistoryPoint]:
-    """FETCH HOURLY RECORDS FROM THE GRAPH. RETURN LIST OF PoolHistoryPoint.
+    """FETCH HOURLY RECORDS FROM THE GRAPH (MESSARI SCHEMA).
+    DERIVE price_token1_in_token0 FROM COINGECKO PRICE INDEX.
+    RECORDS WITH NO MATCHING PRICE ENTRY ARE DROPPED.
     RAISE ON HTTP ERROR. RETURN EMPTY LIST IF NO DATA.
     """
     cutoff = int(time.time()) - (days * 86400)
@@ -109,7 +111,7 @@ def fetch_pool_hourly(
 
     variables: dict[str, Any] = {
         "pool": pool_address.lower(),
-        "timestamp_gte": str(cutoff),
+        "timestamp_gte": int(cutoff),
     }
 
     payload = {
@@ -124,24 +126,49 @@ def fetch_pool_hourly(
         return []
 
     rows = resp.get("data", {}).get("liquidityPoolHourlySnapshots", [])
+
+    t0_prices = price_index.get(token0_symbol, {})
+    t1_prices = price_index.get(token1_symbol, {})
+
     results: list[PoolHistoryPoint] = []
+    dropped = 0
 
     for row in rows:
         ts = int(row.get("timestamp", 0))
         if ts == 0:
             continue
 
-        # Schema has no per-snapshot price fields.
-        # token prices must come from external source (CoinGecko).
-        p_t1_in_t0 = Decimal("0")
-        p_t0_in_t1 = Decimal("0")
+        p0_usd = t0_prices.get(ts)
+        p1_usd = t1_prices.get(ts)
+
+        if p0_usd is None or p1_usd is None:
+            # Try nearest hour within ±1800s (30 min)
+            if t0_prices and p0_usd is None:
+                nearest = min(t0_prices, key=lambda t: abs(t - ts))
+                if abs(nearest - ts) <= 1800:
+                    p0_usd = t0_prices[nearest]
+            if t1_prices and p1_usd is None:
+                nearest = min(t1_prices, key=lambda t: abs(t - ts))
+                if abs(nearest - ts) <= 1800:
+                    p1_usd = t1_prices[nearest]
+
+        if p0_usd is None or p1_usd is None:
+            dropped += 1
+            continue
+
+        # Derive ratio prices from USD values
+        if p0_usd > Decimal("0"):
+            p_t1_in_t0 = p1_usd / p0_usd
+        else:
+            p_t1_in_t0 = Decimal("0")
+
+        if p1_usd > Decimal("0"):
+            p_t0_in_t1 = p0_usd / p1_usd
+        else:
+            p_t0_in_t1 = Decimal("0")
 
         vol = Decimal(str(row.get("hourlyVolumeUSD", "0") or "0"))
         tvl = Decimal(str(row.get("totalValueLockedUSD", "0") or "0"))
-
-        # fee growth fields not available in this schema — set to None
-        fg0 = None
-        fg1 = None
 
         pt = PoolHistoryPoint(
             pool_address=pool_address.lower(),
@@ -150,11 +177,17 @@ def fetch_pool_hourly(
             price_token0_in_token1=p_t0_in_t1,
             volume_usd=vol,
             tvl_usd=tvl,
-            fee_growth_global_0=fg0,
-            fee_growth_global_1=fg1,
+            fee_growth_global_0=None,
+            fee_growth_global_1=None,
             source="the_graph",
         )
         results.append(pt)
+
+    if dropped:
+        logger.warning(
+            "fetch_pool_hourly: dropped %d records with no price match for %s",
+            dropped, pool_address[:10],
+        )
 
     logger.info("Fetched %d hourly records for %s", len(results), pool_address[:8])
     return sorted(results, key=lambda r: r.timestamp)
@@ -264,6 +297,38 @@ def save_token_prices(
     os.replace(str(tmp_path), str(path))
 
 
+def _build_price_index(
+    prices_dir: Path,
+    token0_symbol: str,
+    token1_symbol: str,
+) -> dict[str, dict[int, Decimal]]:
+    """BUILD TIMESTAMP->PRICE_USD INDEX FOR TWO TOKENS FROM DISK.
+    RETURNS { symbol: { timestamp_int: Decimal(price_usd) } }.
+    RETURNS EMPTY INNER DICT IF FILE MISSING OR UNPARSEABLE.
+    CALLED AFTER TOKEN PRICE FILES ARE WRITTEN TO DISK.
+    """
+    index: dict[str, dict[int, Decimal]] = {}
+    for symbol in (token0_symbol, token1_symbol):
+        path = prices_dir / f"{symbol}.json"
+        try:
+            raw = json.loads(path.read_text())
+            records = raw.get("records", [])
+            index[symbol] = {
+                int(r["timestamp"]): Decimal(str(r["price_usd"]))
+                for r in records
+                if r.get("price_usd") is not None
+            }
+            logger.info(
+                "_build_price_index: %s — %d entries", symbol, len(index[symbol])
+            )
+        except Exception as e:
+            logger.warning(
+                "_build_price_index: failed to load %s: %s", symbol, e
+            )
+            index[symbol] = {}
+    return index
+
+
 # ---------------------------------------------------------------------------
 # MAIN
 # ---------------------------------------------------------------------------
@@ -314,17 +379,62 @@ def main() -> None:
     HISTORICAL_DIR.mkdir(parents=True, exist_ok=True)
     PRICES_DIR.mkdir(parents=True, exist_ok=True)
 
-    # FETCH POOL HOURLY DATA
+    # COLLECT UNIQUE TOKEN SYMBOLS ACROSS ALL POOLS — BEFORE FETCH
+    token_symbols: set[str] = set()
+    for pool in pools:
+        token_symbols.add(pool.token0.symbol)
+        token_symbols.add(pool.token1.symbol)
+
+    logger.info("Unique token symbols to fetch: %s", sorted(token_symbols))
+
+    # FETCH TOKEN USD PRICES FIRST — NEEDED FOR PRICE INDEX
+    for symbol in sorted(token_symbols):
+        try:
+            logger.info("Fetching prices for %s", symbol)
+            prices = fetch_token_prices_usd(
+                symbol=symbol,
+                days=days,
+                api_key=coingecko_key,
+            )
+            out_path = PRICES_DIR / f"{symbol}.json"
+            save_token_prices(symbol=symbol, prices=prices, path=out_path)
+            logger.info("Saved %s -> %s", symbol, out_path)
+            time.sleep(1)
+        except Exception as e:
+            logger.warning(
+                "FAILED to fetch prices for %s: %s — CONTINUING", symbol, e
+            )
+
+    # FETCH POOL HOURLY DATA — TOKENS MUST BE ON DISK FIRST
     for i, pool in enumerate(pools):
         try:
             logger.info(
                 "Fetching pool %d/%d: %s (%s)",
                 i + 1, len(pools), pool.pair_name, pool.pool_address[:10],
             )
+
+            # BUILD PRICE INDEX FROM DISK FOR THIS POOL'S TOKENS
+            price_index = _build_price_index(
+                prices_dir=PRICES_DIR,
+                token0_symbol=pool.token0.symbol,
+                token1_symbol=pool.token1.symbol,
+            )
+
+            t0_count = len(price_index.get(pool.token0.symbol, {}))
+            t1_count = len(price_index.get(pool.token1.symbol, {}))
+            if t0_count == 0 or t1_count == 0:
+                logger.warning(
+                    "PRICE INDEX EMPTY for %s (t0=%d, t1=%d) — pool will have 0 records",
+                    pool.pair_name, t0_count, t1_count,
+                )
+
             records = fetch_pool_hourly(
                 pool_address=pool.pool_address,
                 days=days,
                 api_key=thegraph_key,
+                token0_symbol=pool.token0.symbol,
+                token1_symbol=pool.token1.symbol,
+                price_index=price_index,
             )
 
             out_path = HISTORICAL_DIR / f"{pool.pair_name}.json"
@@ -334,43 +444,12 @@ def main() -> None:
                 records=records,
                 path=out_path,
             )
-            logger.info("Saved %s -> %s", pool.pair_name, out_path)
+            logger.info("Saved %s -> %s (%d records)", pool.pair_name, out_path, len(records))
 
         except Exception as e:
             logger.warning(
                 "FAILED to fetch pool %s (%s): %s — CONTINUING",
                 pool.pair_name, pool.pool_address[:10], e,
-            )
-
-    # COLLECT UNIQUE TOKEN SYMBOLS ACROSS ALL POOLS
-    token_symbols: set[str] = set()
-    for pool in pools:
-        token_symbols.add(pool.token0.symbol)
-        token_symbols.add(pool.token1.symbol)
-
-    logger.info("Unique token symbols to fetch: %s", sorted(token_symbols))
-
-    # FETCH TOKEN USD PRICES
-    for symbol in sorted(token_symbols):
-        try:
-            logger.info("Fetching prices for %s", symbol)
-            prices = fetch_token_prices_usd(
-                symbol=symbol,
-                days=days,
-                api_key=coingecko_key,
-            )
-
-            # CASE-EXACT FILENAME: cbBTC.json NOT CBBTC.json
-            out_path = PRICES_DIR / f"{symbol}.json"
-            save_token_prices(symbol=symbol, prices=prices, path=out_path)
-            logger.info("Saved %s -> %s", symbol, out_path)
-
-            # SLEEP 1S BETWEEN COINGECKO CALLS TO AVOID 429
-            time.sleep(1)
-
-        except Exception as e:
-            logger.warning(
-                "FAILED to fetch prices for %s: %s — CONTINUING", symbol, e,
             )
 
     # STRUCTURED SUMMARY — PASTE-FRIENDLY FOR REVIEW

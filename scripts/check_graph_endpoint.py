@@ -100,12 +100,12 @@ def main() -> int:
 
         hour_field = None
         for f in fields:
-            if "hourdata" in f["name"].lower() and "pool" in f["name"].lower():
+            if "hourly" in f["name"].lower() and "pool" in f["name"].lower():
                 hour_field = f
                 break
 
         if hour_field is None:
-            failures.append("poolHourDatas (or equivalent) field NOT found in schema")
+            failures.append("liquidityPoolHourlySnapshots field NOT found in schema")
             print("[3] SCHEMA: FAILED — no pool hourly field found")
             print("    Available pool fields:")
             for f in fields:
@@ -148,7 +148,7 @@ def main() -> int:
         return 1
 
     print()
-    print("CHECK PASSED: endpoint reachable, poolHourDatas confirmed, args identified")
+    print("CHECK PASSED: endpoint reachable, liquidityPoolHourlySnapshots confirmed, args identified")
     return 0
 
 

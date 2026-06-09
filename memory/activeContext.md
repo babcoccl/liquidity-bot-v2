@@ -1,6 +1,6 @@
 # Active Context
 
-## Current Sprint: 22D (in progress — awaiting YOU RUN steps)
+## Current Sprint: 22D (complete — awaiting YOU RUN validation)
 
 ## Sprint 22 Goals
 - Fix load_run_summary() root_path param (DONE — Sprint 22A, commit 619a201)
@@ -23,18 +23,24 @@
 - scripts/run_backtest.py has no test coverage — manual validation only
 - data/historical/ and data/prices/ are gitignored — must re-fetch after clean clone
 - First real backtest run not yet executed — pending fetch + run_backtest execution
+- scripts/fetch.py rewritten for Messari schema (Option B).
+  Field: liquidityPoolHourlySnapshots. Price ratio derived from
+  CoinGecko price index at fetch time (t1_usd / t0_usd).
+  Fetch order: tokens first, pools second.
 
 ## Next Actions — YOU RUN (in order)
-# Step A: verify endpoint before fetching
+# 1. Verify endpoint + confirm liquidityPoolHourlySnapshots field
 python scripts/check_graph_endpoint.py
 
-# Step B: fetch 30 days of real data
+# 2. Fetch 30 days (tokens first, then pools with price join)
 python scripts/fetch.py --days 30
 
-# Step C: verify data files before backtest
+# 3. Verify all data files non-empty
 python scripts/check_data_files.py
 
-# Step D: run backtest
+# 4. Run backtest
 python scripts/run_backtest.py
 
-# Paste output of each command back to collaborator for review.
+# Paste === FETCH SUMMARY === and === BACKTEST SUMMARY === back
+# for review. Collaborator will verify price ratio magnitudes
+# before declaring Sprint 22D complete.

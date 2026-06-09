@@ -17,3 +17,24 @@
 - STATUS ON SYNTHETIC DATA: NOT TRIGGERED. ALL E2E TESTS SHOW final_capital >= 0 BECAUSE SYNTHETIC PRICES HAVE BOUNDED MOVEMENT (10% MAX).
 - STATUS ON REAL DATA: UNVERIFIED. REAL AERODROME POOLS CAN HAVE EXTREME SINGLE-HOUR PRICE MOVES (>50%) DURING BLACK SWAN EVENTS. COULD PRODUCE NEGATIVE final_capITAL.
 - SPRINT 22 WILL CONFIRM OR TRIGGER BY RUNNING REAL DATA BACKTEST AND INSPECTING final_capital BOUNDS IN SUMMARY.JSON.
+
+## scripts/fetch.py — Messari schema + Option B price derivation (Sprint 22D — RESOLVED)
+- Subgraph uses Messari protocol schema. poolHourDatas does not exist.
+  Correct field: liquidityPoolHourlySnapshots.
+- No price fields available in hourly snapshot. Price ratio derived
+  at fetch time from CoinGecko USD prices using t1_usd / t0_usd.
+- Fetch order in main() changed: CoinGecko tokens fetched FIRST,
+  then pool hourly data fetched with price_index built from disk.
+- Records with no CoinGecko price match within ±1800s are dropped.
+  If drop rate is high (>10% of records), check CoinGecko timestamp
+  alignment — CoinGecko rounds to hour boundary, Graph may not.
+- feeGrowthGlobal not available. fee_growth_global_0/1 = None.
+  Fee accumulation in harness uses volume_usd * fee_rate (unaffected).
+- hourlySupplySideRevenueUSD fetched but not mapped to PoolHistoryPoint.
+  Available for future fee model refinement.
+- WATCH: Price ratio direction. After first real fetch, verify:
+    USDC-WETH price_token1_in_token0 ~ 2500 (WETH costs ~2500 USDC)
+    WETH-cbBTC price_token1_in_token0 ~ 21  (cbBTC costs ~21 WETH)
+    USDC-USDT price_token1_in_token0 ~ 1.0
+  If inverted: t0/t1 token ordering in registry differs from expected.
+  Fix: swap token0_symbol and token1_symbol in _build_price_index call.
