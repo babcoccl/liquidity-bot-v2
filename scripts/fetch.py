@@ -121,11 +121,7 @@ def fetch_pool_hourly(
     cutoff = int(time.time()) - (days * 86400)
     raw_candles = [c for c in raw_candles if int(c[0]) >= cutoff]
 
-    t0_prices = price_index.get(token0_symbol, {})
-    t1_prices = price_index.get(token1_symbol, {})
-
     results: list[PoolHistoryPoint] = []
-    dropped = 0
 
     for candle in raw_candles:
         # [timestamp_s, open, high, low, close, volume_usd]
@@ -146,32 +142,6 @@ def fetch_pool_hourly(
         # unless real TVL is fetched separately (future sprint)
         tvl = Decimal("0")
 
-        # Validate price against CoinGecko ratio as sanity check
-        p0_usd = t0_prices.get(ts)
-        p1_usd = t1_prices.get(ts)
-        if p0_usd is None:
-            nearest = min(t0_prices, key=lambda t: abs(t - ts)) if t0_prices else None
-            if nearest and abs(nearest - ts) <= 1800:
-                p0_usd = t0_prices[nearest]
-        if p1_usd is None:
-            nearest = min(t1_prices, key=lambda t: abs(t - ts)) if t1_prices else None
-            if nearest and abs(nearest - ts) <= 1800:
-                p1_usd = t1_prices[nearest]
-
-        if p0_usd is not None and p1_usd is not None and p0_usd > Decimal("0"):
-            expected = p1_usd / p0_usd
-            # Warn if GT price deviates >50% from CoinGecko ratio
-            if expected > Decimal("0"):
-                ratio = p_t1_in_t0 / expected
-                if ratio < Decimal("0.5") or ratio > Decimal("2"):
-                    logger.warning(
-                        "Price mismatch at ts=%d pool=%s: GT=%.4f CoinGecko=%.4f",
-                        ts, pool_address[:10],
-                        float(p_t1_in_t0), float(expected),
-                    )
-                    dropped += 1
-                    continue
-
         pt = PoolHistoryPoint(
             pool_address=pool_address.lower(),
             timestamp=ts,
@@ -184,12 +154,6 @@ def fetch_pool_hourly(
             source="geckoterminal",
         )
         results.append(pt)
-
-    if dropped:
-        logger.warning(
-            "fetch_pool_hourly: dropped %d candles (price mismatch >50%%) for %s",
-            dropped, pool_address[:10],
-        )
 
     logger.info(
         "fetch_pool_hourly: %d records for %s", len(results), pool_address[:8]
@@ -438,6 +402,26 @@ def main() -> None:
                 token1_symbol=pool.token1.symbol,
                 price_index=price_index,
             )
+
+            if not records:
+                logger.warning(
+                    "fetch_pool_hourly returned 0 records for %s — "
+                    "writing empty file to prevent stale data",
+                    pool.pair_name,
+                )
+                out_path = HISTORICAL_DIR / f"{pool.pair_name}.json"
+                empty_payload = {
+                    "pool_address": pool.pool_address.lower(),
+                    "pair_name": pool.pair_name,
+                    "fetched_at": int(time.time()),
+                    "records": [],
+                    "source": "geckoterminal",
+                }
+                tmp = Path(str(out_path) + ".tmp")
+                with open(tmp, "w") as f:
+                    json.dump(empty_payload, f)
+                os.replace(str(tmp), str(out_path))
+                continue
 
             out_path = HISTORICAL_DIR / f"{pool.pair_name}.json"
             save_pool_history(
