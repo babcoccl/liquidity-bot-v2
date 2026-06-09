@@ -1,6 +1,6 @@
 # Active Context
 
-## Current Sprint: 22 (PARTIAL — in progress)
+## Current Sprint: 22D (in progress — awaiting YOU RUN steps)
 
 ## Sprint 22 Goals
 - Fix load_run_summary() root_path param (DONE — Sprint 22A, commit 619a201)
@@ -24,15 +24,17 @@
 - data/historical/ and data/prices/ are gitignored — must re-fetch after clean clone
 - First real backtest run not yet executed — pending fetch + run_backtest execution
 
-## Next Actions (Sprint 23)
-- Run: python scripts/fetch.py --days 30
-- Run: python scripts/run_backtest.py
-- Review results/runs/real_{date}/summary.json
-- Determine whether to expand registry back toward 15 pools or tune strategy params first
+## Next Actions — YOU RUN (in order)
+# Step A: verify endpoint before fetching
+python scripts/check_graph_endpoint.py
 
-## Sprint 22C — Post-Fix Manual Step
-After pulling Sprint 22C, delete stale price files before re-running fetch:
-    rm data/prices/*.json
-Then re-run:
-    python scripts/fetch.py --days 30
-    python scripts/run_backtest.py
+# Step B: fetch 30 days of real data
+python scripts/fetch.py --days 30
+
+# Step C: verify data files before backtest
+python scripts/check_data_files.py
+
+# Step D: run backtest
+python scripts/run_backtest.py
+
+# Paste output of each command back to collaborator for review.

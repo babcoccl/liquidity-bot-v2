@@ -87,9 +87,21 @@ def main() -> None:
     pools_simulated = sum(1 for r in results if r.hours_simulated > 0)
     pools_skipped = sum(1 for r in results if r.hours_simulated == 0)
 
-    print(f"DONE. SUMMARY: {summary_path}")
+    print("=== BACKTEST SUMMARY ===")
+    for r in results:
+        cap = getattr(r, "final_capital", None)
+        hrs = getattr(r, "hours_simulated", 0)
+        pool = getattr(r, "pool_address", "unknown")[:10]
+        pair = getattr(r, "pair_name", pool)
+        if hrs == 0:
+            print(f"  {pair:<14} SKIPPED")
+        else:
+            cap_str = str(cap) if cap is not None else "N/A"
+            print(f"  {pair:<14} hrs={hrs:>4}  final_capital={cap_str}")
     print(f"POOLS SIMULATED: {pools_simulated}")
-    print(f"POOLS SKIPPED: {pools_skipped}")
+    print(f"POOLS SKIPPED:   {pools_skipped}")
+    print(f"SUMMARY JSON:    {summary_path}")
+    print("BACKTEST COMPLETE.")
 
 
 if __name__ == "__main__":

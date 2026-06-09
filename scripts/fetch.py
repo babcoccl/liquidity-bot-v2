@@ -46,19 +46,20 @@ def _the_graph_endpoint(api_key: str) -> str:
 
 
 _POOL_HOURLY_QUERY = """\
-query poolHourDatas($pool: String!, $periodStartUnix_gte: Int!) {
-  poolHourDatas(
-    where: {pool: $pool, periodStartUnix_gte: $periodStartUnix_gte}
-    orderBy: periodStartUnix
+query liquidityPoolHourlySnapshots($pool: String!, $timestamp_gte: BigInt!) {
+  liquidityPoolHourlySnapshots(
+    where: {pool: $pool, timestamp_gte: $timestamp_gte}
+    orderBy: timestamp
     orderDirection: asc
   ) {
-    periodStartUnix
-    token0Price
-    token1Price
-    volumeUSD
-    tvlUSD
-    feeGrowthGlobal0X128
-    feeGrowthGlobal1X128
+    timestamp
+    hourlyVolumeUSD
+    totalValueLockedUSD
+    activeLiquidityUSD
+    hourlyTotalRevenueUSD
+    cumulativeSupplySideRevenueUSD
+    hourlySwapCount
+    tick
   }
 }
 """
@@ -74,7 +75,15 @@ def _http_post(url: str, payload: dict[str, Any], timeout: int = 30) -> dict:
         data=json.dumps(payload).encode("utf-8"),
         headers={
             "Content-Type": "application/json",
-            "User-Agent": "Mozilla/5.0 (compatible; liquidity-bot/2.0)",
+            "Accept": "application/json, multipart/mixed",
+            "Accept-Language": "en-US,en;q=0.9",
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/125.0.0.0 Safari/537.36"
+            ),
+            "Origin": "https://thegraph.com",
+            "Referer": "https://thegraph.com/",
         },
         method="POST",
     )
@@ -100,7 +109,7 @@ def fetch_pool_hourly(
 
     variables: dict[str, Any] = {
         "pool": pool_address.lower(),
-        "periodStartUnix_gte": int(cutoff),
+        "timestamp_gte": str(cutoff),
     }
 
     payload = {
@@ -114,27 +123,25 @@ def fetch_pool_hourly(
         logger.error("The Graph errors for %s: %s", pool_address, resp["errors"])
         return []
 
-    rows = resp.get("data", {}).get("poolHourDatas", [])
+    rows = resp.get("data", {}).get("liquidityPoolHourlySnapshots", [])
     results: list[PoolHistoryPoint] = []
 
     for row in rows:
-        ts = int(row.get("periodStartUnix", 0))
+        ts = int(row.get("timestamp", 0))
         if ts == 0:
             continue
 
-        # token0Price IS price of token1 in token0 units
-        p_t1_in_t0 = Decimal(str(row.get("token0Price", "0") or "0"))
-        # token1Price IS price of token0 in token1 units
-        p_t0_in_t1 = Decimal(str(row.get("token1Price", "0") or "0"))
+        # Schema has no per-snapshot price fields.
+        # token prices must come from external source (CoinGecko).
+        p_t1_in_t0 = Decimal("0")
+        p_t0_in_t1 = Decimal("0")
 
-        vol = Decimal(str(row.get("volumeUSD", "0") or "0"))
-        tvl = Decimal(str(row.get("tvlUSD", "0") or "0"))
+        vol = Decimal(str(row.get("hourlyVolumeUSD", "0") or "0"))
+        tvl = Decimal(str(row.get("totalValueLockedUSD", "0") or "0"))
 
-        # fee growth — raw uint256 as int, None if missing
-        fg0_raw = row.get("feeGrowthGlobal0X128")
-        fg1_raw = row.get("feeGrowthGlobal1X128")
-        fg0 = int(fg0_raw) if fg0_raw is not None and str(fg0_raw).lstrip("-").isdigit() else None
-        fg1 = int(fg1_raw) if fg1_raw is not None and str(fg1_raw).lstrip("-").isdigit() else None
+        # fee growth fields not available in this schema — set to None
+        fg0 = None
+        fg1 = None
 
         pt = PoolHistoryPoint(
             pool_address=pool_address.lower(),
@@ -366,7 +373,23 @@ def main() -> None:
                 "FAILED to fetch prices for %s: %s — CONTINUING", symbol, e,
             )
 
-    logger.info("FETCH COMPLETE.")
+    # STRUCTURED SUMMARY — PASTE-FRIENDLY FOR REVIEW
+    print("=== FETCH SUMMARY ===")
+    for hfile in sorted(HISTORICAL_DIR.glob("*.json")):
+        try:
+            d = json.loads(hfile.read_text())
+            n = len(d.get("records", []))
+            print(f"  {hfile.name:<22} N={n:>4} hourly records")
+        except Exception:
+            print(f"  {hfile.name:<22} PARSE ERROR")
+    for pfile in sorted(PRICES_DIR.glob("*.json")):
+        try:
+            d = json.loads(pfile.read_text())
+            n = len(d.get("records", []))
+            print(f"  {pfile.name:<22} N={n:>4} price points")
+        except Exception:
+            print(f"  {pfile.name:<22} PARSE ERROR")
+    print("FETCH COMPLETE.")
 
 
 if __name__ == "__main__":
