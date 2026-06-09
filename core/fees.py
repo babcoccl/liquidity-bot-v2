@@ -56,18 +56,21 @@ def compute_fee_apr(
 def estimate_daily_fees(
     tvl_usd: TaggedDecimal,
     volume_usd: TaggedDecimal,
-    fee_tier_bps: TaggedDecimal,
+    fee_tier: TaggedDecimal,
 ) -> TaggedDecimal:
     """
     Estimate daily fees for the full pool.
     tvl_usd: USD
     volume_usd: USD (24h volume)
-    fee_tier_bps: BPS (e.g. TaggedDecimal(Decimal("100"), "BPS") for 1%)
+    fee_tier: Uniswap V3 fee tier integer — 500=0.05%, 3000=0.3%, 10000=1%
+              (raw protocol units, NOT true basis points)
     Returns: USD
     """
     if tvl_usd.value <= 0:
         return usd("0")
-    fee_decimal = fee_tier_bps.value / Decimal("10000")
+    # Uniswap V3 fee_tier units: 500 = 0.05%, 3000 = 0.3%, 10000 = 1%
+    # Divisor is 1,000,000 (not 10,000) to convert raw units to decimal
+    fee_decimal = fee_tier.value / Decimal("1000000")
     return usd(volume_usd.value * fee_decimal)
 
 

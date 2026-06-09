@@ -1,6 +1,6 @@
 # Active Context
 
-## Current Sprint: 26 (complete — awaiting YOU RUN)
+## Current Sprint: 26 patch (complete — awaiting YOU RUN)
 - Sprint 26A: Mark-to-market capital fix. Added mark_to_market_usd() to core/il.py.
   Harness computes final_capital with MTM adjustment from token0 USD price change.
   New PoolResult field: mtm_adjustment (signed USD). Appears in summary.json.
@@ -9,6 +9,12 @@
     trend_score_penalty(), should_exit_trend()
   Trend penalty integrated into compute_pool_score().
   Trend exit check integrated into harness step loop (TREND_EXIT reason).
+- Sprint 26 Patch: Fixed two fee calculation bugs.
+  Bug 1: estimate_daily_fees() divisor changed from 10,000 → 1,000,000 in core/fees.py
+    (Uniswap V3 fee_tier units: 500 = 0.05%, not 5%). Only affects simulator.py path.
+  Bug 2: TVL scalar was current snapshot ($8.55M) applied to all 90d records,
+    overstating fees ~6×. Fixed by fetching per-day TVL from DeFiLlama yields chart API
+    and matching to hourly records by nearest daily timestamp (±12h). Fallback: GT scalar.
 
 ## Current Sprint: 25 (complete)
 - Sprint 25: Added --days CLI flag to scripts/run_backtest.py. max_hold_hours = days * 24. run_id format: real_YYYY-MM-DD_Nd. (commit 6684695)
@@ -60,16 +66,20 @@
    FETCH SUMMARY scoped to registry pairs only — shows OK/EMPTY/MISSING status per pool.
 
 ## Next Actions — YOU RUN (in order)
-# 1. Run trend module tests
-python -m pytest tests/test_trend.py -v
+# 1. Fetch fresh data (now with DeFiLlama TVL history)
+python scripts/fetch.py --days 90
 
-# 2. Re-run 90-day backtest with MTM fix active
+# Watch for log lines like:
+#   DeFiLlama TVL history: WETH-USDC-5 — 89 daily points
+# If a pool shows 0 daily points it will use GT scalar fallback.
+
+# 2. Re-run 90-day backtest
 python scripts/run_backtest.py --days 90
 
-# Paste === BACKTEST SUMMARY === and summary.json.
-# Key things to verify:
-#   - final_capital for WETH-USDC-5 reduced by ~$1,000 vs Sprint 25
-#     (reflects -20% WETH price over 90d)
-#   - mtm_adjustment field present in summary.json pools[]
-#   - Any TREND_EXIT reason appearing (WETH was trending down)
-#   - WETH-USDC-5 may now score lower due to trend penalty
+# Expected corrected results:
+#   WETH-USDC-5 fees: ~$800-$1,200 (was $6,529)
+#   WETH-USDC-5 final_capital: ~$9,800-$10,200 (net of WETH depreciation)
+#   This is the economically honest result.
+
+# 3. Run trend module tests (from Sprint 26B)
+python -m pytest tests/test_trend.py -v

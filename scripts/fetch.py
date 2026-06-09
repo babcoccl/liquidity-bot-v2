@@ -95,6 +95,90 @@ def fetch_pool_tvls_batch(
     return result
 
 
+# ---------------------------------------------------------------------------
+# DEFILLAMA — HISTORICAL TVL PER POOL
+# ---------------------------------------------------------------------------
+_DEFILLAMA_YIELDS_URL = "https://yields.llama.fi"
+
+
+def fetch_defillama_tvl_history(
+    pool_address: str,
+    days: int,
+) -> dict[int, Decimal]:
+    """FETCH DAILY TVL HISTORY FROM DEFILLAMA FOR ONE POOL.
+
+    RETURNS { unix_timestamp_midnight: Decimal(tvl_usd) }.
+    RETURNS EMPTY DICT IF POOL NOT FOUND OR REQUEST FAILS.
+    NEVER RAISES.
+    """
+    import urllib.request as _urllib_req
+
+    # STEP 1 — discover DeFiLlama pool UUID by contract address
+    uuid: str | None = None
+    try:
+        req = _urllib_req.Request(
+            f"{_DEFILLAMA_YIELDS_URL}/pools",
+            headers={
+                "Accept": "application/json",
+                "User-Agent": "Mozilla/5.0",
+            },
+        )
+        with _urllib_req.urlopen(req, timeout=15) as r:
+            all_pools = json.loads(r.read())
+
+        target = pool_address.lower()
+        for p in all_pools.get("data", []):
+            pool_field = p.get("pool", "").lower()
+            if target in pool_field:
+                uuid = p["pool"]
+                break
+    except Exception as e:
+        logger.warning(
+            "fetch_defillama_tvl_history: pool lookup failed for %s: %s",
+            pool_address[:10], e,
+        )
+        return {}
+
+    if not uuid:
+        logger.warning(
+            "fetch_defillama_tvl_history: pool %s not found in DeFiLlama",
+            pool_address[:10],
+        )
+        return {}
+
+    # STEP 2 — fetch TVL history for this UUID
+    try:
+        req = _urllib_req.Request(
+            f"{_DEFILLAMA_YIELDS_URL}/chart/{uuid}",
+            headers={
+                "Accept": "application/json",
+                "User-Agent": "Mozilla/5.0",
+            },
+        )
+        with _urllib_req.urlopen(req, timeout=15) as r:
+            chart = json.loads(r.read())
+
+        cutoff = int(time.time()) - (days * 86400)
+        result: dict[int, Decimal] = {}
+        for entry in chart.get("data", []):
+            ts = int(entry.get("timestamp", 0))
+            tvl = Decimal(str(entry.get("tvlUsd", "0") or "0"))
+            if ts >= cutoff and tvl > Decimal("0"):
+                result[ts] = tvl
+
+        logger.info(
+            "fetch_defillama_tvl_history: %d TVL points for %s",
+            len(result), pool_address[:10],
+        )
+        return result
+    except Exception as e:
+        logger.warning(
+            "fetch_defillama_tvl_history: chart fetch failed for %s: %s",
+            pool_address[:10], e,
+        )
+        return {}
+
+
 def _http_get(
     url: str,
     params: dict[str, Any],
@@ -152,6 +236,7 @@ def fetch_pool_hourly(
     token1_symbol: str,
     price_index: dict[str, dict[int, Decimal]],
     tvl_usd: Decimal = Decimal("0"),
+    tvl_history: dict[int, Decimal] | None = None,
 ) -> list[PoolHistoryPoint]:
     """FETCH HOURLY OHLCV FROM GECKOTERMINAL. NO API KEY REQUIRED.
     DERIVE TVL FROM POOL INFO ENDPOINT (SCALAR — CURRENT SNAPSHOT).
@@ -260,7 +345,19 @@ def fetch_pool_hourly(
         else:
             p_t0_in_t1 = Decimal("0")
 
-        tvl = tvl_usd
+        # USE HISTORICAL TVL IF AVAILABLE, ELSE FALL BACK TO SCALAR
+        tvl = tvl_usd  # default: GT current snapshot
+        if tvl_history:
+            # Find nearest daily TVL entry within ±12 hours
+            best_ts = None
+            best_delta = 43200  # 12 hours in seconds
+            for tvl_ts, tvl_val in tvl_history.items():
+                delta = abs(ts - tvl_ts)
+                if delta < best_delta:
+                    best_delta = delta
+                    best_ts = tvl_ts
+            if best_ts is not None:
+                tvl = tvl_history[best_ts]
 
         pt = PoolHistoryPoint(
             pool_address=pool_address.lower(),
@@ -500,6 +597,21 @@ def main() -> None:
     )
     logger.info("Batch TVL fetch complete: %d pools", len(pool_tvl_map))
 
+    # FETCH HISTORICAL TVL FROM DEFILLAMA FOR EACH POOL
+    # One request per pool to DeFiLlama yields API (no rate limit issues)
+    pool_tvl_history: dict[str, dict[int, Decimal]] = {}
+    for pool in pools:
+        time.sleep(1)
+        history = fetch_defillama_tvl_history(
+            pool_address=pool.pool_address,
+            days=days,
+        )
+        pool_tvl_history[pool.pool_address.lower()] = history
+        logger.info(
+            "DeFiLlama TVL history: %s — %d daily points",
+            pool.pair_name, len(history),
+        )
+
     for i, pool in enumerate(pools):
         try:
             logger.info(
@@ -529,6 +641,7 @@ def main() -> None:
                 token1_symbol=pool.token1.symbol,
                 price_index=price_index,
                 tvl_usd=pool_tvl_map.get(pool.pool_address.lower(), Decimal("0")),
+                tvl_history=pool_tvl_history.get(pool.pool_address.lower()),
             )
 
             if not records:

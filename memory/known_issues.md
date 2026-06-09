@@ -122,3 +122,25 @@
     adverse_move_threshold = 0.07
 - WATCH Sprint 27: Add trend_strength_threshold to BacktestConfig
   so it can be sweep-tuned. Current values are hardcoded defaults.
+
+## Sprint 26 Patch — Fee calculation bugs fixed
+
+### Bug 1: estimate_daily_fees() wrong fee divisor (minor)
+- Used / 10,000 treating fee_tier as true BPS (500 = 5%).
+- Correct: / 1,000,000 (Uniswap V3 units: 500 = 0.05%).
+- Impact: only affects simulator.py path (PositionSimulator /
+  BacktestSimulator). Harness uses net_lp_alpha_from_records()
+  which was already correct. Fixed in core/fees.py.
+
+### Bug 2: TVL scalar overstates fees 6× (critical)
+- Current TVL snapshot ($8.55M) applied to all 90d records.
+- Pool TVL was likely ~$50-60M in March 2026 — 6× higher.
+- LP fee share = position/TVL, so lower historical TVL =
+  lower fees. Using current (low) TVL overstates fee share.
+- Fix: fetch per-day TVL from DeFiLlama yields chart API.
+  Match to hourly records by nearest daily timestamp (±12h).
+- Fallback: GT current TVL scalar if DeFiLlama has no data.
+- Expected corrected 90d fee for WETH-USDC-5: ~$800-$1,200
+  (vs $6,529 before fix). Consistent with DeFiLlama 44% APY.
+- WATCH: DeFiLlama may not have all 5 pools indexed on Base.
+  WETH-cbBTC-5 and cbBTC-USDC-5 may fall back to GT scalar.
