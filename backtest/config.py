@@ -31,6 +31,8 @@ class BacktestConfig:
     min_volume_usd: Decimal = Decimal("50000")
     max_hold_hours: int = 720
     metrics_window_hours: int = 720
+    trend_strength_threshold: Decimal = Decimal("0.08")
+    trend_adverse_move_threshold: Decimal = Decimal("0.15")
 
     @classmethod
     def from_yaml(cls, path: Path = Path("config/default.yaml")) -> "BacktestConfig":

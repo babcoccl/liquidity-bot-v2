@@ -56,13 +56,22 @@ class BacktestHarness:
         """
         results: list[BacktestResult] = []
 
-        # Sprint 27 FIX: split capital evenly across pools to avoid over-deployment
+        # Sprint 28 FIX: dry-pass to count eligible pools (those with hourly + token price data)
+        # so capital splits only across pools that will actually simulate
         all_pools = self.registry.all()
-        n_pools = len(all_pools)
-        per_pool_capital = self.config.initial_capital / Decimal(str(n_pools)) if n_pools > 0 else self.config.initial_capital
+        eligible_pools: list[PoolConfig] = []
+        for pool in all_pools:
+            token0_path = self.config.prices_dir / f"{pool.token0.symbol}.json"
+            token1_path = self.config.prices_dir / f"{pool.token1.symbol}.json"
+            hourly_path = self.config.hourly_dir / f"{pool.pair_name}.json"
+            if hourly_path.exists() and token0_path.exists() and token1_path.exists():
+                eligible_pools.append(pool)
+
+        n_eligible = len(eligible_pools) if eligible_pools else 1
+        per_pool_capital = self.config.initial_capital / Decimal(str(n_eligible))
         logger.info(
-            "Capital allocation: $%s split across %d pools -> $%s per pool",
-            self.config.initial_capital, n_pools, per_pool_capital,
+            "Capital allocation: $%s split across %d eligible pools -> $%s per pool",
+            self.config.initial_capital, n_eligible, per_pool_capital,
         )
 
         for pool in all_pools:
@@ -301,8 +310,53 @@ class BacktestHarness:
         price_lower = tick_to_price(position.tick_lower)
         price_upper = tick_to_price(position.tick_upper)
 
-        for pool_rec, t0_rec, t1_rec in aligned[1:]:
+        # Sprint 28: TVL diagnostic log
+        tvl_values = [r[0].tvl_usd for r in aligned if r[0].tvl_usd > Decimal("0")]
+        if tvl_values:
+            logger.info("TVL range for %s: first=$%s last=$%s n_records=%d",
+                pool.pair_name, tvl_values[0], tvl_values[-1], len(tvl_values))
+
+        for step_idx, (pool_rec, t0_rec, t1_rec) in enumerate(aligned[1:]):
             hours_simulated += 1
+
+            # Build token0 price history so far using enumerated index (O(1) instead of O(n²) aligned.index)
+            t0_prices_so_far = [entry_t0.price_usd] + [a[1].price_usd for a in aligned[1:step_idx + 1]]
+
+            # TREND EXIT CHECK — before evaluate_position so TREND_EXIT is not masked by TIME_LIMIT
+            exit_trend, trend_reason = _should_exit_trend(
+                prices=t0_prices_so_far,
+                entry_price=position.entry_token0_price_usd,
+                strength_threshold=self.config.trend_strength_threshold,
+                adverse_move_threshold=self.config.trend_adverse_move_threshold,
+            )
+            if exit_trend:
+                sig = evaluate_position(
+                    position=position,
+                    current_pool_record=pool_rec,
+                    current_token0_price=t0_rec,
+                    current_token1_price=t1_rec,
+                    max_il_pct=self.config.max_il_pct,
+                    min_tvl_usd=self.config.min_tvl_usd,
+                    min_volume_usd=self.config.min_volume_usd,
+                    max_hold_hours=self.config.max_hold_hours,
+                )
+                il_at_exit = sig.il_current
+
+                logger.debug(
+                    "TREND_EXIT triggered: pool=%s hour=%d reason=%s",
+                    pool.pool_address[:10], hours_simulated, trend_reason,
+                )
+                exit_signal = ExitSignal(
+                    triggered=True,
+                    reason=ExitReason.TREND_EXIT,
+                    il_current=sig.il_current,
+                    tvl_current=pool_rec.tvl_usd,
+                    volume_current=pool_rec.volume_usd,
+                    hours_held=hours_simulated,
+                    details=trend_reason,
+                )
+                break
+
             sig = evaluate_position(
                 position=position,
                 current_pool_record=pool_rec,
@@ -329,30 +383,6 @@ class BacktestHarness:
                     Decimal("1"),
                 )
                 total_fees += pool_rec.volume_usd * fee_rate * lp_share
-
-            # TREND EXIT CHECK: evaluate mid-position trend breakout
-            t0_prices_so_far = [entry_t0.price_usd] + [
-                a[1].price_usd for a in aligned[1:aligned.index((pool_rec, t0_rec, t1_rec)) + 1]
-            ]
-            exit_trend, trend_reason = _should_exit_trend(
-                prices=t0_prices_so_far,
-                entry_price=position.entry_token0_price_usd,
-            )
-            if exit_trend:
-                logger.debug(
-                    "TREND_EXIT triggered: pool=%s hour=%d reason=%s",
-                    pool.pool_address[:10], hours_simulated, trend_reason,
-                )
-                exit_signal = ExitSignal(
-                    triggered=True,
-                    reason=ExitReason.TREND_EXIT,
-                    il_current=sig.il_current,
-                    tvl_current=pool_rec.tvl_usd,
-                    volume_current=pool_rec.volume_usd,
-                    hours_held=hours_simulated,
-                    details=trend_reason,
-                )
-                break
 
         il_cost = il_at_exit * capital
         net_lp_alpha = total_fees + il_cost   # il_cost is negative, so net = fees - |IL|
