@@ -1,5 +1,12 @@
 # Active Context
 
+## Sprint 32 — Consolidate DeFiLlama TVL to Single Path (implemented — awaiting YOU RUN)
+- **Path 1 fix**: `fetch_defillama_tvl_history()` chart loop used `int(entry.get("timestamp", 0))` but DeFiLlama returns `"date"` as ISO string. Replaced with `_parse_defillama_ts(entry.get("date") or entry.get("timestamp") or 0)`.
+- **Path 2 fix**: Eliminated redundant `_fetch_defillama_tvl_series()` path entirely. That function used 8-char truncated UUIDs from `_POOL_UUIDS` causing HTTP 400 on `yields.llama.fi/chart/{pool_uuid}` which requires full UUIDs. Now `tvl_history` dict from `fetch_defillama_tvl_history()` is passed directly into `fetch_pool_hourly()` via existing `tvl_history` param.
+- Removed `pool_uuid: str = ""` parameter from `fetch_pool_hourly()` — no longer needed.
+- Removed `pool_uuid = _POOL_UUIDS.get(...)` line and `pool_uuid=` kwarg from `main()`.
+- `_POOL_UUIDS` dict retained for reference but no longer used in fetch path.
+
 ## Sprint 31 — Three Targeted Fixes (complete — awaiting YOU RUN re-fetch)
 1. **DeFiLlama ISO date parse** — Added `_parse_defillama_ts()` helper in `scripts/fetch.py` to handle both Unix int/float and ISO 8601 string formats from DeFiLlama API. Replaced `int(entry["date"])` with `_parse_defillama_ts(entry["date"])`.
 2. **END_OF_DATA exit reason** — Added `END_OF_DATA = auto()` to `ExitReason` enum in `strategy/exit_signal.py`. Added fallback `ExitSignal` after the main loop in `_simulate_pool_hourly` (`backtest/harness.py`) so simulations that exhaust all records get a proper exit reason instead of `None`.

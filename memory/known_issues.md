@@ -178,3 +178,12 @@
 - Aggregate mean_fee_apr used raw total_fees / initial_capital with no
   annualization factor. Fix: mean of per-pool (fees/capital)*(8760/hours).
 - STATUS: RESOLVED Sprint 31.
+
+## scripts/fetch.py — Two competing DeFiLlama TVL paths (Sprint 32)
+- fetch_defillama_tvl_history() used int(entry["timestamp"]) but DeFiLlama
+  chart API field is "date" (ISO string). Fixed with _parse_defillama_ts().
+- _fetch_defillama_tvl_series() used 8-char truncated UUIDs causing HTTP 400.
+  Eliminated entirely — tvl_history dict from fetch_defillama_tvl_history()
+  passed directly into fetch_pool_hourly() via existing tvl_history param.
+- pool_uuid param removed from fetch_pool_hourly(). _POOL_UUIDS map unused.
+- STATUS: RESOLVED Sprint 32 — awaiting YOU RUN confirmation.
