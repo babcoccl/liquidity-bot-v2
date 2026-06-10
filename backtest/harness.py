@@ -56,8 +56,6 @@ class BacktestHarness:
         """
         results: list[BacktestResult] = []
 
-        # Sprint 29 FIX: run all simulations with full capital first,
-        # then rescale based on post-gate count of actually simulated pools
         all_pools = self.registry.all()
 
         for pool in all_pools:
@@ -72,10 +70,8 @@ class BacktestHarness:
                         hourly_records = load_pool_history(hourly_path)
                         t0_prices = load_token_prices(token0_path)
                         t1_prices = load_token_prices(token1_path)
-                        # Sprint 29: pass full capital temporarily; rescale after loop
                         result = self._simulate_pool_hourly(
                             pool, hourly_records, t0_prices, t1_prices,
-                            self.config.initial_capital,
                         )
                         results.append(result)
                         continue  # skip legacy daily path for this pool
@@ -129,25 +125,6 @@ class BacktestHarness:
                 results.append(result)
             except Exception as e:
                 logger.warning("Error processing pool %s: %s — skipping", pool.pair_name, e)
-
-        # Sprint 29: post-gate capital split — count pools that actually simulated
-        n_simulated = len([r for r in results if r.hours_simulated > 0])
-        if n_simulated > 0:
-            per_pool_capital = self.config.initial_capital / Decimal(str(n_simulated))
-            scale = per_pool_capital / self.config.initial_capital
-
-            logger.info(
-                "Capital allocation: $%s / %d eligible -> $%s per pool",
-                self.config.initial_capital, n_simulated, per_pool_capital,
-            )
-
-            # Rescale all simulated results by the capital ratio
-            for r in results:
-                if r.hours_simulated > 0:
-                    r.total_fees_earned *= scale
-                    r.il_cost *= scale
-                    r.net_lp_alpha *= scale
-                    r.final_capital = per_pool_capital + (r.final_capital - self.config.initial_capital) * scale
 
         self.reporter.save(run_id, results, self.config)
         self.reporter.print_summary(run_id, results)
@@ -226,11 +203,8 @@ class BacktestHarness:
         pool_records: list[PoolHistoryPoint],
         token0_prices: list[TokenHistoryPoint],
         token1_prices: list[TokenHistoryPoint],
-        capital: Decimal | None = None,
     ) -> BacktestResult:
-        # Sprint 27: use passed capital (per-pool split) or fall back to config
-        if capital is None:
-            capital = self.config.initial_capital
+        """Simulate one pool over hourly records. Uses self.config.initial_capital as position size."""
         aligned = join_records(pool_records, token0_prices, token1_prices)
         if len(aligned) < 2:
             logger.warning(
@@ -246,7 +220,7 @@ class BacktestHarness:
                 total_fees_earned=Decimal("0"),
                 il_cost=Decimal("0"),
                 net_lp_alpha=Decimal("0"),
-                final_capital=capital,
+                final_capital=self.config.initial_capital,
                 rebalance_count=0,
                 source="hourly",
                 entry_score=Decimal("0"),
@@ -285,7 +259,7 @@ class BacktestHarness:
                 total_fees_earned=Decimal("0"),
                 il_cost=Decimal("0"),
                 net_lp_alpha=Decimal("0"),
-                final_capital=capital,
+                final_capital=self.config.initial_capital,
                 rebalance_count=0,
                 source="hourly",
                 entry_score=entry_score,
@@ -305,7 +279,7 @@ class BacktestHarness:
             entry_tvl_usd=entry_pool.tvl_usd,
             tick_lower=pool.tick_lower,
             tick_upper=pool.tick_upper,
-            liquidity_usd=capital,
+            liquidity_usd=self.config.initial_capital,
         )
 
         exit_signal: ExitSignal | None = None
@@ -391,7 +365,7 @@ class BacktestHarness:
                 )
                 total_fees += pool_rec.volume_usd * fee_rate * lp_share
 
-        il_cost = il_at_exit * capital
+        il_cost = il_at_exit * self.config.initial_capital
         net_lp_alpha = total_fees + il_cost   # il_cost is negative, so net = fees - |IL|
 
         # MARK-TO-MARKET: adjust for USD price change of volatile leg (token0)
@@ -404,13 +378,13 @@ class BacktestHarness:
         )
         if position.entry_token0_price_usd > Decimal("0"):
             mtm_adjustment = _mtm(
-                capital_usd=capital,
+                capital_usd=self.config.initial_capital,
                 entry_price_usd_volatile=position.entry_token0_price_usd,
                 current_price_usd_volatile=t0_rec.price_usd,
             )
 
         final_capital = (
-            capital + total_fees + il_cost + mtm_adjustment
+            self.config.initial_capital + total_fees + il_cost + mtm_adjustment
         )
 
         return BacktestResult(

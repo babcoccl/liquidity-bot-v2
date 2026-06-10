@@ -143,4 +143,12 @@
 - Expected corrected 90d fee for WETH-USDC-5: ~$800-$1,200
   (vs $6,529 before fix). Consistent with DeFiLlama 44% APY.
 - WATCH: DeFiLlama may not have all 5 pools indexed on Base.
-  WETH-cbBTC-5 and cbBTC-USDC-5 may fall back to GT scalar.
+   WETH-cbBTC-5 and cbBTC-USDC-5 may fall back to GT scalar.
+
+## backtest/harness.py — Post-loop capital rescaling removed (Sprint 29 Hotfix)
+- Sprint 29 agent introduced post-loop mutation of frozen BacktestResult fields
+  (total_fees_earned, il_cost, etc.) using *= operator.
+- FrozenInstanceError crash on run. Fixed by removing rescaling block entirely.
+- Per-pool capital normalization lives in reporter.py only (correct location).
+- _simulate_pool_hourly reverted to no capital parameter; uses self.config.initial_capital directly.
+- STATUS: RESOLVED Sprint 29 Hotfix.

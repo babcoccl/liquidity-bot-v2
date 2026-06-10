@@ -1,5 +1,14 @@
 # Active Context
 
+## Sprint 29 Hotfix (complete)
+- Removed broken post-loop capital rescaling block from backtest/harness.py.
+- Sprint 29 had introduced mutation of frozen BacktestResult fields
+  (total_fees_earned, il_cost, etc.) using *= operator → FrozenInstanceError crash.
+- Reverted _simulate_pool_hourly to signature with no capital parameter.
+- Method now uses self.config.initial_capital directly as working capital.
+- Per-pool capital normalization lives in reporter.py only (correct single source of truth).
+- TVL flat-line (all records same value) remains open — next critical fix after this hotfix.
+
 ## Current Sprint: 26 patch (complete — awaiting YOU RUN)
 - Sprint 26A: Mark-to-market capital fix. Added mark_to_market_usd() to core/il.py.
   Harness computes final_capital with MTM adjustment from token0 USD price change.
