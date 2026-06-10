@@ -1,0 +1,249 @@
+{
+  "scraped_at": "2026-06-10T19:10:50.170129+00:00",
+  "source_url": "https://aerodrome.finance/liquidity?filters=listed%2Cconcentrated&sort=tvl%3Adesc",
+  "total_scraped": 24,
+  "active_count": 24,
+  "migrating_count": 0,
+  "pools_raw": [
+    {
+      "pair_name": "WETH / msETH",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "50",
+      "status": "active",
+      "token0": "0x4200000000000000000000000000000000000006",
+      "token1": "0x7Ba6F01772924a82D9626c126347A28299E98c98",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "msUSD / USDC",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "50",
+      "status": "active",
+      "token0": "0x526728DBc96689597F85ae4cd716d4f7fCcBAE9d",
+      "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "WETH / cbBTC",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "100",
+      "status": "active",
+      "token0": "0x4200000000000000000000000000000000000006",
+      "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "USDC / cbBTC",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "100",
+      "status": "active",
+      "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "WETH / USDC",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "100",
+      "status": "active",
+      "token0": "0x4200000000000000000000000000000000000006",
+      "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "USDC / TRX",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "100",
+      "status": "active",
+      "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "token1": "0x989cFDC3508500d0C91f22896a0D2ee1Ef675870",
+      "factory": "0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a"
+    },
+    {
+      "pair_name": "WETH / superOETHb",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "1",
+      "status": "active",
+      "token0": "0x4200000000000000000000000000000000000006",
+      "token1": "0xDBFeFD2e8460a6Ee4955A68582F85708BAEA60A3",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "WETH / cbBTC",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "10",
+      "status": "active",
+      "token0": "0x4200000000000000000000000000000000000006",
+      "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+      "factory": "0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef"
+    },
+    {
+      "pair_name": "cbBTC / LBTC",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "1",
+      "status": "active",
+      "token0": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+      "token1": "0xecAc9C5F704e954931349Da37F60E39f515c11c1",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "VVV / DIEM",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "100",
+      "status": "active",
+      "token0": "0xacfE6019Ed1A7Dc6f7B508C02d1b04ec88cC21bf",
+      "token1": "0xF4d97F2da56e8c3098f3a8D538DB630A2606a024",
+      "factory": "0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef"
+    },
+    {
+      "pair_name": "EURC / USDC",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "50",
+      "status": "active",
+      "token0": "0x60a3E35Cc302bFA44Cb288Bc5a4F316Fdb1adb42",
+      "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "WETH / USDC",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "50",
+      "status": "active",
+      "token0": "0x4200000000000000000000000000000000000006",
+      "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "factory": "0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef"
+    },
+    {
+      "pair_name": "WETH / VVV",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "100",
+      "status": "active",
+      "token0": "0x4200000000000000000000000000000000000006",
+      "token1": "0xacfE6019Ed1A7Dc6f7B508C02d1b04ec88cC21bf",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "USDC / cbBTC",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "50",
+      "status": "active",
+      "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+      "factory": "0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef"
+    },
+    {
+      "pair_name": "USDC / AERO",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "2000",
+      "status": "active",
+      "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "token1": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "WETH / ZEN",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "100",
+      "status": "active",
+      "token0": "0x4200000000000000000000000000000000000006",
+      "token1": "0xf43eB8De897Fbc7F2502483B2Bef7Bb9EA179229",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "WETH / REI",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "100",
+      "status": "active",
+      "token0": "0x4200000000000000000000000000000000000006",
+      "token1": "0x6B2504A03ca4D43d0D73776F6aD46dAb2F2a4cFD",
+      "factory": "0xaDe65c38CD4849aDBA595a4323a8C7DdfE89716a"
+    },
+    {
+      "pair_name": "WETH / AERO",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "200",
+      "status": "active",
+      "token0": "0x4200000000000000000000000000000000000006",
+      "token1": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "factory": "0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef"
+    },
+    {
+      "pair_name": "WETH / wstETH",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "1",
+      "status": "active",
+      "token0": "0x4200000000000000000000000000000000000006",
+      "token1": "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "USDz / sUSDz",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "50",
+      "status": "active",
+      "token0": "0x04D5ddf5f3a8939889F11E97f8c4BB48317F1938",
+      "token1": "0xe31eE12bDFDD0573D634124611e85338e2cBF0cF",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "cbBTC / ZEN",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "200",
+      "status": "active",
+      "token0": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+      "token1": "0xf43eB8De897Fbc7F2502483B2Bef7Bb9EA179229",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    },
+    {
+      "pair_name": "msUSD / msETH",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "200",
+      "status": "active",
+      "token0": "0x526728DBc96689597F85ae4cd716d4f7fCcBAE9d",
+      "token1": "0x7Ba6F01772924a82D9626c126347A28299E98c98",
+      "factory": "0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef"
+    },
+    {
+      "pair_name": "USDC / cbMEGA",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "200",
+      "status": "active",
+      "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "token1": "0xcb111E6A2a3bde90856D299d61341ac302167D23",
+      "factory": "0xf8f2eB4940CFE7d13603DDDD87f123820Fc061Ef"
+    },
+    {
+      "pair_name": "USDC / USDT",
+      "tvl_display": "$0",
+      "volume_24h_display": "$0",
+      "fee_tier_raw": "1",
+      "status": "active",
+      "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "token1": "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
+      "factory": "0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A"
+    }
+  ]
+}
