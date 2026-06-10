@@ -134,9 +134,10 @@ class BacktestReporter:
 
         pool_details = []
         for r in results:
-            # Fee APR per pool = total_fees / initial_capital annualized by hours
+            # Sprint 29 FIX: realized APR computed as (total_fees / capital) * 8760 / hours
             if r.hours_simulated > 0:
-                pool_fee_apr = r.total_fees_earned / config.initial_capital
+                per_pool_capital = config.initial_capital / Decimal(str(len([x for x in results if x.hours_simulated > 0])))
+                pool_fee_apr = (r.total_fees_earned / per_pool_capital) * Decimal("8760") / Decimal(str(r.hours_simulated))
             else:
                 pool_fee_apr = Decimal("0")
 
@@ -177,6 +178,8 @@ class BacktestReporter:
             "min_volume_usd": str(config.min_volume_usd),
             "max_hold_hours": str(config.max_hold_hours),
             "metrics_window_hours": str(config.metrics_window_hours),
+            "trend_strength_threshold": str(config.trend_strength_threshold),
+            "trend_adverse_move_threshold": str(config.trend_adverse_move_threshold),
         }
 
         # ---- Write summary.json (enriched combined) ----

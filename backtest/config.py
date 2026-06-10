@@ -56,4 +56,6 @@ class BacktestConfig:
             min_volume_usd=Decimal(str(bt.get("min_volume_usd", "50000"))),
             max_hold_hours=int(bt.get("max_hold_hours", 720)),
             metrics_window_hours=int(bt.get("metrics_window_hours", 720)),
+            trend_strength_threshold=Decimal(str(bt.get("trend_strength_threshold", "0.08"))),
+            trend_adverse_move_threshold=Decimal(str(bt.get("trend_adverse_move_threshold", "0.15"))),
         )

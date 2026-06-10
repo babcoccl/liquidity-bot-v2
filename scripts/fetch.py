@@ -374,18 +374,35 @@ def fetch_pool_hourly(
             p_t0_in_t1 = Decimal("0")
 
         # USE HISTORICAL TVL IF AVAILABLE, ELSE FALL BACK TO SCALAR
+        # Sprint 29 FIX: interpolate linearly between nearest bracketing TVL points
         tvl = tvl_usd  # default: GT current snapshot
         if tvl_history:
-            # Find nearest daily TVL entry within ±12 hours
-            best_ts = None
-            best_delta = 43200  # 12 hours in seconds
-            for tvl_ts, tvl_val in tvl_history.items():
-                delta = abs(ts - tvl_ts)
-                if delta < best_delta:
-                    best_delta = delta
-                    best_ts = tvl_ts
-            if best_ts is not None:
-                tvl = tvl_history[best_ts]
+            sorted_ts = sorted(tvl_history.keys())
+            # Find bracketing points
+            lower_ts = None
+            upper_ts = None
+            for candidate_ts in sorted_ts:
+                if candidate_ts <= ts:
+                    lower_ts = candidate_ts
+                elif candidate_ts > ts and upper_ts is None:
+                    upper_ts = candidate_ts
+
+            if lower_ts is not None and upper_ts is not None:
+                # Linear interpolation between bracketing TVL points
+                t_low = tvl_history[lower_ts]
+                t_high = tvl_history[upper_ts]
+                span = Decimal(str(upper_ts - lower_ts))
+                if span > Decimal("0"):
+                    frac = Decimal(str(ts - lower_ts)) / span
+                    tvl = t_low + (t_high - t_low) * frac
+                else:
+                    tvl = t_low
+            elif lower_ts is not None:
+                # ts is after all known points — use last known
+                tvl = tvl_history[lower_ts]
+            elif upper_ts is not None:
+                # ts is before all known points — use first known
+                tvl = tvl_history[upper_ts]
 
         pt = PoolHistoryPoint(
             pool_address=pool_address.lower(),
@@ -407,6 +424,16 @@ def fetch_pool_hourly(
             "TVL range for %s: first=$%s last=$%s (current_snapshot=$%s)",
             pool_address[:10],
             tvl_values[0], tvl_values[-1], tvl_usd,
+        )
+
+    # Sprint 29: assert TVL is not flat — if historical TVL was applied,
+    # there should be variation across records
+    unique_tvls = set(r.tvl_usd for r in results)
+    if len(unique_tvls) == 1 and tvl_history:
+        logger.warning(
+            "TVL is flat (%s) despite having %d historical TVL points — "
+            "historical TVL may not be applied correctly",
+            unique_tvls.pop(), len(tvl_history),
         )
 
     logger.info(

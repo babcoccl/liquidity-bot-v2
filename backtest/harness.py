@@ -56,23 +56,9 @@ class BacktestHarness:
         """
         results: list[BacktestResult] = []
 
-        # Sprint 28 FIX: dry-pass to count eligible pools (those with hourly + token price data)
-        # so capital splits only across pools that will actually simulate
+        # Sprint 29 FIX: run all simulations with full capital first,
+        # then rescale based on post-gate count of actually simulated pools
         all_pools = self.registry.all()
-        eligible_pools: list[PoolConfig] = []
-        for pool in all_pools:
-            token0_path = self.config.prices_dir / f"{pool.token0.symbol}.json"
-            token1_path = self.config.prices_dir / f"{pool.token1.symbol}.json"
-            hourly_path = self.config.hourly_dir / f"{pool.pair_name}.json"
-            if hourly_path.exists() and token0_path.exists() and token1_path.exists():
-                eligible_pools.append(pool)
-
-        n_eligible = len(eligible_pools) if eligible_pools else 1
-        per_pool_capital = self.config.initial_capital / Decimal(str(n_eligible))
-        logger.info(
-            "Capital allocation: $%s split across %d eligible pools -> $%s per pool",
-            self.config.initial_capital, n_eligible, per_pool_capital,
-        )
 
         for pool in all_pools:
             try:
@@ -86,8 +72,10 @@ class BacktestHarness:
                         hourly_records = load_pool_history(hourly_path)
                         t0_prices = load_token_prices(token0_path)
                         t1_prices = load_token_prices(token1_path)
+                        # Sprint 29: pass full capital temporarily; rescale after loop
                         result = self._simulate_pool_hourly(
-                            pool, hourly_records, t0_prices, t1_prices, per_pool_capital
+                            pool, hourly_records, t0_prices, t1_prices,
+                            self.config.initial_capital,
                         )
                         results.append(result)
                         continue  # skip legacy daily path for this pool
@@ -141,6 +129,25 @@ class BacktestHarness:
                 results.append(result)
             except Exception as e:
                 logger.warning("Error processing pool %s: %s — skipping", pool.pair_name, e)
+
+        # Sprint 29: post-gate capital split — count pools that actually simulated
+        n_simulated = len([r for r in results if r.hours_simulated > 0])
+        if n_simulated > 0:
+            per_pool_capital = self.config.initial_capital / Decimal(str(n_simulated))
+            scale = per_pool_capital / self.config.initial_capital
+
+            logger.info(
+                "Capital allocation: $%s / %d eligible -> $%s per pool",
+                self.config.initial_capital, n_simulated, per_pool_capital,
+            )
+
+            # Rescale all simulated results by the capital ratio
+            for r in results:
+                if r.hours_simulated > 0:
+                    r.total_fees_earned *= scale
+                    r.il_cost *= scale
+                    r.net_lp_alpha *= scale
+                    r.final_capital = per_pool_capital + (r.final_capital - self.config.initial_capital) * scale
 
         self.reporter.save(run_id, results, self.config)
         self.reporter.print_summary(run_id, results)
@@ -390,6 +397,11 @@ class BacktestHarness:
         # MARK-TO-MARKET: adjust for USD price change of volatile leg (token0)
         from core.il import mark_to_market_usd as _mtm
         mtm_adjustment = Decimal("0")
+        # Sprint 29 DEBUG: instrument MTM inputs to investigate identical adjustments
+        logger.debug(
+            "MTM inputs for %s: entry_price_usd_volatile=%s, current_price_usd_volatile=%s",
+            pool.pair_name, position.entry_token0_price_usd, t0_rec.price_usd,
+        )
         if position.entry_token0_price_usd > Decimal("0"):
             mtm_adjustment = _mtm(
                 capital_usd=capital,
