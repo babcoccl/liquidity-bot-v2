@@ -32,6 +32,18 @@ HISTORICAL_DIR = Path("data/historical")
 PRICES_DIR = Path("data/prices")
 
 # ---------------------------------------------------------------------------
+# POOL UUID MAP — DeFiLlama pool identifiers for TVL history (Sprint 30)
+# ---------------------------------------------------------------------------
+_POOL_UUIDS: dict[str, str] = {
+    # key: pair_name as in registry (e.g. "WETH-USDC-5")
+    # value: DeFiLlama pool UUID
+    "WETH-USDC-5":   "8b3cadb9",
+    "WETH-USDC-30":  "b99bcdf5",
+    "WETH-cbBTC-5":  "d632293f",
+    "cbBTC-USDC-5":  "9c3c95ef",
+}
+
+# ---------------------------------------------------------------------------
 # GECKOTERMINAL — POOL OHLCV (FREE, NO KEY REQUIRED)
 # ---------------------------------------------------------------------------
 _GT_BASE_URL = "https://api.geckoterminal.com/api/v2"
@@ -257,6 +269,104 @@ def _http_get(
     raise last_exc  # type: ignore[misc]
 
 
+def _interpolate_tvl(
+    record_ts: int,
+    tvl_history: list[tuple[int, Decimal]],
+    fallback: Decimal,
+) -> Decimal:
+    """Return interpolated TVL for record_ts from sorted (timestamp, tvl) pairs.
+
+    Finds the two bracketing points and linearly interpolates.
+    If record_ts is before the first point or after the last, returns
+    the nearest endpoint value. If tvl_history is empty, returns fallback.
+
+    Args:
+        record_ts:   Unix timestamp (seconds) of the hourly record.
+        tvl_history: List of (unix_ts, tvl_usd) sorted ascending by ts.
+                     Each point is one DeFiLlama daily TVL snapshot.
+        fallback:    Value to return when tvl_history is empty.
+    """
+    if not tvl_history:
+        return fallback
+
+    # Before first point — return first
+    if record_ts <= tvl_history[0][0]:
+        return tvl_history[0][1]
+
+    # After last point — return last
+    if record_ts >= tvl_history[-1][0]:
+        return tvl_history[-1][1]
+
+    # Find bracketing points via linear scan (list is sorted ascending)
+    for idx in range(len(tvl_history) - 1):
+        ts_low, tvl_low = tvl_history[idx]
+        ts_high, tvl_high = tvl_history[idx + 1]
+        if ts_low <= record_ts < ts_high:
+            span = Decimal(str(ts_high - ts_low))
+            if span > Decimal("0"):
+                frac = Decimal(str(record_ts - ts_low)) / span
+                return tvl_low + (tvl_high - tvl_low) * frac
+            return tvl_low
+
+    # Should not reach here, but fallback safely
+    return fallback
+
+
+def _fetch_defillama_tvl_series(
+    pool_uuid: str,
+) -> list[tuple[int, Decimal]]:
+    """Fetch historical daily TVL from DeFiLlama for one pool.
+
+    Returns list of (unix_timestamp_seconds, tvl_usd) sorted ascending.
+    Returns empty list on any network or parse error — caller must use fallback.
+
+    Endpoint: https://yields.llama.fi/chart/{pool_uuid}
+    Field path: response["data"] → list of {"timestamp": unix_ts, "tvlUsd": float}
+
+    Args:
+        pool_uuid: DeFiLlama pool UUID (from _POOL_UUIDS map).
+                   Example: "8b3cadb9" for WETH-USDC-500.
+    """
+    import urllib.request as _urllib_req
+
+    if not pool_uuid:
+        return []
+
+    try:
+        req = _urllib_req.Request(
+            f"{_DEFILLAMA_YIELDS_URL}/chart/{pool_uuid}",
+            headers={
+                "Accept": "application/json",
+                "User-Agent": "Mozilla/5.0",
+            },
+        )
+        with _urllib_req.urlopen(req, timeout=15) as r:
+            chart = json.loads(r.read())
+
+        tvl_array = chart.get("data", [])
+        series: list[tuple[int, Decimal]] = []
+        for entry in tvl_array:
+            ts = int(entry.get("timestamp", 0))
+            tvl = Decimal(str(entry.get("tvlUsd", "0") or "0"))
+            if tvl > Decimal("0"):
+                series.append((ts, tvl))
+
+        # Sort ascending by timestamp (should already be, but ensure)
+        series.sort(key=lambda x: x[0])
+
+        logger.info(
+            "DeFiLlama TVL series: %s — %d daily points fetched",
+            pool_uuid[:8], len(series),
+        )
+        return series
+    except Exception as e:
+        logger.warning(
+            "DeFiLlama TVL series: %s — FAILED: %s",
+            pool_uuid[:8] if pool_uuid else "(empty)", e,
+        )
+        return []
+
+
 def fetch_pool_hourly(
     pool_address: str,
     days: int,
@@ -265,6 +375,7 @@ def fetch_pool_hourly(
     price_index: dict[str, dict[int, Decimal]],
     tvl_usd: Decimal = Decimal("0"),
     tvl_history: dict[int, Decimal] | None = None,
+    pool_uuid: str = "",
 ) -> list[PoolHistoryPoint]:
     """FETCH HOURLY OHLCV FROM GECKOTERMINAL. NO API KEY REQUIRED.
     DERIVE TVL FROM POOL INFO ENDPOINT (SCALAR — CURRENT SNAPSHOT).
@@ -373,44 +484,13 @@ def fetch_pool_hourly(
         else:
             p_t0_in_t1 = Decimal("0")
 
-        # USE HISTORICAL TVL IF AVAILABLE, ELSE FALL BACK TO SCALAR
-        # Sprint 29 FIX: interpolate linearly between nearest bracketing TVL points
-        tvl = tvl_usd  # default: GT current snapshot
-        if tvl_history:
-            sorted_ts = sorted(tvl_history.keys())
-            # Find bracketing points
-            lower_ts = None
-            upper_ts = None
-            for candidate_ts in sorted_ts:
-                if candidate_ts <= ts:
-                    lower_ts = candidate_ts
-                elif candidate_ts > ts and upper_ts is None:
-                    upper_ts = candidate_ts
-
-            if lower_ts is not None and upper_ts is not None:
-                # Linear interpolation between bracketing TVL points
-                t_low = tvl_history[lower_ts]
-                t_high = tvl_history[upper_ts]
-                span = Decimal(str(upper_ts - lower_ts))
-                if span > Decimal("0"):
-                    frac = Decimal(str(ts - lower_ts)) / span
-                    tvl = t_low + (t_high - t_low) * frac
-                else:
-                    tvl = t_low
-            elif lower_ts is not None:
-                # ts is after all known points — use last known
-                tvl = tvl_history[lower_ts]
-            elif upper_ts is not None:
-                # ts is before all known points — use first known
-                tvl = tvl_history[upper_ts]
-
         pt = PoolHistoryPoint(
             pool_address=pool_address.lower(),
             timestamp=ts,
             price_token1_in_token0=p_t1_in_t0,
             price_token0_in_token1=p_t0_in_t1,
             volume_usd=vol,
-            tvl_usd=tvl,
+            tvl_usd=tvl_usd,
             fee_growth_global_0=None,
             fee_growth_global_1=None,
             source="geckoterminal",
@@ -435,6 +515,30 @@ def fetch_pool_hourly(
             "historical TVL may not be applied correctly",
             unique_tvls.pop(), len(tvl_history),
         )
+
+    # ── TVL interpolation via DeFiLlama historical series (Sprint 30) ──
+    if pool_uuid:
+        tvl_series = _fetch_defillama_tvl_series(pool_uuid)
+        if tvl_series:
+            new_results: list[PoolHistoryPoint] = []
+            for record in results:
+                interpolated = _interpolate_tvl(
+                    record_ts=record.timestamp,
+                    tvl_history=tvl_series,
+                    fallback=tvl_usd,
+                )
+                from dataclasses import replace
+                new_results.append(replace(record, tvl_usd=interpolated))
+            results = new_results
+            logger.info(
+                "TVL interpolated via DeFiLlama for %s: %d daily points",
+                pool_address[:8], len(tvl_series),
+            )
+        else:
+            logger.warning(
+                "TVL fallback to GT scalar for %s (DeFiLlama returned empty)",
+                pool_address[:8],
+            )
 
     logger.info(
         "fetch_pool_hourly: %d records for %s", len(results), pool_address[:8]
@@ -698,6 +802,7 @@ def main() -> None:
                     pool.pair_name, t0_count, t1_count,
                 )
 
+            pool_uuid = _POOL_UUIDS.get(pool.pair_name, "")
             records = fetch_pool_hourly(
                 pool_address=pool.pool_address,
                 days=days,
@@ -706,6 +811,7 @@ def main() -> None:
                 price_index=price_index,
                 tvl_usd=pool_tvl_map.get(pool.pool_address.lower(), Decimal("0")),
                 tvl_history=pool_tvl_history.get(pool.pool_address.lower()),
+                pool_uuid=pool_uuid,
             )
 
             if not records:

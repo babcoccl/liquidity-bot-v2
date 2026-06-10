@@ -1,5 +1,14 @@
 # Active Context
 
+## Sprint 30 — TVL Historical Fix (implemented — awaiting YOU RUN)
+- Replaced flat TVL scalar with per-timestamp historical TVL from DeFiLlama.
+- Added `_interpolate_tvl()` helper: linearly interpolates between daily DeFiLlama snapshots for each hourly record.
+- Added `_fetch_defillama_tvl_series()`: fetches daily TVL history via `yields.llama.fi/chart/{pool_uuid}`.
+- Added `_POOL_UUIDS` map with 4 pool UUIDs (WETH-USDC-5, WETH-USDC-30, WETH-cbBTC-5, cbBTC-USDC-5).
+- `fetch_pool_hourly()` now accepts `pool_uuid` param; applies interpolation when series is non-empty.
+- Fallback to GT scalar if DeFiLlama returns empty or pool_uuid is missing.
+- Uses `dataclasses.replace()` for immutable PoolHistoryPoint updates.
+
 ## Sprint 29 Hotfix (complete)
 - Removed broken post-loop capital rescaling block from backtest/harness.py.
 - Sprint 29 had introduced mutation of frozen BacktestResult fields

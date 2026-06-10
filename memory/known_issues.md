@@ -132,18 +132,27 @@
   BacktestSimulator). Harness uses net_lp_alpha_from_records()
   which was already correct. Fixed in core/fees.py.
 
-### Bug 2: TVL scalar overstates fees 6× (critical)
+### Bug 2: TVL scalar overstates fees 6× (critical) — STATUS: FIX IMPLEMENTED Sprint 30 — awaiting YOU RUN confirmation
 - Current TVL snapshot ($8.55M) applied to all 90d records.
 - Pool TVL was likely ~$50-60M in March 2026 — 6× higher.
 - LP fee share = position/TVL, so lower historical TVL =
   lower fees. Using current (low) TVL overstates fee share.
-- Fix: fetch per-day TVL from DeFiLlama yields chart API.
-  Match to hourly records by nearest daily timestamp (±12h).
-- Fallback: GT current TVL scalar if DeFiLlama has no data.
+- Sprint 30 fix: _fetch_defillama_tvl_series() fetches daily TVL history
+  from yields.llama.fi/chart/{pool_uuid}. _interpolate_tvl() linearly
+  interpolates per hourly record. Fallback to GT scalar if empty.
 - Expected corrected 90d fee for WETH-USDC-5: ~$800-$1,200
   (vs $6,529 before fix). Consistent with DeFiLlama 44% APY.
-- WATCH: DeFiLlama may not have all 5 pools indexed on Base.
-   WETH-cbBTC-5 and cbBTC-USDC-5 may fall back to GT scalar.
+- WATCH: After re-fetch, TVL range log must show first != last for all pools.
+
+## scripts/fetch.py — TVL historical series via DeFiLlama (Sprint 30)
+- fetch_pool_hourly now accepts pool_uuid param.
+- _fetch_defillama_tvl_series fetches daily TVL history from yields.llama.fi.
+- _interpolate_tvl linearly interpolates per hourly record from daily snapshots.
+- Fallback to GT scalar if DeFiLlama returns empty or pool_uuid missing.
+- _POOL_UUIDS map: WETH-USDC-5, WETH-USDC-30, WETH-cbBTC-5, cbBTC-USDC-5.
+- Uses dataclasses.replace() for immutable PoolHistoryPoint updates.
+- STATUS: IMPLEMENTED Sprint 30 — awaiting YOU RUN re-fetch confirmation.
+- WATCH: After re-fetch, TVL range log must show first != last for all pools.
 
 ## backtest/harness.py — Post-loop capital rescaling removed (Sprint 29 Hotfix)
 - Sprint 29 agent introduced post-loop mutation of frozen BacktestResult fields
