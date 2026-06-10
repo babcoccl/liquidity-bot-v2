@@ -107,9 +107,14 @@ class BacktestReporter:
 
         total_fees_earned = sum((r.total_fees_earned for r in results), Decimal("0"))
 
-        # Mean fee APR = total_fees / (initial_capital * pools_simulated) annualized
-        if pools_simulated > 0:
-            mean_fee_apr = total_fees_earned / (config.initial_capital * Decimal(str(pools_simulated)))
+        # Mean fee APR = annualized average of per-pool realized APRs
+        if simulated_results:
+            per_pool_capital = config.initial_capital / Decimal(str(len(simulated_results)))
+            indiv_aprs = [
+                (r.total_fees_earned / per_pool_capital) * Decimal("8760") / Decimal(str(r.hours_simulated))
+                for r in simulated_results if r.hours_simulated > 0
+            ]
+            mean_fee_apr = sum(indiv_aprs) / Decimal(str(len(indiv_aprs))) if indiv_aprs else Decimal("0")
         else:
             mean_fee_apr = Decimal("0")
 

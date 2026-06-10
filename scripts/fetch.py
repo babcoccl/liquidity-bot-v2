@@ -219,6 +219,19 @@ def fetch_defillama_tvl_history(
         return {}
 
 
+def _parse_defillama_ts(date_val) -> int:
+    """Convert DeFiLlama date/timestamp field to Unix timestamp int.
+    Handles both Unix int/float and ISO 8601 string formats.
+    """
+    if isinstance(date_val, (int, float)):
+        return int(date_val)
+    # ISO 8601 string: '2023-12-03T23:05:17.943Z' or '2023-12-03'
+    import datetime
+    date_str = str(date_val).rstrip("Z").split("T")[0]
+    dt = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+    return int(dt.replace(tzinfo=datetime.timezone.utc).timestamp())
+
+
 def _http_get(
     url: str,
     params: dict[str, Any],
@@ -346,7 +359,7 @@ def _fetch_defillama_tvl_series(
         tvl_array = chart.get("data", [])
         series: list[tuple[int, Decimal]] = []
         for entry in tvl_array:
-            ts = int(entry.get("timestamp", 0))
+            ts = _parse_defillama_ts(entry.get("date", 0))
             tvl = Decimal(str(entry.get("tvlUsd", "0") or "0"))
             if tvl > Decimal("0"):
                 series.append((ts, tvl))

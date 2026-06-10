@@ -1,5 +1,10 @@
 # Active Context
 
+## Sprint 31 — Three Targeted Fixes (complete — awaiting YOU RUN re-fetch)
+1. **DeFiLlama ISO date parse** — Added `_parse_defillama_ts()` helper in `scripts/fetch.py` to handle both Unix int/float and ISO 8601 string formats from DeFiLlama API. Replaced `int(entry["date"])` with `_parse_defillama_ts(entry["date"])`.
+2. **END_OF_DATA exit reason** — Added `END_OF_DATA = auto()` to `ExitReason` enum in `strategy/exit_signal.py`. Added fallback `ExitSignal` after the main loop in `_simulate_pool_hourly` (`backtest/harness.py`) so simulations that exhaust all records get a proper exit reason instead of `None`.
+3. **Annualized mean_fee_apr** — Replaced flat `total_fees / (capital * pools)` formula in `backtest/reporter.py` with annualized average of per-pool realized APRs: `mean((fees/capital) * 8760 / hours)`.
+
 ## Sprint 30 — TVL Historical Fix (implemented — awaiting YOU RUN)
 - Replaced flat TVL scalar with per-timestamp historical TVL from DeFiLlama.
 - Added `_interpolate_tvl()` helper: linearly interpolates between daily DeFiLlama snapshots for each hourly record.

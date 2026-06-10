@@ -365,6 +365,18 @@ class BacktestHarness:
                 )
                 total_fees += pool_rec.volume_usd * fee_rate * lp_share
 
+        # END_OF_DATA fallback: if loop exhausted all records without triggering exit
+        if exit_signal is None:
+            exit_signal = ExitSignal(
+                triggered=True,
+                reason=ExitReason.END_OF_DATA,
+                il_current=il_at_exit,
+                tvl_current=pool_rec.tvl_usd,
+                volume_current=pool_rec.volume_usd,
+                hours_held=hours_simulated,
+                details="simulation exhausted all available records",
+            )
+
         il_cost = il_at_exit * self.config.initial_capital
         net_lp_alpha = total_fees + il_cost   # il_cost is negative, so net = fees - |IL|
 

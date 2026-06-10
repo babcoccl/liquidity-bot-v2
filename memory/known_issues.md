@@ -161,3 +161,20 @@
 - Per-pool capital normalization lives in reporter.py only (correct location).
 - _simulate_pool_hourly reverted to no capital parameter; uses self.config.initial_capital directly.
 - STATUS: RESOLVED Sprint 29 Hotfix.
+
+## scripts/fetch.py — DeFiLlama date field ISO string not int (Sprint 31)
+- _fetch_defillama_tvl_series used int(entry["date"]) but DeFiLlama
+  returns ISO 8601 strings ('2023-12-03T23:05:17.943Z'), not Unix ints.
+- Fix: _parse_defillama_ts() helper normalizes both formats.
+- STATUS: RESOLVED Sprint 31.
+
+## backtest/harness.py — null exit_reason when loop exhausts records (Sprint 31)
+- When aligned records run out before max_hold_hours, exit_signal is None.
+- Reporter skips null exit_reasons in counts. most_common_exit_reason wrong.
+- Fix: END_OF_DATA fallback ExitSignal after loop in _simulate_pool_hourly.
+- STATUS: RESOLVED Sprint 31.
+
+## backtest/reporter.py — mean_fee_apr not annualized (Sprint 31)
+- Aggregate mean_fee_apr used raw total_fees / initial_capital with no
+  annualization factor. Fix: mean of per-pool (fees/capital)*(8760/hours).
+- STATUS: RESOLVED Sprint 31.

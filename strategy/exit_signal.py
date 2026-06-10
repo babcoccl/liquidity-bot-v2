@@ -18,6 +18,7 @@ class ExitReason(Enum):
     TIME_LIMIT          = auto()  # max hold duration exceeded
     TREND_EXIT          = auto()  # trend breakout / adverse move detected
     MANUAL              = auto()  # operator-triggered
+    END_OF_DATA         = auto()  # simulation exhausted all available records
 
 
 @dataclass(frozen=False)
