@@ -1,5 +1,39 @@
 # Active Context
 
+## Sprint 33 — Populate Registry from Pool Reference (COMPLETE)
+- **Date**: 2026-06-10
+- **Goal**: Populate registry/registry.json from memory/pool_reference.json.
+- **Selection criteria confirmed with user**:
+  - TVL >= $100,000 (aggressive threshold)
+  - Fee tiers: 0.05% / 0.3% / 1% (bps=5/30/100); excludes 0.01% stable-only and exotic tiers
+  - 24h volume >= $10,000 (p25 of active-volume pools in the $100k+ TVL cohort)
+- **Result**: 32 pools written to registry/registry.json.
+  - 0.3% tier: 18 pools
+  - 1% tier: 13 pools
+  - 0.05% tier: 1 pool
+- **Registry JSON fixed**: Pre-existing malformed JSON in registry.json (missing closing brace on USDC-USDT-1 entry) was eliminated by full rebuild.
+- **Scripts added**: scripts/populate_registry.py
+  - Supports --dry-run, --min-tvl, --min-vol CLI flags
+  - Atomic write via tempfile + os.replace
+  - Post-write validation (json.load verify) before exit
+  - TOKEN_DECIMALS lookup table; unknown tokens default to 18
+  - tick_lower/tick_upper: full-range [-887272, 887272] baseline for all entries
+- **Next required step**: Run `python3 scripts/build_pool_reference.py` to update in_registry counts in pool_reference.json/pool_reference.md. Expected: in_registry should change from 0/268 to 32/268.
+- **Note on prior 5-pool registry**: The 5 manually-curated pools from Sprints 22-24 (WETH-USDC-5, WETH-USDC-30, cbBTC-USDC-5, WETH-cbBTC-5, USDC-USDT-1) are included in the 32 if they meet criteria. USDC-USDT-1 (fee_bps=1, 0.01% tier) is excluded by fee tier filter — this is intentional.
+
+## YOU RUN — Required after Sprint 33 commit
+```bash
+# 1. Verify registry JSON is valid
+python3 -c "import json; data=json.load(open('registry/registry.json')); print(f'VALID — {len(data)} pools')"
+
+# 2. Update in_registry counts in pool_reference
+python3 scripts/build_pool_reference.py
+# Expected: in_registry counts go from 0/268 to 32/268 in pool_reference.md
+
+# 3. Verify pool_reference.md header shows 32 in_registry
+head -20 memory/pool_reference.md
+```
+
 ## Sprint 33-Pre — Aerodrome Pool Registry via Sugar SDK (complete)
 - Replaced all Playwright/JS scraping with velodrome-finance/sugar-sdk.
 - One `chain.get_pools()` call returns every pool field needed (pool address, gauge address, TVL, volume, fees, APR, tick spacing, token addresses) as typed Python objects.
@@ -97,7 +131,7 @@
 
 ## Known Issues / Watch Items
 - scripts/fetch.py pool address was using .strip("0x") — FIXED in Sprint 22B (use [2:] instead)
-- scripts/fetch.py _COINGECKO_IDS hardcoded to 4 symbols (WETH, USDC, USDT, cbBTC) — extend when adding new pools
+- scripts/fetch.py _COINGECKO_IDS hardcoded to 4 symbols (WETH, USDC, USDT, cbBTC) — extend when adding new pools from expanded registry
 - scripts/run_backtest.py has no test coverage — manual validation only
 - data/historical/ and data/prices/ are gitignored — must re-fetch after clean clone
 - First real backtest run not yet executed — pending fetch + run_backtest execution
@@ -108,20 +142,14 @@
    FETCH SUMMARY scoped to registry pairs only — shows OK/EMPTY/MISSING status per pool.
 
 ## Next Actions — YOU RUN (in order)
-# 1. Fetch fresh data (now with DeFiLlama TVL history)
+# 1. Validate registry JSON
+python3 -c "import json; data=json.load(open('registry/registry.json')); print(f'VALID — {len(data)} pools')"
+
+# 2. Update in_registry counts
+python3 scripts/build_pool_reference.py
+
+# 3. Fetch fresh data for expanded registry (now 32 pools)
 python scripts/fetch.py --days 90
 
-# Watch for log lines like:
-#   DeFiLlama TVL history: WETH-USDC-5 — 89 daily points
-# If a pool shows 0 daily points it will use GT scalar fallback.
-
-# 2. Re-run 90-day backtest
+# 4. Re-run 90-day backtest
 python scripts/run_backtest.py --days 90
-
-# Expected corrected results:
-#   WETH-USDC-5 fees: ~$800-$1,200 (was $6,529)
-#   WETH-USDC-5 final_capital: ~$9,800-$10,200 (net of WETH depreciation)
-#   This is the economically honest result.
-
-# 3. Run trend module tests (from Sprint 26B)
-python -m pytest tests/test_trend.py -v
