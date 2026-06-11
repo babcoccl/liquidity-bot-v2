@@ -179,6 +179,14 @@
   annualization factor. Fix: mean of per-pool (fees/capital)*(8760/hours).
 - STATUS: RESOLVED Sprint 31.
 
+## Sprint 33-Pre — Sugar SDK pool identification rules
+- `type == -1` identifies Concentrated Liquidity (Slipstream CL) pools.
+- `gauge.alive == False` identifies migrating pools (superseded by newer pool).
+- Symbol string contains "migrat" as fallback migrating indicator.
+- Fee tier mapped from tick_spacing: 1→0.01% (100 bps), 50/100→0.05% (500 bps), 200→0.3% (3000 bps), 2000→1% (10000 bps).
+- Non-CL pools (Basic Volatile type=0, Basic Stable type=1) are excluded from registry.
+- Sugar SDK uses Base RPC endpoint; set SUGAR_RPC_URI_8453 env var for production use.
+
 ## scripts/fetch.py — Two competing DeFiLlama TVL paths (Sprint 32)
 - fetch_defillama_tvl_history() used int(entry["timestamp"]) but DeFiLlama
   chart API field is "date" (ISO string). Fixed with _parse_defillama_ts().

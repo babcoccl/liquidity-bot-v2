@@ -1,5 +1,17 @@
 # Active Context
 
+## Sprint 33-Pre — Aerodrome Pool Registry via Sugar SDK (complete)
+- Replaced all Playwright/JS scraping with velodrome-finance/sugar-sdk.
+- One `chain.get_pools()` call returns every pool field needed (pool address, gauge address, TVL, volume, fees, APR, tick spacing, token addresses) as typed Python objects.
+- Sugar SDK `type == -1` identifies Concentrated Liquidity (Slipstream CL) pools.
+- `gauge.alive == False` identifies migrating pools (superseded by newer pool).
+- Symbol contains "migrat" as fallback migrating indicator.
+- Fee tier mapped from tick_spacing: 1→0.01%, 50/100→0.05%, 200→0.3%, 2000→1%.
+- Results: 268 active CL pools, 26951 migrating, 6555 basic excluded.
+- Deleted: scripts/aero_extract.js (already absent: scrape_aerodrome_playwright.py, scrape_aerodrome_all.py)
+- Added: scripts/fetch_aerodrome_pools.py, memory/pool_reference_raw.json, memory/pool_reference.json, memory/pool_reference.md
+- build_pool_reference.py cross-references with registry.json (registry.json currently has invalid JSON — pre-existing issue).
+
 ## Sprint 32 — Consolidate DeFiLlama TVL to Single Path (implemented — awaiting YOU RUN)
 - **Path 1 fix**: `fetch_defillama_tvl_history()` chart loop used `int(entry.get("timestamp", 0))` but DeFiLlama returns `"date"` as ISO string. Replaced with `_parse_defillama_ts(entry.get("date") or entry.get("timestamp") or 0)`.
 - **Path 2 fix**: Eliminated redundant `_fetch_defillama_tvl_series()` path entirely. That function used 8-char truncated UUIDs from `_POOL_UUIDS` causing HTTP 400 on `yields.llama.fi/chart/{pool_uuid}` which requires full UUIDs. Now `tvl_history` dict from `fetch_defillama_tvl_history()` is passed directly into `fetch_pool_hourly()` via existing `tvl_history` param.
