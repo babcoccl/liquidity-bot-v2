@@ -1,0 +1,1687 @@
+{
+  "pool_address": "0x70acdf2ad0bf2402c957154f944c19ef4e1cbae1",
+  "pair_name": "WETH-cbBTC-5",
+  "fetched_at": 1781057538,
+  "records": [
+    {
+      "timestamp": 1780455600,
+      "price_token1_in_token0": "65768.8493735749",
+      "price_token0_in_token1": "0.00001520476653498802848394839262",
+      "volume_usd": "19089330.410747148",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780459200,
+      "price_token1_in_token0": "66382.9261164458",
+      "price_token0_in_token1": "0.00001506411450206107419121441810",
+      "volume_usd": "4961608.96038156",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780462800,
+      "price_token1_in_token0": "67263.3876806147",
+      "price_token0_in_token1": "0.00001486692886698300918562158189",
+      "volume_usd": "6014774.902670885",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780466400,
+      "price_token1_in_token0": "66884.3703594341",
+      "price_token0_in_token1": "0.00001495117610625677527210156291",
+      "volume_usd": "5121002.462847253",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780470000,
+      "price_token1_in_token0": "67139.0424100112",
+      "price_token0_in_token1": "0.00001489446325273904337789868282",
+      "volume_usd": "2823509.0842915885",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780473600,
+      "price_token1_in_token0": "66935.9766567542",
+      "price_token0_in_token1": "0.00001493964904894077798435535634",
+      "volume_usd": "3173803.287204827",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780477200,
+      "price_token1_in_token0": "67057.8795537699",
+      "price_token0_in_token1": "0.00001491249062234598203311094531",
+      "volume_usd": "3792229.4626974696",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780480800,
+      "price_token1_in_token0": "67196.6801132735",
+      "price_token0_in_token1": "0.00001488168758209928171554125907",
+      "volume_usd": "3404431.883247518",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780484400,
+      "price_token1_in_token0": "66980.4517929846",
+      "price_token0_in_token1": "0.00001492972909604557223217174697",
+      "volume_usd": "2305087.480664287",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780488000,
+      "price_token1_in_token0": "67008.1914187196",
+      "price_token0_in_token1": "0.00001492354858156397189333116476",
+      "volume_usd": "3542108.9059894057",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780491600,
+      "price_token1_in_token0": "66768.7026603737",
+      "price_token0_in_token1": "0.00001497707698600359575011593398",
+      "volume_usd": "4966177.8012630595",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780495200,
+      "price_token1_in_token0": "66724.7323076307",
+      "price_token0_in_token1": "0.00001498694660009357739422007301",
+      "volume_usd": "5001759.346693953",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780498800,
+      "price_token1_in_token0": "65997.156103099",
+      "price_token0_in_token1": "0.00001515216804854176786592731776",
+      "volume_usd": "5781114.246595621",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780502400,
+      "price_token1_in_token0": "65939.3082436572",
+      "price_token0_in_token1": "0.00001516546088571063354013704574",
+      "volume_usd": "7425296.899354327",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780506000,
+      "price_token1_in_token0": "65852.0478030261",
+      "price_token0_in_token1": "0.00001518555661307843166470463745",
+      "volume_usd": "4647080.264273735",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780509600,
+      "price_token1_in_token0": "65971.8641136237",
+      "price_token0_in_token1": "0.00001515797701695520634097267164",
+      "volume_usd": "3054560.7792211277",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780513200,
+      "price_token1_in_token0": "65362.3141756914",
+      "price_token0_in_token1": "0.00001529933590343876528077905127",
+      "volume_usd": "6249508.657596061",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780516800,
+      "price_token1_in_token0": "64827.5072278581",
+      "price_token0_in_token1": "0.00001542555070774452770919721825",
+      "volume_usd": "10452923.692758508",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780520400,
+      "price_token1_in_token0": "65591.1102548455",
+      "price_token0_in_token1": "0.00001524596848741595526955157751",
+      "volume_usd": "16618386.680969758",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780524000,
+      "price_token1_in_token0": "64777.4260873597",
+      "price_token0_in_token1": "0.00001543747660877088068767595820",
+      "volume_usd": "6349648.093108267",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780527600,
+      "price_token1_in_token0": "64074.4912611911",
+      "price_token0_in_token1": "0.00001560683479988367993590619027",
+      "volume_usd": "7049445.657053302",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780531200,
+      "price_token1_in_token0": "63174.4385465999",
+      "price_token0_in_token1": "0.00001582918697824851216892599936",
+      "volume_usd": "30046307.07038527",
+      "tvl_usd": "2966938",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780534800,
+      "price_token1_in_token0": "62129.1792011926",
+      "price_token0_in_token1": "0.00001609549671920990887020555170",
+      "volume_usd": "14738436.328819737",
+      "tvl_usd": "2945007.541666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780538400,
+      "price_token1_in_token0": "63162.8999976375",
+      "price_token0_in_token1": "0.00001583207864169319783909542120",
+      "volume_usd": "24575065.07522805",
+      "tvl_usd": "2923077.083333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780542000,
+      "price_token1_in_token0": "64268.965472928",
+      "price_token0_in_token1": "0.00001555960941087856386876655858",
+      "volume_usd": "7517391.761412273",
+      "tvl_usd": "2901146.625",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780545600,
+      "price_token1_in_token0": "64292.2023359051",
+      "price_token0_in_token1": "0.00001555398576603950905056762729",
+      "volume_usd": "5279700.087181393",
+      "tvl_usd": "2879216.166666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780549200,
+      "price_token1_in_token0": "63860.5157341009",
+      "price_token0_in_token1": "0.00001565912815617944714873231584",
+      "volume_usd": "7447496.852397173",
+      "tvl_usd": "2857285.708333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780552800,
+      "price_token1_in_token0": "63954.5663183696",
+      "price_token0_in_token1": "0.00001563610008739549682216482612",
+      "volume_usd": "6667077.524367785",
+      "tvl_usd": "2835355.25",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780556400,
+      "price_token1_in_token0": "63582.0932456761",
+      "price_token0_in_token1": "0.00001572769861690586910725276078",
+      "volume_usd": "7033578.008820951",
+      "tvl_usd": "2813424.791666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780560000,
+      "price_token1_in_token0": "63554.6180455686",
+      "price_token0_in_token1": "0.00001573449783433520066136363175",
+      "volume_usd": "6934269.871331408",
+      "tvl_usd": "2791494.333333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780563600,
+      "price_token1_in_token0": "63081.7114600166",
+      "price_token0_in_token1": "0.00001585245512296912004620742597",
+      "volume_usd": "8089046.975526388",
+      "tvl_usd": "2769563.875",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780567200,
+      "price_token1_in_token0": "62467.7195466547",
+      "price_token0_in_token1": "0.00001600826806640730747089602002",
+      "volume_usd": "8894346.510379555",
+      "tvl_usd": "2747633.416666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780570800,
+      "price_token1_in_token0": "62451.4577982668",
+      "price_token0_in_token1": "0.00001601243646273622702971097704",
+      "volume_usd": "9734631.608656323",
+      "tvl_usd": "2725702.958333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780574400,
+      "price_token1_in_token0": "63685.2491000671",
+      "price_token0_in_token1": "0.00001570222326411448990970466217",
+      "volume_usd": "9001216.889164992",
+      "tvl_usd": "2703772.5",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780578000,
+      "price_token1_in_token0": "64112.6537890066",
+      "price_token0_in_token1": "0.00001559754496032840947174884120",
+      "volume_usd": "8577130.764602987",
+      "tvl_usd": "2681842.041666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780581600,
+      "price_token1_in_token0": "63869.4447309921",
+      "price_token0_in_token1": "0.00001565693899816790767988124356",
+      "volume_usd": "6488206.200067351",
+      "tvl_usd": "2659911.583333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780585200,
+      "price_token1_in_token0": "63895.2154099185",
+      "price_token0_in_token1": "0.00001565062412865375964567055337",
+      "volume_usd": "6033745.508799716",
+      "tvl_usd": "2637981.125",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780588800,
+      "price_token1_in_token0": "63487.5506448491",
+      "price_token0_in_token1": "0.00001575111954773659931198552939",
+      "volume_usd": "5344908.968337179",
+      "tvl_usd": "2616050.666666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780592400,
+      "price_token1_in_token0": "63476.70672572",
+      "price_token0_in_token1": "0.00001575381035945918091485848725",
+      "volume_usd": "6026879.64669804",
+      "tvl_usd": "2594120.208333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780596000,
+      "price_token1_in_token0": "63766.7044635428",
+      "price_token0_in_token1": "0.00001568216529947423951877569971",
+      "volume_usd": "5405106.162964874",
+      "tvl_usd": "2572189.75",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780599600,
+      "price_token1_in_token0": "63558.8921808964",
+      "price_token0_in_token1": "0.00001573343973890981912671280984",
+      "volume_usd": "5054799.773309383",
+      "tvl_usd": "2550259.291666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780603200,
+      "price_token1_in_token0": "63532.9324435829",
+      "price_token0_in_token1": "0.00001573986846723937594574421064",
+      "volume_usd": "3664960.606792983",
+      "tvl_usd": "2528328.833333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780606800,
+      "price_token1_in_token0": "63296.080850753",
+      "price_token0_in_token1": "0.00001579876647272867493574106978",
+      "volume_usd": "5638576.004068032",
+      "tvl_usd": "2506398.375",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780610400,
+      "price_token1_in_token0": "63667.8180395155",
+      "price_token0_in_token1": "0.00001570652223984413790388480046",
+      "volume_usd": "5326166.759605939",
+      "tvl_usd": "2484467.916666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780614000,
+      "price_token1_in_token0": "63832.1230543027",
+      "price_token0_in_token1": "0.00001566609337353997816059902360",
+      "volume_usd": "3727019.247585516",
+      "tvl_usd": "2462537.458333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780617600,
+      "price_token1_in_token0": "63412.929159259",
+      "price_token0_in_token1": "0.00001576965475744765792136243142",
+      "volume_usd": "3879707.2263002424",
+      "tvl_usd": "2440607",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780621200,
+      "price_token1_in_token0": "63348.525849787",
+      "price_token0_in_token1": "0.00001578568698459085534233813354",
+      "volume_usd": "5575062.461211472",
+      "tvl_usd": "2438621.791666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780624800,
+      "price_token1_in_token0": "62620.3689381987",
+      "price_token0_in_token1": "0.00001596924478338542028762937144",
+      "volume_usd": "6931022.13627317",
+      "tvl_usd": "2436636.583333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780628400,
+      "price_token1_in_token0": "62680.0497483608",
+      "price_token0_in_token1": "0.00001595403966676257881913626304",
+      "volume_usd": "8107861.575264251",
+      "tvl_usd": "2434651.375",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780632000,
+      "price_token1_in_token0": "63507.4660313613",
+      "price_token0_in_token1": "0.00001574618013425664505265470799",
+      "volume_usd": "6207515.41579569",
+      "tvl_usd": "2432666.166666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780635600,
+      "price_token1_in_token0": "62327.2436498105",
+      "price_token0_in_token1": "0.00001604434820860300315856387577",
+      "volume_usd": "8928416.520493627",
+      "tvl_usd": "2430680.958333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780639200,
+      "price_token1_in_token0": "61903.4990441537",
+      "price_token0_in_token1": "0.00001615417569993472214547665971",
+      "volume_usd": "20642043.048582654",
+      "tvl_usd": "2428695.75",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780642800,
+      "price_token1_in_token0": "62922.9983623873",
+      "price_token0_in_token1": "0.00001589244037991930137070185623",
+      "volume_usd": "5810914.21534933",
+      "tvl_usd": "2426710.541666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780646400,
+      "price_token1_in_token0": "62410.4853038079",
+      "price_token0_in_token1": "0.00001602294863005954247741759297",
+      "volume_usd": "3935435.963548048",
+      "tvl_usd": "2424725.333333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780650000,
+      "price_token1_in_token0": "62763.4640480954",
+      "price_token0_in_token1": "0.00001593283632709794130728179174",
+      "volume_usd": "4077669.5017398037",
+      "tvl_usd": "2422740.125",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780653600,
+      "price_token1_in_token0": "62446.77023642",
+      "price_token0_in_token1": "0.00001601363843500721656533386530",
+      "volume_usd": "3622535.688478849",
+      "tvl_usd": "2420754.916666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780657200,
+      "price_token1_in_token0": "61959.7904034502",
+      "price_token0_in_token1": "0.00001613949939934457071972892539",
+      "volume_usd": "3733641.421858291",
+      "tvl_usd": "2418769.708333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780660800,
+      "price_token1_in_token0": "61896.2404501148",
+      "price_token0_in_token1": "0.00001615607010584025355213394934",
+      "volume_usd": "6379722.705279996",
+      "tvl_usd": "2416784.5",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780664400,
+      "price_token1_in_token0": "60732.2035224958",
+      "price_token0_in_token1": "0.00001646572892138830851625913572",
+      "volume_usd": "7866284.895210274",
+      "tvl_usd": "2414799.291666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780668000,
+      "price_token1_in_token0": "60804.9823306163",
+      "price_token0_in_token1": "0.00001644602073170052868302598130",
+      "volume_usd": "16589295.698547501",
+      "tvl_usd": "2412814.083333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780671600,
+      "price_token1_in_token0": "60412.6866270995",
+      "price_token0_in_token1": "0.00001655281457970165824900385927",
+      "volume_usd": "10231802.521936392",
+      "tvl_usd": "2410828.875",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780675200,
+      "price_token1_in_token0": "61416.5748043701",
+      "price_token0_in_token1": "0.00001628224959117786785240250161",
+      "volume_usd": "13483921.549262555",
+      "tvl_usd": "2408843.666666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780678800,
+      "price_token1_in_token0": "60726.2115311265",
+      "price_token0_in_token1": "0.00001646735363175799164057986514",
+      "volume_usd": "4923109.567638884",
+      "tvl_usd": "2406858.458333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780682400,
+      "price_token1_in_token0": "59376.5684384323",
+      "price_token0_in_token1": "0.00001684166037713853897773753002",
+      "volume_usd": "12469557.570013229",
+      "tvl_usd": "2404873.25",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780686000,
+      "price_token1_in_token0": "60192.1199941907",
+      "price_token0_in_token1": "0.00001661347033625851080215195223",
+      "volume_usd": "6377028.511802668",
+      "tvl_usd": "2402888.041666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780689600,
+      "price_token1_in_token0": "61626.8138657177",
+      "price_token0_in_token1": "0.00001622670291180327752159378632",
+      "volume_usd": "4463399.980140283",
+      "tvl_usd": "2400902.833333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780693200,
+      "price_token1_in_token0": "61685.9339260189",
+      "price_token0_in_token1": "0.00001621115117101605036730181509",
+      "volume_usd": "4982064.40152238",
+      "tvl_usd": "2398917.625",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780696800,
+      "price_token1_in_token0": "61623.8484859172",
+      "price_token0_in_token1": "0.00001622748375133579020423094261",
+      "volume_usd": "4618870.72257043",
+      "tvl_usd": "2396932.416666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780700400,
+      "price_token1_in_token0": "60951.0525723554",
+      "price_token0_in_token1": "0.00001640660756125406279510001546",
+      "volume_usd": "3911018.776594411",
+      "tvl_usd": "2394947.208333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780704000,
+      "price_token1_in_token0": "61288.1585047641",
+      "price_token0_in_token1": "0.00001631636558181573040298921167",
+      "volume_usd": "2853707.8294767793",
+      "tvl_usd": "2392962",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780707600,
+      "price_token1_in_token0": "61101.4865925012",
+      "price_token0_in_token1": "0.00001636621391340627324268491631",
+      "volume_usd": "2624804.8696554354",
+      "tvl_usd": "2400925.541666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780711200,
+      "price_token1_in_token0": "60968.5908262077",
+      "price_token0_in_token1": "0.00001640188802871501237174478978",
+      "volume_usd": "2365956.263550293",
+      "tvl_usd": "2408889.083333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780714800,
+      "price_token1_in_token0": "60717.2879319459",
+      "price_token0_in_token1": "0.00001646977383312699400238376527",
+      "volume_usd": "3205972.662451419",
+      "tvl_usd": "2416852.625",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780718400,
+      "price_token1_in_token0": "60105.2469181456",
+      "price_token0_in_token1": "0.00001663748260383741798860837469",
+      "volume_usd": "6894701.789864506",
+      "tvl_usd": "2424816.166666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780722000,
+      "price_token1_in_token0": "60846.8520145737",
+      "price_token0_in_token1": "0.00001643470396398626431553194206",
+      "volume_usd": "8331775.291841271",
+      "tvl_usd": "2432779.708333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780725600,
+      "price_token1_in_token0": "60708.686210259",
+      "price_token0_in_token1": "0.00001647210741040567354720070017",
+      "volume_usd": "4895672.422489437",
+      "tvl_usd": "2440743.25",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780729200,
+      "price_token1_in_token0": "61002.2710491361",
+      "price_token0_in_token1": "0.00001639283231266128030220127485",
+      "volume_usd": "3141609.8929232247",
+      "tvl_usd": "2448706.791666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780732800,
+      "price_token1_in_token0": "61267.6175084121",
+      "price_token0_in_token1": "0.00001632183591703560341778109456",
+      "volume_usd": "3049849.541657522",
+      "tvl_usd": "2456670.333333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780736400,
+      "price_token1_in_token0": "60948.1340068625",
+      "price_token0_in_token1": "0.00001640739320891110897839542577",
+      "volume_usd": "2572245.9122947706",
+      "tvl_usd": "2464633.875",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780740000,
+      "price_token1_in_token0": "60490.6066564543",
+      "price_token0_in_token1": "0.00001653149233036003597514188957",
+      "volume_usd": "4790279.523540734",
+      "tvl_usd": "2472597.416666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780743600,
+      "price_token1_in_token0": "60763.5463786359",
+      "price_token0_in_token1": "0.00001645723562230386914280668270",
+      "volume_usd": "3321456.096213422",
+      "tvl_usd": "2480560.958333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780747200,
+      "price_token1_in_token0": "61036.5028472798",
+      "price_token0_in_token1": "0.00001638363853352005690048936444",
+      "volume_usd": "3942053.4123104676",
+      "tvl_usd": "2488524.5",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780750800,
+      "price_token1_in_token0": "60802.8022252152",
+      "price_token0_in_token1": "0.00001644661040943431105884182357",
+      "volume_usd": "3472929.981612371",
+      "tvl_usd": "2496488.041666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780754400,
+      "price_token1_in_token0": "60861.3806112516",
+      "price_token0_in_token1": "0.00001643078073413154593295317881",
+      "volume_usd": "2607405.624448975",
+      "tvl_usd": "2504451.583333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780758000,
+      "price_token1_in_token0": "60804.2627078175",
+      "price_token0_in_token1": "0.00001644621537153235987405609602",
+      "volume_usd": "3538362.0346388617",
+      "tvl_usd": "2512415.125",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780761600,
+      "price_token1_in_token0": "60700.5824796947",
+      "price_token0_in_token1": "0.00001647430649177898310296313525",
+      "volume_usd": "2975801.1019453653",
+      "tvl_usd": "2520378.666666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780765200,
+      "price_token1_in_token0": "60526.2725727158",
+      "price_token0_in_token1": "0.00001652175092722928979189624488",
+      "volume_usd": "3210789.8184070652",
+      "tvl_usd": "2528342.208333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780768800,
+      "price_token1_in_token0": "60629.8503361028",
+      "price_token0_in_token1": "0.00001649352578732224805122869226",
+      "volume_usd": "2444205.340011795",
+      "tvl_usd": "2536305.75",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780772400,
+      "price_token1_in_token0": "60605.8898435941",
+      "price_token0_in_token1": "0.00001650004649021249620034499385",
+      "volume_usd": "1337880.749602969",
+      "tvl_usd": "2544269.291666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780776000,
+      "price_token1_in_token0": "60701.8798062754",
+      "price_token0_in_token1": "0.00001647395440127077162691533977",
+      "volume_usd": "1559647.2567120346",
+      "tvl_usd": "2552232.833333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780779600,
+      "price_token1_in_token0": "60768.9341343374",
+      "price_token0_in_token1": "0.00001645577652866798298877050735",
+      "volume_usd": "1872892.3847000168",
+      "tvl_usd": "2560196.375",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780783200,
+      "price_token1_in_token0": "60580.3328711648",
+      "price_token0_in_token1": "0.00001650700735049910658964226059",
+      "volume_usd": "2246947.0433741095",
+      "tvl_usd": "2568159.916666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780786800,
+      "price_token1_in_token0": "60847.804509811",
+      "price_token0_in_token1": "0.00001643444669953147846823128458",
+      "volume_usd": "2084264.6384736057",
+      "tvl_usd": "2576123.458333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780790400,
+      "price_token1_in_token0": "60778.731784217",
+      "price_token0_in_token1": "0.00001645312382545763571422853980",
+      "volume_usd": "2106942.514186971",
+      "tvl_usd": "2584087",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780794000,
+      "price_token1_in_token0": "61450.064646732",
+      "price_token0_in_token1": "0.00001627337588249683627279958705",
+      "volume_usd": "3890752.7037257995",
+      "tvl_usd": "2598199.791666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780797600,
+      "price_token1_in_token0": "61489.2916295993",
+      "price_token0_in_token1": "0.00001626299431165713336126589906",
+      "volume_usd": "1976046.871686747",
+      "tvl_usd": "2612312.583333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780801200,
+      "price_token1_in_token0": "61673.8912723389",
+      "price_token0_in_token1": "0.00001621431661550607936641051887",
+      "volume_usd": "1948527.110443649",
+      "tvl_usd": "2626425.375",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780804800,
+      "price_token1_in_token0": "61890.827698599",
+      "price_token0_in_token1": "0.00001615748305823088279306662862",
+      "volume_usd": "1860598.3155920426",
+      "tvl_usd": "2640538.166666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780808400,
+      "price_token1_in_token0": "61732.7088268445",
+      "price_token0_in_token1": "0.00001619886797459225519447897944",
+      "volume_usd": "3164520.176797051",
+      "tvl_usd": "2654650.958333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780812000,
+      "price_token1_in_token0": "62170.2707581803",
+      "price_token0_in_token1": "0.00001608485837048443339893169420",
+      "volume_usd": "4559460.800975612",
+      "tvl_usd": "2668763.75",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780815600,
+      "price_token1_in_token0": "62356.8850593687",
+      "price_token0_in_token1": "0.00001603672151115182696539252290",
+      "volume_usd": "2144416.441155072",
+      "tvl_usd": "2682876.541666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780819200,
+      "price_token1_in_token0": "62791.2830131263",
+      "price_token0_in_token1": "0.00001592577746485851335866202473",
+      "volume_usd": "4614411.248744786",
+      "tvl_usd": "2696989.333333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780822800,
+      "price_token1_in_token0": "62513.2599176458",
+      "price_token0_in_token1": "0.00001599660618111081880484934867",
+      "volume_usd": "3644134.876617308",
+      "tvl_usd": "2711102.125",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780826400,
+      "price_token1_in_token0": "62420.5712601126",
+      "price_token0_in_token1": "0.00001602035963164935808223611381",
+      "volume_usd": "2197200.9157148306",
+      "tvl_usd": "2725214.916666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780830000,
+      "price_token1_in_token0": "62593.139895553",
+      "price_token0_in_token1": "0.00001597619166682906930416489413",
+      "volume_usd": "1445863.6392810068",
+      "tvl_usd": "2739327.708333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780833600,
+      "price_token1_in_token0": "61869.7293664938",
+      "price_token0_in_token1": "0.00001616299295696548617221973776",
+      "volume_usd": "4367702.360018143",
+      "tvl_usd": "2753440.5",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780837200,
+      "price_token1_in_token0": "61703.0094682038",
+      "price_token0_in_token1": "0.00001620666493609700446849561809",
+      "volume_usd": "2601418.7428305205",
+      "tvl_usd": "2767553.291666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780840800,
+      "price_token1_in_token0": "61846.3799126109",
+      "price_token0_in_token1": "0.00001616909512590716984352866338",
+      "volume_usd": "3816706.5078633106",
+      "tvl_usd": "2781666.083333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780844400,
+      "price_token1_in_token0": "62047.135491667",
+      "price_token0_in_token1": "0.00001611677947863203327727257825",
+      "volume_usd": "2885197.0013295626",
+      "tvl_usd": "2795778.875",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780848000,
+      "price_token1_in_token0": "62021.1366584952",
+      "price_token0_in_token1": "0.00001612353552154751328694569426",
+      "volume_usd": "2217506.800272779",
+      "tvl_usd": "2809891.666666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780851600,
+      "price_token1_in_token0": "62148.5459829541",
+      "price_token0_in_token1": "0.00001609048102709075012856593970",
+      "volume_usd": "1815445.5968129607",
+      "tvl_usd": "2824004.458333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780855200,
+      "price_token1_in_token0": "62083.6007587882",
+      "price_token0_in_token1": "0.00001610731316769583005250634575",
+      "volume_usd": "1924212.846528226",
+      "tvl_usd": "2838117.25",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780858800,
+      "price_token1_in_token0": "61311.3086050526",
+      "price_token0_in_token1": "0.00001631020480155908887613666996",
+      "volume_usd": "4862755.958595392",
+      "tvl_usd": "2852230.041666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780862400,
+      "price_token1_in_token0": "61876.2128897432",
+      "price_token0_in_token1": "0.00001616129936364872801245843980",
+      "volume_usd": "2576247.7145112706",
+      "tvl_usd": "2866342.833333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780866000,
+      "price_token1_in_token0": "61701.9650283811",
+      "price_token0_in_token1": "0.00001620693926911451257523701404",
+      "volume_usd": "2206687.465957742",
+      "tvl_usd": "2880455.625",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780869600,
+      "price_token1_in_token0": "62958.9479771084",
+      "price_token0_in_token1": "0.00001588336578247139161451716297",
+      "volume_usd": "14312269.151262222",
+      "tvl_usd": "2894568.416666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780873200,
+      "price_token1_in_token0": "63209.9113504927",
+      "price_token0_in_token1": "0.00001582030378835842705739652652",
+      "volume_usd": "7596908.399839574",
+      "tvl_usd": "2908681.208333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780876800,
+      "price_token1_in_token0": "63575.3159997624",
+      "price_token0_in_token1": "0.00001572937521857913061025028018",
+      "volume_usd": "4897236.287534908",
+      "tvl_usd": "2922794",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780880400,
+      "price_token1_in_token0": "63094.90673881",
+      "price_token0_in_token1": "0.00001584913983849182683501982578",
+      "volume_usd": "3981172.9727937835",
+      "tvl_usd": "2907435.291666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780884000,
+      "price_token1_in_token0": "63080.1633823337",
+      "price_token0_in_token1": "0.00001585284416495441577869048759",
+      "volume_usd": "2474537.8560820976",
+      "tvl_usd": "2892076.583333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780887600,
+      "price_token1_in_token0": "63073.4073562797",
+      "price_token0_in_token1": "0.00001585454222175359028245132501",
+      "volume_usd": "2106986.845963949",
+      "tvl_usd": "2876717.875",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780891200,
+      "price_token1_in_token0": "62804.3090672351",
+      "price_token0_in_token1": "0.00001592247434693455261224863825",
+      "volume_usd": "3168502.7107862323",
+      "tvl_usd": "2861359.166666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780894800,
+      "price_token1_in_token0": "62692.1620319132",
+      "price_token0_in_token1": "0.00001595095730612949525170352543",
+      "volume_usd": "3551140.5066467044",
+      "tvl_usd": "2846000.458333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780898400,
+      "price_token1_in_token0": "62945.5226871136",
+      "price_token0_in_token1": "0.00001588675345458245054365290529",
+      "volume_usd": "2826681.7470802893",
+      "tvl_usd": "2830641.75",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780902000,
+      "price_token1_in_token0": "63215.5415842608",
+      "price_token0_in_token1": "0.00001581889476762747135154881434",
+      "volume_usd": "3125874.7444632244",
+      "tvl_usd": "2815283.041666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780905600,
+      "price_token1_in_token0": "63162.6000359791",
+      "price_token0_in_token1": "0.00001583215382885399515181894385",
+      "volume_usd": "2489477.2890024413",
+      "tvl_usd": "2799924.333333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780909200,
+      "price_token1_in_token0": "63436.2389561543",
+      "price_token0_in_token1": "0.00001576386016029697919875630175",
+      "volume_usd": "3035159.183535371",
+      "tvl_usd": "2784565.625",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780912800,
+      "price_token1_in_token0": "63094.760269986",
+      "price_token0_in_token1": "0.00001584917663084769952598207832",
+      "volume_usd": "2527218.135011392",
+      "tvl_usd": "2769206.916666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780916400,
+      "price_token1_in_token0": "63423.2006261465",
+      "price_token0_in_token1": "0.00001576710084208120991346695999",
+      "volume_usd": "4388847.038754788",
+      "tvl_usd": "2753848.208333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780920000,
+      "price_token1_in_token0": "63824.2809326826",
+      "price_token0_in_token1": "0.00001566801827434186455435637470",
+      "volume_usd": "4873318.179921086",
+      "tvl_usd": "2738489.5",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780923600,
+      "price_token1_in_token0": "63748.0826135944",
+      "price_token0_in_token1": "0.00001568674631457461429437795927",
+      "volume_usd": "3914030.5602526884",
+      "tvl_usd": "2723130.791666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780927200,
+      "price_token1_in_token0": "63965.160080422",
+      "price_token0_in_token1": "0.00001563351047261856017824500327",
+      "volume_usd": "3132520.0227118456",
+      "tvl_usd": "2707772.083333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780930800,
+      "price_token1_in_token0": "63734.5034517486",
+      "price_token0_in_token1": "0.00001569008850531123595408842513",
+      "volume_usd": "4572524.464632214",
+      "tvl_usd": "2692413.375",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780934400,
+      "price_token1_in_token0": "63497.1803614599",
+      "price_token0_in_token1": "0.00001574873079887115207814131678",
+      "volume_usd": "3316274.3646551543",
+      "tvl_usd": "2677054.666666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780938000,
+      "price_token1_in_token0": "63457.3692969923",
+      "price_token0_in_token1": "0.00001575861103412298521501003513",
+      "volume_usd": "3121913.499807018",
+      "tvl_usd": "2661695.958333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780941600,
+      "price_token1_in_token0": "63426.5337296666",
+      "price_token0_in_token1": "0.00001576627227119410290333102386",
+      "volume_usd": "2083427.4157747286",
+      "tvl_usd": "2646337.25",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780945200,
+      "price_token1_in_token0": "63327.0843969052",
+      "price_token0_in_token1": "0.00001579103174452904522228357144",
+      "volume_usd": "2595119.480759477",
+      "tvl_usd": "2630978.541666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780948800,
+      "price_token1_in_token0": "63418.5676218135",
+      "price_token0_in_token1": "0.00001576825269790608168473085613",
+      "volume_usd": "2226555.4301314107",
+      "tvl_usd": "2615619.833333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780952400,
+      "price_token1_in_token0": "63821.4421610685",
+      "price_token0_in_token1": "0.00001566871518628901471729842508",
+      "volume_usd": "4854005.725538081",
+      "tvl_usd": "2600261.125",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780956000,
+      "price_token1_in_token0": "63415.1214235056",
+      "price_token0_in_token1": "0.00001576910959961258731257977798",
+      "volume_usd": "3701104.2598669063",
+      "tvl_usd": "2584902.416666666666666666667",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780959600,
+      "price_token1_in_token0": "63072.0261494323",
+      "price_token0_in_token1": "0.00001585488941850016690359459056",
+      "volume_usd": "3554864.5172201954",
+      "tvl_usd": "2569543.708333333333333333333",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780963200,
+      "price_token1_in_token0": "62509.5776872493",
+      "price_token0_in_token1": "0.00001599754848774126243221512781",
+      "volume_usd": "6724650.162053676",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780966800,
+      "price_token1_in_token0": "62749.7928538444",
+      "price_token0_in_token1": "0.00001593630758796575786797716003",
+      "volume_usd": "3625133.492766553",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780970400,
+      "price_token1_in_token0": "62836.0951179488",
+      "price_token0_in_token1": "0.00001591441985888705010946499944",
+      "volume_usd": "2937995.131226142",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780974000,
+      "price_token1_in_token0": "62774.925748957",
+      "price_token0_in_token1": "0.00001592992724514078639299197961",
+      "volume_usd": "2112791.9765065145",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780977600,
+      "price_token1_in_token0": "63262.1378901235",
+      "price_token0_in_token1": "0.00001580724321610573071739120358",
+      "volume_usd": "4217772.54979416",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780981200,
+      "price_token1_in_token0": "63301.0244932064",
+      "price_token0_in_token1": "0.00001579753263088691586154649601",
+      "volume_usd": "2331940.653786771",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780984800,
+      "price_token1_in_token0": "63254.6235020065",
+      "price_token0_in_token1": "0.00001580912105133751999346721692",
+      "volume_usd": "2342708.187735593",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780988400,
+      "price_token1_in_token0": "63172.3167856328",
+      "price_token0_in_token1": "0.00001582971863123799083966352904",
+      "volume_usd": "2759531.9901617863",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780992000,
+      "price_token1_in_token0": "62826.6308104677",
+      "price_token0_in_token1": "0.00001591681723339185542074339716",
+      "volume_usd": "3048068.853349231",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780995600,
+      "price_token1_in_token0": "62694.3174172888",
+      "price_token0_in_token1": "0.00001595040892373184320209832780",
+      "volume_usd": "2041307.4195139771",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1780999200,
+      "price_token1_in_token0": "62769.2679031245",
+      "price_token0_in_token1": "0.00001593136312412244106990260807",
+      "volume_usd": "1660106.748952823",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781002800,
+      "price_token1_in_token0": "62713.1380013126",
+      "price_token0_in_token1": "0.00001594562211157524562742094539",
+      "volume_usd": "1990119.8227007964",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781006400,
+      "price_token1_in_token0": "62517.5695872386",
+      "price_token0_in_token1": "0.00001599550344970744060599400736",
+      "volume_usd": "3282304.4060548446",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781010000,
+      "price_token1_in_token0": "62392.9566138255",
+      "price_token0_in_token1": "0.00001602745012052229767804782910",
+      "volume_usd": "4358842.300925221",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781013600,
+      "price_token1_in_token0": "61377.9704827175",
+      "price_token0_in_token1": "0.00001629249048372453055913553218",
+      "volume_usd": "7830994.44661517",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781017200,
+      "price_token1_in_token0": "61092.7989879201",
+      "price_token0_in_token1": "0.00001636854124489746068737555854",
+      "volume_usd": "5042830.620895011",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781020800,
+      "price_token1_in_token0": "61302.1641019523",
+      "price_token0_in_token1": "0.00001631263781058184269227782561",
+      "volume_usd": "7084596.137717863",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781024400,
+      "price_token1_in_token0": "61680.2622665259",
+      "price_token0_in_token1": "0.00001621264182825473480230614743",
+      "volume_usd": "4483947.684871986",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781028000,
+      "price_token1_in_token0": "61758.7448708419",
+      "price_token0_in_token1": "0.00001619203891030060570014006374",
+      "volume_usd": "3011214.383164",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781031600,
+      "price_token1_in_token0": "62028.751126163",
+      "price_token0_in_token1": "0.00001612155624358865616430233090",
+      "volume_usd": "2831649.488355809",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781035200,
+      "price_token1_in_token0": "62065.77757477",
+      "price_token0_in_token1": "0.00001611193864115067837184773490",
+      "volume_usd": "2203663.213544201",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781038800,
+      "price_token1_in_token0": "61696.0197007713",
+      "price_token0_in_token1": "0.00001620850104836663203965805944",
+      "volume_usd": "2615913.606274041",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781042400,
+      "price_token1_in_token0": "61708.9534045663",
+      "price_token0_in_token1": "0.00001620510387599609871476185196",
+      "volume_usd": "2536581.344847732",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781046000,
+      "price_token1_in_token0": "61664.8176048015",
+      "price_token0_in_token1": "0.00001621670247058568293060973626",
+      "volume_usd": "2318495.045459773",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781049600,
+      "price_token1_in_token0": "61811.9971840351",
+      "price_token0_in_token1": "0.00001617808913409906087320178189",
+      "volume_usd": "2614089.4919928936",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781053200,
+      "price_token1_in_token0": "61672.6539273078",
+      "price_token0_in_token1": "0.00001621464192506905886919517103",
+      "volume_usd": "2771108.9290859643",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    },
+    {
+      "timestamp": 1781056800,
+      "price_token1_in_token0": "61579.9290115492",
+      "price_token0_in_token1": "0.00001623905736904068009941153679",
+      "volume_usd": "370341.0020775406",
+      "tvl_usd": "2554185",
+      "fee_growth_global_0": null,
+      "fee_growth_global_1": null,
+      "source": "geckoterminal"
+    }
+  ]
+}

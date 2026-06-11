@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "33",
+  "last_updated_sprint": "34",
   "components": [
     {
       "id": "core.models",
@@ -444,23 +444,51 @@
       "test_coverage": "manual validation only"
     },
     {
-      "id": "scripts.build_pool_reference",
-      "file": "scripts/build_pool_reference.py",
-      "status": "complete",
-      "sprint": "33-Pre",
+      "id": "scripts.fetch_prices",
+      "file": "scripts/fetch_prices.py",
+      "status": "added",
+      "sprint": "34",
       "audit_notes": [
-        "SPRINT 33-PRE: Builds memory/pool_reference.json from pool_reference_raw.json.",
-        "Filters migrating pools (gauge.alive==False or symbol contains 'migrat').",
-        "Excludes basic AMM pools (type != -1).",
-        "Writes pool_reference.md summary and pool_reference.json with in_registry flag.",
-        "Fee tier mapped from tick_spacing: 1->0.01%, 50/100->0.05%, 200->0.3%, 2000->1%."
+        "Sprint 34: Multicall3 slot0 price feed for all 268 registry pools.",
+        "Single RPC call via aggregate3. Decodes sqrtPriceX96 + tick.",
+        "Computes price_token0_in_usd using CoinGecko USD ref prices.",
+        "Outputs data/prices/prices_latest.json with atomic write.",
+        "All math uses Decimal. urllib only, no web3 dependency."
       ],
       "dependencies": [
-        "memory/pool_reference_raw.json",
-        "registry/registry.json"
+        "registry/registry.json",
+        ".env (BASE_RPC_URL)"
+      ],
+      "test_file": null,
+      "test_coverage": "manual validation via check_slot0.py"
+    },
+    {
+      "id": "scripts.check_slot0",
+      "file": "scripts/check_slot0.py",
+      "status": "added",
+      "sprint": "34",
+      "audit_notes": [
+        "Sprint 34: Diagnostic check for slot0 Multicall3 calls.",
+        "Tests top 3 pools by TVL. Prints decoded sqrtPriceX96, tick, raw price ratio."
+      ],
+      "dependencies": [
+        "registry/registry.json",
+        ".env (BASE_RPC_URL)"
       ],
       "test_file": null,
       "test_coverage": "manual validation only"
+    },
+    {
+      "id": "data.prices.gitkeep",
+      "file": "data/prices/.gitkeep",
+      "status": "added",
+      "sprint": "34",
+      "audit_notes": [
+        "Sprint 34: Directory placeholder. data/prices/*.json is gitignored."
+      ],
+      "dependencies": [],
+      "test_file": null,
+      "test_coverage": "none"
     }
   ]
 }

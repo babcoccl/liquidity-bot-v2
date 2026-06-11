@@ -204,3 +204,15 @@
 - No TVL or volume floor applied — all active CL pools included.
 - tick_lower/tick_upper set to full-range [-887272, 887272] for new entries.
 - Existing entries retain their manually-curated ticks and price_reference.
+
+## Sprint 34 — On-chain price feed via Multicall3 slot0
+
+### fetch_prices.py CoinGecko ID coverage
+- _COINGECKO_IDS covers only tokens with known mappings. Pools where neither
+  token has a CoinGecko ID will show price_status="no_usd_ref".
+  Extend _COINGECKO_IDS as new pools are prioritized for active management.
+
+### GeckoTerminal dropped from architecture
+- check_geckoterminal.py retained in repo as diagnostic only.
+- GT rate limit (30 req/min free tier) is incompatible with bot cycle time.
+- On-chain slot0 via Multicall3 replaces GT for real-time price feeds.

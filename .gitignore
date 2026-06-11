@@ -19,7 +19,7 @@ htmlcov/
 
 data/historical/*.csv
 data/historical/*.parquet
+data/prices/*.json
 
 results/*
 logs/*.log
-data/*
