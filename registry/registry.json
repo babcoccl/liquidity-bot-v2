@@ -2651,7 +2651,7 @@
     "token0": {
       "symbol": "WBTC",
       "address": "0x0555e30da8f98308edb960aa94c0db47230d2b9c",
-      "decimals": 18
+      "decimals": 8
     },
     "token1": {
       "symbol": "WETH",
@@ -5432,7 +5432,7 @@
     "token0": {
       "symbol": "WBTC",
       "address": "0x0555e30da8f98308edb960aa94c0db47230d2b9c",
-      "decimals": 18
+      "decimals": 8
     },
     "token1": {
       "symbol": "wstETH",
@@ -6026,7 +6026,7 @@
     "token0": {
       "symbol": "WBTC",
       "address": "0x0555e30da8f98308edb960aa94c0db47230d2b9c",
-      "decimals": 18
+      "decimals": 8
     },
     "token1": {
       "symbol": "USDT",

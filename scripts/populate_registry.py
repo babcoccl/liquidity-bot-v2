@@ -56,7 +56,7 @@ FEE_BPS_TO_FEE_TIER: dict[int, int] = {
 
 # Known token decimals. Tokens not listed here default to 18.
 TOKEN_DECIMALS: dict[str, int] = {
-    "WETH":   18, "cbBTC":  8,  "USDC":   6, "USDT":   6,
+    "WETH":   18, "cbBTC":  8,  "WBTC":   8,  "USDC":   6, "USDT":   6,
     "AERO":   18, "VIRTUAL":18, "FAI":    18, "WELL":   18,
     "fBOMB":  18, "VVV":    18, "DEGEN":  18, "BRETT":  18,
     "TOSHI":  18, "HIGHER": 18, "MOG":    18, "SKI":    18,
