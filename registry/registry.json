@@ -132,6 +132,32 @@
         "quote": "USD",
         "source_pool": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1"
       }
+    },
+    {
+    "pool_address": "0x160d7e9d948b16c163332a277b393c288408eb12",
+    "pair_name": "cbBTC-USDC-5",
+    "token0": {
+      "symbol": "USDC",
+      "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+      "decimals": 6
+    },
+    "token1": {
+      "symbol": "USDT",
+      "address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+      "decimals": 6
+    },
+    "fee_tier": 100,
+    "tick_lower": -887272,
+    "tick_upper": 887272,
+    "price_reference": {
+      "USDC": {
+        "quote": "USD",
+        "source_pool": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1"
+      },
+      "USDT": {
+        "quote": "USD",
+        "source_pool": "0xa41bc0affba7fd420d186b84899d7ab2ac57fcd1"
+      }
     }
   }
 ]

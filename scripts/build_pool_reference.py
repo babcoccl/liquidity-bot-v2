@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Build pool_reference.json and pool_reference.md from scraped raw data.
-Reads memory/pool_reference_raw.json, parses display strings to numbers,
+Sprint 33-Pre: Build pool_reference.json and pool_reference.md from Sugar SDK raw data.
+
+Reads memory/pool_reference_raw.json (already typed numbers from Sugar SDK),
 cross-references against registry/registry.json, and writes final outputs.
 
 Usage:
@@ -9,45 +10,9 @@ Usage:
 """
 
 import json
-import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-
-
-def parse_usd(s: str) -> float:
-    """Convert '$12.4M', '$950K', '$1.2B' to float."""
-    s = s.replace("$", "").replace(",", "").strip()
-    multipliers = {"K": 1e3, "M": 1e6, "B": 1e9}
-    for suffix, mult in multipliers.items():
-        if s.upper().endswith(suffix):
-            return float(s[:-1]) * mult
-    try:
-        return float(s)
-    except ValueError:
-        return 0.0
-
-
-def parse_fee_tier(s: str) -> int:
-    """Convert '50' (from URL type param) to fee_tier integer.
-    Aerodrome uses: 1=0.01%, 10=0.1%, 50=0.05%, 100=0.1%, 200=0.2%, 500=0.05%, 3000=0.3%, 10000=1%
-    The 'type' param is the fee tier in hundredths of a percent (e.g., 50 = 0.05%)."""
-    try:
-        return int(s)
-    except ValueError:
-        return 0
-
-
-def fee_tier_label(fee_tier: int) -> str:
-    """Convert fee tier integer to human-readable label."""
-    labels = {1: "0.0001%", 10: "0.001%", 50: "0.0005%", 100: "0.001%",
-              200: "0.002%", 500: "0.005%", 3000: "0.03%", 10000: "0.1%"}
-    # Aerodrome fee tiers: type param is in basis points / 100
-    # 1 = 0.01 bps, 50 = 0.5 bps (0.0005%), 100 = 1 bps (0.001%)
-    # Actually the standard V3 tiers: 1=0.01%, 500=0.05%, 3000=0.3%, 10000=1%
-    v3_labels = {1: "0.01%", 50: "0.05%", 100: "0.1%", 200: "0.2%",
-                 500: "0.5%", 3000: "3.0%"}
-    return v3_labels.get(fee_tier, f"{fee_tier / 100:.4f}%")
 
 
 def main():
@@ -57,143 +22,178 @@ def main():
     md_out = Path("memory/pool_reference.md")
 
     if not raw_path.exists():
-        print(f"ERROR: {raw_path} not found. Run scrape_aerodrome_all.py first.")
+        print(f"ERROR: {raw_path} not found. Run fetch_aerodrome_pools.py first.")
         sys.exit(1)
 
-    # Load raw data
+    # Load raw data (already has typed numbers from Sugar SDK)
     with open(raw_path) as f:
         raw = json.load(f)
 
     # Load existing registry for cross-reference
     existing_addresses = set()
     if registry_path.exists():
-        with open(registry_path) as f:
-            registry = json.load(f)
-        existing_addresses = {p.get("pool_address", "").lower() for p in registry.get("pools", [])}
+        try:
+            with open(registry_path) as f:
+                registry = json.load(f)
+            existing_addresses = {
+                p.get("pool_address", "").lower()
+                for p in registry.get("pools", [])
+            }
+            print(f"Registry loaded: {len(existing_addresses)} pool addresses")
+        except json.JSONDecodeError as e:
+            print(f"WARN: registry.json invalid JSON ({e}). Skipping cross-reference.")
+            print("      (registry.json needs repair — not blocking this build)")
 
+    # Pass through pools — data is already clean from fetch_aerodrome_pools.py
     pools = []
     for p in raw.get("pools_raw", []):
-        tvl = parse_usd(p.get("tvl_display", "$0"))
-        vol = parse_usd(p.get("volume_24h_display", "$0"))
-        fee = parse_fee_tier(p.get("fee_tier_raw", "0"))
-        
-        # Implied daily fees: volume * (fee / 1_000_000) for basis points
-        # Fee tier in Aerodrome is in hundredths of bps, so divide by 100 to get bps
-        fee_bps = fee / 100.0
-        daily_fees = round(vol * (fee_bps / 10_000), 2)
-        apr = round((daily_fees / tvl * 365 * 100) if tvl > 0 else 0.0, 2)
-
-        # Use token addresses as unique identifier since we don't have pool address yet
-        token0 = p.get("token0", "")
-        token1 = p.get("token1", "")
-        factory = p.get("factory", "")
-        
+        pool_addr = p.get("pool_address", "").lower()
         pools.append({
             "pair_name": p["pair_name"],
-            "pool_address": "",  # Needs to be derived or fetched from subgraph
-            "gauge_address": "",  # Needs to be fetched from subgraph
-            "token0": token0,
-            "token1": token1,
-            "factory": factory,
-            "fee_tier": fee,
-            "fee_tier_label": fee_tier_label(fee),
-            "tvl_usd": round(tvl, 2),
-            "volume_24h_usd": round(vol, 2),
-            "implied_daily_fees_usd": daily_fees,
-            "implied_daily_fee_apr_pct": apr,
+            "symbol": p.get("symbol", ""),
+            "pool_address": pool_addr,
+            "gauge_address": p.get("gauge_address", ""),
+            "token0_symbol": p.get("token0_symbol", ""),
+            "token1_symbol": p.get("token1_symbol", ""),
+            "token0_address": p.get("token0_address", ""),
+            "token1_address": p.get("token1_address", ""),
+            "fee_tier_bps": p.get("fee_tier_bps", 0),
+            "fee_tier_label": p.get("fee_tier_label", ""),
+            "tvl_usd": p.get("tvl_usd", 0.0),
+            "volume_24h_usd": p.get("volume_24h_usd", 0.0),
+            "total_fees_usd": p.get("total_fees_usd", 0.0),
+            "apr_pct": p.get("apr_pct", 0.0),
+            "implied_daily_fees_usd": p.get("implied_daily_fees_usd", 0.0),
+            "implied_daily_fee_apr_pct": p.get("implied_daily_fee_apr_pct", 0.0),
             "status": p.get("status", "active"),
-            "in_registry": False,  # Will be True if pool_address matches
-            "defillama_uuid": "",
-            "defillama_tvl_usd": None,
-            "defillama_project_tag": "",
-            "tvl_source_decision": "Aerodrome UI",
-            "notes": ""
+            "in_registry": pool_addr in existing_addresses,
+            # Placeholders for cross-validation — filled by GT/DeFiLlama passes
+            "gt_tvl_usd": p.get("gt_tvl_usd"),
+            "gt_volume_24h_usd": p.get("gt_volume_24h_usd"),
+            "defillama_uuid": p.get("defillama_uuid", ""),
+            "defillama_tvl_usd": p.get("defillama_tvl_usd"),
+            "defillama_project_tag": p.get("defillama_project_tag", ""),
+            "tvl_source_decision": p.get("tvl_source_decision", "Aerodrome (Sugar SDK)"),
+            "notes": p.get("notes", "")
         })
 
     # Sort: active pools by TVL desc, then migrating at bottom
-    active = sorted([p for p in pools if p["status"] == "active"], key=lambda x: x["tvl_usd"], reverse=True)
-    migrating = sorted([p for p in pools if p["status"] == "migrating"], key=lambda x: x["tvl_usd"], reverse=True)
+    active = sorted(
+        [p for p in pools if p["status"] == "active"],
+        key=lambda x: x["tvl_usd"],
+        reverse=True
+    )
+    migrating = sorted(
+        [p for p in pools if p["status"] == "migrating"],
+        key=lambda x: x["tvl_usd"],
+        reverse=True
+    )
     pools_sorted = active + migrating
+
+    # Count registry overlap
+    in_registry_count = sum(1 for p in active if p["in_registry"])
 
     # Write pool_reference.json
     output = {
         "schema_version": 1,
         "scraped_at": raw.get("scraped_at", datetime.now(timezone.utc).isoformat()),
+        "source": raw.get("source", "Aerodrome Sugar SDK (on-chain)"),
         "source_url": raw.get("source_url", ""),
         "chain": "Base",
+        "chain_id": raw.get("chain_id", 8453),
         "protocol": "Aerodrome Slipstream",
         "total_pools": len(pools_sorted),
         "active_pools": len(active),
         "migrating_pools": len(migrating),
+        "basic_excluded": raw.get("total_basic_excluded", 0),
+        "in_registry_count": in_registry_count,
         "pools": pools_sorted
     }
 
-    with open(json_out, "w") as f:
-        json.dump(output, f, indent=2)
+    tmp_json = json_out.with_suffix(".tmp")
+    tmp_json.write_text(json.dumps(output, indent=2))
+    tmp_json.replace(json_out)
 
     # Write pool_reference.md
     lines = [
         "# Aerodrome Pool Reference Table",
-        f"# Scraped: {raw.get('scraped_at', 'N/A')}",
+        f"# Fetched: {raw.get('scraped_at', 'N/A')}",
         "# Chain: Base | Protocol: Aerodrome Slipstream (CL)",
-        f"# Source: {raw.get('source_url', '')}",
-        "# TVL Source: Aerodrome UI (ground truth)",
-        "# Pool addresses: Needs subgraph fetch — Sprint 34",
+        f"# Source: {raw.get('source', 'Sugar SDK')} — on-chain Sugar helper contract",
+        f"# Source URL: {raw.get('source_url', '')}",
+        f"# Total CL active: {len(active)} | Migrating: {len(migrating)} | Basic excluded: {raw.get('total_basic_excluded', 0)}",
+        f"# In registry: {in_registry_count}/{len(active)} active pools",
         "",
-        "## Active Pools",
+        "## Active Pools (by TVL descending)",
         "",
-        "| # | Pair | Fee Tier | TVL (USD) | 24h Vol (USD) | Daily Fees | Daily APR | Status |",
-        "|---|---|---|---|---|---|---|---|",
+        "| # | Pair | Symbol | Fee | TVL (USD) | 24h Vol | APR | Pool Address | Status |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
 
     for i, p in enumerate(active, 1):
+        reg_mark = "🔗" if p["in_registry"] else ""
         lines.append(
-            f"| {i} | {p['pair_name']} | {p['fee_tier_label']} "
-            f"| ${p['tvl_usd']:>12,.2f} | ${p['volume_24h_usd']:>12,.2f} "
-            f"| ${p['implied_daily_fees_usd']:>9,.2f} | {p['implied_daily_fee_apr_pct']:>7.2f}% | ✅ active |"
+            f"| {i} | {p['pair_name']} | `{p.get('symbol', '')}` | {p['fee_tier_label']} "
+            f"| ${p['tvl_usd']:>12,.2f} | ${p['volume_24h_usd']:>10,.2f} "
+            f"| {p['apr_pct']:>6.2f}% | `{p['pool_address']}` | {reg_mark} active |"
         )
 
     lines += [
         "",
         "## Migrating Pools (Do Not Add to Registry)",
         "",
-        "| # | Pair | Fee Tier | TVL (USD) | 24h Vol (USD) |",
-        "|---|---|---|---|---|",
+        "| # | Pair | TVL (USD) | Pool Address |",
+        "|---|---|---|---|",
     ]
 
-    for i, p in enumerate(migrating, 1):
+    for i, p in enumerate(migrating[:100], 1):
         lines.append(
-            f"| {i} | {p['pair_name']} | {p['fee_tier_label']} "
-            f"| ${p['tvl_usd']:>12,.2f} | ${p['volume_24h_usd']:>12,.2f} |"
+            f"| {i} | {p['pair_name']} "
+            f"| ${p['tvl_usd']:>12,.2f} | `{p['pool_address']}` |"
         )
+
+    if len(migrating) > 100:
+        lines.append(f"*... and {len(migrating) - 100} more migrating pools (total: {len(migrating)})")
 
     lines += [
         "",
         "## Notes",
         "",
-        "- Pool addresses and gauge addresses need to be fetched from the subgraph (Sprint 34)",
-        "- DeFiLlama UUIDs and GT TVL need manual validation",
-        "- Fee tiers are from Aerodrome URL params (type parameter)",
+        "- Data sourced from Aerodrome's on-chain Sugar helper contract via Sugar SDK",
+        "- `type=-1` identifies Concentrated Liquidity (Slipstream CL) pools",
+        "- `gauge_alive=False` identifies migrating pools (superseded by newer pools)",
+        "- Fee tiers from `pool_fee_percentage` field (e.g., 0.3 = 0.3%)",
+        "- Pool addresses and gauge addresses are on-chain contract addresses",
+        "- DeFiLlama UUIDs and GT TVL need manual cross-validation (future sprints)",
     ]
 
-    with open(md_out, "w") as f:
-        f.write("\n".join(lines))
+    tmp_md = md_out.with_suffix(".tmp")
+    tmp_md.write_text("\n".join(lines))
+    tmp_md.replace(md_out)
 
     # Print summary
-    print(f"DONE. Active: {len(active)} pools. Migrating: {len(migrating)} pools.")
-    print(f"Files written:")
+    print("=" * 60)
+    print("BUILD POOL REFERENCE — COMPLETE")
+    print("=" * 60)
+    print(f"Active:     {len(active)} pools ({in_registry_count} in registry)")
+    print(f"Migrating:  {len(migrating)} pools")
+    print(f"Basic excl: {raw.get('total_basic_excluded', 0)} pools")
+    print()
+    print("Files written:")
     print(f"  - {json_out}")
     print(f"  - {md_out}")
     print()
     print("Top 10 active by TVL:")
-    for p in active[:10]:
-        print(f"  {p['pair_name']:30} TVL=${p['tvl_usd']:>14,.2f}  APR={p['implied_daily_fee_apr_pct']:>7.2f}%")
+    for i, p in enumerate(active[:10], 1):
+        reg = " [IN REGISTRY]" if p["in_registry"] else ""
+        print(f"  {i:2}. {p['pair_name']:25} TVL=${p['tvl_usd']:>12,.2f}  "
+              f"APR={p['apr_pct']:>6.2f}%{reg}")
 
-    print()
     if migrating:
-        print("Migrating pools:")
+        print()
+        print("Top 5 migrating by TVL:")
         for p in migrating[:5]:
-            print(f"  {p['pair_name']:30} TVL=${p['tvl_usd']:>14,.2f}")
+            print(f"      {p['pair_name']:25} TVL=${p['tvl_usd']:>12,.2f}")
 
 
 if __name__ == "__main__":
