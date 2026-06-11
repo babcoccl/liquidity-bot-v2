@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
 """
-Sprint 34 diagnostic: validate slot0() via Multicall3 for top 3 pools.
+Sprint 22D/33-Pre: Verify slot0() is callable for every CL pool in the registry.
 
-Loads registry/registry.json, picks the first 3 pools by list order (top TVL),
-sends a Multicall3 aggregate3 call with slot0(), decodes and prints results.
+Resolution chain for SlipstreamCL pools:
+  registry.pool_address (LP token) -> pool_reference.gauge_address -> pool() -> CLPool -> slot0()
+
+For vAMM pools (gauge has no pool() function), slot0() is not applicable — they use getPrices().
 
 Usage:
     python scripts/check_slot0.py
 
-Exit codes:
-    0 — CHECK PASSED
-    1 — CHECK FAILED
+Env vars (loaded from .env):
+    BASE_RPC_HTTP   — Base L2 HTTP RPC endpoint (required)
 """
 
 import json
 import os
 import sys
-from decimal import Decimal, ROUND_HALF_UP
+import time
+from datetime import datetime, timezone
 from pathlib import Path
 
 try:
@@ -26,140 +28,39 @@ except ImportError:
     pass
 
 # ─────────────────────────────────────────────
-# CONSTANTS (shared with fetch_prices.py)
+# CONSTANTS
 # ─────────────────────────────────────────────
 
-MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11"
-SLOT0_SELECTOR = "0x3850c7bd"
-REGISTRY_PATH = Path("registry/registry.json")
+SLOT0_SELECTOR = "0x3850c7bd"          # slot0()
+POOL_SELECTOR  = "0x16f0115b"           # pool() -> returns address (SlipstreamCL gauge only)
+REGISTRY_PATH  = Path("registry/registry.json")
+POOL_REF_PATH  = Path("memory/pool_reference.json")
+
+# Rate limiting: Base public RPC is very restrictive (429 after ~5 calls)
+# 268 pools * 2 calls each = 536 calls; need ~0.5s spacing to survive
+RPC_DELAY      = 0.5    # seconds between calls
+
+# Fallback RPC endpoints — try each until one works
+FALLBACK_RPCS = [
+    "https://base-mainnet.public.blastapi.io",
+    "https://1rpc.io/base",
+    "https://base.gateway.tenderly.co",
+    "https://base.drpc.org",
+    "https://mainnet.base.org",
+]
 
 
 # ─────────────────────────────────────────────
-# ABI HELPERS (identical to fetch_prices.py)
+# RPC HELPER (urllib only)
 # ─────────────────────────────────────────────
 
-def _pad32(value_hex: str) -> str:
-    return value_hex.zfill(64)
+def rpc_call(method: str, params: list, rpc_url: str, _fatal: bool = True, _retry: int = 0) -> dict | None:
+    """Send a JSON-RPC call via urllib. Returns the result or None on revert.
 
-
-def _bytes_length_prefix(data_hex: str) -> str:
-    parts = [f"{len(data_hex)//2:064x}", data_hex]
-    total_len = 64 + len(data_hex)
-    remainder = total_len % 64
-    if remainder:
-        parts.append("0" * (64 - remainder))
-    return "".join(parts)
-
-
-def decode_slot0(return_data: str) -> tuple[int, int]:
-    raw = return_data.removeprefix("0x")
-    if len(raw) < 128:
-        raise ValueError(f"slot0 return data too short: {len(raw)} hex chars")
-
-    sqrt_price_x96 = int(raw[:64], 16)
-
-    tick_raw = int(raw[64:128], 16)
-    if tick_raw >= 2**23:
-        tick = tick_raw - 2**24
-    else:
-        tick = tick_raw
-
-    return sqrt_price_x96, tick
-
-
-def compute_price(sqrt_price_x96: int, decimals0: int, decimals1: int) -> Decimal:
-    Q96 = Decimal(2**96)
-    sqrt_ratio = Decimal(sqrt_price_x96) / Q96
-    price_ratio = sqrt_ratio * sqrt_ratio
-    dec_adjustment = Decimal(10) ** Decimal(decimals0 - decimals1)
-    return price_ratio * dec_adjustment
-
-
-def build_aggregate3_calldata(targets: list[str], call_datas: list[str]) -> str:
+    When _fatal=False, contract reverts return None instead of exiting.
+    Network-level failures are retried with exponential backoff (up to 3 times).
+    Rate-limit (429) errors trigger longer backoff.
     """
-    Encode Multicall3 aggregate3((address,bool,bytes)[]) calldata.
-    aggregate3 selector: 0x82ad56cb
-    Each Call struct: (address target, bool allowFailure, bytes callData)
-    Array of dynamic structs — each element is encoded with its own offset.
-    """
-    SELECTOR = "82ad56cb"
-    n = len(targets)
-    # The argument is a single dynamic array — encoded as:
-    # [0x20 (offset to array)] [n (length)] [n offsets] [n struct bodies]
-    #
-    # Each struct body: [address 32B][bool 32B][offset-to-bytes 32B][bytes-length 32B][bytes-data padded]
-    # Struct body size (without the bytes data): 3 * 32 = 96 bytes = fixed head
-    # bytes field is dynamic, appended after the 3-word head.
-    # Pre-compute each struct's encoded bytes blob and its total size
-    struct_bodies: list[str] = []
-    for i in range(n):
-        addr = targets[i].lower().removeprefix("0x").zfill(40)
-        cd = call_datas[i].removeprefix("0x")
-        cd_len = len(cd) // 2  # byte length of callData
-        cd_padded_len = ((cd_len + 31) // 32) * 32  # round up to 32-byte boundary
-        cd_padded = cd.ljust(cd_padded_len * 2, "0")
-        # Within the struct, bytes field is at offset 96 (3 words: addr + bool + offset)
-        body = (
-            addr.zfill(64) +           # address (32 bytes)
-            f"{1:064x}" +              # allowFailure = true (32 bytes)
-            f"{96:064x}" +             # offset to bytes within this struct = 96
-            f"{cd_len:064x}" +         # bytes length
-            cd_padded                   # bytes data padded
-        )
-        struct_bodies.append(body)
-    # Each struct body size in bytes
-    struct_sizes = [len(b) // 2 for b in struct_bodies]
-    # Offsets to each struct from the start of the array data (after the length word)
-    # First offset: n * 32 bytes (n offset words)
-    offsets: list[int] = []
-    current = n * 32
-    for i in range(n):
-        offsets.append(current)
-        current += struct_sizes[i]
-    hex_parts: list[str] = []
-    hex_parts.append(f"{32:064x}")          # offset to array from calldata start
-    hex_parts.append(f"{n:064x}")           # array length
-    for off in offsets:
-        hex_parts.append(f"{off:064x}")     # offset to each struct
-    for body in struct_bodies:
-        hex_parts.append(body)              # struct data
-    return "0x" + SELECTOR + "".join(hex_parts)
-
-
-def decode_aggregate3_response(return_hex: str) -> list[tuple[bool, str]]:
-    """
-    Decode aggregate3 return: (Result[] returnData)
-    where Result = (bool success, bytes returnData)
-    Return format: [(success, hex_return_data), ...]
-    """
-    raw = return_hex.removeprefix("0x")
-    # Word 0: offset to the array (in bytes from start of return data)
-    array_offset = int(raw[0:64], 16) * 2   # convert bytes → hex chars
-    # Word at array_offset: array length
-    array_len = int(raw[array_offset:array_offset + 64], 16)
-    # Offset table starts immediately after length word
-    offset_table_start = array_offset + 64
-    results: list[tuple[bool, str]] = []
-    for i in range(array_len):
-        # Each entry in the offset table: offset to the Result struct (from array_offset)
-        struct_offset_hex = int(raw[offset_table_start + i * 64:offset_table_start + i * 64 + 64], 16) * 2
-        struct_base = array_offset + 64 + struct_offset_hex
-        # Result struct: [bool success (32B)][bytes offset (32B)] then bytes data
-        success = int(raw[struct_base:struct_base + 64], 16) != 0
-        bytes_offset = int(raw[struct_base + 64:struct_base + 128], 16) * 2
-        bytes_start = struct_base + bytes_offset
-        data_len = int(raw[bytes_start:bytes_start + 64], 16)
-        data_start = bytes_start + 64
-        data = raw[data_start:data_start + data_len * 2]
-        results.append((success, "0x" + data))
-    return results
-
-
-# ─────────────────────────────────────────────
-# RPC (urllib only)
-# ─────────────────────────────────────────────
-
-def rpc_call(method: str, params: list, rpc_url: str) -> dict:
     import urllib.request
     import urllib.error
 
@@ -180,21 +81,72 @@ def rpc_call(method: str, params: list, rpc_url: str) -> dict:
     )
 
     try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
+        with urllib.request.urlopen(req, timeout=30) as resp:
             body = json.loads(resp.read().decode("utf-8"))
     except urllib.error.HTTPError as e:
         error_body = e.read().decode("utf-8", errors="replace")
+        # 429 rate limit — retry with backoff
+        if e.code == 429 and _retry < 3:
+            wait = (1 << _retry) * 2  # 2s, 4s, 8s
+            print(f"  RATE LIMITED (429), waiting {wait}s... (attempt {_retry+1}/3)")
+            time.sleep(wait)
+            return rpc_call(method, params, rpc_url, _fatal, _retry + 1)
         print(f"RPC HTTP {e.code}: {error_body[:300]}")
         sys.exit(1)
     except Exception as e:
-        print(f"RPC call failed: {e}")
+        if _retry < 3:
+            wait = (1 << _retry) * 1
+            time.sleep(wait)
+            return rpc_call(method, params, rpc_url, _fatal, _retry + 1)
+        print(f"RPC call failed after retries: {e}")
         sys.exit(1)
 
     if "error" in body:
-        print(f"RPC error: {body['error']}")
+        err = body["error"]
+        msg = err.get("message", "") if isinstance(err, dict) else str(err)
+        # Contract reverts are not fatal when _fatal=False
+        if not _fatal and ("revert" in msg.lower() or "execution reverted" in msg.lower()):
+            return None
+        print(f"RPC error: {err}")
         sys.exit(1)
 
-    return body["result"]
+    return body.get("result")
+
+
+# ─────────────────────────────────────────────
+# CLPOOL RESOLUTION
+# ─────────────────────────────────────────────
+
+def build_calldata(selector: str, padded: bool = True) -> str:
+    """Encode calldata from a 4-byte selector."""
+    return selector + ("00" * 32 if padded else "")
+
+
+def decode_address(return_data: str) -> str:
+    """Decode a single address from ABI-encoded return data (32 bytes, right-aligned)."""
+    raw = return_data.removeprefix("0x")
+    addr_hex = raw[-40:].zfill(40)
+    return "0x" + addr_hex
+
+
+def call_pool_on_gauge(gauge_addr: str, rpc_url: str) -> str | None:
+    """Call pool() on a gauge contract. Returns CLPool address or None."""
+    calldata = build_calldata(POOL_SELECTOR)
+    ret = rpc_call("eth_call", [{"to": gauge_addr, "data": calldata}, "latest"], rpc_url, _fatal=False)
+    time.sleep(RPC_DELAY)
+    if ret and len(ret.removeprefix("0x")) >= 40:
+        return decode_address(ret)
+    return None
+
+
+def call_slot0(target: str, rpc_url: str) -> int | None:
+    """Call slot0() on a CLPool. Returns sqrtPriceX96 or None."""
+    calldata = build_calldata(SLOT0_SELECTOR)
+    ret = rpc_call("eth_call", [{"to": target, "data": calldata}, "latest"], rpc_url, _fatal=False)
+    time.sleep(RPC_DELAY)
+    if ret and len(ret.removeprefix("0x")) >= 64:
+        return int(ret.removeprefix("0x")[:64], 16)
+    return None
 
 
 # ─────────────────────────────────────────────
@@ -203,93 +155,132 @@ def rpc_call(method: str, params: list, rpc_url: str) -> dict:
 
 def main():
     print("=" * 60)
-    print("CHECK_SLOT0 — Multicall3 slot0 diagnostic (top 3 pools)")
+    print("CHECK_SLOT0 — Verify slot0() readability for CL pools")
     print("=" * 60)
 
-    rpc_url = os.environ.get("BASE_RPC_HTTP", "")
+    # Find a working RPC endpoint
+    candidates = [os.environ.get("BASE_RPC_HTTP", ""), "https://base.llamarpc.com"] + FALLBACK_RPCS
+    candidates = [c for c in candidates if c]  # drop empty
+    rpc_url = None
+
+    import urllib.request as _ur
+    for candidate in candidates:
+        try:
+            probe = json.dumps({"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}).encode()
+            req = _ur.Request(candidate, data=probe, headers={"Content-Type":"application/json"})
+            with _ur.urlopen(req, timeout=10) as r:
+                res = json.loads(r.read().decode())
+            if "result" in res:
+                rpc_url = candidate
+                chain_id = res["result"]
+                print(f"RPC OK: {candidate} (chainId={chain_id})")
+                break
+        except Exception:
+            continue
+
     if not rpc_url:
-        # Free public RPC endpoints — replace with Alchemy/Infura key if rate-limited
-        #   BASE_RPC_HTTP=https://base-mainnet.g.alchemy.com/v2/YOUR_KEY
-        rpc_url = "https://mainnet.base.org"
-    print(f"RPC: {rpc_url}")
+        print("FATAL: no working RPC endpoint found")
+        sys.exit(1)
 
     # Load registry
     if not REGISTRY_PATH.exists():
         print(f"FATAL: Registry not found at {REGISTRY_PATH}")
-        print("CHECK FAILED: registry.json missing")
         sys.exit(1)
 
     registry = json.loads(REGISTRY_PATH.read_text())
-    # registry.json is a top-level list [{pool}, ...]
     pools = registry if isinstance(registry, list) else registry.get("pools", [])
-    if not pools:
-        print("FATAL: No pools in registry.")
-        print("CHECK FAILED: empty registry")
-        sys.exit(1)
+    print(f"Pools in registry: {len(pools)}")
 
-    # Pick top 3 by list order (registry is sorted by TVL descending)
-    check_pools = pools[:3]
-    print(f"Registry has {len(pools)} pools. Checking first {len(check_pools)}...")
-    print()
+    # Build lookup: lp_address -> gauge_address from pool_reference.json
+    gauge_map: dict[str, str] = {}  # lp_addr.lower() -> gauge_addr
+    if POOL_REF_PATH.exists():
+        pr_data = json.loads(POOL_REF_PATH.read_text())
+        pr_pools = pr_data.get("pools", [])
+        for pr_pool in pr_pools:
+            pa = (pr_pool.get("pool_address") or "").lower()
+            ga = (pr_pool.get("gauge_address") or "").lower()
+            if pa and ga and ga != "not_found":
+                gauge_map[pa] = ga
+        print(f"Pool reference loaded: {len(gauge_map)} entries with gauge addresses")
+    else:
+        print(f"WARN: pool_reference.json not found at {POOL_REF_PATH}")
 
-    targets: list[str] = []
-    call_datas: list[str] = []
+    # Collect unique pool addresses from registry that have gauge mappings
+    lp_addrs = []
+    pool_gauge_map: dict[str, str] = {}  # lp_addr -> gauge_addr
+    for pool in pools:
+        addr = (pool.get("pool_address") or "").lower()
+        if not addr:
+            continue
+        if addr not in pool_gauge_map:
+            lp_addrs.append(addr)
+            ga = gauge_map.get(addr, "")
+            if ga:
+                pool_gauge_map[addr] = ga
 
-    for pool in check_pools:
-        addr = pool.get("pool_address", "")
-        name = pool.get("pair_name", "unknown")
-        print(f"  Pool #{len(targets)+1}: {name} @ {addr[:20]}...")
-        targets.append(addr)
-        call_datas.append(SLOT0_SELECTOR)
+    print(f"Unique registry addresses with gauge mapping: {len(lp_addrs)}")
 
-    # Build & send Multicall3 aggregate3
-    full_calldata = build_aggregate3_calldata(targets, call_datas)
+    # Step 1 — Resolve CLPool via pool() on each gauge
+    cl_pool_map: dict[str, str] = {}   # lp_addr -> cl_pool_addr
+    vamm_count = 0
+    unresolved = 0
 
-    result = rpc_call(
-        "eth_call",
-        [{"to": MULTICALL3_ADDRESS, "data": full_calldata}, "latest"],
-        rpc_url,
-    )
-
-    return_hex = result if isinstance(result, str) else ""
-    if len(return_hex.removeprefix("0x")) < 128:
-        print()
-        print("CHECK FAILED: Multicall3 returned empty or invalid data")
-        sys.exit(1)
-
-    mc_results = decode_aggregate3_response(return_hex)
-    ok_count = 0
-
-    print()
-    for i, (success, return_data) in enumerate(mc_results):
-        pool = check_pools[i]
-        name = pool.get("pair_name", "unknown")
-        decimals0 = int((pool.get("token0") or {}).get("decimals", 18))
-        decimals1 = int((pool.get("token1") or {}).get("decimals", 18))
-
-        if not success:
-            print(f"  [{i+1}] {name}: SLOT0 FAILED (call returned failure)")
+    print("\nResolving CLPool addresses via pool() on gauge contracts...")
+    for idx, lp_addr in enumerate(lp_addrs):
+        gauge_addr = pool_gauge_map.get(lp_addr, "")
+        if not gauge_addr:
+            unresolved += 1
             continue
 
-        try:
-            sqrt_price_x96, tick = decode_slot0(return_data)
-            raw_ratio = compute_price(sqrt_price_x96, decimals0, decimals1)
+        cl_pool = call_pool_on_gauge(gauge_addr, rpc_url)
+        if cl_pool:
+            cl_pool_map[lp_addr] = cl_pool
+            short_lp = lp_addr[:10] + "..."
+            short_cl = cl_pool[:10] + "..."
+            print(f"  [{idx+1}/{len(lp_addrs)}] {short_lp} -> gauge -> CLPool {short_cl}")
+        else:
+            vamm_count += 1
 
-            ratio_str = str(raw_ratio.quantize(Decimal("0.000001"), rounding=ROUND_HALF_UP))
-            print(f"  [{i+1}] {name}:")
-            print(f"      sqrtPriceX96: {sqrt_price_x96}")
-            print(f"      tick:         {tick}")
-            print(f"      raw ratio (token1/token0): {ratio_str}")
-            ok_count += 1
-        except ValueError as e:
-            print(f"  [{i+1}] {name}: DECODE ERROR — {e}")
+    print(f"\nResolved {len(cl_pool_map)} CL pools, {vamm_count} vAMM (no pool()), {unresolved} unmapped")
 
+    # Step 2 — Call slot0() on resolved CLPool addresses
+    ok = 0
+    failed = 0
+    results = []
+
+    print(f"\nCalling slot0() on {len(cl_pool_map)} CL pools...")
+    for idx, (lp_addr, cl_pool) in enumerate(cl_pool_map.items()):
+        sqrt_price = call_slot0(cl_pool, rpc_url)
+        if sqrt_price is not None:
+            ok += 1
+            short_lp = lp_addr[:10] + "..."
+            print(f"  [{idx+1}/{len(cl_pool_map)}] OK: {short_lp} -> sqrtPriceX96={sqrt_price}")
+        else:
+            failed += 1
+            short_lp = lp_addr[:10] + "..."
+            short_cl = cl_pool[:10] + "..."
+            print(f"  FAIL: {short_lp} -> CLPool {short_cl}: slot0() reverted")
+
+    # Summary
+    total_cl = len(cl_pool_map)
     print()
-    if ok_count == len(check_pools):
-        print(f"CHECK PASSED: slot0 readable for {ok_count}/{len(check_pools)} pools")
+    print("=== CHECK_SLOT0 SUMMARY ===")
+    print(f"pools_in_registry:     {len(pools)}")
+    print(f"unique_addresses:      {len(lp_addrs)}")
+    print(f"cl_pools_resolved:     {total_cl}")
+    print(f"vamm_skipped:          {vamm_count}")
+    print(f"unmapped_skipped:      {unresolved}")
+    print(f"slot0_ok:              {ok}")
+    print(f"slot0_failed:          {failed}")
+
+    if ok == total_cl and total_cl > 0:
+        print(f"CHECK PASSED: slot0 readable for {ok}/{total_cl} pools.")
         sys.exit(0)
+    elif total_cl == 0:
+        print("CHECK FAILED: no CL pools resolved — registry may contain only vAMM pools.")
+        sys.exit(1)
     else:
-        print(f"CHECK FAILED: only {ok_count}/{len(check_pools)} pools returned valid slot0 data")
+        print(f"CHECK FAILED: slot0 only readable for {ok}/{total_cl} pools.")
         sys.exit(1)
 
 
