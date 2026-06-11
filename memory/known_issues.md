@@ -195,3 +195,12 @@
   passed directly into fetch_pool_hourly() via existing tvl_history param.
 - pool_uuid param removed from fetch_pool_hourly(). _POOL_UUIDS map unused.
 - STATUS: RESOLVED Sprint 32 — awaiting YOU RUN confirmation.
+
+## registry/registry.json — Populated from pool_reference.json (Sprint 33)
+- Registry was expanded from 32 manually-curated pools to 268 active CL pools
+  using scripts/populate_registry.py. All pools from memory/pool_reference.json.
+- Merge logic: existing 32 registry entries preserved verbatim by pool_address
+  (lowercase match). Remaining 236 pools constructed from Sugar SDK data.
+- No TVL or volume floor applied — all active CL pools included.
+- tick_lower/tick_upper set to full-range [-887272, 887272] for new entries.
+- Existing entries retain their manually-curated ticks and price_reference.

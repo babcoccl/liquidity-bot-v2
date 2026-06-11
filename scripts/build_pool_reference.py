@@ -35,9 +35,11 @@ def main():
         try:
             with open(registry_path) as f:
                 registry = json.load(f)
+            # registry.json can be a bare list or a dict with "pools" key
+            pool_list = registry if isinstance(registry, list) else registry.get("pools", [])
             existing_addresses = {
                 p.get("pool_address", "").lower()
-                for p in registry.get("pools", [])
+                for p in pool_list
             }
             print(f"Registry loaded: {len(existing_addresses)} pool addresses")
         except json.JSONDecodeError as e:

@@ -401,6 +401,66 @@
       ],
       "test_file": null,
       "test_coverage": "manual validation only"
+    },
+    {
+      "id": "scripts.populate_registry",
+      "file": "scripts/populate_registry.py",
+      "status": "complete",
+      "sprint": "33",
+      "audit_notes": [
+        "SPRINT 33: Populates registry/registry.json from memory/pool_reference.json.",
+        "No TVL/volume filter \u2014 all 268 active CL pools included.",
+        "Merge logic: existing registry entries preserved verbatim by pool_address (lowercase).",
+        "Atomic write via tempfile + os.replace. Post-write validation before exit.",
+        "Supports --dry-run CLI flag.",
+        "TOKEN_DECIMALS lookup table; unknown tokens default to 18.",
+        "tick_lower/tick_upper: full-range [-887272, 887272] for all new entries.",
+        "268 pools written (32 existing merged, 236 new added)."
+      ],
+      "dependencies": [
+        "memory/pool_reference.json"
+      ],
+      "test_file": null,
+      "test_coverage": "manual validation only"
+    },
+    {
+      "id": "scripts.fetch_aerodrome_pools",
+      "file": "scripts/fetch_aerodrome_pools.py",
+      "status": "complete",
+      "sprint": "33-Pre",
+      "audit_notes": [
+        "SPRINT 33-PRE: Replaced all Playwright/JS scraping with Sugar SDK.",
+        "Uses velodrome-finance/sugar-sdk \u2014 Aerodrome official Python library.",
+        "chain.get_pools() returns all pools in one paginated RPC batch.",
+        "type==-1 identifies CL pools. gauge.alive==False identifies migrating pools.",
+        "Outputs memory/pool_reference_raw.json with schema_version=1.",
+        "268 active CL pools, 26951 migrating, 6555 basic excluded."
+      ],
+      "dependencies": [
+        "sugar-sdk",
+        "Base RPC endpoint (env: SUGAR_RPC_URI_8453)"
+      ],
+      "test_file": null,
+      "test_coverage": "manual validation only"
+    },
+    {
+      "id": "scripts.build_pool_reference",
+      "file": "scripts/build_pool_reference.py",
+      "status": "complete",
+      "sprint": "33-Pre",
+      "audit_notes": [
+        "SPRINT 33-PRE: Builds memory/pool_reference.json from pool_reference_raw.json.",
+        "Filters migrating pools (gauge.alive==False or symbol contains 'migrat').",
+        "Excludes basic AMM pools (type != -1).",
+        "Writes pool_reference.md summary and pool_reference.json with in_registry flag.",
+        "Fee tier mapped from tick_spacing: 1->0.01%, 50/100->0.05%, 200->0.3%, 2000->1%."
+      ],
+      "dependencies": [
+        "memory/pool_reference_raw.json",
+        "registry/registry.json"
+      ],
+      "test_file": null,
+      "test_coverage": "manual validation only"
     }
   ]
 }

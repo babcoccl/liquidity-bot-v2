@@ -4,17 +4,23 @@ scripts/populate_registry.py
 
 SPRINT 33: Populate registry/registry.json from memory/pool_reference.json.
 
-Selection criteria:
-  - TVL >= $100,000 (aggressive threshold)
-  - Fee tier: 0.05% (bps=5), 0.3% (bps=30), 1% (bps=100) only
-    (Excludes 0.01% stable-only tier and non-standard exotic tiers)
-  - 24h volume >= $10,000 (p25 of active-volume pools at $100k TVL cohort)
+Selection criteria (Sprint 33):
+  - Minimum TVL: None — include all active CL pools
+  - Fee tier filter: All — 100, 500, 3000, 10000 bps all included
+  - Volume floor: None — TVL-only gating
+  - gauge_alive: must be true (guaranteed by pool_reference.json source)
+  - Pool type: CL only
+
+Merge logic:
+  - If a pool address already exists in registry, prefer the existing entry
+    verbatim (preserves any manually set ticks or price_reference overrides).
+  - Otherwise construct a fresh entry from pool_reference data.
 
 Outputs:
-  - registry/registry.json  (full rebuild, preserves correct schema)
+  - registry/registry.json  (full rebuild, sorted by TVL descending)
 
 Usage:
-  python3 scripts/populate_registry.py [--dry-run] [--min-tvl N] [--min-vol N]
+  python3 scripts/populate_registry.py [--dry-run]
 
 After running, re-run build_pool_reference.py to update in_registry counts.
 """
@@ -36,17 +42,16 @@ POOL_REFERENCE_PATH = REPO_ROOT / "memory" / "pool_reference.json"
 REGISTRY_PATH = REPO_ROOT / "registry" / "registry.json"
 
 # ---------------------------------------------------------------------------
-# Selection criteria defaults (Sprint 33)
+# Fee tier mapping: fee_tier_bps (from pool_reference) -> raw fee_tier integer
+# for registry schema. Aerodrome uses percentages; Uniswap V3 uses hundredths
+# of a bps. Mapping: 5->500, 30->3000, 100->10000, etc.
 # ---------------------------------------------------------------------------
-DEFAULT_MIN_TVL_USD: float = 100_000.0
-DEFAULT_ALLOWED_FEE_BPS: frozenset[int] = frozenset({5, 30, 100})  # 0.05%, 0.3%, 1%
-DEFAULT_MIN_VOLUME_24H_USD: float = 10_000.0
-
-# Uniswap V3 fee tier units: fee_tier_bps -> raw fee_tier integer
 FEE_BPS_TO_FEE_TIER: dict[int, int] = {
-    5: 500,       # 0.05%
-    30: 3_000,    # 0.3%
-    100: 10_000,  # 1%
+    1:   100,       # 0.01% -> 100
+    5:   500,       # 0.05% -> 500
+    10:  1000,      # 0.10% -> 1000
+    30:  3_000,     # 0.30% -> 3000
+    100: 10_000,    # 1.00% -> 10000
 }
 
 # Known token decimals. Tokens not listed here default to 18.
@@ -66,64 +71,51 @@ def get_decimals(symbol: str) -> int:
     return TOKEN_DECIMALS.get(symbol, 18)
 
 
-def build_registry_entry(p: dict, fee_bps: int) -> dict:
-    """Convert a pool_reference pool dict into a registry entry."""
-    t0 = p["token0_symbol"]
-    t1 = p["token1_symbol"]
-    fee_tier = FEE_BPS_TO_FEE_TIER[fee_bps]
-    addr = p["pool_address"]
+def fee_label_from_bps(fee_bps: int) -> str:
+    """Convert fee_tier_bps to registry fee label (int(fee_tier / 100))."""
+    fee_tier = FEE_BPS_TO_FEE_TIER.get(fee_bps, fee_bps * 100)
+    return str(int(fee_tier / 100))
+
+
+def build_registry_entry(p: dict) -> dict | None:
+    """Convert a pool_reference pool dict into a registry entry.
+
+    Returns None if required fields are missing.
+    """
+    addr = p.get("pool_address")
+    t0_sym = p.get("token0_symbol")
+    t1_sym = p.get("token1_symbol")
+    t0_addr = p.get("token0_address")
+    t1_addr = p.get("token1_address")
+    fee_bps = p.get("fee_tier_bps")
+
+    if not all([addr, t0_sym, t1_sym, t0_addr, t1_addr, fee_bps is not None]):
+        return None
+
+    fee_tier = FEE_BPS_TO_FEE_TIER.get(fee_bps, int(fee_bps * 100))
+    fl = fee_label_from_bps(fee_bps)
+
     return {
         "pool_address": addr,
-        "pair_name": f"{t0}-{t1}-{fee_bps}",
+        "pair_name": f"{t0_sym}-{t1_sym}-{fl}",
         "token0": {
-            "symbol": t0,
-            "address": p["token0_address"],
-            "decimals": get_decimals(t0),
+            "symbol": t0_sym,
+            "address": t0_addr,
+            "decimals": get_decimals(t0_sym),
         },
         "token1": {
-            "symbol": t1,
-            "address": p["token1_address"],
-            "decimals": get_decimals(t1),
+            "symbol": t1_sym,
+            "address": t1_addr,
+            "decimals": get_decimals(t1_sym),
         },
         "fee_tier": fee_tier,
         "tick_lower": -887272,
         "tick_upper": 887272,
         "price_reference": {
-            t0: {"quote": "USD", "source_pool": addr},
-            t1: {"quote": "USD", "source_pool": addr},
+            t0_sym: {"quote": "USD", "source_pool": addr},
+            t1_sym: {"quote": "USD", "source_pool": addr},
         },
     }
-
-
-def select_pools(
-    pools: list[dict],
-    min_tvl_usd: float,
-    allowed_fee_bps: frozenset[int],
-    min_volume_24h_usd: float,
-) -> tuple[list[dict], dict[str, int]]:
-    """Apply selection criteria; return (selected_pools, rejection_counts)."""
-    rejected: dict[str, int] = {"status": 0, "tvl": 0, "fee_tier": 0, "volume": 0}
-    selected: list[dict] = []
-
-    for p in pools:
-        if p.get("status") != "active":
-            rejected["status"] += 1
-            continue
-        tvl = float(p.get("tvl_usd") or 0)
-        if tvl < min_tvl_usd:
-            rejected["tvl"] += 1
-            continue
-        bps = p.get("fee_tier_bps")
-        if bps not in allowed_fee_bps:
-            rejected["fee_tier"] += 1
-            continue
-        vol = float(p.get("volume_24h_usd") or 0)
-        if vol < min_volume_24h_usd:
-            rejected["volume"] += 1
-            continue
-        selected.append(p)
-
-    return selected, rejected
 
 
 def write_registry_atomic(registry: list[dict], output_path: Path) -> None:
@@ -151,16 +143,14 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dry-run", action="store_true",
                         help="Print what would be written without modifying registry.json")
-    parser.add_argument("--min-tvl", type=float, default=DEFAULT_MIN_TVL_USD,
-                        help=f"Minimum TVL in USD (default: {DEFAULT_MIN_TVL_USD:,.0f})")
-    parser.add_argument("--min-vol", type=float, default=DEFAULT_MIN_VOLUME_24H_USD,
-                        help=f"Minimum 24h volume in USD (default: {DEFAULT_MIN_VOLUME_24H_USD:,.0f})")
     args = parser.parse_args()
 
     # --- Load pool reference ---
     if not POOL_REFERENCE_PATH.exists():
-        print(f"ERROR: {POOL_REFERENCE_PATH} not found. Run scripts/build_pool_reference.py first.",
-              file=sys.stderr)
+        print(
+            "ERROR: pool_reference.json not found. Run build_pool_reference.py first.",
+            file=sys.stderr,
+        )
         return 1
 
     print(f"Loading {POOL_REFERENCE_PATH} ...", flush=True)
@@ -169,66 +159,115 @@ def main() -> int:
     all_pools = raw if isinstance(raw, list) else raw.get("pools", [])
     print(f"  Loaded {len(all_pools):,} total pool records.")
 
-    # --- Apply selection ---
-    selected, rejected = select_pools(
-        all_pools,
-        min_tvl_usd=args.min_tvl,
-        allowed_fee_bps=DEFAULT_ALLOWED_FEE_BPS,
-        min_volume_24h_usd=args.min_vol,
-    )
+    # --- Filter: active CL pools only ---
+    active_pools = [p for p in all_pools if p.get("status") == "active"]
+    print(f"  Active CL pools: {len(active_pools):,}")
 
-    print(f"\nSelection criteria:")
-    print(f"  TVL >= ${args.min_tvl:>12,.0f}")
-    print(f"  Fee tiers: {sorted(DEFAULT_ALLOWED_FEE_BPS)} bps  (0.05%, 0.3%, 1%)")
-    print(f"  24h vol >= ${args.min_vol:>11,.0f}")
-    print(f"\nResults:")
-    print(f"  SELECTED:              {len(selected):>5}")
-    print(f"  Rejected (inactive):   {rejected['status']:>5}")
-    print(f"  Rejected (TVL):        {rejected['tvl']:>5}")
-    print(f"  Rejected (fee tier):   {rejected['fee_tier']:>5}")
-    print(f"  Rejected (volume):     {rejected['volume']:>5}")
-    print(f"  Total accounted for:   {len(selected) + sum(rejected.values()):>5}")
+    # --- Load existing registry for merge ---
+    existing_by_addr: dict[str, dict] = {}
+    if REGISTRY_PATH.exists():
+        try:
+            with open(REGISTRY_PATH, "r") as f:
+                reg_raw = json.load(f)
+            reg_list = reg_raw if isinstance(reg_raw, list) else reg_raw.get("pools", [])
+            existing_by_addr = {
+                entry.get("pool_address", "").lower(): entry
+                for entry in reg_list
+            }
+            print(f"  Existing registry entries: {len(existing_by_addr):,}")
+        except json.JSONDecodeError as e:
+            print(f"WARN: registry.json invalid ({e}). Starting fresh.")
 
-    if not selected:
-        print("\nERROR: 0 pools selected — check criteria or pool_reference.json.", file=sys.stderr)
-        return 1
+    # --- Build merged registry ---
+    merged: list[dict] = []
+    new_count = 0
+    existing_count = 0
+    skipped = 0
 
-    # --- Build registry entries ---
-    registry = [build_registry_entry(p, p["fee_tier_bps"]) for p in selected]
+    for p in active_pools:
+        addr_lower = p.get("pool_address", "").lower()
+        if not addr_lower:
+            skipped += 1
+            continue
+
+        entry = build_registry_entry(p)
+        if entry is None:
+            print(f"  WARN: skipping pool {addr_lower} — missing required fields")
+            skipped += 1
+            continue
+
+        if addr_lower in existing_by_addr:
+            # Prefer existing entry verbatim (preserves manual ticks/overrides)
+            merged.append(existing_by_addr[addr_lower])
+            existing_count += 1
+        else:
+            merged.append(entry)
+            new_count += 1
+
+    # --- Sort by TVL descending ---
+    # Build a TVL lookup from active_pools for sorting
+    tvl_lookup: dict[str, float] = {}
+    for p in active_pools:
+        addr_lower = p.get("pool_address", "").lower()
+        tvl_lookup[addr_lower] = float(p.get("tvl_usd") or 0)
+
+    merged.sort(key=lambda e: tvl_lookup.get(e.get("pool_address", "").lower(), 0), reverse=True)
+
+    # --- Summary ---
+    print(f"\n{'='*60}")
+    print(f"POPULATE REGISTRY — SUMMARY")
+    print(f"{'='*60}")
+    print(f"Pools from pool_reference.json: {len(active_pools)}")
+    print(f"Existing registry pools merged:  {existing_count}")
+    print(f"New pools added:                 {new_count}")
+    print(f"Total registry entries written:  {len(merged)}")
+    if skipped:
+        print(f"Skipped (missing fields):      {skipped}")
 
     # --- Fee tier breakdown ---
     from collections import Counter
-    fee_labels = Counter(p.get("fee_tier_label", "?") for p in selected)
+    fee_counts = Counter()
+    for e in merged:
+        ft = e.get("fee_tier", "?")
+        fee_counts[ft] += 1
     print(f"\nFee tier breakdown:")
-    for label, count in sorted(fee_labels.items()):
-        print(f"  {label}: {count} pools")
+    for ft, count in sorted(fee_counts.items(), key=lambda x: str(x[0])):
+        print(f"  {ft}: {count} pools")
 
     # --- Top 10 preview ---
     print(f"\nTop 10 by TVL:")
-    for i, p in enumerate(selected[:10]):
-        print(
-            f"  {i+1:2d}. {p['pair_name']:38s}"
-            f"  TVL=${p['tvl_usd']:>12,.0f}"
-            f"  vol24=${p['volume_24h_usd']:>12,.0f}"
-            f"  fee={p['fee_tier_label']}"
-        )
+    for i, e in enumerate(merged[:10]):
+        tvl = tvl_lookup.get(e.get("pool_address", "").lower(), 0)
+        print(f"  {i+1:3d}. {e['pair_name']:40s} TVL=${tvl:>12,.0f}")
 
     # --- Write or dry-run ---
     if args.dry_run:
-        print(f"\n[DRY RUN] Would write {len(registry)} entries to {REGISTRY_PATH}")
+        print(f"\n[DRY RUN] Would write {len(merged)} entries to {REGISTRY_PATH}")
         print("[DRY RUN] No files modified.")
         return 0
 
-    print(f"\nWriting {len(registry)} entries to {REGISTRY_PATH} ...", flush=True)
-    write_registry_atomic(registry, REGISTRY_PATH)
+    if not merged:
+        print("\nERROR: 0 pools selected — registry NOT overwritten.", file=sys.stderr)
+        return 1
+
+    print(f"\nWriting {len(merged)} entries to {REGISTRY_PATH} ...", flush=True)
+    write_registry_atomic(merged, REGISTRY_PATH)
 
     # --- Post-write validation ---
     with open(REGISTRY_PATH, "r") as f:
         verify = json.load(f)
-    assert len(verify) == len(registry), "Post-write count mismatch!"
+    assert len(verify) == len(merged), "Post-write count mismatch!"
     print(f"  Validation: PASSED — {len(verify)} entries confirmed in registry.json")
-    print(f"\nSPRINT 33 COMPLETE: {len(registry)} pools added to registry.")
-    print("Next step: python3 scripts/build_pool_reference.py  (to update in_registry counts)")
+
+    # Print summary block (per .clinerules structured summary requirement)
+    print()
+    print("=== populate_registry.py SUMMARY ===")
+    print(f"Pools from pool_reference.json: {len(active_pools)}")
+    print(f"Existing registry pools merged:  {existing_count}")
+    print(f"New pools added:                 {new_count}")
+    print(f"Total registry entries written:  {len(merged)}")
+    print("populate_registry.py COMPLETE.")
+
     return 0
 
 
