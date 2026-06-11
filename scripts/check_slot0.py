@@ -76,63 +76,82 @@ def compute_price(sqrt_price_x96: int, decimals0: int, decimals1: int) -> Decima
 
 
 def build_aggregate3_calldata(targets: list[str], call_datas: list[str]) -> str:
+    """
+    Encode Multicall3 aggregate3((address,bool,bytes)[]) calldata.
+    aggregate3 selector: 0x82ad56cb
+    Each Call struct: (address target, bool allowFailure, bytes callData)
+    Array of dynamic structs — each element is encoded with its own offset.
+    """
+    SELECTOR = "82ad56cb"
     n = len(targets)
-    func_sel = "b824b87c"
-
-    tuples_start = 64
-    blobs_start = tuples_start + n * (3 * 32)
-
-    hex_parts: list[str] = []
-    hex_parts.append(f"{32:064x}")
-    hex_parts.append(f"{n:064x}")
-
-    current_blob_offset = blobs_start
-
+    # The argument is a single dynamic array — encoded as:
+    # [0x20 (offset to array)] [n (length)] [n offsets] [n struct bodies]
+    #
+    # Each struct body: [address 32B][bool 32B][offset-to-bytes 32B][bytes-length 32B][bytes-data padded]
+    # Struct body size (without the bytes data): 3 * 32 = 96 bytes = fixed head
+    # bytes field is dynamic, appended after the 3-word head.
+    # Pre-compute each struct's encoded bytes blob and its total size
+    struct_bodies: list[str] = []
     for i in range(n):
-        addr_hex = targets[i].lower().removeprefix("0x")
-        hex_parts.append(_pad32(addr_hex))
-        hex_parts.append("0" * 64)
-        hex_parts.append(f"{current_blob_offset:064x}")
-
-        cd_raw = call_datas[i].removeprefix("0x")
-        total_data_hex = 64 + len(cd_raw)
-        remainder = total_data_hex % 64
-        if remainder:
-            total_data_hex += 64 - remainder
-        blob_bytes = total_data_hex // 2
-        current_blob_offset += blob_bytes
-
-    for cd in call_datas:
-        raw = cd.removeprefix("0x")
-        hex_parts.append(_bytes_length_prefix(raw))
-
-    return "0x" + func_sel + "".join(hex_parts)
+        addr = targets[i].lower().removeprefix("0x").zfill(40)
+        cd = call_datas[i].removeprefix("0x")
+        cd_len = len(cd) // 2  # byte length of callData
+        cd_padded_len = ((cd_len + 31) // 32) * 32  # round up to 32-byte boundary
+        cd_padded = cd.ljust(cd_padded_len * 2, "0")
+        # Within the struct, bytes field is at offset 96 (3 words: addr + bool + offset)
+        body = (
+            addr.zfill(64) +           # address (32 bytes)
+            "0" * 64 +                 # allowFailure = false (32 bytes)
+            f"{96:064x}" +             # offset to bytes within this struct = 96
+            f"{cd_len:064x}" +         # bytes length
+            cd_padded                   # bytes data padded
+        )
+        struct_bodies.append(body)
+    # Each struct body size in bytes
+    struct_sizes = [len(b) // 2 for b in struct_bodies]
+    # Offsets to each struct from the start of the array data (after the length word)
+    # First offset: n * 32 bytes (n offset words)
+    offsets: list[int] = []
+    current = n * 32
+    for i in range(n):
+        offsets.append(current)
+        current += struct_sizes[i]
+    hex_parts: list[str] = []
+    hex_parts.append(f"{32:064x}")          # offset to array from calldata start
+    hex_parts.append(f"{n:064x}")           # array length
+    for off in offsets:
+        hex_parts.append(f"{off:064x}")     # offset to each struct
+    for body in struct_bodies:
+        hex_parts.append(body)              # struct data
+    return "0x" + SELECTOR + "".join(hex_parts)
 
 
 def decode_aggregate3_response(return_hex: str) -> list[tuple[bool, str]]:
+    """
+    Decode aggregate3 return: (Result[] returnData)
+    where Result = (bool success, bytes returnData)
+    Return format: [(success, hex_return_data), ...]
+    """
     raw = return_hex.removeprefix("0x")
-    if len(raw) < 128:
-        raise ValueError(f"aggregate3 response too short: {len(raw)} hex chars")
-
-    array_offset_bytes = int(raw[64:128], 16)
-    array_offset_hex = array_offset_bytes * 2
-    array_length = int(raw[array_offset_hex:array_offset_hex + 64], 16)
-
+    # Word 0: offset to the array (in bytes from start of return data)
+    array_offset = int(raw[0:64], 16) * 2   # convert bytes → hex chars
+    # Word at array_offset: array length
+    array_len = int(raw[array_offset:array_offset + 64], 16)
+    # Offset table starts immediately after length word
+    offset_table_start = array_offset + 64
     results: list[tuple[bool, str]] = []
-    tuple_start_hex = array_offset_hex + 64
-    tuple_size_hex = 128
-
-    for i in range(array_length):
-        base = tuple_start_hex + i * tuple_size_hex
-        success_val = int(raw[base:base + 64], 16) != 0
-        data_offset_bytes = int(raw[base + 64:base + 128], 16)
-        data_offset_hex = data_offset_bytes * 2
-        data_len = int(raw[data_offset_hex:data_offset_hex + 64], 16)
-        data_start = data_offset_hex + 64
-        data_end = data_start + data_len * 2
-        return_data = "0x" + raw[data_start:data_end]
-        results.append((success_val, return_data))
-
+    for i in range(array_len):
+        # Each entry in the offset table: offset to the Result struct (from array_offset)
+        struct_offset_hex = int(raw[offset_table_start + i * 64:offset_table_start + i * 64 + 64], 16) * 2
+        struct_base = array_offset + 64 + struct_offset_hex
+        # Result struct: [bool success (32B)][bytes offset (32B)] then bytes data
+        success = int(raw[struct_base:struct_base + 64], 16) != 0
+        bytes_offset = int(raw[struct_base + 64:struct_base + 128], 16) * 2
+        bytes_start = struct_base + bytes_offset
+        data_len = int(raw[bytes_start:bytes_start + 64], 16)
+        data_start = bytes_start + 64
+        data = raw[data_start:data_start + data_len * 2]
+        results.append((success, "0x" + data))
     return results
 
 
@@ -221,7 +240,7 @@ def main():
         name = pool.get("pair_name", "unknown")
         print(f"  Pool #{len(targets)+1}: {name} @ {addr[:20]}...")
         targets.append(addr)
-        call_datas.append(SLOT0_SELECTOR + "0" * 64)
+        call_datas.append(SLOT0_SELECTOR)
 
     # Build & send Multicall3 aggregate3
     full_calldata = build_aggregate3_calldata(targets, call_datas)
