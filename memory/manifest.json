@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "33-Pre",
+  "last_updated_sprint": "33",
   "components": [
     {
       "id": "core.models",
@@ -378,6 +378,26 @@
       "dependencies": [
         "sugar-sdk (pip install git+https://github.com/velodrome-finance/sugar-sdk)",
         "Base RPC endpoint (env: SUGAR_RPC_URI_8453)"
+      ],
+      "test_file": null,
+      "test_coverage": "manual validation only"
+    },
+    {
+      "id": "scripts.populate_registry",
+      "file": "scripts/populate_registry.py",
+      "status": "complete",
+      "sprint": "33",
+      "audit_notes": [
+        "SPRINT 33: Reads memory/pool_reference.json, applies selection criteria, writes registry/registry.json.",
+        "Criteria: TVL >= $100k, fee tiers 0.05%/0.3%/1% (bps=5/30/100), 24h vol >= $10k.",
+        "Supports --dry-run, --min-tvl, --min-vol CLI flags.",
+        "Atomic write via tempfile + os.replace. Post-write validation before exit.",
+        "32 pools written on initial run (2026-06-10).",
+        "TOKEN_DECIMALS lookup table covers known tokens; defaults to 18 for unknowns.",
+        "tick_lower/tick_upper default full-range [-887272, 887272] for all entries."
+      ],
+      "dependencies": [
+        "memory/pool_reference.json"
       ],
       "test_file": null,
       "test_coverage": "manual validation only"
