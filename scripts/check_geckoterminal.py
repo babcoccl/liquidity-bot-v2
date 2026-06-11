@@ -116,7 +116,7 @@ def main() -> int:
             failures.append(f"{pair}: {type(e).__name__}: {e}")
             print(f"[3] {pair:<16} FAILED — {type(e).__name__}: {e}")
 
-        time.sleep(0.5)  # 30 req/min rate limit = ~2/s max; 0.5s is safe
+        time.sleep(2.1)  # 30 req/min rate limit = ~2/s max; 0.5s is safe
 
     if failures:
         print()
