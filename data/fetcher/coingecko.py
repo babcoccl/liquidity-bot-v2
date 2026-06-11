@@ -17,35 +17,19 @@ from typing import Any
 import requests
 
 from data.fetcher.base import AbstractFetcher, FetchError, RateLimitError
+from data.fetcher.coin_id_map import COIN_ID_MAP
 from core.models import PoolDayData, PoolHistoryPoint
 
 logger = logging.getLogger(__name__)
 
 
 class CoinGeckoFetcher(AbstractFetcher):
+    COIN_ID_MAP = COIN_ID_MAP
     """Fetches token market data via CoinGecko API."""
 
     name: str = "coingecko"
 
     BASE_URL = "https://api.coingecko.com/api/v3"
-
-    COIN_ID_MAP: dict[str, str] = {
-        "WETH":    "weth",
-        "ETH":     "ethereum",
-        "USDC":    "usd-coin",
-        "USDT":    "tether",
-        "cbBTC":   "coinbase-wrapped-btc",
-        "cbETH":   "coinbase-wrapped-staked-eth",
-        "AERO":    "aerodrome-finance",
-        "BRETT":   "based-brett",
-        "VIRTUAL": "virtual-protocol",
-        "MORPHO":  "morpho",
-        "EURC":    "euro-coin",
-        "eUSD":    "electronic-usd",
-        "VVV":     "venice-token",
-        "FAI":     "frax-ai",
-        "KTA":     "kta",
-    }
 
     def __init__(
         self,

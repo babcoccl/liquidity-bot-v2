@@ -17,6 +17,7 @@ import requests
 
 from data.fetcher.base import FetchError, RateLimitError
 from core.models import TokenHistoryPoint
+from data.fetcher.coin_id_map import COIN_ID_MAP
 
 logger = logging.getLogger(__name__)
 
@@ -26,27 +27,7 @@ class TokenPriceFetcher:
 
     BASE_URL = "https://api.coingecko.com/api/v3"
 
-    COIN_ID_MAP: dict[str, str] = {
-        "WETH":    "weth",
-        "ETH":     "ethereum",
-        "USDC":    "usd-coin",
-        "USDT":    "tether",
-        "cbBTC":   "coinbase-wrapped-btc",
-        "cbETH":   "coinbase-wrapped-staked-eth",
-        "AERO":    "aerodrome-finance",
-        "BRETT":   "based-brett",
-        "VIRTUAL": "virtual-protocol",
-        "MORPHO":  "morpho",
-        "EURC":    "euro-coin",
-        "eUSD":    "electronic-usd",
-        "VVV":     "venice-token",
-        "FAI":     "freysa-ai",
-        "KTA":     "keeta",
-        # Uppercase aliases (fetch.py normalizes symbols via .upper())
-        "CBBTC":   "coinbase-wrapped-btc",
-        "CBETH":   "coinbase-wrapped-staked-eth",
-        "EUSD":    "electronic-usd",
-    }
+    COIN_ID_MAP = COIN_ID_MAP
 
     def __init__(
         self,
