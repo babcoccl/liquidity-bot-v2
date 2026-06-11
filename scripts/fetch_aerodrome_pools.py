@@ -29,6 +29,7 @@ except ImportError:
 
 RAW_OUTPUT = Path("memory/pool_reference_raw.json")
 SOURCE_URL = "https://aerodrome.finance/liquidity?filters=listed%2Cconcentrated&sort=tvl%3Adesc"
+MIN_TVL_USD = 100_000  # Exclude pools below this TVL threshold
 
 # Concentrated LP pool type identifiers used by Sugar SDK
 # type > 0 = Slipstream CL (value = tick_spacing, e.g., 1, 5, 30)
@@ -159,9 +160,15 @@ def main():
         else:
             cl_active.append(pool)
 
+    # Filter by minimum TVL threshold
+    before_tvl_filter = len(cl_active)
+    cl_active = [p for p in cl_active if (float(getattr(p, "tvl", 0) or 0)) >= MIN_TVL_USD]
+    filtered_by_tvl = before_tvl_filter - len(cl_active)
+
     print(f"Concentrated (active):    {len(cl_active)}")
     print(f"Concentrated (migrating): {len(cl_migrating)}")
     print(f"Basic/other (excluded):   {len(non_cl)}")
+    print(f"Filtered by TVL < ${MIN_TVL_USD:,}:  {filtered_by_tvl}")
     print()
 
     # Serialize
