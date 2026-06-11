@@ -149,7 +149,7 @@ def build_aggregate3_calldata(targets: list[str], call_datas: list[str]) -> str:
         # Within the struct, bytes field is at offset 96 (3 words: addr + bool + offset)
         body = (
             addr.zfill(64) +           # address (32 bytes)
-            "0" * 64 +                 # allowFailure = false (32 bytes)
+            f"{1:064x}" +              # allowFailure = true (32 bytes)
             f"{96:064x}" +             # offset to bytes within this struct = 96
             f"{cd_len:064x}" +         # bytes length
             cd_padded                   # bytes data padded
@@ -355,8 +355,8 @@ def main():
     # Collect unique token symbols for CoinGecko
     all_symbols: set[str] = set()
     for pool in pools:
-        t0 = pool.get("token0_symbol", "")
-        t1 = pool.get("token1_symbol", "")
+        t0 = (pool.get("token0") or {}).get("symbol", "")
+        t1 = (pool.get("token1") or {}).get("symbol", "")
         if t0:
             all_symbols.add(t0)
         if t1:
@@ -449,10 +449,12 @@ def main():
         slot0_ok += 1
 
         # Compute USD prices
-        token0_symbol = pool.get("token0_symbol", "")
-        token1_symbol = pool.get("token1_symbol", "")
-        decimals0 = pool.get("decimals_token0", 18)
-        decimals1 = pool.get("decimals_token1", 18)
+        token0 = pool.get("token0") or {}
+        token1 = pool.get("token1") or {}
+        token0_symbol = token0.get("symbol", "")
+        token1_symbol = token1.get("symbol", "")
+        decimals0 = int(token0.get("decimals", 18))
+        decimals1 = int(token1.get("decimals", 18))
 
         # Raw price: token1 per token0 (in display units)
         raw_price = compute_price(sqrt_price_x96, decimals0, decimals1)

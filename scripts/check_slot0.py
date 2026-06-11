@@ -101,7 +101,7 @@ def build_aggregate3_calldata(targets: list[str], call_datas: list[str]) -> str:
         # Within the struct, bytes field is at offset 96 (3 words: addr + bool + offset)
         body = (
             addr.zfill(64) +           # address (32 bytes)
-            "0" * 64 +                 # allowFailure = false (32 bytes)
+            f"{1:064x}" +              # allowFailure = true (32 bytes)
             f"{96:064x}" +             # offset to bytes within this struct = 96
             f"{cd_len:064x}" +         # bytes length
             cd_padded                   # bytes data padded
@@ -264,8 +264,8 @@ def main():
     for i, (success, return_data) in enumerate(mc_results):
         pool = check_pools[i]
         name = pool.get("pair_name", "unknown")
-        decimals0 = pool.get("decimals_token0", 18)
-        decimals1 = pool.get("decimals_token1", 18)
+        decimals0 = int((pool.get("token0") or {}).get("decimals", 18))
+        decimals1 = int((pool.get("token1") or {}).get("decimals", 18))
 
         if not success:
             print(f"  [{i+1}] {name}: SLOT0 FAILED (call returned failure)")
