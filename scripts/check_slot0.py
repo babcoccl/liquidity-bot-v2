@@ -154,7 +154,10 @@ def rpc_call(method: str, params: list, rpc_url: str) -> dict:
     req = urllib.request.Request(
         rpc_url,
         data=payload,
-        headers={"Content-Type": "application/json"},
+        headers={
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+        },
     )
 
     try:
@@ -188,7 +191,7 @@ def main():
     if not rpc_url:
         # Free public RPC endpoints — replace with Alchemy/Infura key if rate-limited
         #   BASE_RPC_HTTP=https://base-mainnet.g.alchemy.com/v2/YOUR_KEY
-        rpc_url = "https://base.llamarpc.com"
+        rpc_url = "https://mainnet.base.org"
     print(f"RPC: {rpc_url}")
 
     # Load registry
