@@ -31,15 +31,19 @@ RAW_OUTPUT = Path("memory/pool_reference_raw.json")
 SOURCE_URL = "https://aerodrome.finance/liquidity?filters=listed%2Cconcentrated&sort=tvl%3Adesc"
 
 # Concentrated LP pool type identifiers used by Sugar SDK
-# type=-1 = Slipstream CL (concentrated liquidity)
-# type=0  = Basic Volatile (vAMM)
-# type=1  = Basic Stable (sAMM)
-CL_TYPE = -1
+# type > 0 = Slipstream CL (value = tick_spacing, e.g., 1, 5, 30)
+# type == -1 = volatile vAMM
+# type == 0 = stable sAMM
 
 
 def is_cl_pool(pool) -> bool:
-    """Return True if pool is a concentrated liquidity (Slipstream) pool."""
-    return getattr(pool, "type", None) == CL_TYPE
+    """Return True if pool is a concentrated liquidity (Slipstream) pool.
+
+    Slipstream CL pools have type > 0 (the value equals tick_spacing).
+    type == -1 is volatile vAMM, type == 0 is stable sAMM — both excluded.
+    """
+    pool_type = getattr(pool, "type", None)
+    return pool_type is not None and pool_type > 0
 
 
 def is_migrating(pool) -> bool:

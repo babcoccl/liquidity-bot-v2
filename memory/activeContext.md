@@ -1,9 +1,21 @@
-## Current Sprint: Sprint 34 — On-Chain Price Feed via Multicall3 slot0 (complete — awaiting YOU RUN)
+## Current Sprint: Sprint 34 — On-Chain Price Feed via Multicall3 slot0 (BLOCKED — registry rebuild required)
 
-**Goal**: Real-time price feed for all 268 registry pools via single Multicall3 RPC call.
+**Goal**: Real-time price feed for all CL registry pools via single Multicall3 RPC call.
 **Decision**: GeckoTerminal dropped from architecture (rate-limited at 30 req/min free tier; incompatible with bot cycle time). `check_geckoterminal.py` retained as diagnostic only.
 
-### What was added
+### BLOCKER: Registry contains vAMM pools, not CL pools
+
+**Root cause**: `is_cl_pool()` in `scripts/fetch_aerodrome_pools.py` used `CL_TYPE = -1`, which is the volatile vAMM type. The filter was inverted — it selected vAMM pools instead of CL pools. This resulted in a registry of 268 vAMM pool addresses, making `check_slot0.py` fail (slot0 is a CL-only method).
+
+**Fix applied**: Changed `is_cl_pool()` to check `type > 0`. Slipstream CL pools have `type > 0` (value equals tick_spacing, e.g., 1, 5, 30). `type == -1` is volatile vAMM, `type == 0` is stable sAMM — both are now correctly excluded.
+
+**Impact**: The entire registry must be rebuilt from scratch:
+1. Re-fetch pools with corrected filter → `memory/pool_reference_raw.json`
+2. Re-build pool reference → `memory/pool_reference.json`
+3. Re-populate registry → `registry/registry.json`
+4. Then `check_slot0.py` will succeed on actual CL addresses
+
+### What was added (Sprint 34)
 - `scripts/fetch_prices.py` — Multicall3 slot0 decoder, outputs `data/prices/prices_latest.json`
 - `scripts/check_slot0.py` — Validates slot0 RPC call for top 3 pools before full fetch
 - `data/prices/.gitkeep` — Directory placeholder; `*.json` output is gitignored
@@ -27,15 +39,20 @@ Sprint 33 left manifest.json corrupted (trailing comma + orphaned `{` at line 44
 ## Next Actions — YOU RUN (in order)
 
 ```bash
-# 1. Validate slot0 RPC path for top 3 pools
+# 1. Re-fetch pools with corrected is_cl_pool() filter
+python scripts/fetch_aerodrome_pools.py
+
+# 2. Re-build pool reference from raw data
+python scripts/build_pool_reference.py
+
+# 3. Re-populate registry with correct CL addresses
+python scripts/populate_registry.py
+
+# 4. Validate slot0 RPC path for top 3 pools (must pass now)
 python scripts/check_slot0.py
 
-# 2. If CHECK PASSED — run full price fetch
+# 5. If CHECK PASSED — run full price fetch
 python scripts/fetch_prices.py
-
-# 3. Commit
-git add scripts/fetch_prices.py scripts/check_slot0.py data/prices/.gitkeep .gitignore memory/activeContext.md memory/known_issues.md memory/manifest.json
-git commit -m "ADD fetch_prices.py + check_slot0.py: Multicall3 slot0 price feed. Sprint 34 complete."
 ```
 
 ---
@@ -44,7 +61,8 @@ git commit -m "ADD fetch_prices.py + check_slot0.py: Multicall3 slot0 price feed
 
 | Sprint | Title | Status |
 |--------|-------|--------|
-| 34 | On-Chain Price Feed via Multicall3 slot0 | complete — awaiting YOU RUN |
-| 33 | Registry Population + OHLCV Schema | complete |
-| 32 | Aerodrome Pool Discovery | complete |
+| 34 | On-Chain Price Feed via Multicall3 slot0 | BLOCKED — registry rebuild required |
+| 33Pre | Pool Fetch — is_cl_pool fix (type > 0) | complete |
+| 33 | Registry Population + OHLCV Schema | needs rebuild |
+| 32 | Aerodrome Pool Discovery | needs rebuild |
 | 31 | Sugar SDK Pipeline v2 | complete |
