@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "37",
+  "last_updated_sprint": "38",
   "components": [
     {
       "id": "core.models",
@@ -553,40 +553,61 @@
         "Token resolution: tries token0.symbol first, falls back to token1.symbol in price_dfs.",
         "_latest_valid: extracts most recent non-NaN float64 Series value as Decimal(str(val)).",
         "Never raises \u2014 all error paths return zero Decimals and False flags.",
-"All financial output values are Decimal. No float escapes this module."
-       ],
-       "dependencies": [
-         "core.metrics",
-         "core.models",
-         "data.features.price_features",
-         "registry.types"
-       ],
-       "test_file": "tests/test_pool_feature_bridge.py",
-       "test_coverage": "full"
-     },
-     {
-       "id": "scripts.run_pool_scan",
-       "file": "scripts/run_pool_scan.py",
-       "status": "complete",
-       "sprint": "37",
-       "audit_notes": [
-         "Sprint 37: First end-to-end pipeline script in the codebase.",
-         "Loads registry, validates, loads price DFs, builds pool metrics, ranks, classifies risk.",
-         "Writes results/pool_scan_{UTC_ISO}.json atomically (.tmp + os.replace).",
-         "Accepts optional --config PATH arg (default: config/default.yaml).",
-         "All financial values serialized as Decimal strings in JSON output.",
-         "Exits 1 on registry validation failure, config error, or write failure.",
-         "Pools with missing history appear with pool_records_ok=false, zero metrics — no crash."
-       ],
-       "dependencies": [
-         "registry.registry",
-         "data.loader.price_loader",
-         "data.loader.pool_loader",
-         "data.features.pool_feature_bridge",
-         "strategy.scorer"
-       ],
-       "test_file": null,
-       "test_coverage": "manual validation only"
-     }
-   ]
+        "All financial output values are Decimal. No float escapes this module."
+      ],
+      "dependencies": [
+        "core.metrics",
+        "core.models",
+        "data.features.price_features",
+        "registry.types"
+      ],
+      "test_file": "tests/test_pool_feature_bridge.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "scripts.run_pool_scan",
+      "file": "scripts/run_pool_scan.py",
+      "status": "complete",
+      "sprint": "37",
+      "audit_notes": [
+        "Sprint 37: First end-to-end pipeline script in the codebase.",
+        "Loads registry, validates, loads price DFs, builds pool metrics, ranks, classifies risk.",
+        "Writes results/pool_scan_{UTC_ISO}.json atomically (.tmp + os.replace).",
+        "Accepts optional --config PATH arg (default: config/default.yaml).",
+        "All financial values serialized as Decimal strings in JSON output.",
+        "Exits 1 on registry validation failure, config error, or write failure.",
+        "Pools with missing history appear with pool_records_ok=false, zero metrics \u2014 no crash."
+      ],
+      "dependencies": [
+        "registry.registry",
+        "data.loader.price_loader",
+        "data.loader.pool_loader",
+        "data.features.pool_feature_bridge",
+        "strategy.scorer"
+      ],
+      "test_file": null,
+      "test_coverage": "manual validation only"
+    },
+    {
+      "id": "scripts.run_backtest",
+      "file": "scripts/run_backtest.py",
+      "status": "complete",
+      "sprint": "38",
+      "audit_notes": [
+        "Sprint 38: End-to-end backtest execution script.",
+        "Accepts --config PATH, --run-id STRING, --debug CLI arguments via argparse.",
+        "Loads BacktestConfig.from_yaml(), validates PoolRegistry, runs BacktestHarness.run().",
+        "Calls reporter.print_summary() before reporter.save() so table is visible even if save fails.",
+        "Prints one-line completion summary: pool count evaluated vs simulated, results path."
+      ],
+      "dependencies": [
+        "backtest.config",
+        "backtest.harness",
+        "backtest.reporter",
+        "registry.registry"
+      ],
+      "test_file": null,
+      "test_coverage": "manual validation only"
+    }
+  ]
 }

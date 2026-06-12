@@ -1,116 +1,141 @@
-"""ONE-SHOT BACKTEST RUNNER. REAL DATA. WRITE RESULTS TO results/runs/.
-
-# AUDIT:status=complete
-# AUDIT:sprint=25
-# AUDIT:issue=none
 """
+run_backtest.py — Backtest execution script (Sprint 38)
 
+Loads BacktestConfig from YAML, validates PoolRegistry, runs the backtest
+via BacktestHarness, and emits results via BacktestReporter.
+
+Usage:
+    python scripts/run_backtest.py [--config PATH] [--run-id STRING] [--debug]
+
+Notes:
+    --run-id containing path separators (e.g., ../../etc) is not sanitized
+    in this sprint — document as known constraint.
+"""
 from __future__ import annotations
 
 import argparse
 import datetime
 import logging
-from decimal import Decimal
+import sys
 from pathlib import Path
 
+# Local imports
 from backtest.config import BacktestConfig
 from backtest.harness import BacktestHarness
+from backtest.reporter import BacktestReporter
 from registry.registry import PoolRegistry
 
 logger = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
-# PATHS
-# ---------------------------------------------------------------------------
-REGISTRY_PATH = Path("registry/registry.json")
-HISTORICAL_DIR = Path("data/historical")
-PRICES_DIR = Path("data/prices")
-RESULTS_DIR = Path("results")
-
-
-def build_config(days: int = 30) -> BacktestConfig:
-    """BUILD REAL DATA BACKTEST CONFIG. ALL PATHS POINT AT data/.
-
-    INITIAL_CAPITAL 10000. DAYS CONFIGURABLE VIA --days FLAG.
-    MAX_HOLD_HOURS = DAYS * 24 SO SIMULATION RUNS FULL WINDOW.
-    """
-    return BacktestConfig(
-        days=days,
-        initial_capital=Decimal("10000"),
-        min_entry_score=Decimal("0.05"),
-        max_il_pct=Decimal("-0.50"),
-        min_tvl_usd=Decimal("100000"),
-        min_volume_usd=Decimal("10000"),
-        max_hold_hours=days * 24,
-        metrics_window_hours=336,
-        bollinger_multiplier=Decimal("2"),
-        rotation_margin=Decimal("0.05"),
-        rebalance_cooldown_hours=Decimal("4"),
-        max_rebalances_per_pool_per_day=6,
-        historical_dir=HISTORICAL_DIR,
-        prices_dir=PRICES_DIR,
-        hourly_dir=HISTORICAL_DIR,
-        registry_path=REGISTRY_PATH,
-    )
-
-
-def parse_args() -> argparse.Namespace:
-    """PARSE CLI ARGS. --days N."""
-    parser = argparse.ArgumentParser(description="Run backtest on real data")
-    parser.add_argument(
-        "--days", type=int, default=30,
-        help="Number of days to simulate (default: 30). "
-             "Must match or be less than days fetched by fetch.py.",
-    )
-    return parser.parse_args()
-
-
-def make_run_id(days: int) -> str:
-    """MAKE RUN ID. FORMAT: real_YYYY-MM-DD_Nd."""
-    date = datetime.date.today().isoformat()
-    return f"real_{date}_{days}d"
-
 
 def main() -> None:
-    """RUN BACKTEST ON REAL DATA. PRINT SUMMARY PATH WHEN DONE."""
-    logging.basicConfig(level=logging.INFO)
+    parser = argparse.ArgumentParser(
+        description="Run the full backtest harness and report results."
+    )
+    parser.add_argument(
+        "--config",
+        default="config/default.yaml",
+        help="Path to YAML config file (default: config/default.yaml).",
+    )
+    parser.add_argument(
+        "--run-id",
+        default=None,
+        help=(
+            "Run identifier for output directory. "
+            "Default: UTC datetime formatted as backtest_YYYYMMDDTHHMMSSZ."
+        ),
+    )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Enable DEBUG-level logging.",
+    )
+    args = parser.parse_args()
 
-    args = parse_args()
-    days = args.days
+    # ── Logging setup ────────────────────────────────────────────
+    log_level = logging.DEBUG if args.debug else logging.INFO
+    logging.basicConfig(level=log_level, format="%(asctime)s %(levelname)-8s %(name)s — %(message)s")
+    logger.debug("DEBUG logging enabled")
 
-    config = build_config(days=days)
-    logger.info("Config built: days=%d, capital=%s", config.days, config.initial_capital)
+    # Capture script-start time for default run_id
+    run_id: str = (
+        args.run_id
+        if args.run_id is not None
+        else datetime.datetime.now(datetime.timezone.utc).strftime("backtest_%Y%m%dT%H%M%SZ")
+    )
 
-    registry = PoolRegistry(path=REGISTRY_PATH)
-    registry.load()
-    logger.info("Registry loaded %d pool(s)", len(registry.all()))
+    config_path = Path(args.config)
 
-    run_id = make_run_id(days=days)
-    logger.info("Run ID: %s", run_id)
+    # ── Load config ──────────────────────────────────────────────
+    try:
+        config = BacktestConfig.from_yaml(config_path)
+    except Exception:
+        msg = f"Failed to load config from {config_path}: {sys.exc_info()[1]}"
+        logger.error(msg)
+        print(msg, file=sys.stderr)
+        sys.exit(1)
 
-    harness = BacktestHarness(config=config, registry=registry)
-    results = harness.run(run_id=run_id)
+    logger.info("Config loaded: %s pools registry at %s", len(config.registry_path.name), config.registry_path)
 
-    summary_path = RESULTS_DIR / "runs" / run_id / "summary.json"
+    # ── Load and validate registry ───────────────────────────────
+    try:
+        registry = PoolRegistry(config.registry_path)
+        registry.load()
+    except Exception:
+        msg = f"Failed to load registry from {config.registry_path}: {sys.exc_info()[1]}"
+        logger.error(msg)
+        print(msg, file=sys.stderr)
+        sys.exit(1)
 
-    pools_simulated = sum(1 for r in results if r.hours_simulated > 0)
-    pools_skipped = sum(1 for r in results if r.hours_simulated == 0)
+    errors = registry.validate()
+    if errors:
+        for e in errors:
+            print(e, file=sys.stderr)
+        logger.error("Registry validation failed with %d error(s)", len(errors))
+        sys.exit(1)
 
-    print("=== BACKTEST SUMMARY ===")
-    for r in results:
-        cap = getattr(r, "final_capital", None)
-        hrs = getattr(r, "hours_simulated", 0)
-        pool = getattr(r, "pool_address", "unknown")[:10]
-        pair = getattr(r, "pair_name", pool)
-        if hrs == 0:
-            print(f"  {pair:<14} SKIPPED")
-        else:
-            cap_str = str(cap) if cap is not None else "N/A"
-            print(f"  {pair:<14} hrs={hrs:>4}  final_capital={cap_str}")
-    print(f"POOLS SIMULATED: {pools_simulated}")
-    print(f"POOLS SKIPPED:   {pools_skipped}")
-    print(f"SUMMARY JSON:    {summary_path}")
-    print("BACKTEST COMPLETE.")
+    all_pools = registry.all()
+    logger.info("Registry OK: %d pools", len(all_pools))
+
+    # ── Run backtest harness ─────────────────────────────────────
+    try:
+        harness = BacktestHarness(config=config, registry=registry)
+        results = harness.run(run_id)
+    except Exception:
+        msg = f"BacktestHarness.run() raised an unexpected exception: {sys.exc_info()[1]}"
+        logger.error(msg)
+        print(msg, file=sys.stderr)
+        sys.exit(1)
+
+    simulated_count = len(results)
+    logger.info("Harness complete: %d pools evaluated, %d simulated", len(all_pools), simulated_count)
+
+    # ── Reporting ────────────────────────────────────────────────
+    reporter = BacktestReporter(output_dir=Path("results"))
+
+    # Print table first (spec requirement: print_summary before save so
+    # table is visible even if save fails)
+    try:
+        reporter.print_summary(run_id, results)
+    except Exception:
+        msg = f"reporter.print_summary() raised: {sys.exc_info()[1]}"
+        logger.error(msg)
+        print(msg, file=sys.stderr)
+        # Still attempt save after logging the error
+
+    try:
+        reporter.save(run_id, results, config)
+    except Exception:
+        msg = f"reporter.save() failed (results not persisted): {sys.exc_info()[1]}"
+        logger.error(msg)
+        print(msg, file=sys.stderr)
+        sys.exit(1)
+
+    # ── Completion summary line ──────────────────────────────────
+    print(
+        f"Backtest complete: {len(all_pools)} pools evaluated, "
+        f"{simulated_count} simulated — results → results/runs/{run_id}/"
+    )
 
 
 if __name__ == "__main__":

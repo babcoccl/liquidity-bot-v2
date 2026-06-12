@@ -230,3 +230,11 @@
 - Option A preferred: aligns with Uniswap V3 convention where fee_tier is
   expressed in basis-points-of-a-million (e.g. 3000 = 0.3%).
 - STATUS: BLOCKING Sprint 37 completion. Registry must be cleaned before pool_scan can produce output.
+
+## scripts/run_backtest.py — --run-id path separator constraint (Sprint 38)
+- The --run-id parameter is not sanitized for path separators (e.g., ../../etc).
+  A malicious or mistyped run-id could cause reporter.save() to write outside
+  results/runs/. This is documented as a known constraint and will be addressed
+  in a future hardening sprint.
+- No unit tests written for this script: it is pure orchestration — all logic
+  lives in already-tested components (harness, config, reporter, registry).
