@@ -489,6 +489,37 @@
       "dependencies": [],
       "test_file": null,
       "test_coverage": "none"
+    },
+    {
+      "id": "data.loader.price_loader",
+      "file": "data/loader/price_loader.py",
+      "status": "complete",
+      "sprint": "34-loader",
+      "audit_notes": [
+        "Sprint 34: Analysis-layer price loader. Loads {SYMBOL}.json into pandas DataFrames.",
+        "Functions: load_token(), load_all(), get_daily()",
+        "Separate concern from token_price_loader.py (domain model layer)."
+      ],
+      "dependencies": [
+        "data.prices.gitkeep",
+        "data.loader.token_price_loader"
+      ],
+      "test_file": "tests/test_price_loader.py",
+      "test_coverage": "14 tests, all passing"
+    },
+    {
+      "id": "data.loader.__init__exports",
+      "file": "data/loader/__init__.py",
+      "status": "updated",
+      "sprint": "34-loader",
+      "audit_notes": [
+        "Sprint 34: Added price_loader exports (load_token, load_all, get_daily)."
+      ],
+      "dependencies": [
+        "data.loader.price_loader"
+      ],
+      "test_file": null,
+      "test_coverage": "none"
     }
   ]
 }

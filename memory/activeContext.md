@@ -1,14 +1,13 @@
 # Active Context — Sprint 34
 _Archived: memory/archive/sprint_33_pre_closeout.md_
 ## Current State
+- Sprint 34 COMPLETE: price_loader.py + test_price_loader.py delivered
+- data/loader/price_loader.py: load_token(), load_all(), get_daily() — analysis-layer DataFrame loader
+- tests/test_price_loader.py: 14/14 tests passing (no network, tmp_path fixtures)
+- Smoke test: 87/87 token price files loaded successfully
 - Registry: 434 active Slipstream CL pools, all slot0() verified
-- Root cause resolved: CL_TYPE bug fixed (type > 0, was == -1)
-- pool_reference.json, pool_reference.md, registry.json all current
-- TVL filter: pools < $100k excluded (applied in fetch_aerodrome_pools.py)
 ## Next Action
-- Implement $100k TVL minimum filter in fetch_aerodrome_pools.py
-- Rebuild pool artifacts after filter applied
-- Begin Sprint 34 development tasks
+- Sprint 35: pending (awaiting spec)
 ## Key Files
 - registry/registry.json — 434 CL pool entries
 - memory/pool_reference.json — full pool data
