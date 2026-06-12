@@ -57,7 +57,7 @@ def test_load_token_column_dtypes(tmp_path: Path):
     assert df["price_usd"].dtype == "float64"
     assert df["volume_usd"].dtype == "float64"
     assert df["market_cap_usd"].dtype == "float64"
-    assert df["symbol"].dtype == "object"
+    assert df["symbol"].dtype == "string"
 
 
 def test_load_token_sorted_ascending(tmp_path: Path):
