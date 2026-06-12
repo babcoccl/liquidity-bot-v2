@@ -216,3 +216,17 @@
 - check_geckoterminal.py retained in repo as diagnostic only.
 - GT rate limit (30 req/min free tier) is incompatible with bot cycle time.
 - On-chain slot0 via Multicall3 replaces GT for real-time price feeds.
+
+## registry/registry.json — fee_tier values incompatible with validator (Sprint 37)
+- PoolRegistry.validate() rejects fee_tier not in {100, 500, 3000, 10000}.
+- Most pools in registry.json have fee_tier=50000 (0.05%), 300000 (3%), or other
+  values that use Uniswap V3's native units (fee = fee_tier / 1_000_000).
+- This causes run_pool_scan.py to exit code 1 on registry validation failure.
+- Root cause: populate_registry.py mapped tick_spacing→fee_tier using
+  values like 50000, 300000 instead of BPS-style {100, 500, 3000, 10000}.
+- Two options to resolve:
+  (A) Normalize registry fee_tier to {100, 500, 3000, 10000} and keep validator as-is.
+  (B) Expand validator's _VALID_FEE_TIERS to include {50000, 300000, 1000000}.
+- Option A preferred: aligns with Uniswap V3 convention where fee_tier is
+  expressed in basis-points-of-a-million (e.g. 3000 = 0.3%).
+- STATUS: BLOCKING Sprint 37 completion. Registry must be cleaned before pool_scan can produce output.

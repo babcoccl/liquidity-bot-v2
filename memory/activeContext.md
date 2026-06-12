@@ -1,15 +1,14 @@
-# Active Context — Sprint 36
+# Active Context — Sprint 37
 _Archived: memory/archive/sprint_33_pre_closeout.md_
 ## Current State
 - Sprint 34-loader COMPLETE: price_loader.py + test_price_loader.py (14/14 tests)
 - Sprint 35 COMPLETE: price_features.py + test_price_features.py (16/16 tests)
 - Sprint 36 COMPLETE: pool_feature_bridge.py + test_pool_feature_bridge.py delivered
-- data/features/pool_feature_bridge.py: build_pool_metrics(), build_all_pool_metrics()
-- Full feature pipeline operational: load_all() → compute_features() → build_pool_metrics() → scorer-ready dict
-- Registry: 434 active Slipstream CL pools, all slot0() verified
+- Sprint 37 IN PROGRESS: scripts/run_pool_scan.py written, blocked by registry fee_tier data quality
+- Registry validation fails: most pools have fee_tier values (50000, 300000) not in validator's allowed set {100, 500, 3000, 10000}
+- run_pool_scan.py exits code 1 correctly on dirty registry per spec requirement
 ## Next Action
-- Sprint 37: scripts/run_pool_scan.py — end-to-end pipeline script
-  load_all() + load_pool_history() per pool + build_all_pool_metrics() + rank_pools() → results/pool_scan_{timestamp}.json
+- Sprint 37 (cont): Fix registry fee_tier values to match validator's allowed set {100, 500, 3000, 10000}, then re-run pool_scan
 - Sprint 38: Wire price_loader + compute_features into backtest/harness.py (replace manual JSON parsing)
 ## Key Files
 - registry/registry.json — 434 CL pool entries
