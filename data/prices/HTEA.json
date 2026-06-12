@@ -1,0 +1,1211 @@
+{
+  "token_address": "0xa1a0b2e02b0e6830ad5a4a7211691200945d8919",
+  "symbol": "HTEA",
+  "fetched_at": 1781209453,
+  "records": [
+    {
+      "timestamp": 1780592400,
+      "price_usd": "0.00008836606188344753",
+      "volume_usd": "882606.2866752578",
+      "market_cap_usd": "0.0",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780596000,
+      "price_usd": "0.00008888993294571993",
+      "volume_usd": "896846.7774790165",
+      "market_cap_usd": "0.0",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780599600,
+      "price_usd": "0.00009079633643422742",
+      "volume_usd": "905294.7953239199",
+      "market_cap_usd": "0.0",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780603200,
+      "price_usd": "0.00008957252995579846",
+      "volume_usd": "927401.0072926948",
+      "market_cap_usd": "0.0",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780606800,
+      "price_usd": "0.00008974488363524856",
+      "volume_usd": "924828.0975561528",
+      "market_cap_usd": "0.0",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780610400,
+      "price_usd": "0.00008973646543587855",
+      "volume_usd": "945197.0575923092",
+      "market_cap_usd": "0.0",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780614000,
+      "price_usd": "0.00008972139343268207",
+      "volume_usd": "948546.4976207395",
+      "market_cap_usd": "0.0",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780617600,
+      "price_usd": "0.00008973365749531827",
+      "volume_usd": "946659.314178982",
+      "market_cap_usd": "0.0",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780621200,
+      "price_usd": "0.00008965685135692056",
+      "volume_usd": "572067.2573730063",
+      "market_cap_usd": "0.0",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780624800,
+      "price_usd": "0.0000896536571566038",
+      "volume_usd": "473326.1551528949",
+      "market_cap_usd": "672275.9170033585",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780628400,
+      "price_usd": "0.00008962036613257776",
+      "volume_usd": "431968.91776315635",
+      "market_cap_usd": "672031.3101963202",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780632000,
+      "price_usd": "0.00008961413007872234",
+      "volume_usd": "401149.56467088434",
+      "market_cap_usd": "671915.6335390299",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780635600,
+      "price_usd": "0.00008958889962714486",
+      "volume_usd": "384769.53965054965",
+      "market_cap_usd": "671782.0562449519",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780639200,
+      "price_usd": "0.00008957911229702826",
+      "volume_usd": "316937.98944836383",
+      "market_cap_usd": "671640.2391476354",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780642800,
+      "price_usd": "0.00008955494109091217",
+      "volume_usd": "297502.2738748835",
+      "market_cap_usd": "671523.6459726654",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780646400,
+      "price_usd": "0.0000895096579546311",
+      "volume_usd": "278646.262542445",
+      "market_cap_usd": "670884.6693114658",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780650000,
+      "price_usd": "0.00008906392561653107",
+      "volume_usd": "258592.636926744",
+      "market_cap_usd": "667543.8567211727",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780653600,
+      "price_usd": "0.00008899185604193499",
+      "volume_usd": "255400.8781790881",
+      "market_cap_usd": "667016.0160764",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780657200,
+      "price_usd": "0.00008892415773079302",
+      "volume_usd": "250081.49103294552",
+      "market_cap_usd": "669564.3189225876",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780660800,
+      "price_usd": "0.00008896063095738752",
+      "volume_usd": "230481.25108375028",
+      "market_cap_usd": "669875.3990033045",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780664400,
+      "price_usd": "0.00008876931591593218",
+      "volume_usd": "217463.593529668",
+      "market_cap_usd": "668326.0730827488",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780668000,
+      "price_usd": "0.00008883039319121196",
+      "volume_usd": "219541.74538278393",
+      "market_cap_usd": "668841.9010264076",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780671600,
+      "price_usd": "0.00008878670090898806",
+      "volume_usd": "210045.1785450636",
+      "market_cap_usd": "670064.9459085827",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780675200,
+      "price_usd": "0.00008871837304721259",
+      "volume_usd": "168356.28645509906",
+      "market_cap_usd": "669552.811438108",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780678800,
+      "price_usd": "0.00009063260801758155",
+      "volume_usd": "146138.0996207011",
+      "market_cap_usd": "683932.8747544809",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780682400,
+      "price_usd": "0.00009085189557914807",
+      "volume_usd": "145952.48879989266",
+      "market_cap_usd": "685745.6581468604",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780686000,
+      "price_usd": "0.00008904182492567438",
+      "volume_usd": "140029.2176303143",
+      "market_cap_usd": "685458.1790004113",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780689600,
+      "price_usd": "0.00008897279468771849",
+      "volume_usd": "121595.65038200181",
+      "market_cap_usd": "671328.639548511",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780693200,
+      "price_usd": "0.00008896088739968766",
+      "volume_usd": "106284.44041279101",
+      "market_cap_usd": "671175.0319429392",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780696800,
+      "price_usd": "0.00009068049842394397",
+      "volume_usd": "106574.52295863333",
+      "market_cap_usd": "684214.4618752502",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780700400,
+      "price_usd": "0.00009067612734772316",
+      "volume_usd": "105622.77802907408",
+      "market_cap_usd": "684245.6393446331",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780704000,
+      "price_usd": "0.00008887908154083805",
+      "volume_usd": "99127.46934766274",
+      "market_cap_usd": "670623.374751558",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780707600,
+      "price_usd": "0.000088879098428952",
+      "volume_usd": "98779.6326433722",
+      "market_cap_usd": "670550.8261066842",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780711200,
+      "price_usd": "0.00008888680383800027",
+      "volume_usd": "96650.33967150385",
+      "market_cap_usd": "670608.7012093993",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780714800,
+      "price_usd": "0.00008886999642707577",
+      "volume_usd": "95137.50482711633",
+      "market_cap_usd": "670416.1291702293",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780718400,
+      "price_usd": "0.00008886522320753321",
+      "volume_usd": "94779.976804569",
+      "market_cap_usd": "671549.1424648978",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780722000,
+      "price_usd": "0.00008887634390970878",
+      "volume_usd": "92593.56649876325",
+      "market_cap_usd": "671633.1809418189",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780725600,
+      "price_usd": "0.00008885813753875444",
+      "volume_usd": "92009.08428691037",
+      "market_cap_usd": "671518.0865079907",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780729200,
+      "price_usd": "0.00008885726051393754",
+      "volume_usd": "90481.4293309667",
+      "market_cap_usd": "671246.3712869929",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780732800,
+      "price_usd": "0.00009065803282006775",
+      "volume_usd": "88161.46856949115",
+      "market_cap_usd": "684775.4128162895",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780736400,
+      "price_usd": "0.00008883003932875133",
+      "volume_usd": "75859.88781138968",
+      "market_cap_usd": "671032.4462914565",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780740000,
+      "price_usd": "0.00008882997269683296",
+      "volume_usd": "72550.14959418208",
+      "market_cap_usd": "671031.9527713851",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780743600,
+      "price_usd": "0.0000888242712218483",
+      "volume_usd": "74990.82348130531",
+      "market_cap_usd": "670953.3548382407",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780747200,
+      "price_usd": "0.000088826037377441",
+      "volume_usd": "66938.5093497512",
+      "market_cap_usd": "674002.6440510326",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780750800,
+      "price_usd": "0.0000907268190154128",
+      "volume_usd": "67881.69923243723",
+      "market_cap_usd": "688492.0731315318",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780754400,
+      "price_usd": "0.00008905116725028025",
+      "volume_usd": "65526.7882731556",
+      "market_cap_usd": "676556.3639371115",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780758000,
+      "price_usd": "0.00008903561203982343",
+      "volume_usd": "67543.63180579839",
+      "market_cap_usd": "676373.1220950786",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780761600,
+      "price_usd": "0.00009069825941326216",
+      "volume_usd": "69503.68893573894",
+      "market_cap_usd": "675410.2423734675",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780765200,
+      "price_usd": "0.00008899262746625974",
+      "volume_usd": "67986.5606982873",
+      "market_cap_usd": "677455.4311510761",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780768800,
+      "price_usd": "0.00008892551733372334",
+      "volume_usd": "58264.59554556656",
+      "market_cap_usd": "676944.5593460392",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780772400,
+      "price_usd": "0.00008888141677161816",
+      "volume_usd": "58648.372934827676",
+      "market_cap_usd": "690330.1091548181",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780776000,
+      "price_usd": "0.00008887431535190289",
+      "volume_usd": "55855.120006109806",
+      "market_cap_usd": "676554.4522548284",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780779600,
+      "price_usd": "0.00008887012265321482",
+      "volume_usd": "54346.30188717827",
+      "market_cap_usd": "676390.7162041849",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780783200,
+      "price_usd": "0.00009068048634423675",
+      "volume_usd": "54433.088503250874",
+      "market_cap_usd": "690248.0520775542",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780786800,
+      "price_usd": "0.00008887371448613894",
+      "volume_usd": "53921.78910047145",
+      "market_cap_usd": "676434.4490522004",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780790400,
+      "price_usd": "0.00009069966826195584",
+      "volume_usd": "55194.24871631103",
+      "market_cap_usd": "690331.6360219924",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780794000,
+      "price_usd": "0.0000889039008998019",
+      "volume_usd": "54563.32951849158",
+      "market_cap_usd": "690338.7694046844",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780797600,
+      "price_usd": "0.00009071409933570138",
+      "volume_usd": "55250.83324104942",
+      "market_cap_usd": "690441.9620604696",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780801200,
+      "price_usd": "0.00009070876134262211",
+      "volume_usd": "53756.33752443233",
+      "market_cap_usd": "690401.334097754",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780804800,
+      "price_usd": "0.00009070552518554359",
+      "volume_usd": "53688.96169744146",
+      "market_cap_usd": "690387.5538941706",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780808400,
+      "price_usd": "0.00009069898495857228",
+      "volume_usd": "53234.95085697279",
+      "market_cap_usd": "690391.12246992",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780812000,
+      "price_usd": "0.000088900547372338",
+      "volume_usd": "52904.487061049",
+      "market_cap_usd": "676638.6791634036",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780815600,
+      "price_usd": "0.00008889994064466863",
+      "volume_usd": "52428.87900222526",
+      "market_cap_usd": "676400.8410365419",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780819200,
+      "price_usd": "0.00009093029587380373",
+      "volume_usd": "72936.89672802425",
+      "market_cap_usd": "678080.8808053235",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780822800,
+      "price_usd": "0.000090923747800067",
+      "volume_usd": "72676.53220648729",
+      "market_cap_usd": "691799.1062331264",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780826400,
+      "price_usd": "0.00008911404202846357",
+      "volume_usd": "72822.99724810077",
+      "market_cap_usd": "678029.8442026221",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780830000,
+      "price_usd": "0.00008910535741809563",
+      "volume_usd": "67478.8564560568",
+      "market_cap_usd": "677963.77471482",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780833600,
+      "price_usd": "0.000089231137922136",
+      "volume_usd": "77328.1110141456",
+      "market_cap_usd": "678871.8635405559",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780837200,
+      "price_usd": "0.00008922065582056684",
+      "volume_usd": "69814.120769714",
+      "market_cap_usd": "678841.0244001608",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780840800,
+      "price_usd": "0.00009103929910722195",
+      "volume_usd": "62011.47195359769",
+      "market_cap_usd": "692743.3378513221",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780844400,
+      "price_usd": "0.00008920991045202689",
+      "volume_usd": "62774.061822886375",
+      "market_cap_usd": "678759.7120397292",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780848000,
+      "price_usd": "0.00008919878755859452",
+      "volume_usd": "55772.27925368976",
+      "market_cap_usd": "678510.5205830333",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780851600,
+      "price_usd": "0.00008915409637483892",
+      "volume_usd": "53572.08518760652",
+      "market_cap_usd": "677867.2737509952",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780855200,
+      "price_usd": "0.0000909678663256581",
+      "volume_usd": "51102.86156032414",
+      "market_cap_usd": "691657.9492817216",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780858800,
+      "price_usd": "0.00008915464162275195",
+      "volume_usd": "50182.20152860565",
+      "market_cap_usd": "677871.5480342222",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780862400,
+      "price_usd": "0.00009096990387672347",
+      "volume_usd": "49203.27467228201",
+      "market_cap_usd": "691673.4437125219",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780866000,
+      "price_usd": "0.00008915854124896624",
+      "volume_usd": "49067.955762695135",
+      "market_cap_usd": "677901.0687185496",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780869600,
+      "price_usd": "0.00009096638367929234",
+      "volume_usd": "48877.17570870985",
+      "market_cap_usd": "691646.6762444803",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780873200,
+      "price_usd": "0.0000909453870013218",
+      "volume_usd": "50748.075485720554",
+      "market_cap_usd": "690556.1097677526",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780876800,
+      "price_usd": "0.000089141740782601",
+      "volume_usd": "49146.3809402163",
+      "market_cap_usd": "676797.3022275768",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780880400,
+      "price_usd": "0.00008911170712333293",
+      "volume_usd": "50263.26679879656",
+      "market_cap_usd": "676513.5394823232",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780884000,
+      "price_usd": "0.0000890897223619102",
+      "volume_usd": "53479.8219029546",
+      "market_cap_usd": "676346.6349156484",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780887600,
+      "price_usd": "0.00008907320551015038",
+      "volume_usd": "52929.63113150696",
+      "market_cap_usd": "676130.1383809365",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780891200,
+      "price_usd": "0.00009081397942964451",
+      "volume_usd": "66662.13705518848",
+      "market_cap_usd": "689276.2822883768",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780894800,
+      "price_usd": "0.00008900353466075012",
+      "volume_usd": "67114.81885007962",
+      "market_cap_usd": "675535.4504197921",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780898400,
+      "price_usd": "0.00008899093976569896",
+      "volume_usd": "67525.04911265307",
+      "market_cap_usd": "675505.4432816205",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780902000,
+      "price_usd": "0.00008899107715474404",
+      "volume_usd": "68148.12236040161",
+      "market_cap_usd": "675440.8169015733",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780905600,
+      "price_usd": "0.00009079570719608777",
+      "volume_usd": "46892.73354074669",
+      "market_cap_usd": "689204.7421012617",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780909200,
+      "price_usd": "0.00008898903527799999",
+      "volume_usd": "46591.2038733713",
+      "market_cap_usd": "675423.4104895745",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780912800,
+      "price_usd": "0.00008898840616026573",
+      "volume_usd": "46662.43183079001",
+      "market_cap_usd": "675486.0695220346",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780916400,
+      "price_usd": "0.00008895372113681678",
+      "volume_usd": "49003.24534854852",
+      "market_cap_usd": "676682.3495724186",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780920000,
+      "price_usd": "0.00008896138128833643",
+      "volume_usd": "38127.04447490472",
+      "market_cap_usd": "676583.5663484151",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780923600,
+      "price_usd": "0.00008901866936242372",
+      "volume_usd": "47409.05357929716",
+      "market_cap_usd": "676953.4117034718",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780927200,
+      "price_usd": "0.00008906434704456984",
+      "volume_usd": "52494.43206087373",
+      "market_cap_usd": "677311.2167367939",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780930800,
+      "price_usd": "0.00008903833850149362",
+      "volume_usd": "52783.117120244526",
+      "market_cap_usd": "677114.8959732482",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780934400,
+      "price_usd": "0.00008908936007311502",
+      "volume_usd": "62342.98969132443",
+      "market_cap_usd": "677437.6056664623",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780938000,
+      "price_usd": "0.00008913268949154582",
+      "volume_usd": "64467.19715134569",
+      "market_cap_usd": "678425.5523115732",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780941600,
+      "price_usd": "0.00008913972025022168",
+      "volume_usd": "63231.64680352837",
+      "market_cap_usd": "678415.008671782",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780945200,
+      "price_usd": "0.00008913099519864594",
+      "volume_usd": "62110.678262934656",
+      "market_cap_usd": "692255.5647503956",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780948800,
+      "price_usd": "0.00008913129871101724",
+      "volume_usd": "61875.26415556735",
+      "market_cap_usd": "678414.966119691",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780952400,
+      "price_usd": "0.0000891202235752047",
+      "volume_usd": "63701.82821293509",
+      "market_cap_usd": "678330.6687068215",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780956000,
+      "price_usd": "0.00008914068269820377",
+      "volume_usd": "72452.49439973167",
+      "market_cap_usd": "679497.3625087636",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780959600,
+      "price_usd": "0.00008914277730666177",
+      "volume_usd": "71650.6925175616",
+      "market_cap_usd": "682312.4212607597",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780963200,
+      "price_usd": "0.00009093639566759196",
+      "volume_usd": "72231.17990571621",
+      "market_cap_usd": "696108.4235500483",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780966800,
+      "price_usd": "0.00009093001273454036",
+      "volume_usd": "71614.87363335527",
+      "market_cap_usd": "696798.6451151691",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780970400,
+      "price_usd": "0.00009092469275464504",
+      "volume_usd": "68733.97355470461",
+      "market_cap_usd": "697593.3062382076",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780974000,
+      "price_usd": "0.00008866422907758694",
+      "volume_usd": "123124.48195991338",
+      "market_cap_usd": "680316.7437617636",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780977600,
+      "price_usd": "0.00008419254164578197",
+      "volume_usd": "238883.5761269877",
+      "market_cap_usd": "649803.8005389002",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780981200,
+      "price_usd": "0.00008365789690259183",
+      "volume_usd": "247046.63239245873",
+      "market_cap_usd": "645510.3153436721",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780984800,
+      "price_usd": "0.000078432668788305",
+      "volume_usd": "313462.5781915296",
+      "market_cap_usd": "605290.0095035193",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780988400,
+      "price_usd": "0.000078407698791552",
+      "volume_usd": "336530.7468081013",
+      "market_cap_usd": "593632.0626258416",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780992000,
+      "price_usd": "0.00007861304907260404",
+      "volume_usd": "360717.53163235",
+      "market_cap_usd": "607271.8708542491",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780995600,
+      "price_usd": "0.0000787078208300736",
+      "volume_usd": "373832.76744089887",
+      "market_cap_usd": "595904.3145774",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1780999200,
+      "price_usd": "0.00007864918410611868",
+      "volume_usd": "376709.5162958152",
+      "market_cap_usd": "592022.410588406",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781002800,
+      "price_usd": "0.00007864533974975101",
+      "volume_usd": "376295.99699056154",
+      "market_cap_usd": "591991.3977449392",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781006400,
+      "price_usd": "0.00007869030979392078",
+      "volume_usd": "372217.94691092125",
+      "market_cap_usd": "592329.9040828467",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781010000,
+      "price_usd": "0.00007868580737720545",
+      "volume_usd": "370509.71362494776",
+      "market_cap_usd": "592294.1630346638",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781013600,
+      "price_usd": "0.00007868105084555223",
+      "volume_usd": "365715.77182489296",
+      "market_cap_usd": "592267.4615270122",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781017200,
+      "price_usd": "0.00007866659861539778",
+      "volume_usd": "364003.5773167613",
+      "market_cap_usd": "591956.2486101366",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781020800,
+      "price_usd": "0.00007866396310997624",
+      "volume_usd": "354430.4351158444",
+      "market_cap_usd": "591934.410318224",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781024400,
+      "price_usd": "0.00008024733974927916",
+      "volume_usd": "350476.96053268644",
+      "market_cap_usd": "592339.429862153",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781028000,
+      "price_usd": "0.00007864341694503596",
+      "volume_usd": "352339.27919270477",
+      "market_cap_usd": "606480.0650179769",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781031600,
+      "price_usd": "0.0000802703668128046",
+      "volume_usd": "356814.16504486353",
+      "market_cap_usd": "606666.1552925588",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781035200,
+      "price_usd": "0.00008026897642155427",
+      "volume_usd": "358524.17763816327",
+      "market_cap_usd": "606631.0381526761",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781038800,
+      "price_usd": "0.00007862262261176878",
+      "volume_usd": "359798.5439448214",
+      "market_cap_usd": "595563.8648796594",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781042400,
+      "price_usd": "0.0000786312369357882",
+      "volume_usd": "351902.96285778814",
+      "market_cap_usd": "607723.7545866135",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781046000,
+      "price_usd": "0.00008020218159308057",
+      "volume_usd": "351022.5808130226",
+      "market_cap_usd": "612136.8360672015",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781049600,
+      "price_usd": "0.00007860083803892345",
+      "volume_usd": "351386.3589794645",
+      "market_cap_usd": "600682.5150092138",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781053200,
+      "price_usd": "0.00008019462614769463",
+      "volume_usd": "349919.95450771466",
+      "market_cap_usd": "612861.681258331",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781056800,
+      "price_usd": "0.00008019496011213282",
+      "volume_usd": "332861.45550953463",
+      "market_cap_usd": "612865.0983806063",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781060400,
+      "price_usd": "0.00007859631543364958",
+      "volume_usd": "286455.878303185",
+      "market_cap_usd": "600647.9524803612",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781064000,
+      "price_usd": "0.00007858368498268883",
+      "volume_usd": "162927.43932084995",
+      "market_cap_usd": "600551.6517335122",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781067600,
+      "price_usd": "0.00008004287444568256",
+      "volume_usd": "157549.72555375393",
+      "market_cap_usd": "611702.8532587283",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781071200,
+      "price_usd": "0.00008004676587051913",
+      "volume_usd": "88845.57307842752",
+      "market_cap_usd": "611732.5698733408",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781074800,
+      "price_usd": "0.00008004841282496868",
+      "volume_usd": "68306.08996682463",
+      "market_cap_usd": "599569.3843355809",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781078400,
+      "price_usd": "0.00007843322688732165",
+      "volume_usd": "57768.39415975847",
+      "market_cap_usd": "599345.06526788",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781082000,
+      "price_usd": "0.00008001451074557083",
+      "volume_usd": "48128.24791677728",
+      "market_cap_usd": "611459.8660517011",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781085600,
+      "price_usd": "0.00007851713614829478",
+      "volume_usd": "51526.66936848936",
+      "market_cap_usd": "590233.2690489882",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781089200,
+      "price_usd": "0.00007852813196618039",
+      "volume_usd": "49937.868966163864",
+      "market_cap_usd": "587571.7093234556",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781092800,
+      "price_usd": "0.0000785197047360125",
+      "volume_usd": "46224.875922663494",
+      "market_cap_usd": "589454.5622113665",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781096400,
+      "price_usd": "0.00007851822026608457",
+      "volume_usd": "51054.049341337726",
+      "market_cap_usd": "589388.2817372303",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781100000,
+      "price_usd": "0.00008037191931575824",
+      "volume_usd": "75310.537599769",
+      "market_cap_usd": "591294.4042282721",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781103600,
+      "price_usd": "0.00008035746173388991",
+      "volume_usd": "75488.3317971686",
+      "market_cap_usd": "590945.780134191",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781107200,
+      "price_usd": "0.000080361747950887",
+      "volume_usd": "77718.1676369748",
+      "market_cap_usd": "579235.3425571977",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781110800,
+      "price_usd": "0.0000804263067895422",
+      "volume_usd": "82557.52048530005",
+      "market_cap_usd": "592829.6717383036",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781114400,
+      "price_usd": "0.00007871253870836469",
+      "volume_usd": "89134.05934072126",
+      "market_cap_usd": "580198.5326299734",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781118000,
+      "price_usd": "0.00007870525507914915",
+      "volume_usd": "87534.6577661572",
+      "market_cap_usd": "583377.2600931675",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781121600,
+      "price_usd": "0.00007871911012719038",
+      "volume_usd": "86379.31784269855",
+      "market_cap_usd": "583372.0912056552",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781125200,
+      "price_usd": "0.00008026610552071306",
+      "volume_usd": "88085.15608480992",
+      "market_cap_usd": "595155.6034640069",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781128800,
+      "price_usd": "0.00007865897764133261",
+      "volume_usd": "87955.18493484375",
+      "market_cap_usd": "583240.6213781203",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781132400,
+      "price_usd": "0.00008025655771694385",
+      "volume_usd": "86423.46410070821",
+      "market_cap_usd": "595084.203653752",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781136000,
+      "price_usd": "0.00007551716890368683",
+      "volume_usd": "131003.26930299502",
+      "market_cap_usd": "571457.3299540146",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781139600,
+      "price_usd": "0.00007633869783909284",
+      "volume_usd": "158127.31237735858",
+      "market_cap_usd": "566034.7351517817",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781143200,
+      "price_usd": "0.00006813842844836347",
+      "volume_usd": "250585.28333730812",
+      "market_cap_usd": "505148.80613423453",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781146800,
+      "price_usd": "0.00006922814710595464",
+      "volume_usd": "259220.16207283526",
+      "market_cap_usd": "499628.0420593345",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781150400,
+      "price_usd": "0.0000696280314481484",
+      "volume_usd": "274265.066236645",
+      "market_cap_usd": "502514.0564811082",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781154000,
+      "price_usd": "0.00006968070620082847",
+      "volume_usd": "277987.9790091095",
+      "market_cap_usd": "502894.2166420789",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781157600,
+      "price_usd": "0.00006972194700504001",
+      "volume_usd": "282775.74364654865",
+      "market_cap_usd": "503191.85659233824",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781161200,
+      "price_usd": "0.0000697224514021513",
+      "volume_usd": "283598.3479943246",
+      "market_cap_usd": "503151.4343502828",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781164800,
+      "price_usd": "0.00006964736338610623",
+      "volume_usd": "271945.0456468843",
+      "market_cap_usd": "502762.96374520747",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781168400,
+      "price_usd": "0.00007018761668207613",
+      "volume_usd": "284644.6013642969",
+      "market_cap_usd": "503804.704915706",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781172000,
+      "price_usd": "0.00007020635995986035",
+      "volume_usd": "278660.96775011264",
+      "market_cap_usd": "503891.8331524871",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781175600,
+      "price_usd": "0.0000701947300694666",
+      "volume_usd": "279305.6597900316",
+      "market_cap_usd": "503857.01937326783",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781179200,
+      "price_usd": "0.00007036024943939993",
+      "volume_usd": "292137.34653451707",
+      "market_cap_usd": "504656.8887997187",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781182800,
+      "price_usd": "0.00006996659800418515",
+      "volume_usd": "321494.25674928835",
+      "market_cap_usd": "501837.97431694146",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781186400,
+      "price_usd": "0.00006995285229409857",
+      "volume_usd": "300073.2255810972",
+      "market_cap_usd": "501782.8482512113",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781190000,
+      "price_usd": "0.0000713653006507319",
+      "volume_usd": "300084.58584093425",
+      "market_cap_usd": "514918.3718902497",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781193600,
+      "price_usd": "0.00006994096334918662",
+      "volume_usd": "297660.37050458934",
+      "market_cap_usd": "504641.2983963707",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781197200,
+      "price_usd": "0.00006458493321920058",
+      "volume_usd": "373403.8015932771",
+      "market_cap_usd": "472495.6924249256",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781200800,
+      "price_usd": "0.00006450678180745526",
+      "volume_usd": "375453.90371034003",
+      "market_cap_usd": "463937.58564062027",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781204400,
+      "price_usd": "0.0000645303330351949",
+      "volume_usd": "377166.15441434947",
+      "market_cap_usd": "463709.18087759014",
+      "source": "coingecko"
+    },
+    {
+      "timestamp": 1781208000,
+      "price_usd": "0.00006530071585327816",
+      "volume_usd": "394554.60832092",
+      "market_cap_usd": "467831.4636633328",
+      "source": "coingecko"
+    }
+  ]
+}
