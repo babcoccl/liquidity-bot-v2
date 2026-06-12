@@ -1,19 +1,22 @@
-# Active Context — Sprint 35
+# Active Context — Sprint 36
 _Archived: memory/archive/sprint_33_pre_closeout.md_
 ## Current State
-- Sprint 34-loader COMPLETE: price_loader.py + test_price_loader.py (14/14 tests, 87/87 tokens loaded)
-- Sprint 35 COMPLETE: price_features.py + test_price_features.py delivered
-- data/features/price_features.py: compute_features() — returns_1h, returns_24h, vol_24h, vol_168h, momentum_24h, momentum_168h, vol_momentum_24h
+- Sprint 34-loader COMPLETE: price_loader.py + test_price_loader.py (14/14 tests)
+- Sprint 35 COMPLETE: price_features.py + test_price_features.py (16/16 tests)
+- Sprint 36 COMPLETE: pool_feature_bridge.py + test_pool_feature_bridge.py delivered
+- data/features/pool_feature_bridge.py: build_pool_metrics(), build_all_pool_metrics()
+- Full feature pipeline operational: load_all() → compute_features() → build_pool_metrics() → scorer-ready dict
 - Registry: 434 active Slipstream CL pools, all slot0() verified
-- DataFrame loader and feature computation layer ready for strategy integration
 ## Next Action
-- Sprint 36: Wire compute_features() into strategy/scorer.py and strategy/signals.py
-- Sprint 36: Replace manual JSON parsing in backtest pipeline with price_loader + compute_features
+- Sprint 37: scripts/run_pool_scan.py — end-to-end pipeline script
+  load_all() + load_pool_history() per pool + build_all_pool_metrics() + rank_pools() → results/pool_scan_{timestamp}.json
+- Sprint 38: Wire price_loader + compute_features into backtest/harness.py (replace manual JSON parsing)
 ## Key Files
 - registry/registry.json — 434 CL pool entries
 - data/loader/price_loader.py — analysis-layer DataFrame loader (Sprint 34-loader)
 - data/features/price_features.py — token-level feature computation (Sprint 35)
-- tests/test_price_features.py — 16 tests (Sprint 35)
-- strategy/scorer.py — pool ranking (Sprint 17, consumes compute_entry_metrics)
-- strategy/signals.py — exit signal generation (Sprint 17)
+- data/features/pool_feature_bridge.py — scorer-ready dict assembly (Sprint 36)
+- tests/test_pool_feature_bridge.py — 14 tests (Sprint 36)
+- strategy/scorer.py — pool ranking, consumes build_all_pool_metrics() output
+- strategy/signals.py — exit signal generation
 - scripts/fetch_aerodrome_pools.py — pool fetcher (CL type > 0)

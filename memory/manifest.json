@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "35",
+  "last_updated_sprint": "36",
   "components": [
     {
       "id": "core.models",
@@ -539,6 +539,29 @@
         "pandas"
       ],
       "test_file": "tests/test_price_features.py",
+      "test_coverage": "full"
+    },
+    {
+      "id": "data.features.pool_feature_bridge",
+      "file": "data/features/pool_feature_bridge.py",
+      "status": "complete",
+      "sprint": "36",
+      "audit_notes": [
+        "Sprint 36: Bridge between token-level price features and pool-level scorer metrics.",
+        "build_pool_metrics: accepts PoolConfig + price_dfs + pool_records -> scorer-ready dict.",
+        "build_all_pool_metrics: batch version over list[PoolConfig].",
+        "Token resolution: tries token0.symbol first, falls back to token1.symbol in price_dfs.",
+        "_latest_valid: extracts most recent non-NaN float64 Series value as Decimal(str(val)).",
+        "Never raises \u2014 all error paths return zero Decimals and False flags.",
+        "All financial output values are Decimal. No float escapes this module."
+      ],
+      "dependencies": [
+        "core.metrics",
+        "core.models",
+        "data.features.price_features",
+        "registry.types"
+      ],
+      "test_file": "tests/test_pool_feature_bridge.py",
       "test_coverage": "full"
     }
   ]
