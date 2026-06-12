@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "34-loader",
+  "last_updated_sprint": "35",
   "components": [
     {
       "id": "core.models",
@@ -521,6 +521,25 @@
       ],
       "test_file": null,
       "test_coverage": "none"
+    },
+    {
+      "id": "data.features.price_features",
+      "file": "data/features/price_features.py",
+      "status": "complete",
+      "sprint": "35",
+      "audit_notes": [
+        "Sprint 35: Token-level feature computation from price_loader DataFrames.",
+        "Computes: returns_1h, returns_24h, vol_24h (annualized rolling), vol_168h, momentum_24h, momentum_168h, vol_momentum_24h.",
+        "All float64. No Decimal \u2014 DataFrame is already at float boundary established by price_loader.",
+        "Output index matches input index exactly. Original columns not included in output.",
+        "Feeds strategy/scorer.py and strategy/signals.py via caller join on DatetimeIndex."
+      ],
+      "dependencies": [
+        "data.loader.price_loader",
+        "pandas"
+      ],
+      "test_file": "tests/test_price_features.py",
+      "test_coverage": "full"
     }
   ]
 }

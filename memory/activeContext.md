@@ -1,20 +1,19 @@
-# Active Context — Sprint 34
+# Active Context — Sprint 35
 _Archived: memory/archive/sprint_33_pre_closeout.md_
 ## Current State
-- Sprint 34 COMPLETE: price_loader.py + test_price_loader.py delivered
-- data/loader/price_loader.py: load_token(), load_all(), get_daily() — analysis-layer DataFrame loader
-- tests/test_price_loader.py: 14/14 tests passing (no network, tmp_path fixtures)
-- Smoke test: 87/87 token price files loaded successfully
+- Sprint 34-loader COMPLETE: price_loader.py + test_price_loader.py (14/14 tests, 87/87 tokens loaded)
+- Sprint 35 COMPLETE: price_features.py + test_price_features.py delivered
+- data/features/price_features.py: compute_features() — returns_1h, returns_24h, vol_24h, vol_168h, momentum_24h, momentum_168h, vol_momentum_24h
 - Registry: 434 active Slipstream CL pools, all slot0() verified
-- price_loader.py: load_token, load_all, get_daily complete (Sprint 34-loader)
-- DataFrame loader ready for feature computation and backtesting consumers
+- DataFrame loader and feature computation layer ready for strategy integration
 ## Next Action
-- Sprint 35: Wire price_loader into backtest pipeline (replace manual JSON parsing)
-- Sprint 35: Add feature computation layer (rolling vol, returns, momentum) on top of load_all()
+- Sprint 36: Wire compute_features() into strategy/scorer.py and strategy/signals.py
+- Sprint 36: Replace manual JSON parsing in backtest pipeline with price_loader + compute_features
 ## Key Files
 - registry/registry.json — 434 CL pool entries
-- memory/pool_reference.json — full pool data
+- data/loader/price_loader.py — analysis-layer DataFrame loader (Sprint 34-loader)
+- data/features/price_features.py — token-level feature computation (Sprint 35)
+- tests/test_price_features.py — 16 tests (Sprint 35)
+- strategy/scorer.py — pool ranking (Sprint 17, consumes compute_entry_metrics)
+- strategy/signals.py — exit signal generation (Sprint 17)
 - scripts/fetch_aerodrome_pools.py — pool fetcher (CL type > 0)
-- scripts/build_pool_reference.py
-- scripts/populate_registry.py
-- scripts/check_slot0.py
