@@ -1,5 +1,5 @@
 {
-  "last_updated_sprint": "34",
+  "last_updated_sprint": "34-loader",
   "components": [
     {
       "id": "core.models",
@@ -496,16 +496,17 @@
       "status": "complete",
       "sprint": "34-loader",
       "audit_notes": [
-        "Sprint 34: Analysis-layer price loader. Loads {SYMBOL}.json into pandas DataFrames.",
-        "Functions: load_token(), load_all(), get_daily()",
-        "Separate concern from token_price_loader.py (domain model layer)."
+        "Sprint 34-loader: Analysis-layer DataFrame loader for data/prices/{SYMBOL}.json.",
+        "Separate from token_price_loader.py (domain model). Exposes load_token, load_all, get_daily.",
+        "All financial values use Decimal at parse boundary; float64 at DataFrame display boundary.",
+        "Atomic write not applicable (read-only loader). get_daily resamples hourly to daily OHLCV."
       ],
       "dependencies": [
-        "data.prices.gitkeep",
-        "data.loader.token_price_loader"
+        "data.loader.token_price_loader",
+        "pandas"
       ],
       "test_file": "tests/test_price_loader.py",
-      "test_coverage": "14 tests, all passing"
+      "test_coverage": "full"
     },
     {
       "id": "data.loader.__init__exports",
